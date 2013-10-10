@@ -1,0 +1,16 @@
+#NetBeans
+/nbproject
+#CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+#C++
+*.o
+*.so
+*.a
+
+WORKING_DIRECTORY
+
+todo.txt
