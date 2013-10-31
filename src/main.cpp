@@ -36,6 +36,12 @@ void startNetwork(void);
 
 int main(int argc, char **argv)
 {
+#ifndef WIN32
+	if (!getuid() || !geteuid()) {
+		cerr << "executed as root - login as normal user" << std::endl;
+		return 1;
+		}
+#endif
 	if (!configure(argc, argv)) {
 		return 0;
 		}
