@@ -88,6 +88,16 @@ bool configure(int ac, char **av)
 	po::variables_map vm;
 	po::store(po::command_line_parser(ac, av).options(generic).positional(p).run(), vm);
 	po::notify(vm);
+
+	if (vm.count("version")) {
+		cout << "0.0.1a" << std::endl;
+		return false;
+		}
+	if (vm.count("help")) {
+		cout << generic << std::endl;
+		return false;
+		}
+
 	if (cf!="") {
 		if (!fs::exists(cf)) {
 			cerr << "ERROR: The config file '" << cf << "' not found." << std::endl;
@@ -101,15 +111,6 @@ bool configure(int ac, char **av)
 		pt::ini_parser::read_ini(scf, options);
 		}
 
-
-	if (vm.count("version")) {
-		cout << "0.0.1a" << std::endl;
-		return false;
-		}
-	if (vm.count("help")) {
-		cout << generic << std::endl;
-		return false;
-		}
 #ifdef HAVE_FORK
 	if (vm.count("daemon")) {
 		if (vm["daemon"].empty())
