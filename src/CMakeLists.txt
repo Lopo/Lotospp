@@ -1,11 +1,12 @@
-add_executable(Lotos2
-	main.cpp
-	misc.cpp
-	)
+file(GLOB_RECURSE SRC_LIST *.cpp)
+add_executable(Lotos2 ${SRC_LIST})
 
 target_link_libraries(Lotos2
 	${Boost_LIBRARIES}
 	${CMAKE_THREAD_LIBS_INIT}
+	${OPENSSL_LIBRARIES}
+	${MYSQL_LIBRARIES}
+	${SQLITE_LIBRARY}
 	)
 
 # Must export symbols from daemon so that plugins can use them

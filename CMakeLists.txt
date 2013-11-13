@@ -12,24 +12,27 @@ project(Lotos2)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 include(CheckFunctionExists)
+include(CheckIncludeFile)
 #include(CheckPrototypeDefinition)
 #include(CheckLibraryExists)
 
 # Options
-option(USE_OPENSSL "Enable secure communication channels" OFF)
+#option(USE_OPENSSL "Enable secure communication channels" ON)
 option(USE_IPV6 "Enable IPv6 support" ON)
 
 include(cmake/CommonCompilerFlags.cmake)
 
 # OpenSSL
+#https://github.com/vikasnkumar/wisecracker/blob/master/deps/osdefaults.cmake
 if(USE_OPENSSL)
-	check_library_exists(crypto DH_free "" have_openssl_crypto)
-	if(have_openssl_crypto)
-		find_package(OpenSSL)
-	endif(have_openssl_crypto)
-
+	include(FindOpenSSL)
 	if(OPENSSL_FOUND)
-		list(APPEND OPENSSL_LIBRARIES crypto)
+		include_directories(${OPENSSL_INCLUDE_DIR})
+		set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${OPENSSL_INCLUDE_DIR})
+		check_include_file("openssl/md5.h" HAVE_OPENSSL_MD5_H)
+		if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+			set(OPENSSL_LIBRARIES ${OPENSSL_LIBRARIES} crypto)
+		endif (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	else(OPENSSL_FOUND)
 		message(STATUS "OpenSSL not found; secure communication channels will not be available")
 		set(USE_OPENSSL OFF)
@@ -41,13 +44,21 @@ if(USE_IPV6)
 	message(STATUS "IPv6 support enabled")
 endif(USE_IPV6)
 
+
 # Setup installation paths
 include(cmake/DefaultPaths.cmake)
+
+#check_function_exists (vasprintf HAVE_VASPRINTF)
+check_function_exists(fork HAVE_FORK)
+#check_function_exists(snprintf HAVE_SNPRINTF)
+#check_function_exists(vsnprintf HAVE_VSNPRINTF)
+
+check_include_files(direct.h HAVE_DIRECT_H)
 
 # Generate config.h
 configure_file(
 	${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake
-	${CMAKE_CURRENT_SOURCE_DIR}/include/config.h
+	${CMAKE_CURRENT_SOURCE_DIR}/include/Lotos2/config.h
 	)
 
 # make uninstall (file added to top binray dir to work with build_all)
@@ -109,8 +120,8 @@ check_include_files(direct.h HAVE_DIRECT_H)
 #endif(UNIX)
 
 #get_cmake_property(P VARIABLES)
-#	foreach(VAR in ${P})
-#		message(STATUS "  ${VAR}=${${VAR}}")
+#foreach(VAR in ${P})
+#	message(STATUS "  ${VAR}=${${VAR}}")
 #endforeach()
 
 #install(TARGETS

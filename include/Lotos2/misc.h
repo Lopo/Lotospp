@@ -1,14 +1,10 @@
-/*
- * File:   misc.h
- * Author: lopo
- *
- * Created on August 26, 2013, 2:05 PM
- */
+#ifndef LOTOS2_MISC_H
+#define LOTOS2_MISC_H
 
-#ifndef MISC_H
-#define MISC_H
+#include <time.h>
 
 int has_whitespace(const char *str);
-void log(const char *fmtstr, ...);
+void toLowerCaseString(std::string& source);
+void formatTime(time_t time, char* buffer);
 
 #endif /* MISC_H */

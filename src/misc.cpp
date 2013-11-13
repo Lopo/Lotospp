@@ -6,8 +6,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "config.h"
-#include "Lotos2/globals.h"
+#include "Lotos2/config.h"
 
 using std::string;
 using std::cout;
@@ -23,50 +22,19 @@ int has_whitespace(const char *str)
 	return 0;
 }
 
-/* Write out some info with the time prepended. We don't keep an open file descriptor for the log file
- * since if its accidentaly deleted then unix won't recreate the file via an open descriptor to the old file.
- * Opening and closing it (though inefficient) avoids this issue. ***/
-void log(const char *fmtstr, ...)
+void toLowerCaseString(std::string& source)
 {
-	int arr_size=3000;
-	char str[arr_size];
-	char tstr[20];
-	va_list args;
-	FILE *fp;
+	std::transform(source.begin(), source.end(), source.begin(), tolower);
+}
 
-	va_start(args, fmtstr);
-	vsnprintf(str, arr_size-20, fmtstr, args);
-	va_end(args);
-
-	strftime(tstr, sizeof (tstr), "%Y%m%dT%H%M%S ", &serverTimeTms);
-
-	// If printing to stdout ...
-	string logFile(options.get("global.logFile", ""));
-	if (logFile=="") {
-		cout << tstr << str;
-		if (str[strlen(str)-1]!='\n')
-			cout << std::endl;
-		return;
-		}
-
-	/* Use a mutex here so different threads don't write over each others data in the file.
-	 * I've no idea if this would actually happen , I guess it depends how write() is implemented by the OS,
-	 * but I'm not taking any chances. */
-	pthread_mutex_lock(&log_mutex);
-
-	// If this doesn't work where do we print out the error?? We can't , so just return. 
-	if (!(fp = fopen(logFile.c_str(), "a"))) {
-		pthread_mutex_unlock(&log_mutex);
-		return;
-		}
-
-	if (str[strlen(str)-1]=='\n') {
-		fprintf(fp, "%s%s", tstr, str);
+//buffer should have at least 16 bytes
+void formatTime(time_t time, char* buffer)
+{
+	const tm* tms=localtime(&time);
+	if (tms) {
+		strftime(buffer, 16, "%Y%m%dT%H%M%S", tms);
 		}
 	else {
-		fprintf(fp, "%s%s\n", tstr, str);
+		sprintf(buffer, "UNIX Time : %d", (int)time);
 		}
-	fclose(fp);
-
-	pthread_mutex_unlock(&log_mutex);
 }

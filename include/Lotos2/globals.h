@@ -1,12 +1,5 @@
-/*
- * File:   globals.h
- * Author: lopo
- *
- * Created on August 17, 2013, 9:29 PM
- */
-
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef LOTOS2_GLOBALS_H
+#define LOTOS2_GLOBALS_H
 
 #include <time.h>
 #include <boost/property_tree/ptree.hpp>
@@ -24,4 +17,4 @@ EXTERN struct std::tm serverTimeTms;
 
 EXTERN pthread_mutex_t log_mutex;
 
-#endif /* GLOBALS_H */
+#endif /* LOTOS2_GLOBALS_H */
