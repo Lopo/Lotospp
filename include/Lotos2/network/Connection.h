@@ -61,7 +61,7 @@ public:
 	int32_t unRef();
 
 private:
-	void parsePacket(const boost::system::error_code& error);
+	void parsePacket(const boost::system::error_code& error, std::size_t bytes_transferred);
 
 	void onWriteOperation(OutputMessage_ptr msg, const boost::system::error_code& error);
 

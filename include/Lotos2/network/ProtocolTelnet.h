@@ -39,8 +39,8 @@ private:
 	virtual void releaseProtocol();
 	virtual void deleteProtocolTask();
 
-	virtual void parsePacket(NetworkMessage& msg);
-	virtual void onRecvFirstMessage(NetworkMessage& msg) { onRecvMessage(msg);};
+	virtual void parsePacket(NetworkMessage& msg, std::size_t bytes_transferred);
+	virtual void onRecvFirstMessage(NetworkMessage& msg, std::size_t bytes_transferred) { onRecvMessage(msg, bytes_transferred);};
 
 	void sendTextMessage(const std::string& message);
 

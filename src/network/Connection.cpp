@@ -267,10 +267,10 @@ void Connection::acceptConnection()
 	try {
 		++m_pendingRead;
 
-		// Read size of the first packet
+		m_msg.setReadPos(0);
 		getHandle().async_read_some(
 			boost::asio::buffer(m_msg.getBuffer(), NetworkMessage::max_body_length),
-			boost::bind(&Connection::parsePacket, shared_from_this(), boost::asio::placeholders::error)
+			boost::bind(&Connection::parsePacket, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)
 			);
 		}
 	catch (boost::system::system_error& e) {
@@ -282,7 +282,7 @@ void Connection::acceptConnection()
 		}
 }
 
-void Connection::parsePacket(const boost::system::error_code& error)
+void Connection::parsePacket(const boost::system::error_code& error, std::size_t bytes_transferred)
 {
 	m_connectionLock.lock();
 
@@ -298,6 +298,7 @@ void Connection::parsePacket(const boost::system::error_code& error)
 
 	--m_pendingRead;
 
+	m_msg.setMessageLength(bytes_transferred);
 	if (!m_receivedFirst) {
 		m_receivedFirst=true;
 		// First message received
@@ -310,19 +311,21 @@ void Connection::parsePacket(const boost::system::error_code& error)
 				}
 			m_protocol->setConnection(shared_from_this());
 			}
-		m_protocol->onRecvFirstMessage(m_msg);
+		m_protocol->onRecvFirstMessage(m_msg, bytes_transferred);
 		}
-	else
+	else {
 		// Send the packet to the current protocol
-		m_protocol->onRecvMessage(m_msg);
+		m_protocol->onRecvMessage(m_msg, bytes_transferred);
+		}
 
 	try {
 		++m_pendingRead;
 
 		// Wait to the next packet
+		m_msg.setReadPos(0);
 		getHandle().async_read_some(
 			boost::asio::buffer(m_msg.getBuffer(), NetworkMessage::max_body_length),
-			boost::bind(&Connection::parsePacket, shared_from_this(), boost::asio::placeholders::error)
+			boost::bind(&Connection::parsePacket, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)
 			);
 		}
 	catch (boost::system::system_error& e) {

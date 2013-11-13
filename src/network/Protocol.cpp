@@ -18,13 +18,13 @@ void Protocol::onSendMessage(OutputMessage_ptr msg)
 		}
 }
 
-void Protocol::onRecvMessage(NetworkMessage& msg)
+void Protocol::onRecvMessage(NetworkMessage& msg, std::size_t bytes_transferred)
 {
 #ifdef __DEBUG_NET_DETAIL__
 	std::cout << "Protocol::onRecvMessage" << std::endl;
 #endif
 
-	parsePacket(msg);
+	parsePacket(msg, bytes_transferred);
 }
 
 OutputMessage_ptr Protocol::getOutputBuffer()

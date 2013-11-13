@@ -129,8 +129,9 @@ void ProtocolTelnet::disconnect()
 		}
 }
 
-void ProtocolTelnet::parsePacket(NetworkMessage &msg)
+void ProtocolTelnet::parsePacket(NetworkMessage &msg, std::size_t bytes_transferred)
 {
+	msg.setMessageLength(bytes_transferred);
 	if (!user || !m_acceptPackets || msg.getMessageLength()<=0) {
 		return;
 		}
@@ -138,6 +139,7 @@ void ProtocolTelnet::parsePacket(NetworkMessage &msg)
 	if (msg.GetByte()==TELNET_IAC) {
 		return;
 		}
+	msg.setReadPos(0);
 }
 
 //********************** Send methods  *******************************

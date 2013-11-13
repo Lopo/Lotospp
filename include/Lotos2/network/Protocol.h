@@ -22,11 +22,11 @@ public:
 
 	virtual ~Protocol() {}
 
-	virtual void parsePacket(NetworkMessage& msg)=0;
+	virtual void parsePacket(NetworkMessage& msg, std::size_t bytes_transferred)=0;
 
 	void onSendMessage(OutputMessage_ptr msg);
-	void onRecvMessage(NetworkMessage& msg);
-	virtual void onRecvFirstMessage(NetworkMessage& msg)=0;
+	void onRecvMessage(NetworkMessage& msg, std::size_t bytes_transferred);
+	virtual void onRecvFirstMessage(NetworkMessage& msg, std::size_t bytes_transferred)=0;
 	virtual void onConnect() {} // Used by new gameworld to send first packet to client
 
 	Connection_ptr getConnection() { return m_connection;}
