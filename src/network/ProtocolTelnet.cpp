@@ -136,10 +136,9 @@ void ProtocolTelnet::parsePacket(NetworkMessage &msg, std::size_t bytes_transfer
 		return;
 		}
 	// Ignore control code replies
-	if (msg.GetByte()==TELNET_IAC) {
+	if (msg.GetAt(0)==TELNET_IAC) {
 		return;
 		}
-	msg.setReadPos(0);
 }
 
 //********************** Send methods  *******************************

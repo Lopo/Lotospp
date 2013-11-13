@@ -55,8 +55,9 @@ std::string NetworkMessage::GetString()
 std::string NetworkMessage::GetRaw()
 {
 	uint16_t stringlen=m_MsgSize-m_ReadPos;
-	if (stringlen>=(NETWORKMESSAGE_MAXSIZE-m_ReadPos))
+	if (stringlen>=(NETWORKMESSAGE_MAXSIZE-m_ReadPos)) {
 		return std::string();
+		}
 
 	char* v=(char*)(m_MsgBuf+m_ReadPos);
 	m_ReadPos+=stringlen;
@@ -170,4 +171,9 @@ void NetworkMessage::Reset()
 bool NetworkMessage::canAdd(uint32_t size) const
 {
 	return size+m_ReadPos<max_body_length;
+}
+
+uint8_t NetworkMessage::GetAt(uint32_t pos)
+{
+	return m_MsgBuf[pos];
 }

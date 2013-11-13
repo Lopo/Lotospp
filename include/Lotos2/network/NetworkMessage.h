@@ -26,6 +26,7 @@ public:
 	uint64_t GetU64() const;
 	std::string GetString();
 	std::string GetRaw();
+	uint8_t GetAt(uint32_t pos);
 
 	// skips count unknown/unused bytes in an incoming message
 	void SkipBytes(int count);
