@@ -33,7 +33,6 @@ public:
 	const Connection_ptr getConnection() const { return m_connection;}
 	void setConnection(Connection_ptr connection) { m_connection=connection; }
 
-	uint32_t getIP() const;
 	int32_t addRef() { return ++m_refCount;}
 	int32_t unRef() { return --m_refCount;}
 

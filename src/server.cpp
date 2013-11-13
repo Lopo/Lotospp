@@ -148,7 +148,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 			std::cout << "Error: [ServerPort::accept] No services running!" << std::endl;
 #endif
 			return;
-		}
+			}
 
 		boost::system::error_code error;
 		const boost::asio::ip::tcp::endpoint endpoint=socket->remote_endpoint(error);

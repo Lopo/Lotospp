@@ -57,8 +57,6 @@ public:
 
 	bool send(OutputMessage_ptr msg);
 
-	uint32_t getIP() const;
-
 	int32_t addRef();
 	int32_t unRef();
 

@@ -58,12 +58,3 @@ void Protocol::deleteProtocolTask()
 
 	delete this;
 }
-
-uint32_t Protocol::getIP() const
-{
-	if (getConnection()) {
-		return getConnection()->getIP();
-		}
-
-	return 0;
-}

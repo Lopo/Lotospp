@@ -25,7 +25,6 @@ User::User(ProtocolTelnet* p)
 	if (client) {
 		client->setUser(this);
 		}
-	accountId=0;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	userCount++;
@@ -63,14 +62,6 @@ void User::setRemoved()
 uint32_t User::getID() const
 {
 	return id;
-}
-
-uint32_t User::getIP() const
-{
-	if (client) {
-		return client->getIP();
-		}
-	return 0;
 }
 
 void User::removeList()

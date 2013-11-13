@@ -23,16 +23,6 @@ void Thing::unRef()
 		}
 }
 
-User* Thing::getUser()
-{
-	return NULL;
-}
-
-const User* Thing::getUser() const
-{
-	return NULL;
-}
-
 bool Thing::isRemoved() const
 {
 	return false;

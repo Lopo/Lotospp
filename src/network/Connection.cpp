@@ -400,18 +400,6 @@ void Connection::internalSend(OutputMessage_ptr msg)
 		}
 }
 
-uint32_t Connection::getIP() const
-{
-	//Ip is expressed in network byte order
-	boost::system::error_code error;
-	const boost::asio::ip::tcp::endpoint endpoint=m_socket->remote_endpoint(error);
-	if (!error) {
-		return htonl(endpoint.address().to_v4().to_ulong());
-		}
-	PRINT_ASIO_ERROR("Getting remote ip");
-	return 0;
-}
-
 int32_t Connection::addRef()
 {
 	return ++m_refCount;

@@ -2,7 +2,6 @@
 #define	LOTOS2_TALKER_H
 
 #include "Lotos2/templates.h"
-#include "Lotos2/Account.h"
 #include "Lotos2/User.h"
 #include "Lotos2/server.h"
 
@@ -26,47 +25,11 @@ public:
 	User* getUserByID(uint32_t id);
 
 	/**
-	 * Returns a user based on a guid identifier
-	 * this function returns a pointer even if the user is offline,
-	 * it is up to the caller of the function to delete the pointer - if the user is offline
-	 * use isOffline() to determine if the user was offline
-	 * \param guid is the identifier
-	 * \return A Pointer to the user
-	 */
-	User* getUserByGuid(uint32_t guid);
-
-	/**
-	 * Returns a user based on a guid identifier
-	 * this function returns a pointer even if the user is offline,
-	 * it is up to the caller of the function to delete the pointer - if the user is offline
-	 * use isOffline() to determine if the user was offline
-	 * \param guid is the identifier
-	 */
-	User* getUserByGuidEx(uint32_t guid);
-
-	/**
-	 * Returns a user based on an account number identifier
-	 * \param acc is the account identifier
-	 * \return A Pointer to the user
-	 */
-	User* getUserByAccount(uint32_t acc);
-
-	/**
-	 * Returns all users with a certain IP address
-	 * \param ip is the IP address of the clients, as an unsigned long
-	 * \param mask An IP mask, default 255.255.255.255
-	 * \return A vector of all users with the selected IP
-	 */
-	UserVector getUsersByIP(uint32_t ip, uint32_t mask=0xFFFFFFFF);
-
-	/**
 	 * Remove User from the map.
 	 * Removes the User the map
 	 * \param user User to remove
 	 */
 	bool removeUser(User* user);
-
-	uint32_t getUsersOnline();
 
 	void cleanup();
 	void shutdown();

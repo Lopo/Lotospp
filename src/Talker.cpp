@@ -32,60 +32,6 @@ User* Talker::getUserByID(uint32_t id)
 	return NULL; //just in case the user doesnt exist
 }
 
-User* Talker::getUserByGuid(uint32_t guid)
-{
-	if (guid==0) {
-		return NULL;
-		}
-
-	for (AutoList<User>::listiterator it=User::listUser.list.begin(); it!=User::listUser.list.end(); ++it) {
-		if (!it->second->isRemoved()) {
-			if (it->second->getGUID()==guid) {
-				return it->second;
-				}
-			}
-		}
-
-	return NULL;
-}
-
-User* Talker::getUserByGuidEx(uint32_t guid)
-{
-	User* user=getUserByGuid(guid);
-	if (user) {
-		return user;
-		}
-
-	return user;
-}
-
-User* Talker::getUserByAccount(uint32_t acc)
-{
-	for (AutoList<User>::listiterator it=User::listUser.list.begin(); it!=User::listUser.list.end(); ++it) {
-		if (!it->second->isRemoved()) {
-			if (it->second->getAccountId()==acc) {
-				return it->second;
-				}
-			}
-		}
-
-	return NULL;
-}
-
-UserVector Talker::getUsersByIP(uint32_t ipadress, uint32_t mask)
-{
-	UserVector users;
-	for (AutoList<User>::listiterator it=User::listUser.list.begin(); it!=User::listUser.list.end(); ++it) {
-		if (!it->second->isRemoved()) {
-			if ((it->second->getIP() & mask)==(ipadress & mask)) {
-				users.push_back(it->second);
-				}
-			}
-		}
-
-	return users;
-}
-
 bool Talker::removeUser(User* user)
 {
 	if (user->isRemoved()) {
@@ -96,11 +42,6 @@ bool Talker::removeUser(User* user)
 	user->onRemoved();
 
 	return true;
-}
-
-uint32_t Talker::getUsersOnline()
-{
-	return (uint32_t)User::listUser.list.size();
 }
 
 void Talker::shutdown()

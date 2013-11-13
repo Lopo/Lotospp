@@ -19,9 +19,6 @@ public:
 	void addRef();
 	void unRef();
 
-	virtual User* getUser();
-	virtual const User* getUser() const;
-
 	virtual bool isRemoved() const;
 
 private:
