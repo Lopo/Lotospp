@@ -52,13 +52,6 @@ public:
 	User* getUserByAccount(uint32_t acc);
 
 	/**
-	 * Returns all users based on their account number identifier
-	 * \param acc is the account identifier
-	 * \return A vector of all users with the selected account number
-	 */
-	UserVector getUsersByAccount(uint32_t acc);
-
-	/**
 	 * Returns all users with a certain IP address
 	 * \param ip is the IP address of the clients, as an unsigned long
 	 * \param mask An IP mask, default 255.255.255.255

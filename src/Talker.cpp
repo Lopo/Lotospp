@@ -72,20 +72,6 @@ User* Talker::getUserByAccount(uint32_t acc)
 	return NULL;
 }
 
-UserVector Talker::getUsersByAccount(uint32_t acc)
-{
-	UserVector users;
-	for (AutoList<User>::listiterator it=User::listUser.list.begin(); it != User::listUser.list.end(); ++it) {
-		if (!it->second->isRemoved()) {
-			if (it->second->getAccountId()==acc) {
-				users.push_back(it->second);
-				}
-			}
-		}
-
-	return users;
-}
-
 UserVector Talker::getUsersByIP(uint32_t ipadress, uint32_t mask)
 {
 	UserVector users;
