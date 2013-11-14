@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "Lotos2/network/NetworkMessage.h"
+#include "network/NetworkMessage.h"
 
 NetworkMessage::NetworkMessage()
 {

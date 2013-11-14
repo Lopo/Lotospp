@@ -1,8 +1,42 @@
 cmake_minimum_required(VERSION 2.8)
-
 project(Lotos2)
 
 #set(CMAKE_VERBOSE_MAKEFILE true)
+
+set(LOTOS2_MAJOR_VERSION 0)
+set(LOTOS2_MINOR_VERSION 2)
+set(LOTOS2_PATCH_VERSION 0)
+set(LOTOS2_STATE_VERSION "dev")
+set(LOTOS2_VERSION
+	${LOTOS2_MAJOR_VERSION}.${LOTOS2_MINOR_VERSION}.${LOTOS2_PATCH_VERSION})
+
+set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
+set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
+set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation directory for header files")
+if(WIN32 AND NOT CYGWIN)
+	set(DEF_INSTALL_CMAKE_DIR CMake)
+else()
+	set(DEF_INSTALL_CMAKE_DIR lib/CMake/${PROJECT_NAME})
+endif()
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH "Installation directory for CMake files")
+
+# Make relative paths absolute (needed later on)
+foreach(p LIB BIN INCLUDE CMAKE)
+	set(var INSTALL_${p}_DIR)
+	if(NOT IS_ABSOLUTE "${${var}}")
+		set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+	endif()
+endforeach()
+
+# set up include-directories
+include_directories(
+	"${PROJECT_BINARY_DIR}"
+	)
+
+# Export the package for use from the build-tree
+# (this registers the build-tree with a global CMake-registry)
+export(PACKAGE Lotos2)
+
 
 #-----------------------------------------------------------------------
 # Find packages and other useful checks
@@ -57,14 +91,18 @@ check_include_files(direct.h HAVE_DIRECT_H)
 
 # Generate config.h
 configure_file(
-	${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake
-	${CMAKE_CURRENT_SOURCE_DIR}/include/Lotos2/config.h
+	${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+	${CMAKE_CURRENT_SOURCE_DIR}/include/config.h
 	)
 
 # make uninstall (file added to top binray dir to work with build_all)
 configure_file(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
 	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+	)
+configure_file(
+	cmake/Lotos2ConfigVersion.cmake.in
+	"${PROJECT_BINARY_DIR}/Lotos2ConfigVersion.cmake" @ONLY
 	)
 
 add_custom_target(
@@ -73,23 +111,12 @@ add_custom_target(
 	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 	)
 
-set(SUBDIRS
-	cmake
-	include
-	src
-	)
+set(SUBDIRS	src)
 foreach(subdir ${SUBDIRS})
 	add_subdirectory(${subdir})
 endforeach()
 
-#check_function_exists (vasprintf HAVE_VASPRINTF)
-check_function_exists(fork HAVE_FORK)
-check_function_exists(snprintf HAVE_SNPRINTF)
-check_function_exists(vsnprintf HAVE_VSNPRINTF)
-
 check_include_files(direct.h HAVE_DIRECT_H)
-
-#CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 #if(UNIX)
 #	set(LP_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}")
@@ -98,20 +125,11 @@ check_include_files(direct.h HAVE_DIRECT_H)
 
 #set(BUILD_SHARED_LIBS ON)  # By default all libs will be built as shared libs
 
-# Add some common compiler flags. TODO: Shouldn't this be done checking if whatever compiler
-# we use supports each flag to allow for non-gcc compilers in Linux (as above)?
-#if (CMAKE_COMPILER_IS_GNUCXX)
-#	add_definitions(-Wall -Wsign-compare -Wextra -Wno-unused -Wno-deprecated -DTIXML_USE_STL=1)
-#	add_definitions(-Wall -Wextra)
-#endif()
-
 #-----------------------------------------------------------------------
 # Define some useful variables and options
 #-----------------------------------------------------------------------
 
 #include_directories(include)
-
-#add_subdirectory(src)
 
 #link_directories(${LOTOS2_BINARY_DIR}/
 

@@ -6,7 +6,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "Lotos2/config.h"
+#include "config.h"
 
 using std::string;
 using std::cout;

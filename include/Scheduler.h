@@ -4,8 +4,8 @@
 #include <queue>
 #include <set>
 
-#include "Lotos2/tasks.h"
-#include "Lotos2/system.h"
+#include "tasks.h"
+#include "system.h"
 
 #define SCHEDULER_MINTICKS 20
 

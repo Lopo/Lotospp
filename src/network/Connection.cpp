@@ -2,13 +2,13 @@
 #include <boost/asio/write.hpp>
 #include <boost/asio/read.hpp>
 
-#include "Lotos2/Singleton.h"
-#include "Lotos2/network/Connection.h"
-#include "Lotos2/network/Protocol.h"
-#include "Lotos2/network/OutputMessage.h"
-#include "Lotos2/Scheduler.h"
-#include "Lotos2/server.h"
-#include "Lotos2/Logger.h"
+#include "Singleton.h"
+#include "network/Connection.h"
+#include "network/Protocol.h"
+#include "network/OutputMessage.h"
+#include "Scheduler.h"
+#include "server.h"
+#include "Logger.h"
 
 bool Connection::m_logError=true;
 

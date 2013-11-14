@@ -6,12 +6,12 @@
 
 #include <boost/asio/placeholders.hpp>
 
-#include "Lotos2/server.h"
-#include "Lotos2/Scheduler.h"
-#include "Lotos2/network/OutputMessage.h"
-#include "Lotos2/network/Connection.h"
+#include "server.h"
+#include "Scheduler.h"
+#include "network/OutputMessage.h"
+#include "network/Connection.h"
 
-#include "Lotos2/Logger.h"
+#include "Logger.h"
 
 
 bool ServicePort::m_logError=true;

@@ -1,5 +1,5 @@
 file(GLOB_RECURSE SRC_LIST *.cpp)
-add_executable(Lotos2 ${SRC_LIST})
+add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 target_link_libraries(Lotos2
 	${Boost_LIBRARIES}
@@ -70,8 +70,3 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 #building just a library. 
 #add_library(geometry geometry.cpp)
-
-#add_executable(test_geometry test_geometry.cpp)
-#linking against a custom library
-#target_link_libraries(test_geometry ${CORELIBS} geometry)
-

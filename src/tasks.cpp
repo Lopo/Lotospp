@@ -1,9 +1,9 @@
-#include "Lotos2/tasks.h"
-#include "Lotos2/system.h"
-#include "Lotos2/network/OutputMessage.h"
+#include "tasks.h"
+#include "system.h"
+#include "network/OutputMessage.h"
 
 #if defined __EXCEPTION_TRACER__
-#include "Lotos2/Exception.h"
+#include "Exception.h"
 #endif
 
 Dispatcher::Dispatcher()

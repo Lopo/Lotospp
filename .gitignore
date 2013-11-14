@@ -7,7 +7,7 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 install_manifest.txt
-include/Lotos2/config.h
+include/config.h
 /cmake/Config.cmake
 /cmake/Paths.cmake
 
@@ -17,9 +17,7 @@ include/Lotos2/config.h
 *.a
 
 WORKING_DIRECTORY
-
 todo.txt
-
 src/Lotos2
-
 Doxyfile
+Lotos2ConfigVersion.cmake

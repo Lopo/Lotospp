@@ -9,7 +9,7 @@
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 
-#include "Lotos2/network/OutputMessage.h"
+#include "network/OutputMessage.h"
 
 class ServicePort;
 class Protocol;

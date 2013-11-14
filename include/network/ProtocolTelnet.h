@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include "Lotos2/network/Protocol.h"
+#include "network/Protocol.h"
 
 class Talker;
 class NetworkMessage;

@@ -1,7 +1,7 @@
-#include "Lotos2/Scheduler.h"
+#include "Scheduler.h"
 
 #if defined __EXCEPTION_TRACER__
-#include "Lotos2/Exception.h"
+#include "Exception.h"
 #endif
 
 Scheduler::Scheduler()

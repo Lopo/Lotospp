@@ -4,9 +4,9 @@
 #include <list>
 #include <map>
 
-#include "Lotos2/templates.h"
-#include "Lotos2/Thing.h"
-#include "Lotos2/network/ProtocolTelnet.h"
+#include "templates.h"
+#include "Thing.h"
+#include "network/ProtocolTelnet.h"
 
 class User
 	: public AutoID,
@@ -52,6 +52,7 @@ protected:
 
 	friend class Talker;
 	friend class ProtocolTelnet;
+	friend class IOUser;
 };
 
 #endif	/* LOTOS2_USER_H */

@@ -1,9 +1,9 @@
-#include "Lotos2/User.h"
-#include "Lotos2/Scheduler.h"
-#include "Lotos2/Talker.h"
+#include "User.h"
+#include "Scheduler.h"
+#include "Talker.h"
 
 #if defined __EXCEPTION_TRACER__
-#include "Lotos2/Exception.h"
+#include "Exception.h"
 #endif
 
 boost::recursive_mutex AutoID::autoIDLock;

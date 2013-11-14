@@ -1,4 +1,4 @@
-#include "Lotos2/Thing.h"
+#include "Thing.h"
 
 Thing::Thing()
 	: m_refCount(0)

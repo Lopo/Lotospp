@@ -19,15 +19,15 @@
 #include <fstream>
 //#include <boost/random.hpp>
 
-#include "Lotos2/config.h"
-#include "Lotos2/globals.h"
-#include "Lotos2/misc.h"
+#include "config.h"
+#include "globals.h"
+#include "misc.h"
 
-#include "Lotos2/server.h"
-#include "Lotos2/network/ProtocolTelnet.h"
-#include "Lotos2/Logger.h"
-#include "Lotos2/Scheduler.h"
-#include "Lotos2/Talker.h"
+#include "server.h"
+#include "network/ProtocolTelnet.h"
+#include "Logger.h"
+#include "Scheduler.h"
+#include "Talker.h"
 
 using std::cout;
 using std::cerr;

@@ -1,13 +1,13 @@
 #include <fstream>
 
-#include "Lotos2/Talker.h"
-#include "Lotos2/Scheduler.h"
-#include "Lotos2/tasks.h"
-#include "Lotos2/User.h"
-#include "Lotos2/server.h"
+#include "Talker.h"
+#include "Scheduler.h"
+#include "tasks.h"
+#include "User.h"
+#include "server.h"
 
 #if defined __EXCEPTION_TRACER__
-#include "Lotos2/Exception.h"
+#include "Exception.h"
 extern boost::recursive_mutex maploadlock;
 #endif
 

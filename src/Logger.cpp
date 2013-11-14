@@ -2,10 +2,10 @@
 
 #include <boost/date_time.hpp>
 
-#include "Lotos2/Logger.h"
-#include "Lotos2/Singleton.h"
-#include "Lotos2/globals.h"
-#include "Lotos2/misc.h"
+#include "Logger.h"
+#include "Singleton.h"
+#include "globals.h"
+#include "misc.h"
 
 Logger::Logger()
 {

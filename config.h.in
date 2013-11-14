@@ -1,8 +1,8 @@
 #ifndef LOTOS2_CONFIG_H
 #define LOTOS2_CONFIG_H 1
 
-#define PACKAGE "Lotos2"
-#define LOTOS2_VERSION "0.0.2"
+#cmakedefine PACKAGE "${PROJECT_NAME}"
+#cmakedefine LOTOS2_VERSION "${LOTOS2_VERSION}-${LOTOS2_STATE_VERSION}"
 #define LOTOS2_NAME "Lotos2"
 
 #cmakedefine HAVE_DIRECT_H

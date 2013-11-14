@@ -1,6 +1,6 @@
 #if defined __EXCEPTION_TRACER__
 
-#include "Lotos2/Exception.h"
+#include "Exception.h"
 
 #include <fstream>
 #include <iomanip>
@@ -22,7 +22,7 @@
 		int ExceptionHandler::ref_counter=0;
 
 	#elif __GNUC__
-		#include "Lotos2/system.h"
+		#include "system.h"
 		#include <excpt.h>
 		#include <tlhelp32.h>
 

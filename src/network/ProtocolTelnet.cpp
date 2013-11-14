@@ -1,12 +1,12 @@
 #include <fstream>
 
-#include "Lotos2/network/ProtocolTelnet.h"
-#include "Lotos2/Scheduler.h"
-#include "Lotos2/tasks.h"
-#include "Lotos2/Talker.h"
-#include "Lotos2/User.h"
-#include "Lotos2/network/OutputMessage.h"
-#include "Lotos2/network/Connection.h"
+#include "network/ProtocolTelnet.h"
+#include "Scheduler.h"
+#include "tasks.h"
+#include "Talker.h"
+#include "User.h"
+#include "network/OutputMessage.h"
+#include "network/Connection.h"
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__

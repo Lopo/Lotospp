@@ -7,7 +7,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "Lotos2/network/ProtocolConst.h"
+#include "network/ProtocolConst.h"
 
 class NetworkMessage
 {

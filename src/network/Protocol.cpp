@@ -2,10 +2,10 @@
 #include <winerror.h>
 #endif
 
-#include "Lotos2/network/Protocol.h"
-#include "Lotos2/Scheduler.h"
-#include "Lotos2/network/OutputMessage.h"
-#include "Lotos2/network/Connection.h"
+#include "network/Protocol.h"
+#include "Scheduler.h"
+#include "network/OutputMessage.h"
+#include "network/Connection.h"
 
 void Protocol::onSendMessage(OutputMessage_ptr msg)
 {

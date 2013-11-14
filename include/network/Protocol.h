@@ -6,8 +6,8 @@
 
 #include <stdint.h>
 
-#include "Lotos2/network/OutputMessage.h"
-#include "Lotos2/network/Connection.h"
+#include "network/OutputMessage.h"
+#include "network/Connection.h"
 
 
 class Protocol

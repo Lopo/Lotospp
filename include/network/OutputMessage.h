@@ -8,7 +8,7 @@
 
 #include <boost/thread/recursive_mutex.hpp>
 
-#include "Lotos2/network/NetworkMessage.h"
+#include "network/NetworkMessage.h"
 
 class Connection;
 class Protocol;

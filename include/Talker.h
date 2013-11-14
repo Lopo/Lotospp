@@ -1,9 +1,9 @@
 #ifndef LOTOS2_TALKER_H
 #define	LOTOS2_TALKER_H
 
-#include "Lotos2/templates.h"
-#include "Lotos2/User.h"
-#include "Lotos2/server.h"
+#include "templates.h"
+#include "User.h"
+#include "server.h"
 
 typedef std::vector<User*> UserVector;
 

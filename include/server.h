@@ -9,7 +9,7 @@
 #include <boost/asio/ip/address.hpp>
 #include <boost/asio/deadline_timer.hpp>
 
-#include "Lotos2/network/Connection.h"
+#include "network/Connection.h"
 
 
 typedef boost::shared_ptr<boost::asio::ip::tcp::acceptor> Acceptor_ptr;
