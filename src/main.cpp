@@ -28,6 +28,7 @@
 #include "Logger.h"
 #include "Scheduler.h"
 #include "Talker.h"
+#include "database/Driver.h"
 
 using std::cout;
 using std::cerr;
@@ -128,6 +129,7 @@ bool configure(int ac, char **av)
 	if (pidFile!="") {
 		options.put("global.pidFile", pidFile);
 		}
+
 	return true;
 }
 
@@ -237,6 +239,14 @@ boost::unique_lock<boost::mutex> g_loaderUniqueLock(g_loaderLock);
 
 void mainLoader(ServiceManager* service_manager)
 {
+	std::cout << ":: Checking Connection to Database " << options.get<string>("sql.Db", "lotos2") << "... ";
+	DatabaseDriver* db=DatabaseDriver::instance();
+	if (db==NULL || !db->isConnected()) {
+		ErrorMessage("Database Connection Failed!");
+		exit(EXIT_FAILURE);
+		}
+	std::cout << "[done]" << std::endl;
+
 	// Tie ports and register services
 	service_manager->add<ProtocolTelnet>(options.get<uint16_t>("global.userPort"));
 
@@ -288,8 +298,9 @@ int main(int argc, char **argv)
 	if (servicer.is_running()) {
 		servicer.run();
 		}
-	else
+	else {
 		ErrorMessage("No services running. Server is not online.");
+		}
 
 #if defined __EXCEPTION_TRACER__
 	mainExceptionHandler.RemoveHandler();

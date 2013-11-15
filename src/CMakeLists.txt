@@ -4,9 +4,7 @@ add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_link_libraries(Lotos2
 	${Boost_LIBRARIES}
 	${CMAKE_THREAD_LIBS_INIT}
-	${OPENSSL_LIBRARIES}
 	${MYSQL_LIBRARIES}
-	${SQLITE_LIBRARY}
 	)
 
 # Must export symbols from daemon so that plugins can use them
@@ -17,6 +15,7 @@ include_directories(
 	BEFORE
 	${PROJECT_SOURCE_DIR}/include
 	${Boost_INCLUDE_DIR}
+	${MYSQL_INCLUDE_DIR}
 	)
 # To find config.h & version.h
 include_directories(

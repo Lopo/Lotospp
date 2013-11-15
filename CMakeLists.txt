@@ -78,6 +78,9 @@ if(USE_IPV6)
 	message(STATUS "IPv6 support enabled")
 endif(USE_IPV6)
 
+include(FindMySQL)
+find_package(MySQL REQUIRED)
+
 
 # Setup installation paths
 include(cmake/DefaultPaths.cmake)
