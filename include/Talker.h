@@ -1,7 +1,7 @@
 #ifndef LOTOS2_TALKER_H
 #define	LOTOS2_TALKER_H
 
-#include "templates.h"
+#include "AutoList.h"
 #include "User.h"
 #include "server.h"
 

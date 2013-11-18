@@ -4,13 +4,12 @@
 #include <list>
 #include <map>
 
-#include "templates.h"
+#include "AutoList.h"
 #include "Thing.h"
 #include "network/ProtocolTelnet.h"
 
 class User
-	: public AutoID,
-		virtual public Thing
+	: virtual public Thing
 {
 public:
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -19,7 +18,6 @@ public:
 	User(ProtocolTelnet* p);
 	virtual ~User();
 
-	void setID();
 	void setRemoved();
 
 	uint32_t getID() const;
@@ -27,7 +25,6 @@ public:
 
 	virtual bool isRemoved() const;
 
-	virtual uint32_t idRange() { return 0x10000000;}
 	static AutoList<User> listUser;
 	void removeList();
 	void addList();

@@ -6,10 +6,6 @@
 #include "Exception.h"
 #endif
 
-boost::recursive_mutex AutoID::autoIDLock;
-uint32_t AutoID::count=1000;
-AutoID::list_type AutoID::list;
-
 AutoList<User> User::listUser;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -47,11 +43,6 @@ void User::onRemoved()
 {
 	removeList();
 	setRemoved();
-}
-
-void User::setID()
-{
-	this->id=auto_id | this->idRange();
 }
 
 void User::setRemoved()
