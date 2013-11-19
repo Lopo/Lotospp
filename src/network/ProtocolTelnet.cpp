@@ -44,9 +44,7 @@ ProtocolTelnet::ProtocolTelnet(Connection_ptr connection)
 	: Protocol(connection)
 {
 	user=NULL;
-	m_debugAssertSent=false;
 	m_acceptPackets=false;
-	eventConnect=0;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	protocolTelnetCount++;
@@ -95,7 +93,6 @@ void ProtocolTelnet::deleteProtocolTask()
 bool ProtocolTelnet::connect(uint32_t userId)
 {
 	unRef();
-	eventConnect=0;
 	User* _user=g_talker.getUserByID(userId);
 	if (!_user || _user->isRemoved() || _user->client) {
 		disconnectClient("You are already logged in.");

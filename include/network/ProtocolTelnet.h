@@ -57,8 +57,6 @@ private:
 
 	User* user;
 
-	uint32_t eventConnect;
-	bool m_debugAssertSent;
 	bool m_acceptPackets;
 
 	// Tell telnet to echo characters
