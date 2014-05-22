@@ -1,6 +1,10 @@
 #NetBeans
 /nbproject
 
+#Code::Blocks
+*.cbp
+*.layout
+
 #CMake
 CMakeCache.txt
 CMakeFiles
@@ -8,8 +12,6 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 include/config.h
-/cmake/Config.cmake
-/cmake/Paths.cmake
 
 #C++
 *.o
@@ -17,7 +19,11 @@ include/config.h
 *.a
 
 WORKING_DIRECTORY
+
 todo.txt
+
 src/Lotos2
+
 Doxyfile
-Lotos2ConfigVersion.cmake
+
+*.log

@@ -2,10 +2,9 @@
 #define	LOTOS2_TALKER_H
 
 #include "AutoList.h"
+#include "structs/Account.h"
 #include "User.h"
 #include "server.h"
-
-typedef std::vector<User*> UserVector;
 
 
 /**
@@ -25,11 +24,21 @@ public:
 	User* getUserByID(uint32_t id);
 
 	/**
+	 * Returns all users with a certain IP address
+	 * \param ip is the IP address of the clients, as an unsigned long
+	 * \param mask An IP mask, default 255.255.255.255
+	 * \return A vector of all users with the selected IP
+	 */
+	UserVector getUsersByIP(uint32_t ip, uint32_t mask=0xFFFFFFFF);
+
+	/**
 	 * Remove User from the map.
 	 * Removes the User the map
 	 * \param user User to remove
 	 */
 	bool removeUser(User* user);
+
+	uint32_t getUsersOnline();
 
 	void cleanup();
 	void shutdown();
@@ -45,8 +54,6 @@ protected:
 
 	ServiceManager* service_manager;
 };
-
-extern Talker g_talker;
 
 #endif	/* LOTOS2_TALKER_H */
 

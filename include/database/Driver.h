@@ -1,11 +1,13 @@
-#ifndef LOTOS2_DATABASE_DRIVER_H
-#define LOTOS2_DATABASE_DRIVER_H
+#ifndef DATABASEDRIVER_H
+#define	DATABASEDRIVER_H
 
 #include <iosfwd>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/thread/recursive_mutex.hpp>
+
+#include "config.h"
 
 class DBResult;
 class DBQuery;
@@ -79,7 +81,7 @@ public:
 	 *
 	 * @return id of last inserted row, 0 if last query did not result in any rows with auto_increment keys
 	 */
-	virtual uint64_t getLastInsertedRowID()=0;
+	virtual uint64_t getLastInsertedRowID() = 0;
 
 	/**
 	* Queries database.
@@ -100,7 +102,7 @@ public:
 	* @param std::string string to be escaped
 	* @return quoted string
 	*/
-	virtual std::string escapeString(const std::string &s)=0;
+	virtual std::string escapeString(const std::string &s) = 0;
 	/**
 	* Escapes binary stream for query.
 	*
@@ -110,7 +112,7 @@ public:
 	* @param long stream length
 	* @return quoted string
 	*/
-	virtual std::string escapeBlob(const char* s, uint32_t length)=0;
+	virtual std::string escapeBlob(const char* s, uint32_t length) = 0;
 
 	/**
 	* Resource freeing.
@@ -124,8 +126,8 @@ protected:
 	/**
 	 * Executes a query directly
 	 */
-	virtual bool internalQuery(const std::string &query)=0;
-	virtual DBResult_ptr internalSelectQuery(const std::string &query)=0;
+	virtual bool internalQuery(const std::string &query) = 0;
+	virtual DBResult_ptr internalSelectQuery(const std::string &query) = 0;
 
 	DatabaseDriver() : m_connected(false) {};
 	virtual ~DatabaseDriver() {};
@@ -137,7 +139,6 @@ protected:
 private:
 	static DatabaseDriver* _instance;
 };
-
 
 class DBResult
 	: public boost::enable_shared_from_this<DBResult>
@@ -174,7 +175,7 @@ public:
 	*
 	* \return true if moved, false if there are no more results.
 	*/
-	virtual DBResult_ptr advance() { return DBResult_ptr();}
+	virtual DBResult_ptr advance() {return DBResult_ptr();}
 
 	/**
 	 * Are there any more rows to be fetched
@@ -186,7 +187,6 @@ protected:
 	DBResult() {};
 	virtual ~DBResult() {};
 };
-
 
 /**
  * Thread locking hack.
@@ -202,7 +202,7 @@ public:
 	DBQuery();
 	~DBQuery();
 
-	void reset() { str("");}
+	void reset() {str("");}
 
 protected:
 	static boost::recursive_mutex database_lock;
@@ -263,38 +263,37 @@ protected:
 	std::ostringstream m_buf;
 };
 
-
 class DBTransaction
 {
 public:
 	DBTransaction(DatabaseDriver* database)
 	{
-		m_database=database;
-		m_state=STATE_NO_START;
+		m_database = database;
+		m_state = STATE_NO_START;
 	}
 
 	~DBTransaction()
 	{
-		if (m_state==STATE_START) {
+		if(m_state == STATE_START){
 			m_database->rollback();
-			}
+		}
 	}
 
 	bool begin()
 	{
-		m_state=STATE_START;
+		m_state = STATE_START;
 		return m_database->beginTransaction();
 	}
 
 	bool commit()
 	{
-		if (m_state==STATE_START) {
-			m_state=STEATE_COMMIT;
+		if(m_state == STATE_START){
+			m_state = STEATE_COMMIT;
 			return m_database->commit();
-			}
-		else {
+		}
+		else{
 			return false;
-			}
+		}
 	}
 
 private:
@@ -307,4 +306,4 @@ private:
 	DatabaseDriver* m_database;
 };
 
-#endif /* LOTOS2_DATABASE_DRIVER_H */
+#endif	/* DATABASEDRIVER_H */

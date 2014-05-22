@@ -9,11 +9,11 @@
 #include <boost/asio/ip/address.hpp>
 #include <boost/asio/deadline_timer.hpp>
 
+#include "network/Protocol.h"
 #include "network/Connection.h"
 
 
 typedef boost::shared_ptr<boost::asio::ip::tcp::acceptor> Acceptor_ptr;
-typedef boost::asio::ip::address IPAddress;
 
 // The Service class is very thin, it's only real job is to create dynamic
 // dispatch of the protocol attributes, which would otherwise be very hard,

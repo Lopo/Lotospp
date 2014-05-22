@@ -1,5 +1,11 @@
 #include "database/Driver.h"
+
+#ifdef USE_MYSQL
 #include "database/MySQL.h"
+#endif
+
+#include "globals.h"
+#include "misc.h"
 
 boost::recursive_mutex DBQuery::database_lock;
 
@@ -7,8 +13,14 @@ DatabaseDriver* DatabaseDriver::_instance=NULL;
 
 DatabaseDriver* DatabaseDriver::instance()
 {
+
 	if (!_instance) {
-		_instance=new DatabaseMySQL;
+		std::string type=options.get<std::string>("global.sqlType");
+		::toLowerCaseString(type);
+#ifdef USE_MYSQL
+		if (type=="mysql")
+			_instance=new DatabaseMySQL;
+#endif
 		}
 	return _instance;
 }
@@ -40,9 +52,9 @@ void DatabaseDriver::freeResult(DBResult *res)
 
 DBResult_ptr DatabaseDriver::verifyResult(DBResult_ptr result)
 {
-	return result->advance()
-		? result
-		: DBResult_ptr();
+	if (!result->advance())
+		return DBResult_ptr();
+	return result;
 }
 
 // DBQuery
@@ -65,7 +77,7 @@ DBInsert::DBInsert(DatabaseDriver* db)
 	m_rows=0;
 
 	// checks if current database engine supports multi line INSERTs
-	m_multiLine= m_db->getParam(DBPARAM_MULTIINSERT)!=0;
+	m_multiLine=m_db->getParam(DBPARAM_MULTIINSERT)!=0;
 }
 
 void DBInsert::setQuery(const std::string& query)
@@ -82,18 +94,16 @@ bool DBInsert::addRow(const std::string& row)
 		size_t size=m_buf.tellp();
 
 		// adds new row to buffer
-		if (size==0) {
+		if (size==0)
 			m_buf << "(" << row << ")";
-			}
-		else if(size > 8192) {
-			if (!execute()) {
+		else if (size>8192) {
+			if (!execute())
 				return false;
-				}
+
 			m_buf << "(" << row << ")";
 			}
-		else {
-			m_buf << ",(" + row + ")";
-			}
+		else
+				m_buf << ",(" + row + ")";
 
 		return true;
 		}

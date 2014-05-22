@@ -1,10 +1,20 @@
+#ifdef USE_MYSQL
+
 #ifndef LOTOS2_DATABASE_MYSQL_H
 #define LOTOS2_DATABASE_MYSQL_H
 
-#include <mysql/mysql.h>
+#include <string>
+#include <map>
 
 #include "database/Driver.h"
 
+#include "system.h"
+
+#ifdef __MYSQL_ALT_INCLUDE__
+#include <mysql.h>
+#else
+#include <mysql/mysql.h>
+#endif
 
 class DatabaseMySQL
 	: public DatabaseDriver
@@ -32,9 +42,7 @@ protected:
 	MYSQL m_handle;
 };
 
-
-class MySQLResult
-	: public DBResult
+class MySQLResult : public DBResult
 {
 	friend class DatabaseMySQL;
 
@@ -60,3 +68,5 @@ protected:
 };
 
 #endif /* LOTOS2_DATABASE_MYSQL_H */
+
+#endif /* USE_MYSQL */

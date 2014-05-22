@@ -4,11 +4,7 @@
 #include <list>
 
 #include "network/Protocol.h"
-
-class Talker;
-class NetworkMessage;
-extern Talker g_talker;
-
+#include "network/NetworkMessage.h"
 
 class User;
 typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
@@ -18,9 +14,9 @@ class ProtocolTelnet
 {
 public:
 	// static protocol information
-	enum { server_sends_first=true};
-	enum { protocol_identifier=0}; // Not required as we send first
-	static const char* protocol_name() { return "telnet protocol";}
+	enum {server_sends_first=true};
+	enum {protocol_identifier=0}; // Not required as we send first
+	static const char* protocol_name() {return "telnet protocol";}
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t protocolTelnetCount;
@@ -39,8 +35,12 @@ private:
 	virtual void releaseProtocol();
 	virtual void deleteProtocolTask();
 
-	virtual void parsePacket(NetworkMessage& msg, std::size_t bytes_transferred);
-	virtual void onRecvFirstMessage(NetworkMessage& msg, std::size_t bytes_transferred) { onRecvMessage(msg, bytes_transferred);};
+    virtual void onConnect();
+	virtual void onRecvFirstMessage(NetworkMessage& msg);
+	bool parseFirstPacket(NetworkMessage& msg);
+	virtual void parsePacket(NetworkMessage& msg);
+
+	void parseDebug(NetworkMessage& msg);
 
 	void sendTextMessage(const std::string& message);
 
@@ -57,6 +57,8 @@ private:
 
 	User* user;
 
+	uint32_t eventConnect;
+	bool m_debugAssertSent;
 	bool m_acceptPackets;
 
 	// Tell telnet to echo characters
@@ -64,8 +66,11 @@ private:
 	// Tell telnet not to echo characters - for password entry etc.
 	void sendEchoOff();
 
+	void sendTermCoords();
 	template<typename _CharT>
 	void setXtermTitle(const _CharT);
+	void enableLineWrap();
+	void disableLineWrap();
 };
 
 #endif	/* LOTOS2_NETWORK_PROTOCOLTELNET_H */

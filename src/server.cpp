@@ -13,6 +13,8 @@
 
 #include "Logger.h"
 
+#include "globals.h"
+
 
 bool ServicePort::m_logError=true;
 
@@ -32,9 +34,8 @@ ServiceManager::~ServiceManager()
 std::list<uint16_t> ServiceManager::get_ports() const
 {
 	std::list<uint16_t> ports;
-	for (std::map<uint16_t, ServicePort_ptr>::const_iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it) {
+	for (std::map<uint16_t, ServicePort_ptr>::const_iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it)
 		ports.push_back(it->first);
-		}
 	// Maps are ordered, so the elements are in order
 	//ports.sort();
 	ports.unique();
@@ -60,9 +61,8 @@ void ServiceManager::run()
 
 void ServiceManager::stop()
 {
-	if (!running) {
+	if (!running)
 		return;
-		}
 
 	running=false;
 
@@ -105,9 +105,8 @@ bool ServicePort::is_single_socket() const
 
 std::string ServicePort::get_protocol_names() const
 {
-	if (m_services.empty()) {
+	if (m_services.empty())
 		return "";
-		}
 	std::string str=m_services.front()->get_protocol_name();
 	for (uint32_t i=1; i<m_services.size(); ++i) {
 		str+=", ";
@@ -135,9 +134,9 @@ void ServicePort::accept(Acceptor_ptr acceptor)
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
 			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
-			m_logError=false;
-			}
-		}
+			m_logError = false;
+            }
+        }
 }
 
 void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* socket, const boost::system::error_code& error)
@@ -148,16 +147,15 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 			std::cout << "Error: [ServerPort::accept] No services running!" << std::endl;
 #endif
 			return;
-			}
+		}
 
 		boost::system::error_code error;
 		const boost::asio::ip::tcp::endpoint endpoint=socket->remote_endpoint(error);
-		uint32_t remote_ip=0;
-		if (!error) {
-			remote_ip=htonl(endpoint.address().to_v4().to_ulong());
-			}
+		boost::asio::ip::address remote_ip=boost::asio::ip::address();
+		if (!error)
+			remote_ip=endpoint.address();
 
-		if (remote_ip!=0) {
+		if (!remote_ip.is_unspecified()) {
 			Connection_ptr connection=ConnectionManager::getInstance()->createConnection(socket, m_io_service, shared_from_this());
 
 			if (m_services.front()->is_single_socket()) {
@@ -210,14 +208,15 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 Protocol* ServicePort::make_protocol(NetworkMessage& msg) const
 {
 	uint8_t protocolId=msg.GetByte();
-	for (std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it) {
+	for(std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it)
+	{
 		Service_ptr service=*it;
-		if (service->get_protocol_identifier()==protocolId) {
+		if (service->get_protocol_identifier()==protocolId)
 			// Correct service! Create protocol and get on with it
 			return service->make_protocol(Connection_ptr());
-			}
+
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
-		}
+	}
 
 	return NULL;
 }
@@ -229,9 +228,8 @@ void ServicePort::onStopServer()
 
 void ServicePort::openAcceptor(boost::weak_ptr<ServicePort> weak_service, uint16_t port)
 {
-	if (weak_service.expired()) {
+	if (weak_service.expired())
 		return;
-		}
 
 	if (ServicePort_ptr service=weak_service.lock()) {
 #ifdef __DEBUG_NET_DETAIL__
@@ -251,6 +249,13 @@ void ServicePort::open(uint16_t port)
 		Acceptor_ptr aptr(new boost::asio::ip::tcp::acceptor(m_io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::address(), m_serverPort)));
 
 		aptr->set_option(boost::asio::ip::tcp::no_delay(true));
+/*
+#ifdef USE_IPV6
+            Acceptor_ptr aptr6(new boost::asio::ip::tcp::acceptor(m_io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v6(), m_serverPort)));
+            aptr6->set_option(boost::asio::ip::tcp::no_delay(true));
+            aptr6->set_option(boost::asio::ip::v6_only(true));
+#endif
+*/
 
 		accept(aptr);
 		m_tcp_acceptors.push_back(aptr);
@@ -291,9 +296,8 @@ bool ServicePort::add_service(Service_ptr new_svc)
 {
 	for (std::vector<Service_ptr>::const_iterator svc_iter=m_services.begin(); svc_iter!=m_services.end(); ++svc_iter) {
 		Service_ptr svc=*svc_iter;
-		if (svc->is_single_socket()) {
+		if (svc->is_single_socket())
 			return false;
-			}
 		}
 
 	m_services.push_back(new_svc);

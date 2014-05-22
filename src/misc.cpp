@@ -7,9 +7,8 @@
 #include <boost/algorithm/string.hpp>
 
 #include "config.h"
+#include "globals.h"
 
-using std::string;
-using std::cout;
 
 /*** Returns true if string has whitespace ***/
 int has_whitespace(const char *str)

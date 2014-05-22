@@ -18,12 +18,6 @@ void Thing::addRef()
 void Thing::unRef()
 {
 	--m_refCount;
-	if (m_refCount<=0) {
+	if (m_refCount<=0)
 		delete this;
-		}
-}
-
-bool Thing::isRemoved() const
-{
-	return false;
 }

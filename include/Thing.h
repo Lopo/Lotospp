@@ -19,8 +19,6 @@ public:
 	void addRef();
 	void unRef();
 
-	virtual bool isRemoved() const;
-
 private:
 	int32_t m_refCount;
 };

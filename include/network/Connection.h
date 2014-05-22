@@ -9,11 +9,14 @@
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 
+#include "server.h"
 #include "network/OutputMessage.h"
+#include "network/Protocol.h"
 
+class ServiceBase;
 class ServicePort;
-class Protocol;
 
+typedef boost::shared_ptr<ServiceBase> Service_ptr;
 typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
 
 #ifdef __DEBUG_NET__
@@ -57,11 +60,13 @@ public:
 
 	bool send(OutputMessage_ptr msg);
 
+	boost::asio::ip::address getIP() const;
+
 	int32_t addRef();
 	int32_t unRef();
 
 private:
-	void parsePacket(const boost::system::error_code& error, std::size_t bytes_transferred);
+	void parsePacket(const boost::system::error_code& error, const std::size_t bytes_transferred);
 
 	void onWriteOperation(OutputMessage_ptr msg, const boost::system::error_code& error);
 
@@ -108,8 +113,7 @@ class ConnectionManager
 public:
 	static ConnectionManager* getInstance();
 
-	Connection_ptr createConnection(boost::asio::ip::tcp::socket* socket,
-		boost::asio::io_service& io_service, ServicePort_ptr servicers);
+	Connection_ptr createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicers);
 	void releaseConnection(Connection_ptr connection);
 	void closeAll();
 

@@ -8,6 +8,8 @@
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
 
+#include "globals.h"
+
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 uint32_t ProtocolTelnet::protocolTelnetCount=0;
@@ -16,6 +18,7 @@ uint32_t ProtocolTelnet::protocolTelnetCount=0;
 enum {
 	TELNET_ECHO=1,
 	TELNET_SGA=3,
+	TELNET_BEEP=7,
 	TELNET_TERM=24,
 	TELNET_NAWS=31,
 	TELNET_SE=240,
@@ -26,25 +29,48 @@ enum {
 	TELNET_DONT,
 	TELNET_IAC
 	};
+enum {
+	ANSI_RESET,
+	ANSI_BOLD,
+	ANSI_UNDERLINE=4,
+	ANSI_BLINK,
+	ANSI_REVERSE=7,
+	ANSI_FG_BLACK=30,
+	ANSI_FG_RED,
+	ANSI_FG_GREEN,
+	ANSI_FG_YELLOW,
+	ANSI_FG_BLUE,
+	ANSI_FG_MAGENTA,
+	ANSI_FG_CYAN,
+	ANSI_FG_WHITE,
+	ANSI_BG_BLACK=40,
+	ANSI_BG_RED,
+	ANSI_BG_GREEN,
+	ANSI_BG_YELLOW,
+	ANSI_BG_BLUE,
+	ANSI_BG_MAGENTA,
+	ANSI_BG_CYAN,
+	ANSI_BG_WHITE
+	};
 
 // Helping templates to add dispatcher tasks
 
 template<class FunctionType>
 void ProtocolTelnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType& func)
 {
-	if (droppable) {
+	if (droppable)
 		g_dispatcher.addTask(createTask(delay, func));
-		}
-	else {
+	else
 		g_dispatcher.addTask(createTask(func));
-		}
 }
 
 ProtocolTelnet::ProtocolTelnet(Connection_ptr connection)
 	: Protocol(connection)
 {
 	user=NULL;
+	m_debugAssertSent=false;
 	m_acceptPackets=false;
+	eventConnect=0;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	protocolTelnetCount++;
@@ -60,6 +86,22 @@ ProtocolTelnet::~ProtocolTelnet()
 #endif
 }
 
+void ProtocolTelnet::onConnect()
+{
+	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	output->AddString("login from: ");
+	output->AddString(this->getIP().to_string());
+	output->AddString("\n");
+	OutputMessagePool::getInstance()->send(output);
+//	user=new User("", this);
+}
+
+void ProtocolTelnet::onRecvFirstMessage(NetworkMessage& msg)
+{
+	parseFirstPacket(msg);
+	parsePacket(msg);
+}
+
 void ProtocolTelnet::setUser(User* u)
 {
 	user=u;
@@ -68,9 +110,8 @@ void ProtocolTelnet::setUser(User* u)
 void ProtocolTelnet::releaseProtocol()
 {
 	//dispatcher thread
-	if (user && user->client==this) {
+	if (user && user->client==this)
 		user->client=NULL;
-		}
 
 	Protocol::releaseProtocol();
 }
@@ -93,13 +134,14 @@ void ProtocolTelnet::deleteProtocolTask()
 bool ProtocolTelnet::connect(uint32_t userId)
 {
 	unRef();
+	eventConnect=0;/*
 	User* _user=g_talker.getUserByID(userId);
-	if (!_user || _user->isRemoved() || _user->client) {
+	if (!_user || _user->client) {
 		disconnectClient("You are already logged in.");
 		return false;
 		}
 
-	user=_user;
+	user=_user;*/
 	user->addRef();
 	user->isConnecting=false;
 	user->client=this;
@@ -121,24 +163,62 @@ void ProtocolTelnet::disconnectClient(const char* message)
 
 void ProtocolTelnet::disconnect()
 {
-	if (getConnection()) {
+	if (getConnection())
 		getConnection()->closeConnection();
-		}
 }
 
-void ProtocolTelnet::parsePacket(NetworkMessage &msg, std::size_t bytes_transferred)
+bool ProtocolTelnet::parseFirstPacket(NetworkMessage &msg)
 {
-	msg.setMessageLength(bytes_transferred);
-	if (!user || !m_acceptPackets || msg.getMessageLength()<=0) {
+    User* _user=new User("", this);
+    addRef();
+    return connect(_user->getID());
+}
+
+void ProtocolTelnet::parsePacket(NetworkMessage &msg)
+{
+	uint8_t b;
+	int32_t pos;
+
+	if (!user || !m_acceptPackets || msg.getMessageLength()<=0)
 		return;
+
+	while ((pos=msg.getReadPos())<=msg.getMessageLength()) {
+		b=msg.GetByte();
+		switch (b) {
+			case '\r':
+				msg.setReadPos(0);
+                user->parseLine(msg.GetString().substr(0, pos));
+                break;
+			case '\0':
+			case '\n':
+				break;
+			}
 		}
+
 	// Ignore control code replies
-	if (msg.GetAt(0)==TELNET_IAC) {
+	if (msg.GetByte()==TELNET_IAC)
 		return;
+	msg.setReadPos(0);
+}
+
+//********************** Parse methods *******************************
+
+void ProtocolTelnet::parseDebug(NetworkMessage& msg)
+{
+	int dataLength=msg.getMessageLength()-1;
+	if (dataLength!=0) {
+		printf("data: ");
+		int data=msg.GetByte();
+		while (dataLength>0) {
+			printf("%d ", data);
+			if (--dataLength>0)
+				data=msg.GetByte();
+			}
+		printf("\n");
 		}
 }
 
-//********************** Send methods  *******************************
+//********************** Send methods *******************************
 
 void ProtocolTelnet::sendTextMessage(const std::string& message)
 {
@@ -181,3 +261,52 @@ void ProtocolTelnet::setXtermTitle(const _CharT title)
 	output->AddByte(0x07);
 	OutputMessagePool::getInstance()->send(output);
 }
+
+void ProtocolTelnet::sendTermCoords()
+{
+	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	output->AddByte(TELNET_IAC);
+	output->AddByte(TELNET_DO);
+	output->AddByte(TELNET_NAWS);
+	OutputMessagePool::getInstance()->send(output);
+}
+
+void ProtocolTelnet::enableLineWrap()
+{
+	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	output->AddString("\033[7h");
+	OutputMessagePool::getInstance()->send(output);
+}
+
+void ProtocolTelnet::disableLineWrap()
+{
+	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	output->AddString("\033[7l");
+	OutputMessagePool::getInstance()->send(output);
+}
+/*
+void ProtocolTelnet::f1()
+{
+	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	output->AddString("\033[?25h\033c\033[?7h");
+	OutputMessagePool::getInstance()->send(output);
+}
+
+void ProtocolTelnet::f2()
+{
+	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	output->AddByte(TELNET_IAC);
+	output->AddByte(TELNET_DO);
+	output->AddByte(TELOPT_NEW_ENVIRON);
+	OutputMessagePool::getInstance()->send(output);
+}
+
+void ProtocolTelnet::f3()
+{
+	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	output->AddByte(TELNET_IAC);
+	output->AddByte(TELNET_WILL);
+	output->AddByte(TELOPT_NEW_ENVIRON);
+	OutputMessagePool::getInstance()->send(output);
+}
+*/

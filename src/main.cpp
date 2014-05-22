@@ -26,17 +26,10 @@
 #include "server.h"
 #include "network/ProtocolTelnet.h"
 #include "Logger.h"
-#include "Scheduler.h"
-#include "Talker.h"
-#include "database/Driver.h"
 
 using std::cout;
 using std::cerr;
 using std::string;
-
-Talker g_talker;
-Dispatcher g_dispatcher;
-Scheduler g_scheduler;
 
 
 bool configure(int ac, char **av)
@@ -69,7 +62,7 @@ bool configure(int ac, char **av)
 	po::notify(vm);
 
 	if (vm.count("version")) {
-		cout << LOTOS2_VERSION << std::endl;
+		cout << VERSION << std::endl;
 		return false;
 		}
 	if (vm.count("help")) {
@@ -97,15 +90,12 @@ bool configure(int ac, char **av)
 		options.put("global.daemon", false);
 		}
 #endif
-	if (vm.count("suppress")) {
+	if (vm.count("suppress"))
 		options.put("global.suppress_config_info", true);
-		}
-	if (logFile!="") {
+	if (logFile!="")
 		options.put("global.logFile", logFile);
-		}
-	else {
+	else
 		logFile=options.get<string>("global.logFile", "");
-		}
 
 	if (logFile!="" && logFile!="/dev/null") {
 		if (fs::exists(logFile) && !fs::is_regular_file(logFile)) {
@@ -126,10 +116,8 @@ bool configure(int ac, char **av)
 			return false;
 			}
 		}
-	if (pidFile!="") {
+	if (pidFile!="")
 		options.put("global.pidFile", pidFile);
-		}
-
 	return true;
 }
 
@@ -239,14 +227,6 @@ boost::unique_lock<boost::mutex> g_loaderUniqueLock(g_loaderLock);
 
 void mainLoader(ServiceManager* service_manager)
 {
-	std::cout << ":: Checking Connection to Database " << options.get<string>("sql.Db", "lotos2") << "... ";
-	DatabaseDriver* db=DatabaseDriver::instance();
-	if (db==NULL || !db->isConnected()) {
-		ErrorMessage("Database Connection Failed!");
-		exit(EXIT_FAILURE);
-		}
-	std::cout << "[done]" << std::endl;
-
 	// Tie ports and register services
 	service_manager->add<ProtocolTelnet>(options.get<uint16_t>("global.userPort"));
 
@@ -268,7 +248,7 @@ int main(int argc, char **argv)
 		}
 
 #ifdef HAVE_FORK
-	if (options.get("global.daemon", false)) {
+	if (false && options.get("global.daemon", false)) { // XXX
 		switch (fork()) {
 			case -1:
 				cerr << "ERROR: fork()" << std::endl;
@@ -300,7 +280,7 @@ int main(int argc, char **argv)
 		}
 	else {
 		ErrorMessage("No services running. Server is not online.");
-		}
+        }
 
 #if defined __EXCEPTION_TRACER__
 	mainExceptionHandler.RemoveHandler();

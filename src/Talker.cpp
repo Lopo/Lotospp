@@ -6,10 +6,13 @@
 #include "User.h"
 #include "server.h"
 
+#include "globals.h"
+
 #if defined __EXCEPTION_TRACER__
-#include "Exception.h"
-extern boost::recursive_mutex maploadlock;
+#	include "Exception.h"
+	extern boost::recursive_mutex maploadlock;
 #endif
+
 
 void Talker::start(ServiceManager* servicer)
 {
@@ -24,24 +27,30 @@ User* Talker::getUserByID(uint32_t id)
 
 	AutoList<User>::listiterator it=User::listUser.list.find(id);
 	if (it!=User::listUser.list.end()) {
-		if (!it->second->isRemoved()) {
-			return it->second;
-			}
 		}
 
 	return NULL; //just in case the user doesnt exist
 }
 
-bool Talker::removeUser(User* user)
+UserVector Talker::getUsersByIP(uint32_t ipadress, uint32_t mask)
 {
-	if (user->isRemoved()) {
-		return false;
+	UserVector users;
+	for (AutoList<User>::listiterator it=User::listUser.list.begin(); it!=User::listUser.list.end(); ++it) {
 		}
 
+	return users;
+}
+
+bool Talker::removeUser(User* user)
+{
 	listUser.removeList(user->getID());
-	user->onRemoved();
 
 	return true;
+}
+
+uint32_t Talker::getUsersOnline()
+{
+	return (uint32_t)User::listUser.list.size();
 }
 
 void Talker::shutdown()

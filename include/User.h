@@ -1,36 +1,41 @@
 #ifndef LOTOS2_USER_H
 #define	LOTOS2_USER_H
 
-#include <list>
-#include <map>
+#include <string>
+#include <vector>
+#include <ostream>
 
-#include "AutoList.h"
-#include "Thing.h"
+#include <boost/asio/ip/address.hpp>
+
+#include "Creature.h"
 #include "network/ProtocolTelnet.h"
+#include "AutoList.h"
+
 
 class User
-	: virtual public Thing
+	: public Creature,
+		public std::ostream
 {
 public:
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t userCount;
 #endif
-	User(ProtocolTelnet* p);
+	User(const std::string& name, ProtocolTelnet* p);
 	virtual ~User();
 
-	void setRemoved();
+	virtual User* getUser() { return this;}
+	virtual const User* getUser() const { return this;}
 
-	uint32_t getID() const;
-	virtual void onRemoved();
+	virtual const std::string& getName() const { return name;}
 
-	virtual bool isRemoved() const;
-
+	virtual uint32_t idRange() { return 0x10000000;}
 	static AutoList<User> listUser;
-	void removeList();
 	void addList();
+	void removeList();
 
 	bool isOffline() const { return getID()==0;}
 	void disconnect() { if(client) client->disconnect();}
+	boost::asio::ip::address getIP() const;
 
 	void sendTextMessage(const std::string& message) const
 	{
@@ -39,17 +44,23 @@ public:
 			}
 	}
 
-protected:
-	uint32_t id;
-	bool isInternalRemoved;
+	template<typename _CharT>
+	void uWrite(const _CharT message);
 
+protected:
 	ProtocolTelnet* client;
 
 	bool isConnecting;
 
+	std::string name;
+
+	virtual void parseLine(const std::string& line);
+	virtual void prompt();
+
 	friend class Talker;
 	friend class ProtocolTelnet;
-	friend class IOUser;
 };
+
+typedef std::vector<User*> UserVector;
 
 #endif	/* LOTOS2_USER_H */
