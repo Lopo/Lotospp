@@ -10,16 +10,15 @@ Dependencies
 ============
 
 * cmake
-* Lotos2 has several dependencies:
-  * Boost libraries
-   - boost
-   - boost-program-options
-   - boost-system
-   - boost-filesystem
-   - boost_thread
-   - boost_date_time
-   - boost_random
-  * MySQL
+* Boost libraries
+ - boost
+ - boost-program-options
+ - boost-system
+ - boost-filesystem
+ - boost-thread
+ - boost-date-time
+ - boost-random
+* MySQL
 * make
 
 
