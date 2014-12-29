@@ -31,6 +31,6 @@ private:
 	bool isInstalled;
 };
 
-#endif	/* LOTOS2_EXCEPTION_H */
+#endif /* LOTOS2_EXCEPTION_H */
 
-#endif
+#endif /* __EXCEPTION_TRACER__ */

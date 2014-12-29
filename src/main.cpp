@@ -1,6 +1,8 @@
 /* vi: set ts=4 sw=4 ai: */
 #define MAINFILE
 
+#include "config.h"
+
 #include <stdint.h>
 #include <time.h>
 
@@ -19,7 +21,6 @@
 #include <fstream>
 //#include <boost/random.hpp>
 
-#include "config.h"
 #include "globals.h"
 #include "misc.h"
 
@@ -90,12 +91,15 @@ bool configure(int ac, char **av)
 		options.put("global.daemon", false);
 		}
 #endif
-	if (vm.count("suppress"))
+	if (vm.count("suppress")) {
 		options.put("global.suppress_config_info", true);
-	if (logFile!="")
+		}
+	if (logFile!="") {
 		options.put("global.logFile", logFile);
-	else
+		}
+	else {
 		logFile=options.get<string>("global.logFile", "");
+		}
 
 	if (logFile!="" && logFile!="/dev/null") {
 		if (fs::exists(logFile) && !fs::is_regular_file(logFile)) {
@@ -116,8 +120,9 @@ bool configure(int ac, char **av)
 			return false;
 			}
 		}
-	if (pidFile!="")
+	if (pidFile!="") {
 		options.put("global.pidFile", pidFile);
+		}
 	return true;
 }
 
@@ -179,11 +184,11 @@ void init(void)
 		}
 	options.put("runtime.originalDir", original_dir);
 	free(original_dir);
-	time_t t0=time(0);
+	time_t t0=time(NULL);
 	options.put("runtime.bootTime", t0);
 	options.put("runtime.serverTime", t0);
 	boost::date_time::c_time::localtime(&t0, &serverTimeTms);
-//	srandom((u_int)time(0));
+//	srandom((u_int)time(NULL));
 //	boost::random::mt19937 rng;
 
 	parse_config();

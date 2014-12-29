@@ -3,6 +3,10 @@
 #ifndef LOTOS2_CONFIG_H
 #define LOTOS2_CONFIG_H 1
 
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE // activate extra prototypes for glibc
+#endif
+
 #cmakedefine PACKAGE "${PROJECT_NAME}"
 #cmakedefine VERSION "${VERSION}-${VERSION_STATE}"
 #define LOTOS2_NAME "Lotos2"

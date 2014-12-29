@@ -1,6 +1,8 @@
 #ifndef LOTOS2_NETWORK_NETWORKMESSAGE_H
 #define LOTOS2_NETWORK_NETWORKMESSAGE_H
 
+#include "config.h"
+
 #include <string>
 
 #include <stdint.h>
@@ -65,4 +67,4 @@ protected:
 
 typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
 
-#endif	/* NETWORKMESSAGE_H */
+#endif /* LOTOS2_NETWORK_NETWORKMESSAGE_H */

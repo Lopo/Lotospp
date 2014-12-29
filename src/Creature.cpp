@@ -1,8 +1,11 @@
+#include "config.h"
+
 #include "Creature.h"
 
 #if defined __EXCEPTION_TRACER__
 #	include "Exception.h"
 #endif
+
 
 Creature::Creature()
 {

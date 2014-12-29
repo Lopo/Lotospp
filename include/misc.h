@@ -1,7 +1,11 @@
 #ifndef LOTOS2_MISC_H
 #define LOTOS2_MISC_H
 
+#include "config.h"
+
 #include <time.h>
+
+#include <string>
 
 int has_whitespace(const char *str);
 void toLowerCaseString(std::string& source);

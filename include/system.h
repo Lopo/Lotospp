@@ -1,6 +1,8 @@
 #ifndef __LOTOS2_SYSTEM_H__
 #define __LOTOS2_SYSTEM_H__
 
+#include "config.h"
+
 #include <stdint.h>
 
 #ifdef __WINDOWS__
@@ -17,7 +19,7 @@ inline int64_t SYS_TIME()
   _timeb t;
   _ftime(&t);
   return ((int64_t)t.millitm)+((int64_t)t.time)*1000;
-}
+};
 
 typedef int socklen_t;
 
@@ -38,7 +40,7 @@ inline int64_t SYS_TIME()
 	timeb t;
 	ftime(&t);
 	return ((int64_t)t.millitm)+((int64_t)t.time)*1000;
-}
+};
 
 #ifndef SOCKET
 #define SOCKET int

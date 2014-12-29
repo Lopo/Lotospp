@@ -1,8 +1,11 @@
+#include "config.h"
+
 #include <string.h>
 
 #include <string>
 
 #include "network/NetworkMessage.h"
+
 
 NetworkMessage::NetworkMessage()
 {

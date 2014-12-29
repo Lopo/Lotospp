@@ -1,6 +1,10 @@
 #ifndef LOTOS2_NETWORK_PROTOCOLTELNET_H
 #define LOTOS2_NETWORK_PROTOCOLTELNET_H
 
+#include "config.h"
+
+#include <stdint.h>
+
 #include <list>
 
 #include "network/Protocol.h"
@@ -14,9 +18,9 @@ class ProtocolTelnet
 {
 public:
 	// static protocol information
-	enum {server_sends_first=true};
-	enum {protocol_identifier=0}; // Not required as we send first
-	static const char* protocol_name() {return "telnet protocol";}
+	enum { server_sends_first=true};
+	enum { protocol_identifier=0}; // Not required as we send first
+	static const char* protocol_name() { return "telnet protocol";};
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t protocolTelnetCount;
@@ -73,4 +77,4 @@ private:
 	void disableLineWrap();
 };
 
-#endif	/* LOTOS2_NETWORK_PROTOCOLTELNET_H */
+#endif /* LOTOS2_NETWORK_PROTOCOLTELNET_H */

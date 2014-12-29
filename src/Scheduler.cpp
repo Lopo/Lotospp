@@ -1,8 +1,11 @@
+#include "config.h"
+
 #include "Scheduler.h"
 
 #if defined __EXCEPTION_TRACER__
 #include "Exception.h"
 #endif
+
 
 Scheduler::Scheduler()
 {

@@ -29,7 +29,7 @@ include_directories(
 #include_directories()
 
 
-target_link_libraries(Lotos2 ${Boost_LIBRARIES})
+#target_link_libraries(Lotos2 ${Boost_LIBRARIES})
 
 #install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/Lotos2 DESTINATION ${LP_INSTALL_BIN_DIR})
 

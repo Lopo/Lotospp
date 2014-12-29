@@ -1,6 +1,8 @@
 #ifndef LOTOS2_GLOBALS_H
 #define LOTOS2_GLOBALS_H
 
+#include "config.h"
+
 #include <time.h>
 #include <boost/property_tree/ptree.hpp>
 #include <pthread.h>

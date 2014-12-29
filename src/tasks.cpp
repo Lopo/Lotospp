@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include "tasks.h"
 #include "system.h"
 #include "network/OutputMessage.h"
@@ -5,6 +7,7 @@
 #if defined __EXCEPTION_TRACER__
 #include "Exception.h"
 #endif
+
 
 Dispatcher::Dispatcher()
 {

@@ -1,12 +1,15 @@
 #ifdef USE_MYSQL
 
-#ifndef LOTOS2_DATABASE_MYSQL_H
-#define LOTOS2_DATABASE_MYSQL_H
+#ifndef LOTOS2_DATABASE_DRIVER_MYSQL_H
+#define LOTOS2_DATABASE_DRIVER_MYSQL_H
+
+#include "config.h"
 
 #include <string>
 #include <map>
 
 #include "database/Driver.h"
+#include "database/Result.h"
 
 #include "system.h"
 
@@ -16,12 +19,12 @@
 #include <mysql/mysql.h>
 #endif
 
-class DatabaseMySQL
-	: public DatabaseDriver
+class MySQL
+	: public Driver
 {
 public:
-	DatabaseMySQL();
-	virtual ~DatabaseMySQL();
+	MySQL();
+	virtual ~MySQL();
 
 	virtual bool getParam(DBParam_t param);
 
@@ -36,15 +39,16 @@ public:
 
 protected:
 	virtual bool internalQuery(const std::string &query);
-	virtual DBResult_ptr internalSelectQuery(const std::string &query);
-	virtual void freeResult(DBResult *res);
+	virtual Result_ptr internalSelectQuery(const std::string &query);
+	virtual void freeResult(Result *res);
 
 	MYSQL m_handle;
 };
 
-class MySQLResult : public DBResult
+class MySQLResult
+	: public Result
 {
-	friend class DatabaseMySQL;
+	friend class MySQL;
 
 public:
 	virtual int32_t getDataInt(const std::string &s);
@@ -53,7 +57,7 @@ public:
 	virtual std::string getDataString(const std::string &s);
 	virtual const char* getDataStream(const std::string &s, unsigned long &size);
 
-	virtual DBResult_ptr advance();
+	virtual Result_ptr advance();
 	virtual bool empty();
 
 protected:
@@ -67,6 +71,6 @@ protected:
 	MYSQL_ROW m_row;
 };
 
-#endif /* LOTOS2_DATABASE_MYSQL_H */
+#endif /* LOTOS2_DATABASE_DRIVER_MYSQL_H */
 
 #endif /* USE_MYSQL */

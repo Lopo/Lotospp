@@ -1,6 +1,8 @@
 #ifndef __LOTOS2_TEMPLATES_H__
 #define __LOTOS2_TEMPLATES_H__
 
+#include "config.h"
+
 #include <set>
 
 #include <stdint.h>
@@ -29,7 +31,7 @@ public:
 			}
 		list.insert(count);
 		auto_id=count;
-	}
+	};
 
 	virtual ~AutoID()
 	{
@@ -37,7 +39,7 @@ public:
 		if (it!=list.end()) {
 			list.erase(it);
 			}
-	}
+	};
 
 	typedef std::set<uint32_t> list_type;
 

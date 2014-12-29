@@ -1,6 +1,8 @@
 #ifndef LOTOS2_STRUCTS_ACCOUNT_H
 #define	LOTOS2_STRUCTS_ACCOUNT_H
 
+#include "config.h"
+
 #include <string>
 #include <list>
 
@@ -17,4 +19,4 @@ struct Account
 	uint32_t warnings;
 };
 
-#endif	/* LOTOS2_STRUCTS_ACCOUNT_H */
+#endif /* LOTOS2_STRUCTS_ACCOUNT_H */

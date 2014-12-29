@@ -1,4 +1,7 @@
+#include "config.h"
+
 #include "Thing.h"
+
 
 Thing::Thing()
 	: m_refCount(0)
@@ -18,6 +21,7 @@ void Thing::addRef()
 void Thing::unRef()
 {
 	--m_refCount;
-	if (m_refCount<=0)
+	if (m_refCount<=0) {
 		delete this;
+		}
 }

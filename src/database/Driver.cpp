@@ -1,138 +1,61 @@
+#include "config.h"
+
 #include "database/Driver.h"
 
 #ifdef USE_MYSQL
-#include "database/MySQL.h"
+#include "database/driver/MySQL.h"
 #endif
 
 #include "globals.h"
 #include "misc.h"
 
-boost::recursive_mutex DBQuery::database_lock;
 
-DatabaseDriver* DatabaseDriver::_instance=NULL;
+Driver* Driver::_instance=NULL;
 
-DatabaseDriver* DatabaseDriver::instance()
+Driver* Driver::instance()
 {
 
 	if (!_instance) {
 		std::string type=options.get<std::string>("global.sqlType");
 		::toLowerCaseString(type);
 #ifdef USE_MYSQL
-		if (type=="mysql")
-			_instance=new DatabaseMySQL;
+		if (type=="mysql") {
+			_instance=new MySQL;
+			}
 #endif
 		}
 	return _instance;
 }
 
-bool DatabaseDriver::executeQuery(DBQuery &query)
+bool Driver::executeQuery(Query &query)
 {
 	return internalQuery(query.str());
 }
 
-bool DatabaseDriver::executeQuery(const std::string &query)
+bool Driver::executeQuery(const std::string &query)
 {
 	return internalQuery(query);
 }
 
-DBResult_ptr DatabaseDriver::storeQuery(const std::string &query)
+Result_ptr Driver::storeQuery(const std::string &query)
 {
 	return internalSelectQuery(query);
 }
 
-DBResult_ptr DatabaseDriver::storeQuery(DBQuery &query)
+Result_ptr Driver::storeQuery(Query &query)
 {
 	return storeQuery(query.str());
 }
 
-void DatabaseDriver::freeResult(DBResult *res)
+void Driver::freeResult(Result *res)
 {
-	throw std::runtime_error("No database driver loaded, yet a DBResult was freed.");
+	throw std::runtime_error("No database driver loaded, yet a Result was freed.");
 }
 
-DBResult_ptr DatabaseDriver::verifyResult(DBResult_ptr result)
+Result_ptr Driver::verifyResult(Result_ptr result)
 {
-	if (!result->advance())
-		return DBResult_ptr();
+	if (!result->advance()) {
+		return Result_ptr();
+		}
 	return result;
-}
-
-// DBQuery
-
-DBQuery::DBQuery()
-{
-	database_lock.lock();
-}
-
-DBQuery::~DBQuery()
-{
-	database_lock.unlock();
-}
-
-// DBInsert
-
-DBInsert::DBInsert(DatabaseDriver* db)
-{
-	m_db=db;
-	m_rows=0;
-
-	// checks if current database engine supports multi line INSERTs
-	m_multiLine=m_db->getParam(DBPARAM_MULTIINSERT)!=0;
-}
-
-void DBInsert::setQuery(const std::string& query)
-{
-	m_query=query;
-	m_buf.str("");
-	m_rows=0;
-}
-
-bool DBInsert::addRow(const std::string& row)
-{
-	if (m_multiLine) {
-		m_rows++;
-		size_t size=m_buf.tellp();
-
-		// adds new row to buffer
-		if (size==0)
-			m_buf << "(" << row << ")";
-		else if (size>8192) {
-			if (!execute())
-				return false;
-
-			m_buf << "(" << row << ")";
-			}
-		else
-				m_buf << ",(" + row + ")";
-
-		return true;
-		}
-	// executes INSERT for current row
-	return m_db->executeQuery(m_query + "(" + row + ")" );
-}
-
-bool DBInsert::addRowAndReset(std::ostringstream& row)
-{
-	bool ret=addRow(row.str());
-	row.str("");
-	return ret;
-}
-
-bool DBInsert::execute()
-{
-	if (m_multiLine && m_buf.tellp()>0) {
-		if (m_rows==0) {
-			//no rows to execute
-			return true;
-			}
-		// executes buffer
-		bool res=m_db->executeQuery(m_query+m_buf.str());
-
-		// Reset counters
-		m_rows=0;
-		m_buf.str("");
-		return res;
-		}
-	// INSERTs were executed on-fly
-	return true;
 }

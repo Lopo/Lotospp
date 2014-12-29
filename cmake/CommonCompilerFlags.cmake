@@ -1,3 +1,8 @@
+if(USE_CLANG)
+#	SET (...)
+#	....
+endif(USE_CLANG)
+
 # Pthreads is required
 set(CMAKE_THREAD_PREFER_PTHREAD 1)
 #from libfreenect
@@ -38,28 +43,34 @@ include_directories(${Boost_INCLUDE_DIR})
 if(WIN32)
 	add_definitions(-DBOOST_ASIO_HAS_MOVE)
 endif(WIN32)
-
 if(WIN32 AND __COMPILER_GNU)
 	# mingw-gcc fails to link boost::thread
 	add_definitions(-DBOOST_THREAD_USE_LIB)
 endif(WIN32 AND __COMPILER_GNU)
 
-include(TestCXXAcceptsFlag)
+include(CheckCXXCompilerFlag)
 
 # Add -Wall if supported by compiler
-check_cxx_accepts_flag(-Wall CXX_ACCEPTS_WALL)
-if(CXX_ACCEPTS_WALL)
-	add_definitions(-Wall)
-endif(CXX_ACCEPTS_WALL)
+check_cxx_compiler_flag(-Wall CXX_COMPILER_WALL)
+if(CXX_COMPILER_WALL)
+	add_compile_options(-Wall)
+endif(CXX_COMPILER_WALL)
 
 # Add -Wextra if supported by compiler
-check_cxx_accepts_flag(-Wextra CXX_ACCEPTS_WEXTRA)
-if(CXX_ACCEPTS_WEXTRA)
-	add_definitions(-Wextra)
-endif(CXX_ACCEPTS_WEXTRA)
+check_cxx_compiler_flag(-Wextra CXX_COMPILER_WEXTRA)
+if(CXX_COMPILER_WEXTRA)
+	add_compile_options(-Wextra)
+endif(CXX_COMPILER_WEXTRA)
 
 # Add -std=c++11 if supported by compiler
-check_cxx_accepts_flag(-std=c++11 CXX_ACCEPTS_STD_CPP11)
-if(CXX_ACCEPTS_STD_CPP11)
-	add_definitions(-std=c++11)
-endif(CXX_ACCEPTS_STD_CPP11)
+check_cxx_compiler_flag(-std=c++11 CXX_COMPILER_STD_CPP11)
+if(CXX_COMPILER_STD_CPP11)
+#	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	add_compile_options(-std=c++11)
+endif(CXX_COMPILER_STD_CPP11)
+
+# Add -std=c++14 if supported by compiler
+#check_cxx_accepts_flag(-std=c++14 CXX_ACCEPTS_STD_CPP14)
+#if(CXX_ACCEPTS_STD_CPP14)
+#	add_definitions(-std=c++14)
+#endif(CXX_ACCEPTS_STD_CPP14)

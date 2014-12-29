@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -6,7 +8,6 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "config.h"
 #include "globals.h"
 
 

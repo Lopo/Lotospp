@@ -1,6 +1,8 @@
 #ifndef LOTOS2_CREATURE_H
 #define	LOTOS2_CREATURE_H
 
+#include "config.h"
+
 #include <string>
 
 #include "AutoID.h"
@@ -35,4 +37,4 @@ protected:
 	friend class Talker;
 };
 
-#endif
+#endif /* LOTOS2_CREATURE_H */

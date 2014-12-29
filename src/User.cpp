@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include "User.h"
 #include "Scheduler.h"
 #include "Talker.h"
@@ -5,6 +7,7 @@
 #if defined __EXCEPTION_TRACER__
 #	include "Exception.h"
 #endif
+
 
 boost::recursive_mutex AutoID::autoIDLock;
 uint32_t AutoID::count=1000;
@@ -16,11 +19,11 @@ AutoList<User> User::listUser;
 uint32_t User::userCount=0;
 #endif
 
+
 User::User(const std::string& _name, ProtocolTelnet* p)
 	: Creature()
 {
 	client=p;
-	isConnecting=false;
 	if (client) {
 		client->setUser(this);
 		}

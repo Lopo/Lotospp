@@ -1,8 +1,11 @@
+#include "config.h"
+
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
 #include "network/Protocol.h"
 #include "Scheduler.h"
 #include "Singleton.h"
+
 
 extern Dispatcher g_dispatcher;
 
@@ -140,7 +143,6 @@ void OutputMessagePool::send(OutputMessage_ptr msg)
 #ifdef __DEBUG_NET_DETAIL__
 		std::cout << "Sending message - SINGLE" << std::endl;
 #endif
-
 		if (msg->getConnection()) {
 			if (!msg->getConnection()->send(msg)) {
 				// Send only fails when connection is closing (or in error state)
@@ -183,35 +185,24 @@ void OutputMessagePool::sendAll()
 
 	for (it=m_autoSendOutputMessages.begin(); it!=m_autoSendOutputMessages.end(); ) {
 		OutputMessage_ptr omsg=*it;
-#ifdef __NO_USER_SENDBUFFER__
-		//use this define only for debugging
-		bool v=1;
-#else
-		//It will send only messages bigger then 1 kb or with a lifetime greater than 10 ms
-		bool v=omsg->getMessageLength()>1024 || (m_frameTime-omsg->getFrame()>10);
-#endif
-		if (v) {
 #ifdef __DEBUG_NET_DETAIL__
-			std::cout << "Sending message - ALL" << std::endl;
+		std::cout << "Sending message - ALL" << std::endl;
 #endif
 
-			if (omsg->getConnection()) {
-				if (!omsg->getConnection()->send(omsg)) {
-					// Send only fails when connection is closing (or in error state)
-					// This call will free the message
-					omsg->getProtocol()->onSendMessage(omsg);
-					}
+		if (omsg->getConnection()) {
+			if (!omsg->getConnection()->send(omsg)) {
+				// Send only fails when connection is closing (or in error state)
+				// This call will free the message
+				omsg->getProtocol()->onSendMessage(omsg);
 				}
-			else {
-#ifdef __DEBUG_NET__
-				std::cout << "Error: [OutputMessagePool::send] NULL connection." << std::endl;
-#endif
-				}
-
-			it=m_autoSendOutputMessages.erase(it);
 			}
-		else
-			++it;
+		else {
+#ifdef __DEBUG_NET__
+			std::cout << "Error: [OutputMessagePool::send] NULL connection." << std::endl;
+#endif
+			}
+
+		it=m_autoSendOutputMessages.erase(it);
 		}
 }
 
@@ -233,8 +224,9 @@ void OutputMessagePool::internalReleaseMessage(OutputMessage* msg)
 		std::cout << "Removing reference to protocol " << msg->getProtocol() << std::endl;
 #endif
 		}
-	else
+	else {
 		std::cout << "No protocol found." << std::endl;
+		}
 
 	if (msg->getConnection()) {
 		msg->getConnection()->unRef();
@@ -242,8 +234,9 @@ void OutputMessagePool::internalReleaseMessage(OutputMessage* msg)
 		std::cout << "Removing reference to connection " << msg->getConnection() << std::endl;
 #endif
 		}
-	else
+	else {
 		std::cout << "No connection found." << std::endl;
+		}
 
 	msg->freeMessage();
 
@@ -302,8 +295,9 @@ void OutputMessagePool::configureOutputMessage(OutputMessage_ptr msg, Protocol* 
 		msg->setState(OutputMessage::STATE_ALLOCATED);
 		m_autoSendOutputMessages.push_back(msg);
 		}
-	else
+	else {
 		msg->setState(OutputMessage::STATE_ALLOCATED_NO_AUTOSEND);
+		}
 
 	Connection_ptr connection=protocol->getConnection();
 	assert(connection!=NULL);

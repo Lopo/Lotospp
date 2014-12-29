@@ -1,6 +1,8 @@
 #ifndef LOTOS2_NETWORK_PROTOCOL_CONST_H
 #define LOTOS2_NETWORK_PROTOCOL_CONST_H
 
+#include "config.h"
+
 // This files defines limits of the protocol
 
 // The maximum size of a single packet sent over the network
