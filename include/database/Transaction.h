@@ -5,6 +5,9 @@
 #include "database/Driver.h"
 
 
+namespace lotos2 {
+	namespace database {
+
 class Transaction
 {
 public:
@@ -45,5 +48,8 @@ private:
 	TransactionStates_t m_state;
 	Driver* m_database;
 };
+
+	} // namespace database
+} // namespace lotos2
 
 #endif /* LOTOS2_DATABASE_TRANSACTION_H */

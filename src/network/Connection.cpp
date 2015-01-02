@@ -13,19 +13,23 @@
 #include "Logger.h"
 
 
+using namespace lotos2;
+using lotos2::network::Connection;
+
+
 bool Connection::m_logError=true;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 uint32_t Connection::connectionCount=0;
 #endif
 
-ConnectionManager* ConnectionManager::getInstance()
+network::ConnectionManager* network::ConnectionManager::getInstance()
 {
-	static Singleton<ConnectionManager> instance;
+	static Singleton<network::ConnectionManager> instance;
 	return instance.get();
 }
 
-Connection_ptr ConnectionManager::createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicer)
+network::Connection_ptr network::ConnectionManager::createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicer)
 {
 #ifdef __DEBUG_NET_DETAIL__
 	std::cout << "Create new Connection" << std::endl;
@@ -37,7 +41,7 @@ Connection_ptr ConnectionManager::createConnection(boost::asio::ip::tcp::socket*
 	return connection;
 }
 
-void ConnectionManager::releaseConnection(Connection_ptr connection)
+void network::ConnectionManager::releaseConnection(Connection_ptr connection)
 {
 #ifdef __DEBUG_NET_DETAIL__
 	std::cout << "Releasing connection" << std::endl;
@@ -54,7 +58,7 @@ void ConnectionManager::releaseConnection(Connection_ptr connection)
 		}
 }
 
-void ConnectionManager::closeAll()
+void network::ConnectionManager::closeAll()
 {
 #ifdef __DEBUG_NET_DETAIL__
 	std::cout << "Closing all connections" << std::endl;

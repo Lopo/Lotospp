@@ -10,6 +10,8 @@
 
 #include "globals.h"
 
+namespace lotos2 {
+
 
 /*** Returns true if string has whitespace ***/
 int has_whitespace(const char *str)
@@ -38,3 +40,5 @@ void formatTime(time_t time, char* buffer)
 		sprintf(buffer, "UNIX Time : %d", (int)time);
 		}
 }
+
+} // namespace lotos2

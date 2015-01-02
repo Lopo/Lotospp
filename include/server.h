@@ -1,5 +1,5 @@
-#ifndef __LOTOS2_SERVER_H__
-#define __LOTOS2_SERVER_H__
+#ifndef LOTOS2_SERVER_H
+#define LOTOS2_SERVER_H
 
 #include "config.h"
 
@@ -14,6 +14,8 @@
 #include "network/Protocol.h"
 #include "network/Connection.h"
 
+
+namespace lotos2 {
 
 typedef boost::shared_ptr<boost::asio::ip::tcp::acceptor> Acceptor_ptr;
 
@@ -31,7 +33,7 @@ public:
 	virtual uint8_t get_protocol_identifier() const=0;
 	virtual const char* get_protocol_name() const=0;
 
-	virtual Protocol* make_protocol(Connection_ptr c) const=0;
+	virtual network::Protocol* make_protocol(network::Connection_ptr c) const=0;
 };
 
 typedef boost::shared_ptr<ServiceBase> Service_ptr;
@@ -46,7 +48,7 @@ public:
 	uint8_t get_protocol_identifier() const { return ProtocolType::protocol_identifier;};
 	const char* get_protocol_name() const { return ProtocolType::protocol_name();};
 
-	Protocol* make_protocol(Connection_ptr c) const { return new ProtocolType(c);};
+	network::Protocol* make_protocol(network::Connection_ptr c) const { return new ProtocolType(c);};
 };
 
 /**
@@ -70,7 +72,7 @@ public:
 	std::string get_protocol_names() const;
 
 	bool add_service(Service_ptr);
-	Protocol* make_protocol(NetworkMessage& msg) const;
+	network::Protocol* make_protocol(network::NetworkMessage& msg) const;
 
 	void onStopServer();
 	void onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* socket, const boost::system::error_code& error);
@@ -150,4 +152,6 @@ bool ServiceManager::add(uint16_t port)
 	return service_port->add_service(Service_ptr(new Service<ProtocolType>()));
 };
 
-#endif /* __LOTOS2_SERVER_H__ */
+} // namespace lotos2
+
+#endif // LOTOS2_SERVER_H__

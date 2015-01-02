@@ -8,6 +8,8 @@
 #include <stdint.h>
 
 
+namespace lotos2 {
+
 class Thing
 {
 protected:
@@ -22,5 +24,7 @@ public:
 private:
 	int32_t m_refCount;
 };
+
+} // namespace lotos2
 
 #endif /* LOTOS2_THING_H */

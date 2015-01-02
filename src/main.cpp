@@ -32,6 +32,8 @@ using std::cout;
 using std::cerr;
 using std::string;
 
+using namespace lotos2;
+
 
 bool configure(int ac, char **av)
 {
@@ -233,7 +235,7 @@ boost::unique_lock<boost::mutex> g_loaderUniqueLock(g_loaderLock);
 void mainLoader(ServiceManager* service_manager)
 {
 	// Tie ports and register services
-	service_manager->add<ProtocolTelnet>(options.get<uint16_t>("global.userPort"));
+	service_manager->add<network::ProtocolTelnet>(options.get<uint16_t>("global.userPort"));
 
 	g_talker.start(service_manager);
 	g_loaderSignal.notify_all();

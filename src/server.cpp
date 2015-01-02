@@ -17,6 +17,10 @@
 
 #include "globals.h"
 
+using namespace lotos2;
+using lotos2::ServiceManager;
+using lotos2::ServicePort;
+
 
 bool ServicePort::m_logError=true;
 
@@ -80,7 +84,7 @@ void ServiceManager::stop()
 		}
 	m_acceptors.clear();
 
-	OutputMessagePool::getInstance()->stop();
+	network::OutputMessagePool::getInstance()->stop();
 
 	// Give the server 3 seconds to process all messages before death
 	death_timer.expires_from_now(boost::posix_time::seconds(3));
@@ -162,7 +166,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 			}
 
 		if (!remote_ip.is_unspecified()) {
-			Connection_ptr connection=ConnectionManager::getInstance()->createConnection(socket, m_io_service, shared_from_this());
+			network::Connection_ptr connection=network::ConnectionManager::getInstance()->createConnection(socket, m_io_service, shared_from_this());
 
 			if (m_services.front()->is_single_socket()) {
 				// Only one handler, and it will send first
@@ -211,14 +215,14 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 		}
 }
 
-Protocol* ServicePort::make_protocol(NetworkMessage& msg) const
+network::Protocol* ServicePort::make_protocol(network::NetworkMessage& msg) const
 {
 	uint8_t protocolId=msg.GetByte();
 	for (std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it) {
 		Service_ptr service=*it;
 		if (service->get_protocol_identifier()==protocolId)
 			// Correct service! Create protocol and get on with it
-			return service->make_protocol(Connection_ptr());
+			return service->make_protocol(network::Connection_ptr());
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
 		}
 

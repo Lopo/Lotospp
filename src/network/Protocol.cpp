@@ -9,6 +9,11 @@
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
 
+
+using namespace lotos2;
+using lotos2::network::Protocol;
+
+
 void Protocol::onSendMessage(OutputMessage_ptr msg)
 {
 #ifdef __DEBUG_NET_DETAIL__
@@ -27,7 +32,7 @@ void Protocol::onRecvMessage(NetworkMessage& msg)
 	parsePacket(msg);
 }
 
-OutputMessage_ptr Protocol::getOutputBuffer()
+network::OutputMessage_ptr Protocol::getOutputBuffer()
 {
 	if (m_outputBuffer && m_outputBuffer->getMessageLength()<NETWORKMESSAGE_MAXSIZE-4096) {
 		return m_outputBuffer;

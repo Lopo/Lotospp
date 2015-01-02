@@ -7,6 +7,11 @@
 #include "Singleton.h"
 
 
+using namespace lotos2;
+using lotos2::network::OutputMessage;
+using lotos2::network::OutputMessagePool;
+
+
 extern Dispatcher g_dispatcher;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -27,12 +32,12 @@ char* OutputMessage::getOutputBuffer()
 	return (char*)&m_MsgBuf[m_outputBufferStart];
 }
 
-Protocol* OutputMessage::getProtocol()
+network::Protocol* OutputMessage::getProtocol()
 {
 	return m_protocol;
 }
 
-Connection_ptr OutputMessage::getConnection()
+network::Connection_ptr OutputMessage::getConnection()
 {
 	return m_connection;
 }
@@ -249,7 +254,7 @@ void OutputMessagePool::internalReleaseMessage(OutputMessage* msg)
 	m_outputPoolLock.unlock();
 }
 
-OutputMessage_ptr OutputMessagePool::getOutputMessage(Protocol* protocol, bool autosend /*= true*/)
+network::OutputMessage_ptr OutputMessagePool::getOutputMessage(Protocol* protocol, bool autosend /*= true*/)
 {
 #ifdef __DEBUG_NET_DETAIL__
 	std::cout << "request output message - auto = " << autosend << std::endl;

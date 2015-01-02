@@ -8,6 +8,9 @@
 
 #include <stdint.h>
 
+
+namespace lotos2 {
+
 struct Account
 {
 	Account() : number(0), warnings(0) {}
@@ -18,5 +21,7 @@ struct Account
 	uint32_t number;
 	uint32_t warnings;
 };
+
+} // namespace lotos2
 
 #endif /* LOTOS2_STRUCTS_ACCOUNT_H */

@@ -3,6 +3,9 @@
 #ifndef LOTOS2_EXCEPTION_H
 #define	LOTOS2_EXCEPTION_H
 
+
+namespace lotos2 {
+	
 class ExceptionHandler
 {
 public:
@@ -30,6 +33,8 @@ private:
 
 	bool isInstalled;
 };
+
+} // namespace lotos2
 
 #endif /* LOTOS2_EXCEPTION_H */
 

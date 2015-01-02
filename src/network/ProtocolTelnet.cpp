@@ -13,6 +13,10 @@
 #include "globals.h"
 
 
+using namespace lotos2;
+using lotos2::network::ProtocolTelnet;
+
+
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 uint32_t ProtocolTelnet::protocolTelnetCount=0;
 #endif

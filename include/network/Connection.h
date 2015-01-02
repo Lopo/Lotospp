@@ -15,8 +15,13 @@
 #include "network/OutputMessage.h"
 #include "network/Protocol.h"
 
-class ServiceBase;
-class ServicePort;
+namespace lotos2 {
+
+	class ServiceBase;
+	class ServicePort;
+
+	namespace network {
+
 
 typedef boost::shared_ptr<ServiceBase> Service_ptr;
 typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
@@ -123,5 +128,8 @@ protected:
 	std::list<Connection_ptr> m_connections;
 	boost::recursive_mutex m_connectionManagerLock;
 };
+
+	} // namespace network
+} // namespace lotos2
 
 #endif /* LOTOS2_NETWORK_CONNECTION_H */

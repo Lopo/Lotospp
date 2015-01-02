@@ -10,6 +10,8 @@
 
 #include <stdlib.h>
 
+using lotos2::ExceptionHandler;
+
 #if defined WIN32 || defined __WINDOWS__
 	#if defined _MSC_VER || defined __USE_MINIDUMP__
 		#include "dbghelp.h"

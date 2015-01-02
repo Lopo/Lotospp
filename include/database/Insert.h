@@ -8,6 +8,9 @@
 
 #include "Driver.h"
 
+namespace lotos2 {
+	namespace database {
+
 /**
  * INSERT statement
  *
@@ -62,5 +65,8 @@ protected:
 	std::string m_query;
 	std::ostringstream m_buf;
 };
+
+	} // namespace database
+} // namespace lotos2
 
 #endif /* LOTOS2_DATABASE_INSERT_H */

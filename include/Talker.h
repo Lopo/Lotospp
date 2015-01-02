@@ -9,6 +9,8 @@
 #include "server.h"
 
 
+namespace lotos2 {
+
 /**
  * Main Talker class
  * This class is responsible to control everything that happens
@@ -60,5 +62,7 @@ protected:
 
 	ServiceManager* service_manager;
 };
+
+} // namespace lotos2
 
 #endif /* LOTOS2_TALKER_H */

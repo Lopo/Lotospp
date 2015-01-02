@@ -10,6 +10,10 @@
 #include "misc.h"
 
 
+using namespace lotos2;
+using lotos2::Logger;
+
+
 Logger::Logger()
 {
 	if (!(m_file=fopen(options.get("global.logFile", "").c_str(), "a"))) {

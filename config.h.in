@@ -40,10 +40,10 @@
 
 #ifdef USE_MYSQL
         #ifdef SINGLE_SQL_DRIVER
-                #define MULTI_SQL_DRIVERS
+                #define MULTI_SQL_DRIVERS 1
         #else
-                #define SINGLE_SQL_DRIVER
+                #define SINGLE_SQL_DRIVER 1
         #endif
 #endif
 
-#endif /* LOTOS2_CONFIG_H */
+#endif // LOTOS2_CONFIG_H

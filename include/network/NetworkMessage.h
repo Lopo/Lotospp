@@ -11,6 +11,9 @@
 
 #include "network/ProtocolConst.h"
 
+namespace lotos2 {
+	namespace network {
+
 class NetworkMessage
 {
 public:
@@ -66,5 +69,8 @@ protected:
 };
 
 typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
+
+	} // namespace network
+} // namespace lotos2
 
 #endif /* LOTOS2_NETWORK_NETWORKMESSAGE_H */

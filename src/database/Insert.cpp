@@ -2,6 +2,11 @@
 
 #include "database/Insert.h"
 
+
+using namespace lotos2;
+using lotos2::database::Insert;
+
+
 Insert::Insert(Driver* db)
 {
 	m_db=db;

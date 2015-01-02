@@ -12,6 +12,8 @@
 #include <sstream>
 
 
+namespace lotos2 {
+
 class enum_conversion_error
 	: public std::logic_error
 {
@@ -466,5 +468,7 @@ int operator<<(int i, const Enum<E, size_>& e)
 {
 	return 1 << e.value();
 }
+
+} // namespace lotos2
 
 #endif /* LOTOS2_ENUM_H */

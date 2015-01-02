@@ -7,6 +7,10 @@
 #endif
 
 
+using namespace lotos2;
+using lotos2::Creature;
+
+
 Creature::Creature()
 {
 	id=0;

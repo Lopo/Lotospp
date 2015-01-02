@@ -10,6 +10,10 @@
 #include "misc.h"
 
 
+using namespace lotos2;
+using lotos2::database::Driver;
+
+
 Driver* Driver::_instance=NULL;
 
 Driver* Driver::instance()
@@ -20,7 +24,7 @@ Driver* Driver::instance()
 		::toLowerCaseString(type);
 #ifdef USE_MYSQL
 		if (type=="mysql") {
-			_instance=new MySQL;
+			_instance=new driver::MySQL;
 			}
 #endif
 		}
@@ -37,12 +41,12 @@ bool Driver::executeQuery(const std::string &query)
 	return internalQuery(query);
 }
 
-Result_ptr Driver::storeQuery(const std::string &query)
+database::Result_ptr Driver::storeQuery(const std::string &query)
 {
 	return internalSelectQuery(query);
 }
 
-Result_ptr Driver::storeQuery(Query &query)
+database::Result_ptr Driver::storeQuery(Query &query)
 {
 	return storeQuery(query.str());
 }
@@ -52,7 +56,7 @@ void Driver::freeResult(Result *res)
 	throw std::runtime_error("No database driver loaded, yet a Result was freed.");
 }
 
-Result_ptr Driver::verifyResult(Result_ptr result)
+database::Result_ptr Driver::verifyResult(Result_ptr result)
 {
 	if (!result->advance()) {
 		return Result_ptr();

@@ -12,6 +12,9 @@
 #include "tasks.h"
 #include "system.h"
 
+
+namespace lotos2 {
+
 #define SCHEDULER_MINTICKS 20
 
 
@@ -97,5 +100,7 @@ protected:
 };
 
 extern Scheduler g_scheduler;
+
+} // namespace lotos2
 
 #endif /* LOTOS2_SCHEDULER_H */

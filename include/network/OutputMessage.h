@@ -12,6 +12,9 @@
 
 #include "network/NetworkMessage.h"
 
+namespace lotos2 {
+	namespace network {
+
 class Connection;
 class Protocol;
 
@@ -138,5 +141,8 @@ protected:
 #else
 #define TRACK_MESSAGE(omsg)
 #endif
+
+	} // namespace network
+} // namespace lotos2
 
 #endif /* LOTOS2_NETWORK_OUTPUTMESSAGE_H */

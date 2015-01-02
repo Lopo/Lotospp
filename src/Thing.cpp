@@ -3,6 +3,10 @@
 #include "Thing.h"
 
 
+using namespace lotos2;
+using lotos2::Thing;
+
+
 Thing::Thing()
 	: m_refCount(0)
 {

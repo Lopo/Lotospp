@@ -9,6 +9,10 @@
 #endif
 
 
+using namespace lotos2;
+using lotos2::Dispatcher;
+
+
 Dispatcher::Dispatcher()
 {
 	m_taskList.clear();
@@ -39,7 +43,7 @@ void Dispatcher::dispatcherThread(void* p)
 	std::cout << "Starting Dispatcher" << std::endl;
 #endif
 
-	OutputMessagePool* outputPool;
+	network::OutputMessagePool* outputPool;
 
 	// NOTE: second argument defer_lock is to prevent from immediate locking
 	boost::unique_lock<boost::mutex> taskLockUnique(dispatcher->m_taskLock, boost::defer_lock);
@@ -73,10 +77,10 @@ void Dispatcher::dispatcherThread(void* p)
 		// finally execute the task...
 		if (task) {
 			if (!task->hasExpired()) {
-				OutputMessagePool::getInstance()->startExecutionFrame();
+				network::OutputMessagePool::getInstance()->startExecutionFrame();
 				(*task)();
 
-				outputPool=OutputMessagePool::getInstance();
+				outputPool=network::OutputMessagePool::getInstance();
 				if (outputPool) {
 					outputPool->sendAll();
 					}
@@ -133,7 +137,7 @@ void Dispatcher::flush()
 		m_taskList.pop_front();
 		(*task)();
 		delete task;
-		OutputMessagePool* outputPool=OutputMessagePool::getInstance();
+		network::OutputMessagePool* outputPool=network::OutputMessagePool::getInstance();
 		if (outputPool) {
 			outputPool->sendAll();
 			}

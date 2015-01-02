@@ -14,6 +14,8 @@
 #include "AutoList.h"
 
 
+namespace lotos2 {
+
 class User
 	: public Creature,
 		public std::ostream
@@ -22,7 +24,7 @@ public:
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t userCount;
 #endif
-	User(const std::string& name, ProtocolTelnet* p);
+	User(const std::string& name, network::ProtocolTelnet* p);
 	virtual ~User();
 
 	virtual User* getUser() { return this;};
@@ -45,7 +47,7 @@ public:
 	void uWrite(const _CharT message);
 
 protected:
-	ProtocolTelnet* client;
+	network::ProtocolTelnet* client;
 
 	std::string name;
 
@@ -53,9 +55,11 @@ protected:
 	virtual void prompt();
 
 	friend class Talker;
-	friend class ProtocolTelnet;
+	friend class network::ProtocolTelnet;
 };
 
 typedef std::vector<User*> UserVector;
+
+} // namespace lotos2
 
 #endif /* LOTOS2_USER_H */

@@ -7,6 +7,9 @@
 #include <boost/thread/once.hpp>
 #include <boost/scoped_ptr.hpp>
 
+
+namespace lotos2 {
+
 /**
  * The Singleton class is a simple class that can be used to initialize once a
  * resource. The resource being hold in it is initialized only when
@@ -48,5 +51,7 @@ boost::scoped_ptr<T> Singleton<T>::m_pointer;
 
 template<typename T>
 boost::once_flag Singleton<T>::m_flag=BOOST_ONCE_INIT;
+
+} // namespace lotos2
 
 #endif /* LOTOS2_SINGLETON_H */

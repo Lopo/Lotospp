@@ -9,6 +9,8 @@
 #include "Thing.h"
 
 
+namespace lotos2 {
+
 class Creature
 	: public AutoID,
 		virtual public Thing
@@ -36,5 +38,7 @@ protected:
 
 	friend class Talker;
 };
+
+}
 
 #endif /* LOTOS2_CREATURE_H */

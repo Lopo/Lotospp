@@ -5,6 +5,10 @@
 
 #include <boost/enable_shared_from_this.hpp>
 
+
+namespace lotos2 {
+	namespace database {
+
 class Result;
 typedef boost::shared_ptr<Result> Result_ptr;
 
@@ -66,5 +70,8 @@ protected:
 	Result() {};
 	virtual ~Result() {};
 };
+
+	} // namespace database
+} // namespace lotos2
 
 #endif /* LOTOS2_DATABASE_RESULT_H */

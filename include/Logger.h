@@ -7,6 +7,9 @@
 
 #include <stdio.h>
 
+
+namespace lotos2 {
+
 #ifdef __GNUC__
 #define __LOTOS2_PRETTY_FUNCTION__ __PRETTY_FUNCTION__
 #endif
@@ -35,5 +38,7 @@ public:
 private:
 	FILE* m_file;
 };
+
+} // namespace lotos2
 
 #endif /* LOTOS2_LOGGER_H */

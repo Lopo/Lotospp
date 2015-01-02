@@ -11,6 +11,8 @@
 #include "database/Query.h"
 #include "database/Result.h"
 
+namespace lotos2 {
+	namespace database {
 
 enum DBParam_t {
 	DBPARAM_MULTIINSERT=1
@@ -136,5 +138,8 @@ protected:
 private:
 	static Driver* _instance;
 };
+
+	} // namespace database
+} // namespace lotos2
 
 #endif /* LOTOS2_DATABASE_DRIVER_H */

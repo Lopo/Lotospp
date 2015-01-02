@@ -10,6 +10,11 @@
 
 #include "globals.h"
 
+
+using namespace lotos2;
+using lotos2::Talker;
+
+
 #if defined __EXCEPTION_TRACER__
 #	include "Exception.h"
 	extern boost::recursive_mutex maploadlock;

@@ -19,6 +19,10 @@
 #include <mysql/mysql.h>
 #endif
 
+namespace lotos2 {
+	namespace database {
+		namespace driver {
+
 class MySQL
 	: public Driver
 {
@@ -26,7 +30,7 @@ public:
 	MySQL();
 	virtual ~MySQL();
 
-	virtual bool getParam(DBParam_t param);
+	virtual bool getParam(lotos2::database::DBParam_t param);
 
 	virtual bool beginTransaction();
 	virtual bool rollback();
@@ -70,6 +74,10 @@ protected:
 	MYSQL_RES* m_handle;
 	MYSQL_ROW m_row;
 };
+
+		} // namespace driver
+	} // namespace database
+} // namespace lotos2
 
 #endif /* LOTOS2_DATABASE_DRIVER_MYSQL_H */
 

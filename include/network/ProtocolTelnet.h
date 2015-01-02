@@ -10,7 +10,12 @@
 #include "network/Protocol.h"
 #include "network/NetworkMessage.h"
 
-class User;
+
+namespace lotos2 {
+	class User;
+
+	namespace network {
+
 typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
 
 class ProtocolTelnet
@@ -29,7 +34,7 @@ public:
 	ProtocolTelnet(Connection_ptr connection);
 	virtual ~ProtocolTelnet();
 
-	void setUser(User* p);
+	void setUser(lotos2::User* p);
 
 private:
 	bool connect(uint32_t userId);
@@ -50,7 +55,7 @@ private:
 
 	void AddTextMessage(NetworkMessage_ptr msg, const std::string& message);
 
-	friend class User;
+	friend class lotos2::User;
 
 	// Helper so we don't need to bind every time
 #define addTalkerTask(f, ...) addTalkerTaskInternal(false, 0, boost::bind(f, &g_talker, __VA_ARGS__))
@@ -59,7 +64,7 @@ private:
 	template<class FunctionType>
 	void addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType&);
 
-	User* user;
+	lotos2::User* user;
 
 	uint32_t eventConnect;
 	bool m_debugAssertSent;
@@ -76,5 +81,8 @@ private:
 	void enableLineWrap();
 	void disableLineWrap();
 };
+
+	} // namespace network
+} // namespace lotos2
 
 #endif /* LOTOS2_NETWORK_PROTOCOLTELNET_H */

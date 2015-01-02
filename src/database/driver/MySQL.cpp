@@ -15,6 +15,9 @@
 
 #include "globals.h"
 
+using namespace lotos2;
+using namespace lotos2::database::driver;
+
 /** MySQL definitions */
 
 MySQL::MySQL()
@@ -68,7 +71,7 @@ MySQL::~MySQL()
 	mysql_close(&m_handle);
 }
 
-bool MySQL::getParam(DBParam_t param)
+bool MySQL::getParam(database::DBParam_t param)
 {
 	switch (param) {
 		case DBPARAM_MULTIINSERT:
@@ -153,7 +156,7 @@ bool MySQL::internalQuery(const std::string &query)
 	return state;
 }
 
-Result_ptr MySQL::internalSelectQuery(const std::string &query)
+database::Result_ptr MySQL::internalSelectQuery(const std::string &query)
 {
 	if (!m_connected) {
 		return Result_ptr();
@@ -305,7 +308,7 @@ const char* MySQLResult::getDataStream(const std::string &s, unsigned long &size
 	return NULL;
 }
 
-Result_ptr MySQLResult::advance()
+database::Result_ptr MySQLResult::advance()
 {
 	m_row=mysql_fetch_row(m_handle);
 	return m_row!=NULL
@@ -336,4 +339,4 @@ MySQLResult::~MySQLResult()
 	mysql_free_result(m_handle);
 }
 
-#endif
+#endif // USE_MYSQL

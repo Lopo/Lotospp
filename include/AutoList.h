@@ -1,5 +1,5 @@
-#ifndef __LOTOS2_AUTOLIST_H__
-#define __LOTOS2_AUTOLIST_H__
+#ifndef LOTOS2_AUTOLIST_H
+#define LOTOS2_AUTOLIST_H
 
 #include "config.h"
 
@@ -7,6 +7,8 @@
 
 #include <stdint.h>
 
+
+namespace lotos2 {
 
 template<class T>
 class AutoList
@@ -35,4 +37,6 @@ public:
 	typedef typename list_type::iterator listiterator;
 };
 
-#endif /* __LOTOS2_AUTOLIST_H__ */
+} // namespace lotos2
+
+#endif // LOTOS2_AUTOLIST_H__

@@ -12,6 +12,9 @@
 #include "network/Connection.h"
 
 
+namespace lotos2 {
+	namespace network {
+
 class Protocol
 	: boost::noncopyable
 {
@@ -51,5 +54,8 @@ private:
 	Connection_ptr m_connection;
 	uint32_t m_refCount;
 };
+
+	} // namespace network
+} // namespace lotos2
 
 #endif /* LOTOS2_NETWORK_PROTOCOL_H */

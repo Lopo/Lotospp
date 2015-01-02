@@ -7,6 +7,9 @@
 
 #include <boost/thread/recursive_mutex.hpp>
 
+
+namespace lotos2 {
+	namespace database {
 /**
  * Thread locking hack
  *
@@ -27,5 +30,7 @@ protected:
 	static boost::recursive_mutex database_lock;
 };
 
+	} // namespace database
+} // namespace lotos2
 
 #endif /* LOTOS2_DATABASE_QUERY_H */

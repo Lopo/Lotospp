@@ -1,10 +1,13 @@
-#ifndef __LOTOS2_TASKS_H__
-#define __LOTOS2_TASKS_H__
+#ifndef LOTOS2_TASKS_H
+#define LOTOS2_TASKS_H
 
 #include "config.h"
 
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
+
+
+namespace lotos2 {
 
 const int DISPATCHER_TASK_EXPIRATION=2000;
 
@@ -97,4 +100,6 @@ protected:
 
 extern Dispatcher g_dispatcher;
 
-#endif /* __LOTOS2_TASKS_H__ */
+} // namespace lotos2
+
+#endif // LOTOS2_TASKS_H
