@@ -3,5 +3,6 @@
 # the source directory.
 
 set(Lotos2_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include")
+#set(Lotos2_LOCALE_DIR "${CMAKE_INSTALL_PREFIX}/share/locale")
 #set(Lotos2_PLUGIN_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/Lotos2")
 #set(Lotos2_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/Lotos2")

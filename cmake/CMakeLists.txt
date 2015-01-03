@@ -1,6 +1,6 @@
 set(Lotos2_CMAKE
 	cmake_uninstall.cmake.in
-#	FindLicq.cmake
+	FindLotos2.cmake
 	CommonCompilerFlags.cmake
 	${CMAKE_CURRENT_BINARY_DIR}/Config.cmake
 	${CMAKE_CURRENT_BINARY_DIR}/Paths.cmake

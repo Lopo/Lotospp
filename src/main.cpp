@@ -2,6 +2,7 @@
 #define MAINFILE
 
 #include "config.h"
+#include "version.h"
 
 #include <stdint.h>
 #include <time.h>
@@ -65,7 +66,7 @@ bool configure(int ac, char **av)
 	po::notify(vm);
 
 	if (vm.count("version")) {
-		cout << VERSION << std::endl;
+		cout << LOTOS2_VERSION_STRING << std::endl;
 		return false;
 		}
 	if (vm.count("help")) {

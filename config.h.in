@@ -8,7 +8,6 @@
 #endif
 
 #cmakedefine PACKAGE "${PROJECT_NAME}"
-#cmakedefine VERSION "${VERSION}-${VERSION_STATE}"
 #define LOTOS2_NAME "Lotos2"
 
 #cmakedefine HAVE_DIRECT_H

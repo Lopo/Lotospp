@@ -1,11 +1,44 @@
-file(GLOB_RECURSE SRC_LIST *.cpp)
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+set(lotos2_SRCS
+	Creature.cpp
+	Exception.cpp
+	Logger.cpp
+	Scheduler.cpp
+	Talker.cpp
+	Thing.cpp
+	User.cpp
 
-target_link_libraries(Lotos2
-	${Boost_LIBRARIES}
-	${CMAKE_THREAD_LIBS_INIT}
-	${MYSQL_LIBRARIES}
+	main.cpp
+	misc.cpp
+	server.cpp
+	tasks.cpp
+
+	network/Connection.cpp
+	network/NetworkMessage.cpp
+	network/OutputMessage.cpp
+	network/Protocol.cpp
+	network/ProtocolTelnet.cpp
 	)
+if (USE_DATABASE)
+	set(lotos2_SRCS
+		database/Driver.cpp
+		database/Insert.cpp
+		database/Query.cpp
+
+		${lotos2_SRCS}
+		)
+endif (USE_DATABASE)
+if (MYSQL_FOUND)
+	set(lotos2_SRCS
+		database/driver/MySQL.cpp
+
+		${lotos2_SRCS}
+		)
+endif (MYSQL_FOUND)
+
+add_executable(${PROJECT_NAME} ${lotos2_SRCS})
+
+# Link with thread library
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
 # Must export symbols from daemon so that plugins can use them
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_EXPORTS_CXX_FLAG}")
@@ -24,12 +57,18 @@ include_directories(
 	)
 
 # To find local headers
-#include(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-#include_directories()
+#include_directories(${OPENSSL_INCLUDE_DIR})
+include_directories(${MYSQL_INCLUDE_DIR})
 
+target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
+#target_link_libraries(${PROJECT_NAME} ${MYSQL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${MYSQL_CLIENT_LIBS})
 
-#target_link_libraries(Lotos2 ${Boost_LIBRARIES})
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 
 #install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/Lotos2 DESTINATION ${LP_INSTALL_BIN_DIR})
 
@@ -44,7 +83,7 @@ include_directories(
 #find_package(Threads REQUIRED)
 #message(status "")
 
-link_directories(${Boost_LIBRARY_DIRS})
+#link_directories(${Boost_LIBRARY_DIRS})
 
 #install(TARGETS Lotos2 RUNTIME DESTINATION bin)
 
