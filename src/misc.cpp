@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -6,8 +8,9 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "config.h"
 #include "globals.h"
+
+namespace lotos2 {
 
 
 /*** Returns true if string has whitespace ***/
@@ -37,3 +40,5 @@ void formatTime(time_t time, char* buffer)
 		sprintf(buffer, "UNIX Time : %d", (int)time);
 		}
 }
+
+} // namespace lotos2

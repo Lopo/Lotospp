@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(Lotos2)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
-set(VERSION_PATCH 0)
+set(VERSION_PATCH 1)
 set(VERSION_STATE "dev")
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
@@ -34,6 +34,7 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 #option(USE_OPENSSL "Enable secure communication channels" ON)
 option(USE_IPV6 "Enable IPv6 support" ON)
 option(USE_MYSQL "Enable use of MySQL" ON)
+option(USE_CLANG "Build application with clang" OFF) # OFF is the default
 
 include(cmake/CommonCompilerFlags.cmake)
 
@@ -45,9 +46,9 @@ if(USE_OPENSSL)
 		include_directories(${OPENSSL_INCLUDE_DIR})
 		set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${OPENSSL_INCLUDE_DIR})
 		check_include_file("openssl/md5.h" HAVE_OPENSSL_MD5_H)
-		if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-			set(OPENSSL_LIBRARIES ${OPENSSL_LIBRARIES} crypto)
-		endif (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+#		if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+#			set(OPENSSL_LIBRARIES ${OPENSSL_LIBRARIES} crypto) # because libcrypto is not found automatically
+#		endif (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	else(OPENSSL_FOUND)
 		message(STATUS "OpenSSL not found; secure communication channels will not be available")
 		set(USE_OPENSSL OFF)
@@ -103,11 +104,11 @@ foreach(subdir ${SUBDIRS})
 endforeach()
 
 #check_function_exists (vasprintf HAVE_VASPRINTF)
-check_function_exists(fork HAVE_FORK)
-check_function_exists(snprintf HAVE_SNPRINTF)
-check_function_exists(vsnprintf HAVE_VSNPRINTF)
+#check_function_exists(fork HAVE_FORK)
+#check_function_exists(snprintf HAVE_SNPRINTF)
+#check_function_exists(vsnprintf HAVE_VSNPRINTF)
 
-check_include_files(direct.h HAVE_DIRECT_H)
+#check_include_files(direct.h HAVE_DIRECT_H)
 
 #CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
@@ -129,7 +130,7 @@ check_include_files(direct.h HAVE_DIRECT_H)
 # Define some useful variables and options
 #-----------------------------------------------------------------------
 
-#include_directories(include)
+include_directories(include)
 
 #add_subdirectory(src)
 

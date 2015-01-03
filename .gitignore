@@ -25,5 +25,6 @@ todo.txt
 src/Lotos2
 
 Doxyfile
+/doc
 
 *.log

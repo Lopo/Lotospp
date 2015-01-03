@@ -1,3 +1,5 @@
+#include "config.h"
+
 #if defined __EXCEPTION_TRACER__
 
 #include "Exception.h"
@@ -8,6 +10,7 @@
 
 #include <stdlib.h>
 
+using lotos2::ExceptionHandler;
 
 #if defined WIN32 || defined __WINDOWS__
 	#if defined _MSC_VER || defined __USE_MINIDUMP__
@@ -91,9 +94,9 @@ bool ExceptionHandler::InstallHandler()
 			}
 
 		SEHChain *prevSEH;
-		__asm__ ("movl %%fs:0,%%eax;movl %%eax,%0;":"=r"(prevSEH)::"%eax" );
-		chain.prev = prevSEH;
-		chain.SEHfunction = (void*)&_SEHHandler;
+		__asm__("movl %%fs:0,%%eax;movl %%eax,%0;":"=r"(prevSEH)::"%eax");
+		chain.prev=prevSEH;
+		chain.SEHfunction=(void*)&_SEHHandler;
 		__asm__("movl %0,%%eax;movl %%eax,%%fs:0;": : "g" (&chain):"%eax");
 	#endif
 
@@ -101,8 +104,8 @@ bool ExceptionHandler::InstallHandler()
 #else
 	struct sigaction sa;
 	sa.sa_sigaction=&_SigHandler;
-	sigemptyset (&sa.sa_mask);
-	sa.sa_flags=SA_RESTART | SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags= SA_RESTART|SA_SIGINFO;
 
 	sigaction(SIGILL, &sa, NULL); // illegal instruction
 	sigaction(SIGSEGV, &sa, NULL); // segmentation fault
@@ -121,18 +124,16 @@ bool ExceptionHandler::RemoveHandler()
 
 #if defined WIN32 || defined __WINDOWS__
 	#if defined _MSC_VER || defined __USE_MINIDUMP__
-
 		--ref_counter;
 		if (ref_counter==0) {
 			::SetUnhandledExceptionFilter(NULL);
 			}
-
 	#elif __GNUC__
 		/*
 		mov eax,[chain.prev]
 		mov fs:[0],eax
 		*/
-		__asm__ ("movl %0,%%eax;movl %%eax,%%fs:0;"::"r"(chain.prev):"%eax");
+		__asm__("movl %0,%%eax;movl %%eax,%%fs:0;"::"r"(chain.prev):"%eax");
 
 	#endif
 
@@ -616,4 +617,4 @@ void ExceptionHandler::dumpStack()
 }
 #endif
 
-#endif
+#endif /* __EXCEPTION_TRACER__ */

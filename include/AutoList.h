@@ -1,31 +1,35 @@
-#ifndef __LOTOS2_AUTOLIST_H__
-#define __LOTOS2_AUTOLIST_H__
+#ifndef LOTOS2_AUTOLIST_H
+#define LOTOS2_AUTOLIST_H
+
+#include "config.h"
 
 #include <map>
 
 #include <stdint.h>
 
 
+namespace lotos2 {
+
 template<class T>
 class AutoList
 {
 public:
-	AutoList() {}
+	AutoList() {};
 
 	~AutoList()
 	{
 		list.clear();
-	}
+	};
 
 	void addList(T* t)
 	{
 		list[t->getID()]=t;
-	}
+	};
 
 	void removeList(uint32_t _id)
 	{
 		list.erase(_id);
-	}
+	};
 
 	typedef std::map<uint32_t, T*> list_type;
 	list_type list;
@@ -33,4 +37,6 @@ public:
 	typedef typename list_type::iterator listiterator;
 };
 
-#endif /* __LOTOS2_AUTOLIST_H__ */
+} // namespace lotos2
+
+#endif // LOTOS2_AUTOLIST_H__

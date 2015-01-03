@@ -1,12 +1,14 @@
 #ifndef LOTOS2_THING_H
 #define LOTOS2_THING_H
 
+#include "config.h"
+
 #include <string>
 
 #include <stdint.h>
 
-// Forward declaration
-class User;
+
+namespace lotos2 {
 
 class Thing
 {
@@ -23,4 +25,6 @@ private:
 	int32_t m_refCount;
 };
 
-#endif	/* LOTOS2_THING_H */
+} // namespace lotos2
+
+#endif /* LOTOS2_THING_H */

@@ -1,10 +1,15 @@
 #ifndef LOTOS2_STRUCTS_ACCOUNT_H
 #define	LOTOS2_STRUCTS_ACCOUNT_H
 
+#include "config.h"
+
 #include <string>
 #include <list>
 
 #include <stdint.h>
+
+
+namespace lotos2 {
 
 struct Account
 {
@@ -17,4 +22,6 @@ struct Account
 	uint32_t warnings;
 };
 
-#endif	/* LOTOS2_STRUCTS_ACCOUNT_H */
+} // namespace lotos2
+
+#endif /* LOTOS2_STRUCTS_ACCOUNT_H */

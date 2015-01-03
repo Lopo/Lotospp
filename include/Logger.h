@@ -1,9 +1,14 @@
 #ifndef LOTOS2_LOGGER_H
 #define LOTOS2_LOGGER_H
 
+#include "config.h"
+
 #include <string>
 
 #include <stdio.h>
+
+
+namespace lotos2 {
 
 #ifdef __GNUC__
 #define __LOTOS2_PRETTY_FUNCTION__ __PRETTY_FUNCTION__
@@ -34,4 +39,6 @@ private:
 	FILE* m_file;
 };
 
-#endif	/* LOTOS2_LOGGER_H */
+} // namespace lotos2
+
+#endif /* LOTOS2_LOGGER_H */

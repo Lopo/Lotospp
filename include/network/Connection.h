@@ -1,6 +1,8 @@
 #ifndef LOTOS2_NETWORK_CONNECTION_H
 #define LOTOS2_NETWORK_CONNECTION_H
 
+#include "config.h"
+
 #include <list>
 
 #include <boost/enable_shared_from_this.hpp>
@@ -13,15 +15,20 @@
 #include "network/OutputMessage.h"
 #include "network/Protocol.h"
 
-class ServiceBase;
-class ServicePort;
+namespace lotos2 {
+
+	class ServiceBase;
+	class ServicePort;
+
+	namespace network {
+
 
 typedef boost::shared_ptr<ServiceBase> Service_ptr;
 typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
 
 #ifdef __DEBUG_NET__
 #define PRINT_ASIO_ERROR(desc) \
-	std::cout << "Error: [" << __FUNCTION__ << "] " << desc << " - Error: " <<  \
+	std::cout << "Error: [" << __FUNCTION__ << "] " << desc << " - Error: " << \
 		error.value() << " Desc: " << error.message() << std::endl;
 #else
 #define PRINT_ASIO_ERROR(desc)
@@ -41,8 +48,8 @@ public:
 	static uint32_t connectionCount;
 #endif
 
-	enum { write_timeout=30 };
-	enum { read_timeout=30 };
+	enum { write_timeout=30};
+	enum { read_timeout=30};
 
 	enum ConnectionState_t {
 		CONNECTION_STATE_OPEN=0,
@@ -122,4 +129,7 @@ protected:
 	boost::recursive_mutex m_connectionManagerLock;
 };
 
-#endif	/* LOTOS2_NETWORK_CONNECTION_H */
+	} // namespace network
+} // namespace lotos2
+
+#endif /* LOTOS2_NETWORK_CONNECTION_H */

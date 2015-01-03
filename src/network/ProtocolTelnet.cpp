@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include <fstream>
 
 #include "network/ProtocolTelnet.h"
@@ -9,6 +11,10 @@
 #include "network/Connection.h"
 
 #include "globals.h"
+
+
+using namespace lotos2;
+using lotos2::network::ProtocolTelnet;
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -58,10 +64,12 @@ enum {
 template<class FunctionType>
 void ProtocolTelnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType& func)
 {
-	if (droppable)
+	if (droppable) {
 		g_dispatcher.addTask(createTask(delay, func));
-	else
+		}
+	else {
 		g_dispatcher.addTask(createTask(func));
+		}
 }
 
 ProtocolTelnet::ProtocolTelnet(Connection_ptr connection)
@@ -71,7 +79,6 @@ ProtocolTelnet::ProtocolTelnet(Connection_ptr connection)
 	m_debugAssertSent=false;
 	m_acceptPackets=false;
 	eventConnect=0;
-
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	protocolTelnetCount++;
 #endif
@@ -80,7 +87,6 @@ ProtocolTelnet::ProtocolTelnet(Connection_ptr connection)
 ProtocolTelnet::~ProtocolTelnet()
 {
 	user=NULL;
-
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	protocolTelnetCount--;
 #endif
@@ -110,8 +116,9 @@ void ProtocolTelnet::setUser(User* u)
 void ProtocolTelnet::releaseProtocol()
 {
 	//dispatcher thread
-	if (user && user->client==this)
+	if (user && user->client==this) {
 		user->client=NULL;
+		}
 
 	Protocol::releaseProtocol();
 }
@@ -123,7 +130,6 @@ void ProtocolTelnet::deleteProtocolTask()
 #ifdef __DEBUG_NET_DETAIL__
 		std::cout << "Deleting ProtocolTelnet - Protocol:" << this << ", User: " << user << std::endl;
 #endif
-
 		g_talker.FreeThing(user);
 		user=NULL;
 		}
@@ -143,7 +149,6 @@ bool ProtocolTelnet::connect(uint32_t userId)
 
 	user=_user;*/
 	user->addRef();
-	user->isConnecting=false;
 	user->client=this;
 	m_acceptPackets=true;
 
@@ -163,9 +168,12 @@ void ProtocolTelnet::disconnectClient(const char* message)
 
 void ProtocolTelnet::disconnect()
 {
-	if (getConnection())
+	if (getConnection()) {
 		getConnection()->closeConnection();
+		}
 }
+
+//********************** Parse methods *******************************
 
 bool ProtocolTelnet::parseFirstPacket(NetworkMessage &msg)
 {
@@ -179,8 +187,9 @@ void ProtocolTelnet::parsePacket(NetworkMessage &msg)
 	uint8_t b;
 	int32_t pos;
 
-	if (!user || !m_acceptPackets || msg.getMessageLength()<=0)
+	if (!user || !m_acceptPackets || msg.getMessageLength()<=0) {
 		return;
+		}
 
 	while ((pos=msg.getReadPos())<=msg.getMessageLength()) {
 		b=msg.GetByte();
@@ -196,12 +205,11 @@ void ProtocolTelnet::parsePacket(NetworkMessage &msg)
 		}
 
 	// Ignore control code replies
-	if (msg.GetByte()==TELNET_IAC)
+	if (msg.GetByte()==TELNET_IAC) {
 		return;
+		}
 	msg.setReadPos(0);
 }
-
-//********************** Parse methods *******************************
 
 void ProtocolTelnet::parseDebug(NetworkMessage& msg)
 {
@@ -211,8 +219,9 @@ void ProtocolTelnet::parseDebug(NetworkMessage& msg)
 		int data=msg.GetByte();
 		while (dataLength>0) {
 			printf("%d ", data);
-			if (--dataLength>0)
+			if (--dataLength>0) {
 				data=msg.GetByte();
+				}
 			}
 		printf("\n");
 		}

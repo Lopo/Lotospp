@@ -1,8 +1,15 @@
+#include "config.h"
+
 #include "Creature.h"
 
 #if defined __EXCEPTION_TRACER__
 #	include "Exception.h"
 #endif
+
+
+using namespace lotos2;
+using lotos2::Creature;
+
 
 Creature::Creature()
 {

@@ -1,12 +1,21 @@
 #ifndef LOTOS2_NETWORK_PROTOCOLTELNET_H
 #define LOTOS2_NETWORK_PROTOCOLTELNET_H
 
+#include "config.h"
+
+#include <stdint.h>
+
 #include <list>
 
 #include "network/Protocol.h"
 #include "network/NetworkMessage.h"
 
-class User;
+
+namespace lotos2 {
+	class User;
+
+	namespace network {
+
 typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
 
 class ProtocolTelnet
@@ -14,9 +23,9 @@ class ProtocolTelnet
 {
 public:
 	// static protocol information
-	enum {server_sends_first=true};
-	enum {protocol_identifier=0}; // Not required as we send first
-	static const char* protocol_name() {return "telnet protocol";}
+	enum { server_sends_first=true};
+	enum { protocol_identifier=0}; // Not required as we send first
+	static const char* protocol_name() { return "telnet protocol";};
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t protocolTelnetCount;
@@ -25,7 +34,7 @@ public:
 	ProtocolTelnet(Connection_ptr connection);
 	virtual ~ProtocolTelnet();
 
-	void setUser(User* p);
+	void setUser(lotos2::User* p);
 
 private:
 	bool connect(uint32_t userId);
@@ -46,7 +55,7 @@ private:
 
 	void AddTextMessage(NetworkMessage_ptr msg, const std::string& message);
 
-	friend class User;
+	friend class lotos2::User;
 
 	// Helper so we don't need to bind every time
 #define addTalkerTask(f, ...) addTalkerTaskInternal(false, 0, boost::bind(f, &g_talker, __VA_ARGS__))
@@ -55,7 +64,7 @@ private:
 	template<class FunctionType>
 	void addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType&);
 
-	User* user;
+	lotos2::User* user;
 
 	uint32_t eventConnect;
 	bool m_debugAssertSent;
@@ -73,4 +82,7 @@ private:
 	void disableLineWrap();
 };
 
-#endif	/* LOTOS2_NETWORK_PROTOCOLTELNET_H */
+	} // namespace network
+} // namespace lotos2
+
+#endif /* LOTOS2_NETWORK_PROTOCOLTELNET_H */

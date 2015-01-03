@@ -1,6 +1,8 @@
 #ifndef LOTOS2_NETWORK_OUTPUTMESSAGE_H
 #define LOTOS2_NETWORK_OUTPUTMESSAGE_H
 
+#include "config.h"
+
 #include <cstddef>
 #include <list>
 
@@ -9,6 +11,9 @@
 #include <boost/thread/recursive_mutex.hpp>
 
 #include "network/NetworkMessage.h"
+
+namespace lotos2 {
+	namespace network {
 
 class Connection;
 class Protocol;
@@ -50,12 +55,12 @@ public:
 		std::ostringstream os;
 		os << /*file << ":"*/ "line " << line << " " << func;
 		last_uses.push_back(os.str());
-	}
+	};
 
 	virtual void clearTrack()
 	{
 		last_uses.clear();
-	}
+	};
 
 	void PrintTrace()
 	{
@@ -63,7 +68,7 @@ public:
 		for (std::list<std::string>::const_reverse_iterator iter=last_uses.rbegin(); iter!=last_uses.rend(); ++iter, ++n) {
 			std::cout << "\t" << n << ".\t" << *iter << std::endl;
 			}
-	}
+	};
 #endif
 
 protected:
@@ -137,4 +142,7 @@ protected:
 #define TRACK_MESSAGE(omsg)
 #endif
 
-#endif	/* LOTOS2_NETWORK_OUTPUTMESSAGE_H */
+	} // namespace network
+} // namespace lotos2
+
+#endif /* LOTOS2_NETWORK_OUTPUTMESSAGE_H */

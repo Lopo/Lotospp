@@ -1,5 +1,7 @@
-#ifndef __LOTOS2_SERVER_H__
-#define __LOTOS2_SERVER_H__
+#ifndef LOTOS2_SERVER_H
+#define LOTOS2_SERVER_H
+
+#include "config.h"
 
 #include <list>
 
@@ -13,6 +15,8 @@
 #include "network/Connection.h"
 
 
+namespace lotos2 {
+
 typedef boost::shared_ptr<boost::asio::ip::tcp::acceptor> Acceptor_ptr;
 
 // The Service class is very thin, it's only real job is to create dynamic
@@ -23,13 +27,13 @@ class ServiceBase
 	: boost::noncopyable
 {
 public:
-	virtual ~ServiceBase() {} // Redundant, but stifles compiler warnings
+	virtual ~ServiceBase() {}; // Redundant, but stifles compiler warnings
 
 	virtual bool is_single_socket() const=0;
 	virtual uint8_t get_protocol_identifier() const=0;
 	virtual const char* get_protocol_name() const=0;
 
-	virtual Protocol* make_protocol(Connection_ptr c) const=0;
+	virtual network::Protocol* make_protocol(network::Connection_ptr c) const=0;
 };
 
 typedef boost::shared_ptr<ServiceBase> Service_ptr;
@@ -40,17 +44,19 @@ class Service
 	: public ServiceBase
 {
 public:
-	bool is_single_socket() const { return ProtocolType::server_sends_first;}
-	uint8_t get_protocol_identifier() const { return ProtocolType::protocol_identifier;}
-	const char* get_protocol_name() const { return ProtocolType::protocol_name();}
+	bool is_single_socket() const { return ProtocolType::server_sends_first;};
+	uint8_t get_protocol_identifier() const { return ProtocolType::protocol_identifier;};
+	const char* get_protocol_name() const { return ProtocolType::protocol_name();};
 
-	Protocol* make_protocol(Connection_ptr c) const { return new ProtocolType(c);}
+	network::Protocol* make_protocol(network::Connection_ptr c) const { return new ProtocolType(c);};
 };
 
-// A Service Port represents a listener on a port.
-// It accepts connections, and asks each Service running
-// on it if it can accept the connection, and if so passes
-// it on to the service
+/**
+ * A Service Port represents a listener on a port
+ *
+ * It accepts connections, and asks each Service running on it if it can accept the connection, and if so passes
+ * it on to the service
+ */
 class ServicePort
 	: boost::noncopyable,
 		public boost::enable_shared_from_this<ServicePort>
@@ -66,7 +72,7 @@ public:
 	std::string get_protocol_names() const;
 
 	bool add_service(Service_ptr);
-	Protocol* make_protocol(NetworkMessage& msg) const;
+	network::Protocol* make_protocol(network::NetworkMessage& msg) const;
 
 	void onStopServer();
 	void onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* socket, const boost::system::error_code& error);
@@ -85,7 +91,10 @@ protected:
 
 typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
 
-// The ServiceManager simply manages all services and handles startup/closing
+
+/**
+ * The ServiceManager simply manages all services and handles startup/closing
+ */
 class ServiceManager
 	: boost::noncopyable
 {
@@ -102,7 +111,7 @@ public:
 	template <typename ProtocolType>
 	bool add(uint16_t port);
 
-	bool is_running() const { return m_acceptors.empty()==false;}
+	bool is_running() const { return m_acceptors.empty()==false;};
 	std::list<uint16_t> get_ports() const;
 protected:
 	void die();
@@ -117,7 +126,7 @@ protected:
 template <typename ProtocolType>
 bool ServiceManager::add(uint16_t port)
 {
-	if (port==0) {
+	if (!port) {
 		std::cout << "NOTICE: No port provided for service " << ProtocolType::protocol_name() << ". Service disabled." << std::endl;
 		return false;
 		}
@@ -141,6 +150,8 @@ bool ServiceManager::add(uint16_t port)
 		}
 
 	return service_port->add_service(Service_ptr(new Service<ProtocolType>()));
-}
+};
 
-#endif
+} // namespace lotos2
+
+#endif // LOTOS2_SERVER_H__

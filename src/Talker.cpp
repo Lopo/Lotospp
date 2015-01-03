@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include <fstream>
 
 #include "Talker.h"
@@ -7,6 +9,11 @@
 #include "server.h"
 
 #include "globals.h"
+
+
+using namespace lotos2;
+using lotos2::Talker;
+
 
 #if defined __EXCEPTION_TRACER__
 #	include "Exception.h"

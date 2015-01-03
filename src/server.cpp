@@ -1,3 +1,5 @@
+#include "config.h"
+
 #if defined __WINDOWS__ || defined WIN32
 #include <winerror.h>
 #endif
@@ -14,6 +16,10 @@
 #include "Logger.h"
 
 #include "globals.h"
+
+using namespace lotos2;
+using lotos2::ServiceManager;
+using lotos2::ServicePort;
 
 
 bool ServicePort::m_logError=true;
@@ -34,8 +40,9 @@ ServiceManager::~ServiceManager()
 std::list<uint16_t> ServiceManager::get_ports() const
 {
 	std::list<uint16_t> ports;
-	for (std::map<uint16_t, ServicePort_ptr>::const_iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it)
+	for (std::map<uint16_t, ServicePort_ptr>::const_iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it) {
 		ports.push_back(it->first);
+		}
 	// Maps are ordered, so the elements are in order
 	//ports.sort();
 	ports.unique();
@@ -61,8 +68,9 @@ void ServiceManager::run()
 
 void ServiceManager::stop()
 {
-	if (!running)
+	if (!running) {
 		return;
+		}
 
 	running=false;
 
@@ -76,7 +84,7 @@ void ServiceManager::stop()
 		}
 	m_acceptors.clear();
 
-	OutputMessagePool::getInstance()->stop();
+	network::OutputMessagePool::getInstance()->stop();
 
 	// Give the server 3 seconds to process all messages before death
 	death_timer.expires_from_now(boost::posix_time::seconds(3));
@@ -105,8 +113,9 @@ bool ServicePort::is_single_socket() const
 
 std::string ServicePort::get_protocol_names() const
 {
-	if (m_services.empty())
+	if (m_services.empty()) {
 		return "";
+		}
 	std::string str=m_services.front()->get_protocol_name();
 	for (uint32_t i=1; i<m_services.size(); ++i) {
 		str+=", ";
@@ -152,11 +161,12 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 		boost::system::error_code error;
 		const boost::asio::ip::tcp::endpoint endpoint=socket->remote_endpoint(error);
 		boost::asio::ip::address remote_ip=boost::asio::ip::address();
-		if (!error)
+		if (!error) {
 			remote_ip=endpoint.address();
+			}
 
 		if (!remote_ip.is_unspecified()) {
-			Connection_ptr connection=ConnectionManager::getInstance()->createConnection(socket, m_io_service, shared_from_this());
+			network::Connection_ptr connection=network::ConnectionManager::getInstance()->createConnection(socket, m_io_service, shared_from_this());
 
 			if (m_services.front()->is_single_socket()) {
 				// Only one handler, and it will send first
@@ -205,18 +215,16 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 		}
 }
 
-Protocol* ServicePort::make_protocol(NetworkMessage& msg) const
+network::Protocol* ServicePort::make_protocol(network::NetworkMessage& msg) const
 {
 	uint8_t protocolId=msg.GetByte();
-	for(std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it)
-	{
+	for (std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it) {
 		Service_ptr service=*it;
 		if (service->get_protocol_identifier()==protocolId)
 			// Correct service! Create protocol and get on with it
-			return service->make_protocol(Connection_ptr());
-
+			return service->make_protocol(network::Connection_ptr());
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
-	}
+		}
 
 	return NULL;
 }
@@ -228,8 +236,9 @@ void ServicePort::onStopServer()
 
 void ServicePort::openAcceptor(boost::weak_ptr<ServicePort> weak_service, uint16_t port)
 {
-	if (weak_service.expired())
+	if (weak_service.expired()) {
 		return;
+		}
 
 	if (ServicePort_ptr service=weak_service.lock()) {
 #ifdef __DEBUG_NET_DETAIL__
@@ -296,8 +305,9 @@ bool ServicePort::add_service(Service_ptr new_svc)
 {
 	for (std::vector<Service_ptr>::const_iterator svc_iter=m_services.begin(); svc_iter!=m_services.end(); ++svc_iter) {
 		Service_ptr svc=*svc_iter;
-		if (svc->is_single_socket())
+		if (svc->is_single_socket()) {
 			return false;
+			}
 		}
 
 	m_services.push_back(new_svc);

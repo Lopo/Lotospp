@@ -1,4 +1,11 @@
+#include "config.h"
+
 #include "Thing.h"
+
+
+using namespace lotos2;
+using lotos2::Thing;
+
 
 Thing::Thing()
 	: m_refCount(0)
@@ -18,6 +25,7 @@ void Thing::addRef()
 void Thing::unRef()
 {
 	--m_refCount;
-	if (m_refCount<=0)
+	if (m_refCount<=0) {
 		delete this;
+		}
 }

@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include "User.h"
 #include "Scheduler.h"
 #include "Talker.h"
@@ -5,6 +7,11 @@
 #if defined __EXCEPTION_TRACER__
 #	include "Exception.h"
 #endif
+
+
+using namespace lotos2;
+using lotos2::User;
+
 
 boost::recursive_mutex AutoID::autoIDLock;
 uint32_t AutoID::count=1000;
@@ -16,11 +23,11 @@ AutoList<User> User::listUser;
 uint32_t User::userCount=0;
 #endif
 
-User::User(const std::string& _name, ProtocolTelnet* p)
+
+User::User(const std::string& _name, network::ProtocolTelnet* p)
 	: Creature()
 {
 	client=p;
-	isConnecting=false;
 	if (client) {
 		client->setUser(this);
 		}
@@ -70,7 +77,7 @@ void User::prompt()
 template<typename _CharT>
 void User::uWrite(const _CharT message)
 {
-    OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(client, false);
+    network::OutputMessage_ptr output=network::OutputMessagePool::getInstance()->getOutputMessage(client, false);
     output->AddString(message);
-    OutputMessagePool::getInstance()->send(output);
+    network::OutputMessagePool::getInstance()->send(output);
 }

@@ -1,11 +1,15 @@
 #ifndef LOTOS2_CREATURE_H
 #define	LOTOS2_CREATURE_H
 
+#include "config.h"
+
 #include <string>
 
 #include "AutoID.h"
 #include "Thing.h"
 
+
+namespace lotos2 {
 
 class Creature
 	: public AutoID,
@@ -35,4 +39,6 @@ protected:
 	friend class Talker;
 };
 
-#endif
+}
+
+#endif /* LOTOS2_CREATURE_H */

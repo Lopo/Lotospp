@@ -1,23 +1,31 @@
+#include "config.h"
+
 #include <ctime>
 
 #include <boost/date_time.hpp>
 
 #include "Logger.h"
 #include "Singleton.h"
-
 #include "globals.h"
 #include "misc.h"
 
+
+using namespace lotos2;
+using lotos2::Logger;
+
+
 Logger::Logger()
 {
-	if (!(m_file=fopen(options.get("global.logFile", "").c_str(), "a")))
+	if (!(m_file=fopen(options.get("global.logFile", "").c_str(), "a"))) {
 		m_file=stdout;
+		}
 }
 
 Logger::~Logger()
 {
-	if (m_file)
+	if (m_file) {
 		fclose(m_file);
+		}
 }
 
 Logger* Logger::getInstance()
@@ -34,8 +42,9 @@ void Logger::logMessage(const char* channel, eLogType type, std::string message,
 	formatTime(tmp, buffer);
 	fputs(buffer, m_file);
 	//write channel generating the message
-	if (channel)
+	if (channel) {
 		fprintf(m_file, " [%s] ", channel);
+		}
 
 	//write message type
 	const char* type_str;

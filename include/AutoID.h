@@ -1,5 +1,7 @@
-#ifndef __LOTOS2_TEMPLATES_H__
-#define __LOTOS2_TEMPLATES_H__
+#ifndef LOTOS2_TEMPLATES_H
+#define LOTOS2_TEMPLATES_H
+
+#include "config.h"
 
 #include <set>
 
@@ -7,6 +9,8 @@
 
 #include <boost/thread/recursive_mutex.hpp>
 
+
+namespace lotos2 {
 
 class AutoID
 {
@@ -29,7 +33,7 @@ public:
 			}
 		list.insert(count);
 		auto_id=count;
-	}
+	};
 
 	virtual ~AutoID()
 	{
@@ -37,7 +41,7 @@ public:
 		if (it!=list.end()) {
 			list.erase(it);
 			}
-	}
+	};
 
 	typedef std::set<uint32_t> list_type;
 
@@ -49,4 +53,6 @@ protected:
 	static list_type list;
 };
 
-#endif
+} // namespace lotos2
+
+#endif // LOTOS2_TEMPLATES_H
