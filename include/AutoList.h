@@ -39,4 +39,4 @@ public:
 
 } // namespace lotos2
 
-#endif // LOTOS2_AUTOLIST_H__
+#endif // LOTOS2_AUTOLIST_H
