@@ -1,6 +1,7 @@
 set(lotos2_SRCS
 	Creature.cpp
 	Exception.cpp
+	Dispatcher.cpp
 	Logger.cpp
 	Scheduler.cpp
 	Talker.cpp
@@ -9,14 +10,16 @@ set(lotos2_SRCS
 
 	main.cpp
 	misc.cpp
-	server.cpp
-	tasks.cpp
 
 	network/Connection.cpp
 	network/NetworkMessage.cpp
 	network/OutputMessage.cpp
 	network/Protocol.cpp
-	network/ProtocolTelnet.cpp
+
+	network/ServicePort.cpp
+	network/ServiceManager.cpp
+
+	network/protocol/Telnet.cpp
 	)
 if (USE_DATABASE)
 	set(lotos2_SRCS
@@ -57,7 +60,7 @@ include_directories(
 	)
 
 # To find local headers
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 #include_directories(${OPENSSL_INCLUDE_DIR})
 include_directories(${MYSQL_INCLUDE_DIR})

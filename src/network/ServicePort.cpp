@@ -1,14 +1,27 @@
 #include "config.h"
 
+#include <stdint.h>
+
 #if defined __WINDOWS__ || defined WIN32
 #include <winerror.h>
 #endif
 
 #include <list>
+#include <map>
+#include <string>
+#include <vector>
+#include <iostream>
 
+#include <boost/bind.hpp>
+#include <boost/date_time.hpp>
+#include <boost/weak_ptr.hpp>
+#include <boost/system/system_error.hpp>
 #include <boost/asio/placeholders.hpp>
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ip/address.hpp>
 
-#include "server.h"
+#include "network/Service.h"
 #include "Scheduler.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
@@ -18,78 +31,11 @@
 #include "globals.h"
 
 using namespace lotos2;
-using lotos2::ServiceManager;
-using lotos2::ServicePort;
+using lotos2::network::ServicePort;
 
 
 bool ServicePort::m_logError=true;
 
-///////////////////////////////////////////////////////////////////////////////
-// Service
-
-ServiceManager::ServiceManager()
-	: m_io_service(), death_timer(m_io_service), running(false)
-{
-}
-
-ServiceManager::~ServiceManager()
-{
-	stop();
-}
-
-std::list<uint16_t> ServiceManager::get_ports() const
-{
-	std::list<uint16_t> ports;
-	for (std::map<uint16_t, ServicePort_ptr>::const_iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it) {
-		ports.push_back(it->first);
-		}
-	// Maps are ordered, so the elements are in order
-	//ports.sort();
-	ports.unique();
-	return ports;
-}
-
-void ServiceManager::die()
-{
-	m_io_service.stop();
-}
-
-void ServiceManager::run()
-{
-	assert(!running);
-	running=true;
-	try {
-		m_io_service.run();
-		}
-	catch (boost::system::system_error& e) {
-		LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
-		}
-}
-
-void ServiceManager::stop()
-{
-	if (!running) {
-		return;
-		}
-
-	running=false;
-
-	for (std::map<uint16_t, ServicePort_ptr>::iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it) {
-		try {
-			m_io_service.post(boost::bind(&ServicePort::onStopServer, it->second));
-			}
-		catch (boost::system::system_error& e) {
-			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
-			}
-		}
-	m_acceptors.clear();
-
-	network::OutputMessagePool::getInstance()->stop();
-
-	// Give the server 3 seconds to process all messages before death
-	death_timer.expires_from_now(boost::posix_time::seconds(3));
-	death_timer.async_wait(boost::bind(&ServiceManager::die, this));
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 // ServicePort
@@ -166,7 +112,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 			}
 
 		if (!remote_ip.is_unspecified()) {
-			network::Connection_ptr connection=network::ConnectionManager::getInstance()->createConnection(socket, m_io_service, shared_from_this());
+			Connection_ptr connection=ConnectionManager::getInstance()->createConnection(socket, m_io_service, shared_from_this());
 
 			if (m_services.front()->is_single_socket()) {
 				// Only one handler, and it will send first
@@ -215,14 +161,14 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 		}
 }
 
-network::Protocol* ServicePort::make_protocol(network::NetworkMessage& msg) const
+network::Protocol* ServicePort::make_protocol(NetworkMessage& msg) const
 {
 	uint8_t protocolId=msg.GetByte();
 	for (std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it) {
 		Service_ptr service=*it;
 		if (service->get_protocol_identifier()==protocolId)
 			// Correct service! Create protocol and get on with it
-			return service->make_protocol(network::Connection_ptr());
+			return service->make_protocol(Connection_ptr());
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
 		}
 

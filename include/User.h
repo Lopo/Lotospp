@@ -1,16 +1,19 @@
 #ifndef LOTOS2_USER_H
 #define	LOTOS2_USER_H
 
+
 #include "config.h"
 
+#include <stdint.h>
+
+#include <ostream>
 #include <string>
 #include <vector>
-#include <ostream>
 
 #include <boost/asio/ip/address.hpp>
 
 #include "Creature.h"
-#include "network/ProtocolTelnet.h"
+#include "network/protocol/Telnet.h"
 #include "AutoList.h"
 
 
@@ -24,7 +27,7 @@ public:
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t userCount;
 #endif
-	User(const std::string& name, network::ProtocolTelnet* p);
+	User(const std::string& name, network::protocol::Telnet* p);
 	virtual ~User();
 
 	virtual User* getUser() { return this;};
@@ -47,7 +50,7 @@ public:
 	void uWrite(const _CharT message);
 
 protected:
-	network::ProtocolTelnet* client;
+	network::protocol::Telnet* client;
 
 	std::string name;
 
@@ -55,11 +58,11 @@ protected:
 	virtual void prompt();
 
 	friend class Talker;
-	friend class network::ProtocolTelnet;
+	friend class network::protocol::Telnet;
 };
 
 typedef std::vector<User*> UserVector;
 
 } // namespace lotos2
 
-#endif /* LOTOS2_USER_H */
+#endif // LOTOS2_USER_H

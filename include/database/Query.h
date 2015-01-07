@@ -1,6 +1,7 @@
 #ifndef LOTOS2_DATABASE_QUERY_H
 #define	LOTOS2_DATABASE_QUERY_H
 
+
 #include "config.h"
 
 #include <iosfwd>
@@ -33,4 +34,4 @@ protected:
 	} // namespace database
 } // namespace lotos2
 
-#endif /* LOTOS2_DATABASE_QUERY_H */
+#endif // LOTOS2_DATABASE_QUERY_H

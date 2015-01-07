@@ -38,7 +38,7 @@ PROJECT_NAME           = "Lotos2"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = @LOTOS2_VERSION_MAJOR@.@LOTOS2_VERSION_MINOR@.@LOTOS2_VERSION_PATCH@-@LOTOS2_VERSION_STATE@
+PROJECT_NUMBER         = @LOTOS2_VERSION_MAJOR@.@LOTOS2_VERSION_MINOR@.@LOTOS2_VERSION_PATCH@@LOTOS2_VERSION_STATE@
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a

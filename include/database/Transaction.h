@@ -1,7 +1,9 @@
 #ifndef LOTOS2_DATABASE_TRANSACTION_H
 #define	LOTOS2_DATABASE_TRANSACTION_H
 
+
 #include "config.h"
+
 #include "database/Driver.h"
 
 
@@ -52,4 +54,4 @@ private:
 	} // namespace database
 } // namespace lotos2
 
-#endif /* LOTOS2_DATABASE_TRANSACTION_H */
+#endif // LOTOS2_DATABASE_TRANSACTION_H

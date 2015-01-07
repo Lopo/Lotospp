@@ -1,5 +1,7 @@
 #include "config.h"
 
+#include <boost/thread/recursive_mutex.hpp>
+
 #include "database/Query.h"
 
 using namespace lotos2;

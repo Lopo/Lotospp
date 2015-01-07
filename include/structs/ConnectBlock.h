@@ -17,4 +17,4 @@ struct ConnectBlock
 
 } // namespace lotos2
 
-#endif /* LOTOS2_STRUCTS_CONNECTBLOCK_H */
+#endif // LOTOS2_STRUCTS_CONNECTBLOCK_H

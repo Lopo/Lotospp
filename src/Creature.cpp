@@ -1,5 +1,7 @@
 #include "config.h"
 
+#include <stdint.h>
+
 #include "Creature.h"
 
 #if defined __EXCEPTION_TRACER__

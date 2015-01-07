@@ -1,13 +1,16 @@
 #ifndef LOTOS2_GLOBALS_H
 #define LOTOS2_GLOBALS_H
 
+
 #include "config.h"
 
 #include <time.h>
-#include <boost/property_tree/ptree.hpp>
 #include <pthread.h>
 
+#include <boost/property_tree/ptree.hpp>
+
 #include "Scheduler.h"
+#include "Dispatcher.h"
 #include "Talker.h"
 
 #ifndef MAINFILE
@@ -30,4 +33,4 @@ EXTERN Talker g_talker;
 
 } // namespace lotos2
 
-#endif /* LOTOS2_GLOBALS_H */
+#endif // LOTOS2_GLOBALS_H

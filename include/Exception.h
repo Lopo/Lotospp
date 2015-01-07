@@ -36,6 +36,6 @@ private:
 
 } // namespace lotos2
 
-#endif /* LOTOS2_EXCEPTION_H */
+#endif // LOTOS2_EXCEPTION_H
 
-#endif /* __EXCEPTION_TRACER__ */
+#endif // __EXCEPTION_TRACER__

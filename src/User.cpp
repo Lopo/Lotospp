@@ -1,5 +1,12 @@
 #include "config.h"
 
+#include <stdint.h>
+
+#include <string>
+
+#include <boost/thread/recursive_mutex.hpp>
+#include <boost/asio/ip/address.hpp>
+
 #include "User.h"
 #include "Scheduler.h"
 #include "Talker.h"
@@ -24,7 +31,7 @@ uint32_t User::userCount=0;
 #endif
 
 
-User::User(const std::string& _name, network::ProtocolTelnet* p)
+User::User(const std::string& _name, network::protocol::Telnet* p)
 	: Creature()
 {
 	client=p;

@@ -1,8 +1,14 @@
 #ifndef LOTOS2_DATABASE_RESULT_H
 #define	LOTOS2_DATABASE_RESULT_H
 
+
 #include "config.h"
 
+#include <stdint.h>
+
+#include <string>
+
+#include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
 
@@ -74,4 +80,4 @@ protected:
 	} // namespace database
 } // namespace lotos2
 
-#endif /* LOTOS2_DATABASE_RESULT_H */
+#endif // LOTOS2_DATABASE_RESULT_H

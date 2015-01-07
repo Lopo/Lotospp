@@ -4,7 +4,12 @@ set(lotos2_HEADERS
 	OutputMessage.h
 	Protocol.h
 	ProtocolConst.h
-	ProtocolTelnet.h
+	ServiceBase.h
+	Service.h
+	ServicePort.h
+	ServiceManager.h
 	)
 
 install(FILES ${lotos2_HEADERS} DESTINATION "${lotos2_INCLUDE_DIR}/lotos2/network")
+
+add_subdirectory(protocol)

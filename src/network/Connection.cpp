@@ -1,16 +1,33 @@
 #include "config.h"
 
-#include <boost/asio/placeholders.hpp>
-#include <boost/asio/write.hpp>
-#include <boost/asio/read.hpp>
+#include <stdint.h>
 
-#include "Singleton.h"
+#include <iostream>
+#include <list>
+
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+#include <boost/bind.hpp>
+#include <boost/date_time.hpp>
+#include <boost/thread/recursive_mutex.hpp>
+#include <boost/system/system_error.hpp>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ip/address.hpp>
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/write.hpp>
+#include <boost/asio/error.hpp>
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/placeholders.hpp>
+
 #include "network/Connection.h"
+#include "Singleton.h"
 #include "network/Protocol.h"
 #include "network/OutputMessage.h"
 #include "Scheduler.h"
-#include "server.h"
+#include "network/ServicePort.h"
 #include "Logger.h"
+
+#include "globals.h"
 
 
 using namespace lotos2;

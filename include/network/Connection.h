@@ -1,6 +1,7 @@
 #ifndef LOTOS2_NETWORK_CONNECTION_H
 #define LOTOS2_NETWORK_CONNECTION_H
 
+
 #include "config.h"
 
 #include <list>
@@ -10,18 +11,18 @@
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/thread/recursive_mutex.hpp>
+#include <boost/system/error_code.hpp>
 
-#include "server.h"
+#include "network/Service.h"
 #include "network/OutputMessage.h"
 #include "network/Protocol.h"
 
+
 namespace lotos2 {
-
-	class ServiceBase;
-	class ServicePort;
-
 	namespace network {
 
+class ServiceBase;
+class ServicePort;
 
 typedef boost::shared_ptr<ServiceBase> Service_ptr;
 typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
@@ -132,4 +133,4 @@ protected:
 	} // namespace network
 } // namespace lotos2
 
-#endif /* LOTOS2_NETWORK_CONNECTION_H */
+#endif // LOTOS2_NETWORK_CONNECTION_H

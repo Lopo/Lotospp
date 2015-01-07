@@ -3,21 +3,25 @@
 #ifndef LOTOS2_DATABASE_DRIVER_MYSQL_H
 #define LOTOS2_DATABASE_DRIVER_MYSQL_H
 
+
 #include "config.h"
 
-#include <string>
-#include <map>
-
-#include "database/Driver.h"
-#include "database/Result.h"
-
-#include "system.h"
+#include <stdint.h>
 
 #ifdef __MYSQL_ALT_INCLUDE__
 #include <mysql.h>
 #else
 #include <mysql/mysql.h>
 #endif
+
+#include <string>
+#include <map>
+
+#include "system.h"
+
+#include "database/Driver.h"
+#include "database/Result.h"
+
 
 namespace lotos2 {
 	namespace database {
@@ -79,6 +83,6 @@ protected:
 	} // namespace database
 } // namespace lotos2
 
-#endif /* LOTOS2_DATABASE_DRIVER_MYSQL_H */
+#endif // LOTOS2_DATABASE_DRIVER_MYSQL_H
 
-#endif /* USE_MYSQL */
+#endif // USE_MYSQL

@@ -1,6 +1,7 @@
 #ifndef LOTOS2_MISC_H
 #define LOTOS2_MISC_H
 
+
 #include "config.h"
 
 #include <time.h>
@@ -16,4 +17,4 @@ void formatTime(time_t time, char* buffer);
 
 } // namespace lotos2
 
-#endif /* MISC_H */
+#endif // MISC_H

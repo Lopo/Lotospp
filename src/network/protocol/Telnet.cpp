@@ -1,10 +1,13 @@
 #include "config.h"
 
-#include <fstream>
+#include <stdint.h>
 
-#include "network/ProtocolTelnet.h"
+#include <string>
+#include <iostream>
+
+#include "network/protocol/Telnet.h"
 #include "Scheduler.h"
-#include "tasks.h"
+#include "Task.h"
 #include "Talker.h"
 #include "User.h"
 #include "network/OutputMessage.h"
@@ -14,11 +17,11 @@
 
 
 using namespace lotos2;
-using lotos2::network::ProtocolTelnet;
+using lotos2::network::protocol::Telnet;
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
-uint32_t ProtocolTelnet::protocolTelnetCount=0;
+uint32_t Telnet::protocolTelnetCount=0;
 #endif
 
 enum {
@@ -62,7 +65,7 @@ enum {
 // Helping templates to add dispatcher tasks
 
 template<class FunctionType>
-void ProtocolTelnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType& func)
+void Telnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType& func)
 {
 	if (droppable) {
 		g_dispatcher.addTask(createTask(delay, func));
@@ -72,7 +75,7 @@ void ProtocolTelnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const
 		}
 }
 
-ProtocolTelnet::ProtocolTelnet(Connection_ptr connection)
+Telnet::Telnet(Connection_ptr connection)
 	: Protocol(connection)
 {
 	user=NULL;
@@ -84,7 +87,7 @@ ProtocolTelnet::ProtocolTelnet(Connection_ptr connection)
 #endif
 }
 
-ProtocolTelnet::~ProtocolTelnet()
+Telnet::~Telnet()
 {
 	user=NULL;
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -92,7 +95,7 @@ ProtocolTelnet::~ProtocolTelnet()
 #endif
 }
 
-void ProtocolTelnet::onConnect()
+void Telnet::onConnect()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("login from: ");
@@ -102,18 +105,18 @@ void ProtocolTelnet::onConnect()
 //	user=new User("", this);
 }
 
-void ProtocolTelnet::onRecvFirstMessage(NetworkMessage& msg)
+void Telnet::onRecvFirstMessage(NetworkMessage& msg)
 {
 	parseFirstPacket(msg);
 	parsePacket(msg);
 }
 
-void ProtocolTelnet::setUser(User* u)
+void Telnet::setUser(User* u)
 {
 	user=u;
 }
 
-void ProtocolTelnet::releaseProtocol()
+void Telnet::releaseProtocol()
 {
 	//dispatcher thread
 	if (user && user->client==this) {
@@ -123,12 +126,12 @@ void ProtocolTelnet::releaseProtocol()
 	Protocol::releaseProtocol();
 }
 
-void ProtocolTelnet::deleteProtocolTask()
+void Telnet::deleteProtocolTask()
 {
 	//dispatcher thread
 	if (user) {
 #ifdef __DEBUG_NET_DETAIL__
-		std::cout << "Deleting ProtocolTelnet - Protocol:" << this << ", User: " << user << std::endl;
+		std::cout << "Deleting Telnet - Protocol:" << this << ", User: " << user << std::endl;
 #endif
 		g_talker.FreeThing(user);
 		user=NULL;
@@ -137,7 +140,7 @@ void ProtocolTelnet::deleteProtocolTask()
 	Protocol::deleteProtocolTask();
 }
 
-bool ProtocolTelnet::connect(uint32_t userId)
+bool Telnet::connect(uint32_t userId)
 {
 	unRef();
 	eventConnect=0;/*
@@ -155,7 +158,7 @@ bool ProtocolTelnet::connect(uint32_t userId)
 	return true;
 }
 
-void ProtocolTelnet::disconnectClient(const char* message)
+void Telnet::disconnectClient(const char* message)
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	if (output) {
@@ -166,7 +169,7 @@ void ProtocolTelnet::disconnectClient(const char* message)
 	disconnect();
 }
 
-void ProtocolTelnet::disconnect()
+void Telnet::disconnect()
 {
 	if (getConnection()) {
 		getConnection()->closeConnection();
@@ -175,14 +178,14 @@ void ProtocolTelnet::disconnect()
 
 //********************** Parse methods *******************************
 
-bool ProtocolTelnet::parseFirstPacket(NetworkMessage &msg)
+bool Telnet::parseFirstPacket(NetworkMessage &msg)
 {
     User* _user=new User("", this);
     addRef();
     return connect(_user->getID());
 }
 
-void ProtocolTelnet::parsePacket(NetworkMessage &msg)
+void Telnet::parsePacket(NetworkMessage &msg)
 {
 	uint8_t b;
 	int32_t pos;
@@ -211,7 +214,7 @@ void ProtocolTelnet::parsePacket(NetworkMessage &msg)
 	msg.setReadPos(0);
 }
 
-void ProtocolTelnet::parseDebug(NetworkMessage& msg)
+void Telnet::parseDebug(NetworkMessage& msg)
 {
 	int dataLength=msg.getMessageLength()-1;
 	if (dataLength!=0) {
@@ -229,7 +232,7 @@ void ProtocolTelnet::parseDebug(NetworkMessage& msg)
 
 //********************** Send methods *******************************
 
-void ProtocolTelnet::sendTextMessage(const std::string& message)
+void Telnet::sendTextMessage(const std::string& message)
 {
 	NetworkMessage_ptr msg=getOutputBuffer();
 	if (msg) {
@@ -238,12 +241,12 @@ void ProtocolTelnet::sendTextMessage(const std::string& message)
 		}
 }
 
-void ProtocolTelnet::AddTextMessage(NetworkMessage_ptr msg, const std::string& message)
+void Telnet::AddTextMessage(NetworkMessage_ptr msg, const std::string& message)
 {
 	msg->AddString(message);
 }
 
-void ProtocolTelnet::sendEchoOn()
+void Telnet::sendEchoOn()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddByte(TELNET_IAC);
@@ -252,7 +255,7 @@ void ProtocolTelnet::sendEchoOn()
 	OutputMessagePool::getInstance()->send(output);
 }
 
-void ProtocolTelnet::sendEchoOff()
+void Telnet::sendEchoOff()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddByte(TELNET_IAC);
@@ -262,7 +265,7 @@ void ProtocolTelnet::sendEchoOff()
 }
 
 template<typename _CharT>
-void ProtocolTelnet::setXtermTitle(const _CharT title)
+void Telnet::setXtermTitle(const _CharT title)
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\033]0;");
@@ -271,7 +274,7 @@ void ProtocolTelnet::setXtermTitle(const _CharT title)
 	OutputMessagePool::getInstance()->send(output);
 }
 
-void ProtocolTelnet::sendTermCoords()
+void Telnet::sendTermCoords()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddByte(TELNET_IAC);
@@ -280,28 +283,28 @@ void ProtocolTelnet::sendTermCoords()
 	OutputMessagePool::getInstance()->send(output);
 }
 
-void ProtocolTelnet::enableLineWrap()
+void Telnet::enableLineWrap()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\033[7h");
 	OutputMessagePool::getInstance()->send(output);
 }
 
-void ProtocolTelnet::disableLineWrap()
+void Telnet::disableLineWrap()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\033[7l");
 	OutputMessagePool::getInstance()->send(output);
 }
 /*
-void ProtocolTelnet::f1()
+void Telnet::f1()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\033[?25h\033c\033[?7h");
 	OutputMessagePool::getInstance()->send(output);
 }
 
-void ProtocolTelnet::f2()
+void Telnet::f2()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddByte(TELNET_IAC);
@@ -310,7 +313,7 @@ void ProtocolTelnet::f2()
 	OutputMessagePool::getInstance()->send(output);
 }
 
-void ProtocolTelnet::f3()
+void Telnet::f3()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddByte(TELNET_IAC);

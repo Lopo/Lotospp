@@ -1,11 +1,12 @@
 #ifndef LOTOS2_TEMPLATES_H
 #define LOTOS2_TEMPLATES_H
 
+
 #include "config.h"
 
-#include <set>
-
 #include <stdint.h>
+
+#include <set>
 
 #include <boost/thread/recursive_mutex.hpp>
 

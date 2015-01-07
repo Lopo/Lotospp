@@ -31,6 +31,7 @@
 #cmakedefine USE_IPV6 1
 
 #cmakedefine USE_MYSQL 1
+#cmakedefine USE_PUEBLO 1
 
 /* define if you use win32 thread */
 #cmakedefine USE_MSTHREADS 1

@@ -1,11 +1,12 @@
-#ifndef LOTOS2_NETWORK_PROTOCOLTELNET_H
-#define LOTOS2_NETWORK_PROTOCOLTELNET_H
+#ifndef LOTOS2_NETWORK_PROTOCOL_TELNET_H
+#define LOTOS2_NETWORK_PROTOCOL_TELNET_H
+
 
 #include "config.h"
 
 #include <stdint.h>
 
-#include <list>
+#include <string>
 
 #include "network/Protocol.h"
 #include "network/NetworkMessage.h"
@@ -18,7 +19,9 @@ namespace lotos2 {
 
 typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
 
-class ProtocolTelnet
+		namespace protocol {
+
+class Telnet
 	: public Protocol
 {
 public:
@@ -31,8 +34,8 @@ public:
 	static uint32_t protocolTelnetCount;
 #endif
 
-	ProtocolTelnet(Connection_ptr connection);
-	virtual ~ProtocolTelnet();
+	Telnet(Connection_ptr connection);
+	virtual ~Telnet();
 
 	void setUser(lotos2::User* p);
 
@@ -82,7 +85,8 @@ private:
 	void disableLineWrap();
 };
 
+		} // namespace protocol
 	} // namespace network
 } // namespace lotos2
 
-#endif /* LOTOS2_NETWORK_PROTOCOLTELNET_H */
+#endif // LOTOS2_NETWORK_PROTOCOL_TELNET_H

@@ -1,6 +1,7 @@
 #ifndef LOTOS2_SINGLETON_H
 #define	LOTOS2_SINGLETON_H
 
+
 #include "config.h"
 
 #include <boost/noncopyable.hpp>
@@ -54,4 +55,4 @@ boost::once_flag Singleton<T>::m_flag=BOOST_ONCE_INIT;
 
 } // namespace lotos2
 
-#endif /* LOTOS2_SINGLETON_H */
+#endif // LOTOS2_SINGLETON_H

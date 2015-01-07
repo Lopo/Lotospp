@@ -1,6 +1,7 @@
 #ifndef LOTOS2_SYSTEM_H
 #define LOTOS2_SYSTEM_H
 
+
 #include "config.h"
 
 #include <stdint.h>
@@ -25,15 +26,15 @@ typedef int socklen_t;
 
 #else  // #if defined __WINDOWS__
 
-#include <stdint.h>
-#include <time.h>
-#include <sys/types.h>
 #include <sys/timeb.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <errno.h>
+#include <unistd.h>
+//#include <time.h>
+//#include <sys/types.h>
+//#include <sys/socket.h>
+//#include <netinet/in.h>
+//#include <arpa/inet.h>
+//#include <netdb.h>
+//#include <errno.h>
 
 inline int64_t SYS_TIME()
 {

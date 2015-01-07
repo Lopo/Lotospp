@@ -24,4 +24,4 @@ struct Account
 
 } // namespace lotos2
 
-#endif /* LOTOS2_STRUCTS_ACCOUNT_H */
+#endif // LOTOS2_STRUCTS_ACCOUNT_H

@@ -9,6 +9,7 @@
 
 #include <string>
 #include <iostream>
+#include <ios>
 
 #include <boost/program_options.hpp>
 #include <boost/program_options/detail/utf8_codecvt_facet.hpp>
@@ -22,23 +23,21 @@
 #include <fstream>
 //#include <boost/random.hpp>
 
-#include "globals.h"
 #include "misc.h"
 
-#include "server.h"
-#include "network/ProtocolTelnet.h"
+#include "network/ServiceManager.h"
+#include "network/protocol/Telnet.h"
 #include "Logger.h"
 
-using std::cout;
-using std::cerr;
-using std::string;
+#include "globals.h"
+
 
 using namespace lotos2;
 
 
 bool configure(int ac, char **av)
 {
-	string cf="config.ini",
+	std::string cf="config.ini",
 		logFile,
 		pidFile;
 
@@ -48,14 +47,14 @@ bool configure(int ac, char **av)
 
 	po::options_description generic("Allowed options");
 	generic.add_options()
-		("configFile,c", po::value<string>(&cf)->default_value("config.ini"), "config file")
+		("configFile,c", po::value<std::string>(&cf)->default_value("config.ini"), "config file")
 		("help,h", "this help")
 		("version,V", "")
 #ifdef HAVE_FORK
 		("daemon,d", "fork to background as daemon")
 #endif
-		("logFile,l", po::value<string>(&logFile), "")
-		("pidFile,p", po::value<string>(&pidFile), "")
+		("logFile,l", po::value<std::string>(&logFile), "")
+		("pidFile,p", po::value<std::string>(&pidFile), "")
 		("suppress,s", "suppress config info")
 		;
 	po::positional_options_description p;
@@ -66,24 +65,24 @@ bool configure(int ac, char **av)
 	po::notify(vm);
 
 	if (vm.count("version")) {
-		cout << LOTOS2_VERSION_STRING << std::endl;
+		std::cout << LOTOS2_VERSION_STRING << std::endl;
 		return false;
 		}
 	if (vm.count("help")) {
-		cout << generic << std::endl;
+		std::cout << generic << std::endl;
 		return false;
 		}
 
 	if (cf!="") {
 		if (!fs::exists(cf)) {
-			cerr << "ERROR: The config file '" << cf << "' not found." << std::endl;
+			std::cerr << "ERROR: The config file '" << cf << "' not found." << std::endl;
 			exit(1);
 			}
 		if (!fs::is_regular_file(cf)) {
-			cerr << "ERROR: The config file '" << cf << "' isn't regular file." << std::endl;
+			std::cerr << "ERROR: The config file '" << cf << "' isn't regular file." << std::endl;
 			exit(1);
 			}
-		string scf(cf);
+		std::string scf(cf);
 		pt::ini_parser::read_ini(scf, options);
 		}
 #ifdef HAVE_FORK
@@ -101,12 +100,12 @@ bool configure(int ac, char **av)
 		options.put("global.logFile", logFile);
 		}
 	else {
-		logFile=options.get<string>("global.logFile", "");
+		logFile=options.get<std::string>("global.logFile", "");
 		}
 
 	if (logFile!="" && logFile!="/dev/null") {
 		if (fs::exists(logFile) && !fs::is_regular_file(logFile)) {
-			cerr << "ERROR: The log file must either be a regular file or /dev/null." << std::endl;
+			std::cerr << "ERROR: The log file must either be a regular file or /dev/null." << std::endl;
 			return false;
 			}
 		unlink(logFile.c_str());
@@ -114,12 +113,12 @@ bool configure(int ac, char **av)
 		}
 	int userPort=options.get<uint16_t>("global.userPort", 0);
 	if (userPort<=1024) {
-		cout << "Main port must be higher then 1024, actual: " << userPort << std::endl;
+		std::cout << "Main port must be higher then 1024, actual: " << userPort << std::endl;
 		return false;
 		}
 	if (options.get("global.daemon", false)) {
 		if (logFile=="") {
-			cerr << "ERROR: You must specify a log file if the server is to be run as a daemon" << std::endl;
+			std::cerr << "ERROR: You must specify a log file if the server is to be run as a daemon" << std::endl;
 			return false;
 			}
 		}
@@ -133,41 +132,41 @@ void parse_config(void)
 {
 	namespace fs=boost::filesystem;
 
-	string serverName(options.get("global.serverName", ""));
+	std::string serverName(options.get("global.serverName", ""));
 	if (serverName=="") {
-		cerr << "ERROR: Server name not specified" << std::endl;
+		std::cerr << "ERROR: Server name not specified" << std::endl;
 		exit(1);
 		}
 	if (serverName.length()>10) {
-		cerr << "ERROR: Server name is too long" << std::endl;
+		std::cerr << "ERROR: Server name is too long" << std::endl;
 		exit(1);
 		}
 	if (has_whitespace(serverName.c_str())) {
-		cerr << "ERROR: Server name can't contain whitespace" << std::endl;
+		std::cerr << "ERROR: Server name can't contain whitespace" << std::endl;
 		exit(1);
 		}
-	string workingDir(options.get("global.workingDir", ""));
+	std::string workingDir(options.get("global.workingDir", ""));
 	if (boost::ends_with(workingDir, "/")) {
 		boost::algorithm::erase_last(workingDir, "/");
 		options.put("global.workingDir", workingDir);
 		}
 	if (!fs::exists(workingDir) || !fs::is_directory(workingDir)) {
-		cerr << "ERROR: Working dir '" << workingDir << "' don't exist or isn't dir" << std::endl;
+		std::cerr << "ERROR: Working dir '" << workingDir << "' don't exist or isn't dir" << std::endl;
 		exit(1);
 		}
 	fs::path wPath=fs::canonical(workingDir);
 	int userPort=options.get<uint16_t>("global.userPort", 0);
 	if (userPort<=1024 || userPort>65535) {
-		cerr << "ERROR: Invalid user port number " << userPort << ". Range is 1025 - 65535." << std::endl;
+		std::cerr << "ERROR: Invalid user port number " << userPort << ". Range is 1025 - 65535." << std::endl;
 		exit(1);
 		}
 
 	if (!options.get<bool>("global.suppress_config_info", false)) {
 		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Server name: "+serverName);
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Original dir: "+options.get<string>("runtime.originalDir"));
+		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Original dir: "+options.get<std::string>("runtime.originalDir"));
 		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Working dir: "+wPath.string());
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Log file: "+(options.get<string>("global.logFile", "")!=""? options.get<string>("global.logFile", "") : string("<stdout>")));
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "User port: "+options.get<string>("global.userPort"));
+		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Log file: "+(options.get<std::string>("global.logFile", "")!=""? options.get<std::string>("global.logFile", "") : std::string("<stdout>")));
+		LOG_MESSAGE(NULL, LOGTYPE_INFO, "User port: "+options.get<std::string>("global.userPort"));
 		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Done.");
 		}
 }
@@ -182,7 +181,7 @@ void init(void)
 	setlocale(LC_ALL, "C");
 	char* original_dir=getcwd(NULL, 0);
 	if (!original_dir) {
-		cerr << "ERROR: getcwd()" << std::endl;
+		std::cerr << "ERROR: getcwd()" << std::endl;
 		exit(1);
 		}
 	options.put("runtime.originalDir", original_dir);
@@ -198,7 +197,7 @@ void init(void)
 
 	LOG_MESSAGE(NULL, LOGTYPE_INFO, "Number of found CPUs: "+std::to_string(boost::thread::hardware_concurrency()));
 
-	string pidFile(options.get("global.pidFile", ""));
+	std::string pidFile(options.get("global.pidFile", ""));
 	if (pidFile!="") {
 		std::ofstream f(pidFile, std::ios::trunc|std::ios::out);
 		f << getpid();
@@ -233,10 +232,10 @@ boost::mutex g_loaderLock;
 boost::condition_variable g_loaderSignal;
 boost::unique_lock<boost::mutex> g_loaderUniqueLock(g_loaderLock);
 
-void mainLoader(ServiceManager* service_manager)
+void mainLoader(network::ServiceManager* service_manager)
 {
 	// Tie ports and register services
-	service_manager->add<network::ProtocolTelnet>(options.get<uint16_t>("global.userPort"));
+	service_manager->add<network::protocol::Telnet>(options.get<uint16_t>("global.userPort"));
 
 	g_talker.start(service_manager);
 	g_loaderSignal.notify_all();
@@ -247,7 +246,7 @@ int main(int argc, char **argv)
 {
 #ifndef WIN32
 	if (!getuid() || !geteuid()) {
-		cout << "executed as root - login as normal user" << std::endl;
+		std::cout << "executed as root - login as normal user" << std::endl;
 		return 1;
 		}
 #endif
@@ -259,10 +258,10 @@ int main(int argc, char **argv)
 	if (false && options.get("global.daemon", false)) { // XXX
 		switch (fork()) {
 			case -1:
-				cerr << "ERROR: fork()" << std::endl;
+				std::cerr << "ERROR: fork()" << std::endl;
 				exit(1);
 			case 0:
-				cout << "forked to background, pid " << getpid() << std::endl;
+				std::cout << "forked to background, pid " << getpid() << std::endl;
 				options.put("runtime.main_pid", getpid());
 				break;
 			default:
@@ -272,7 +271,7 @@ int main(int argc, char **argv)
 #endif
 
 	init();
-	ServiceManager servicer;
+	network::ServiceManager servicer;
 
 	// Start scheduler and dispatcher threads
 	g_dispatcher.start();

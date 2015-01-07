@@ -1,5 +1,6 @@
 #include "config.h"
 
+#include <time.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -9,6 +10,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include "globals.h"
+
 
 namespace lotos2 {
 

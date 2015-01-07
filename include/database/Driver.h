@@ -1,12 +1,12 @@
 #ifndef LOTOS2_DATABASE_DRIVER_H
 #define	LOTOS2_DATABASE_DRIVER_H
 
+
 #include "config.h"
 
-#include <iosfwd>
-#include <string>
+#include <stdint.h>
 
-#include <boost/shared_ptr.hpp>
+#include <string>
 
 #include "database/Query.h"
 #include "database/Result.h"
@@ -142,4 +142,4 @@ private:
 	} // namespace database
 } // namespace lotos2
 
-#endif /* LOTOS2_DATABASE_DRIVER_H */
+#endif // LOTOS2_DATABASE_DRIVER_H

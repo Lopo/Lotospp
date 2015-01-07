@@ -1,12 +1,13 @@
 #ifndef LOTOS2_NETWORK_PROTOCOL_H
 #define	LOTOS2_NETWORK_PROTOCOL_H
 
+
 #include "config.h"
 
-#include <boost/shared_ptr.hpp>
-#include <boost/noncopyable.hpp>
-
 #include <stdint.h>
+
+#include <boost/noncopyable.hpp>
+#include <boost/asio/ip/address.hpp>
 
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
@@ -58,4 +59,4 @@ private:
 	} // namespace network
 } // namespace lotos2
 
-#endif /* LOTOS2_NETWORK_PROTOCOL_H */
+#endif // LOTOS2_NETWORK_PROTOCOL_H

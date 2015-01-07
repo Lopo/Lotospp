@@ -2,16 +2,22 @@
 
 #include "config.h"
 
-#include "database/Driver.h"
-#include "database/Query.h"
-#include "database/Result.h"
-
-#include "database/driver/MySQL.h"
 #ifdef __MYSQL_ALT_INCLUDE__
 #include "errmsg.h"
 #else
 #include <mysql/errmsg.h>
 #endif
+
+#include <iostream>
+#include <string>
+
+#include <boost/bind.hpp>
+
+#include "database/Driver.h"
+#include "database/Query.h"
+#include "database/Result.h"
+
+#include "database/driver/MySQL.h"
 
 #include "globals.h"
 

@@ -35,6 +35,7 @@ option(USE_IPV6 "Enable IPv6 support" ON)
 option(USE_MYSQL "Enable use of MySQL" OFF)
 option(USE_CLANG "Build application with clang" OFF) # OFF is the default
 option(USE_DOXYGEN "Build docs via doxygen" OFF)
+option(USE_PUEBLO "Enable Pueblo support" OFF)
 
 include(cmake/CommonCompilerFlags.cmake)
 
@@ -81,6 +82,11 @@ if (USE_MYSQL)
 		add_definitions(-DUSE_MYSQL)
 	endif (MYSQL_FOUND)
 endif (USE_MYSQL)
+
+# Pueblo
+if (USE_PUEBLO)
+	message(STATUS "Pueblo support enabled")
+endif (USE_PUEBLO)
 
 #check_function_exists (vasprintf HAVE_VASPRINTF)
 check_function_exists(fork HAVE_FORK)

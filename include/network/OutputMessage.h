@@ -1,16 +1,20 @@
 #ifndef LOTOS2_NETWORK_OUTPUTMESSAGE_H
 #define LOTOS2_NETWORK_OUTPUTMESSAGE_H
 
+
 #include "config.h"
+
+#include <stdint.h>
 
 #include <cstddef>
 #include <list>
 
-#include <stdint.h>
-
+#include <boost/shared_ptr.hpp>
+#include <boost/noncopyable.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 
 #include "network/NetworkMessage.h"
+
 
 namespace lotos2 {
 	namespace network {
@@ -145,4 +149,4 @@ protected:
 	} // namespace network
 } // namespace lotos2
 
-#endif /* LOTOS2_NETWORK_OUTPUTMESSAGE_H */
+#endif // LOTOS2_NETWORK_OUTPUTMESSAGE_H

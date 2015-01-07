@@ -1,12 +1,15 @@
 #include "config.h"
 
-#include <fstream>
+#include <stdint.h>
+
+#include <iostream>
+#include <vector>
 
 #include "Talker.h"
 #include "Scheduler.h"
-#include "tasks.h"
+//#include "tasks.h"
 #include "User.h"
-#include "server.h"
+#include "network/ServiceManager.h"
 
 #include "globals.h"
 
@@ -17,11 +20,12 @@ using lotos2::Talker;
 
 #if defined __EXCEPTION_TRACER__
 #	include "Exception.h"
+#	include <boost/thread/recursive_mutex.hpp>
 	extern boost::recursive_mutex maploadlock;
 #endif
 
 
-void Talker::start(ServiceManager* servicer)
+void Talker::start(network::ServiceManager* servicer)
 {
 	service_manager=servicer;
 }

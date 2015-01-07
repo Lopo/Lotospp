@@ -1,12 +1,16 @@
 #ifndef LOTOS2_DATABASE_INSERT_H
 #define	LOTOS2_DATABASE_INSERT_H
 
+
 #include "config.h"
+
+#include <stdint.h>
 
 #include <string>
 #include <iosfwd>
 
 #include "Driver.h"
+
 
 namespace lotos2 {
 	namespace database {
@@ -69,4 +73,4 @@ protected:
 	} // namespace database
 } // namespace lotos2
 
-#endif /* LOTOS2_DATABASE_INSERT_H */
+#endif // LOTOS2_DATABASE_INSERT_H

@@ -1,10 +1,17 @@
 #include "config.h"
 
+#include <stdint.h>
+
+#include <boost/thread/recursive_mutex.hpp>
+#include <boost/bind.hpp>
+
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
 #include "network/Protocol.h"
 #include "Scheduler.h"
 #include "Singleton.h"
+
+#include "globals.h"
 
 
 using namespace lotos2;
@@ -12,7 +19,7 @@ using lotos2::network::OutputMessage;
 using lotos2::network::OutputMessagePool;
 
 
-extern Dispatcher g_dispatcher;
+//extern Dispatcher g_dispatcher;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 uint32_t OutputMessagePool::OutputMessagePoolCount=OUTPUT_POOL_SIZE;

@@ -1,7 +1,9 @@
-#ifndef LOTOS2_NETWORK_PROTOCOL_CONST_H
-#define LOTOS2_NETWORK_PROTOCOL_CONST_H
+#ifndef LOTOS2_NETWORK_PROTOCOLCONST_H
+#define LOTOS2_NETWORK_PROTOCOLCONST_H
+
 
 #include "config.h"
+
 
 namespace lotos2 {
 	namespace network {
@@ -15,4 +17,4 @@ namespace lotos2 {
 	} // namespace network
 } // namespace lotos2
 
-#endif /* LOTOS2_NETWORK_PROTOCOL_CONST_H */
+#endif // LOTOS2_NETWORK_PROTOCOLCONST_H

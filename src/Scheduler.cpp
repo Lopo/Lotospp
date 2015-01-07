@@ -1,7 +1,17 @@
 #include "config.h"
 
+#include <stdint.h>
+#include <assert.h>
+
+#include <iostream>
+
+#include <boost/thread.hpp>
+#include <boost/bind.hpp>
+
 #include "Scheduler.h"
 #include "Logger.h"
+
+#include "globals.h"
 
 #if defined __EXCEPTION_TRACER__
 #include "Exception.h"

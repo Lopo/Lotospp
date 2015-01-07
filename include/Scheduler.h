@@ -1,15 +1,21 @@
 #ifndef LOTOS2_SCHEDULER_H
 #define LOTOS2_SCHEDULER_H
 
+
 #include "config.h"
 
+#include <stdint.h>
+#include <assert.h>
+
 #include <queue>
+#include <vector>
 #include <set>
 
+#include <boost/date_time.hpp>
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
 
-#include "tasks.h"
+#include "Task.h"
 #include "system.h"
 
 
@@ -103,4 +109,4 @@ extern Scheduler g_scheduler;
 
 } // namespace lotos2
 
-#endif /* LOTOS2_SCHEDULER_H */
+#endif // LOTOS2_SCHEDULER_H

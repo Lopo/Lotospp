@@ -1,6 +1,9 @@
 #include "config.h"
 
-#include <ctime>
+#include <stdio.h>
+#include <time.h>
+
+#include <string>
 
 #include <boost/date_time.hpp>
 

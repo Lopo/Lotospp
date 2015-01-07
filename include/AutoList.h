@@ -1,11 +1,12 @@
 #ifndef LOTOS2_AUTOLIST_H
 #define LOTOS2_AUTOLIST_H
 
+
 #include "config.h"
 
-#include <map>
-
 #include <stdint.h>
+
+#include <map>
 
 
 namespace lotos2 {

@@ -617,4 +617,4 @@ void ExceptionHandler::dumpStack()
 }
 #endif
 
-#endif /* __EXCEPTION_TRACER__ */
+#endif // __EXCEPTION_TRACER__

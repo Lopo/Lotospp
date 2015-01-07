@@ -1,9 +1,8 @@
 #ifndef LOTOS2_THING_H
 #define LOTOS2_THING_H
 
-#include "config.h"
 
-#include <string>
+#include "config.h"
 
 #include <stdint.h>
 
@@ -27,4 +26,4 @@ private:
 
 } // namespace lotos2
 
-#endif /* LOTOS2_THING_H */
+#endif // LOTOS2_THING_H

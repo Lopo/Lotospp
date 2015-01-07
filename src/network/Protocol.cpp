@@ -1,8 +1,15 @@
 #include "config.h"
 
+#include <assert.h>
+
 #if defined WIN32
 #include <winerror.h>
 #endif
+
+#include <iostream>
+
+#include <boost/bind.hpp>
+#include <boost/asio/ip/address.hpp>
 
 #include "network/Protocol.h"
 #include "Scheduler.h"

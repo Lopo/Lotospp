@@ -1,12 +1,17 @@
 #ifndef LOTOS2_TALKER_H
 #define	LOTOS2_TALKER_H
 
+
 #include "config.h"
+
+#include <stdint.h>
+
+#include <vector>
 
 #include "AutoList.h"
 #include "structs/Account.h"
 #include "User.h"
-#include "server.h"
+#include "network/ServiceManager.h"
 
 
 namespace lotos2 {
@@ -18,7 +23,7 @@ namespace lotos2 {
 class Talker
 {
 public:
-	void start(ServiceManager* servicer);
+	void start(network::ServiceManager* servicer);
 
 	/**
 	 * Returns a user based on the unique soul identifier
@@ -60,9 +65,9 @@ protected:
 
 	uint32_t maxUsers;
 
-	ServiceManager* service_manager;
+	network::ServiceManager* service_manager;
 };
 
 } // namespace lotos2
 
-#endif /* LOTOS2_TALKER_H */
+#endif // LOTOS2_TALKER_H

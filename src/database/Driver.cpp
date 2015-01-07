@@ -1,13 +1,16 @@
 #include "config.h"
 
+#include <string>
+#include <stdexcept>
+
 #include "database/Driver.h"
 
 #ifdef USE_MYSQL
 #include "database/driver/MySQL.h"
 #endif
 
-#include "globals.h"
 #include "misc.h"
+#include "globals.h"
 
 
 using namespace lotos2;

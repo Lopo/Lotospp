@@ -1,11 +1,12 @@
 #ifndef LOTOS2_LOGGER_H
 #define LOTOS2_LOGGER_H
 
+
 #include "config.h"
 
-#include <string>
-
 #include <stdio.h>
+
+#include <string>
 
 
 namespace lotos2 {
@@ -41,4 +42,4 @@ private:
 
 } // namespace lotos2
 
-#endif /* LOTOS2_LOGGER_H */
+#endif // LOTOS2_LOGGER_H
