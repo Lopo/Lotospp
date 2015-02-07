@@ -172,7 +172,7 @@ network::Protocol* ServicePort::make_protocol(NetworkMessage& msg) const
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
 		}
 
-	return NULL;
+	return nullptr;
 }
 
 void ServicePort::onStopServer()

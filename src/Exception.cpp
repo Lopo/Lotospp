@@ -68,7 +68,6 @@ using lotos2::ExceptionHandler;
 
 ExceptionHandler::ExceptionHandler()
 {
-	isInstalled=false;
 }
 
 ExceptionHandler::~ExceptionHandler()

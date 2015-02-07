@@ -17,7 +17,7 @@ using namespace lotos2;
 using lotos2::database::Driver;
 
 
-Driver* Driver::_instance=NULL;
+Driver* Driver::_instance=nullptr;
 
 Driver* Driver::instance()
 {

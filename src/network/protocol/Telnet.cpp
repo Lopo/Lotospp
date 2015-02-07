@@ -78,10 +78,6 @@ void Telnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const Functio
 Telnet::Telnet(Connection_ptr connection)
 	: Protocol(connection)
 {
-	user=NULL;
-	m_debugAssertSent=false;
-	m_acceptPackets=false;
-	eventConnect=0;
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	protocolTelnetCount++;
 #endif
@@ -89,7 +85,7 @@ Telnet::Telnet(Connection_ptr connection)
 
 Telnet::~Telnet()
 {
-	user=NULL;
+	user=nullptr;
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	protocolTelnetCount--;
 #endif
@@ -120,7 +116,7 @@ void Telnet::releaseProtocol()
 {
 	//dispatcher thread
 	if (user && user->client==this) {
-		user->client=NULL;
+		user->client=nullptr;
 		}
 
 	Protocol::releaseProtocol();
@@ -134,7 +130,7 @@ void Telnet::deleteProtocolTask()
 		std::cout << "Deleting Telnet - Protocol:" << this << ", User: " << user << std::endl;
 #endif
 		g_talker.FreeThing(user);
-		user=NULL;
+		user=nullptr;
 		}
 
 	Protocol::deleteProtocolTask();

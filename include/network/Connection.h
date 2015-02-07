@@ -99,18 +99,18 @@ private:
 	boost::asio::deadline_timer m_writeTimer;
 	boost::asio::io_service& m_io_service;
 	ServicePort_ptr m_service_port;
-	bool m_receivedFirst;
-	bool m_writeError;
-	bool m_readError;
+	bool m_receivedFirst=false;
+	bool m_writeError=false;
+	bool m_readError=false;
 
-	int32_t m_pendingWrite;
-	int32_t m_pendingRead;
-	ConnectionState_t m_connectionState;
-	uint32_t m_refCount;
+	int32_t m_pendingWrite=0;
+	int32_t m_pendingRead=0;
+	ConnectionState_t m_connectionState=CONNECTION_STATE_OPEN;
+	uint32_t m_refCount=0;
 	static bool m_logError;
 	boost::recursive_mutex m_connectionLock;
 
-	Protocol* m_protocol;
+	Protocol* m_protocol=nullptr;
 };
 
 typedef boost::shared_ptr<Connection> Connection_ptr;

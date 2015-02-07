@@ -28,8 +28,6 @@ using namespace lotos2::database::driver;
 
 MySQL::MySQL()
 {
-	m_connected=false;
-
 	// connection handle initialization
 	if (!mysql_init(&m_handle)) {
 		std::cout << std::endl << "Failed to initialize MySQL connection handle." << std::endl;

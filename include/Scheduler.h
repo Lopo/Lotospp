@@ -98,11 +98,11 @@ protected:
 	boost::mutex m_eventLock;
 	boost::condition_variable m_eventSignal;
 
-	uint32_t m_lastEventId;
+	uint32_t m_lastEventId=0;
 	std::priority_queue<SchedulerTask*, std::vector<SchedulerTask*>, lessSchedTask > m_eventList;
 	typedef std::set<uint32_t> EventIdSet;
 	EventIdSet m_eventIds;
-	SchedulerState m_threadState;
+	SchedulerState m_threadState=STATE_TERMINATED;
 };
 
 extern Scheduler g_scheduler;

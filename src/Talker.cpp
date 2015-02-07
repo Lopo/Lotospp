@@ -33,14 +33,14 @@ void Talker::start(network::ServiceManager* servicer)
 User* Talker::getUserByID(uint32_t id)
 {
 	if (id==0) {
-		return NULL;
+		return nullptr;
 		}
 
 	AutoList<User>::listiterator it=User::listUser.list.find(id);
 	if (it!=User::listUser.list.end()) {
 		}
 
-	return NULL; //just in case the user doesnt exist
+	return nullptr; //just in case the user doesnt exist
 }
 
 UserVector Talker::getUsersByIP(uint32_t ipadress, uint32_t mask)

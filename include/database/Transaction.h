@@ -16,7 +16,6 @@ public:
 	Transaction(Driver* database)
 	{
 		m_database=database;
-		m_state=STATE_NO_START;
 	};
 
 	~Transaction()
@@ -47,7 +46,7 @@ private:
 		STATE_START,
 		STEATE_COMMIT
 		};
-	TransactionStates_t m_state;
+	TransactionStates_t m_state=STATE_NO_START;
 	Driver* m_database;
 };
 

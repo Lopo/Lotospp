@@ -14,7 +14,6 @@ using lotos2::database::Insert;
 Insert::Insert(Driver* db)
 {
 	m_db=db;
-	m_rows=0;
 
 	// checks if current database engine supports multi line INSERTs
 	m_multiLine=m_db->getParam(DBPARAM_MULTIINSERT)!=0;

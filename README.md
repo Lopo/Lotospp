@@ -10,7 +10,7 @@ Dependencies
 ============
 
 * cmake
-* Boost libraries
+* Boost libraries (www.boost.org)
  - boost
  - boost-program-options
  - boost-system

@@ -31,7 +31,7 @@ private:
 #endif
 #endif
 
-	bool isInstalled;
+	bool isInstalled=false;
 };
 
 } // namespace lotos2

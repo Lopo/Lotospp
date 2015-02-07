@@ -128,12 +128,12 @@ protected:
 	virtual bool internalQuery(const std::string &query)=0;
 	virtual Result_ptr internalSelectQuery(const std::string &query)=0;
 
-	Driver() : m_connected(false) {};
+	Driver() {};
 	virtual ~Driver() {};
 
 	Result_ptr verifyResult(Result_ptr result);
 
-	bool m_connected;
+	bool m_connected=false;
 
 private:
 	static Driver* _instance;

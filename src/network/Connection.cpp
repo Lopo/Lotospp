@@ -101,15 +101,6 @@ Connection::Connection(boost::asio::ip::tcp::socket* socket, boost::asio::io_ser
 		m_io_service(io_service),
 		m_service_port(service_port)
 {
-	m_refCount=0;
-	m_protocol=NULL;
-	m_pendingWrite=0;
-	m_pendingRead=0;
-	m_connectionState=CONNECTION_STATE_OPEN;
-	m_receivedFirst=false;
-	m_writeError=false;
-	m_readError=false;
-
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	connectionCount++;
 #endif
@@ -161,7 +152,7 @@ void Connection::closeConnectionTask()
 	if (m_protocol) {
 		m_protocol->setConnection(Connection_ptr());
 		m_protocol->releaseProtocol();
-		m_protocol=NULL;
+		m_protocol=nullptr;
 		}
 
 	m_connectionState=CONNECTION_STATE_CLOSING;
@@ -251,7 +242,7 @@ void Connection::onStopOperation()
 		}
 
 	delete m_socket;
-	m_socket=NULL;
+	m_socket=nullptr;
 
 	m_connectionLock.unlock();
 	ConnectionManager::getInstance()->releaseConnection(shared_from_this());

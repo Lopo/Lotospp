@@ -67,11 +67,11 @@ private:
 	template<class FunctionType>
 	void addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType&);
 
-	lotos2::User* user;
+	lotos2::User* user=nullptr;
 
-	uint32_t eventConnect;
-	bool m_debugAssertSent;
-	bool m_acceptPackets;
+	uint32_t eventConnect=0;
+	bool m_debugAssertSent=false;
+	bool m_acceptPackets=false;
 
 	// Tell telnet to echo characters
 	void sendEchoOn();

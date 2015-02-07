@@ -15,7 +15,6 @@ using lotos2::Creature;
 
 Creature::Creature()
 {
-	id=0;
 }
 
 Creature::~Creature()

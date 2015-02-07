@@ -37,7 +37,7 @@ public:
     virtual void removeList() =0;
 
 protected:
-	uint32_t id;
+	uint32_t id=0;
 
 	friend class Talker;
 };

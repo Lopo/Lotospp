@@ -24,8 +24,6 @@ using lotos2::Logger;
 
 Scheduler::Scheduler()
 {
-	m_lastEventId=0;
-	m_threadState=STATE_TERMINATED;
 }
 
 void Scheduler::shutdownAndWait()
@@ -56,7 +54,7 @@ void Scheduler::schedulerThread(void* p)
 	boost::unique_lock<boost::mutex> eventLockUnique(scheduler->m_eventLock, boost::defer_lock);
 
 	while (scheduler->m_threadState!=STATE_TERMINATED) {
-		SchedulerTask* task=NULL;
+		SchedulerTask* task=nullptr;
 		bool runTask=false;
 		bool ret=true;
 

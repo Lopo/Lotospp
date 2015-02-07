@@ -64,7 +64,7 @@ void Protocol::releaseProtocol()
 
 void Protocol::deleteProtocolTask()
 {
-	//dispather thread
+	//dispatcher thread
 	assert(m_refCount==0);
 	setConnection(Connection_ptr());
 

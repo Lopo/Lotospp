@@ -57,7 +57,7 @@ uint64_t OutputMessage::getFrame() const
 void OutputMessage::freeMessage()
 {
 	setConnection(Connection_ptr());
-	setProtocol(NULL);
+	setProtocol(nullptr);
 	m_frame=0;
 	m_outputBufferStart=0;
 
@@ -273,7 +273,7 @@ network::OutputMessage_ptr OutputMessagePool::getOutputMessage(Protocol* protoco
 
 	boost::recursive_mutex::scoped_lock lockClass(m_outputPoolLock);
 
-	if (protocol->getConnection()==NULL) {
+	if (protocol->getConnection()==nullptr) {
 		return OutputMessage_ptr();
 		}
 
@@ -312,7 +312,7 @@ void OutputMessagePool::configureOutputMessage(OutputMessage_ptr msg, Protocol* 
 		}
 
 	Connection_ptr connection=protocol->getConnection();
-	assert(connection!=NULL);
+	assert(connection!=nullptr);
 
 	msg->setProtocol(protocol);
 	protocol->addRef();
