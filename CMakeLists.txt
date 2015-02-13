@@ -18,6 +18,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/Modules")
 message(STATUS "modpath: ${CMAKE_MODULE_PATH}")
 
+# Make sure the compiler can compile C++11 code
+include(FindCXX11)
+
 include(CheckFunctionExists)
 include(CheckIncludeFile)
 #include(CheckPrototypeDefinition)

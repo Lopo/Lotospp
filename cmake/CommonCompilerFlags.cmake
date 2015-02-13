@@ -61,16 +61,3 @@ check_cxx_compiler_flag(-Wextra CXX_COMPILER_WEXTRA)
 if(CXX_COMPILER_WEXTRA)
 	add_compile_options(-Wextra)
 endif(CXX_COMPILER_WEXTRA)
-
-# Add -std=c++11 if supported by compiler
-check_cxx_compiler_flag(-std=c++11 CXX_COMPILER_STD_CPP11)
-if(CXX_COMPILER_STD_CPP11)
-#	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-	add_compile_options(-std=c++11)
-endif(CXX_COMPILER_STD_CPP11)
-
-# Add -std=c++14 if supported by compiler
-#check_cxx_accepts_flag(-std=c++14 CXX_ACCEPTS_STD_CPP14)
-#if(CXX_ACCEPTS_STD_CPP14)
-#	add_definitions(-std=c++14)
-#endif(CXX_ACCEPTS_STD_CPP14)
