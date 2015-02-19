@@ -6,20 +6,17 @@
 #include <boost/bind.hpp>
 
 #include "network/OutputMessage.h"
+#include "globals.h"
 #include "network/Connection.h"
 #include "network/Protocol.h"
-#include "Scheduler.h"
 #include "Singleton.h"
-
-#include "globals.h"
+#include "system.h"
 
 
 using namespace lotos2;
 using lotos2::network::OutputMessage;
 using lotos2::network::OutputMessagePool;
 
-
-//extern Dispatcher g_dispatcher;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 uint32_t OutputMessagePool::OutputMessagePoolCount=OUTPUT_POOL_SIZE;
@@ -115,7 +112,6 @@ OutputMessagePool::~OutputMessagePool()
 
 void OutputMessagePool::startExecutionFrame()
 {
-	//boost::recursive_mutex::scoped_lock lockClass(m_outputPoolLock);
 	m_frameTime=SYS_TIME();
 	m_isOpen=true;
 }

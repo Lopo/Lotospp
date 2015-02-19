@@ -8,13 +8,11 @@
 
 #include <boost/thread.hpp>
 
-#include "Task.h"
-
 
 namespace lotos2 {
+	class Task;
 
 const int DISPATCHER_TASK_EXPIRATION=2000;
-
 
 enum DispatcherState {
 	STATE_RUNNING,

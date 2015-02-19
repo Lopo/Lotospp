@@ -9,12 +9,12 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 
-#include "network/Protocol.h"
-#include "network/Connection.h"
-
 
 namespace lotos2 {
 	namespace network {
+		class Protocol;
+		class Connection;
+		typedef boost::shared_ptr<Connection> Connection_ptr;
 
 class ServiceBase
 	: boost::noncopyable

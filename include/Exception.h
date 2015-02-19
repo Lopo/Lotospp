@@ -1,7 +1,10 @@
-#if defined __EXCEPTION_TRACER__
-
 #ifndef LOTOS2_EXCEPTION_H
 #define	LOTOS2_EXCEPTION_H
+
+#if defined __EXCEPTION_TRACER__
+
+
+#include "config.h"
 
 
 namespace lotos2 {
@@ -36,6 +39,5 @@ private:
 
 } // namespace lotos2
 
-#endif // LOTOS2_EXCEPTION_H
-
 #endif // __EXCEPTION_TRACER__
+#endif // LOTOS2_EXCEPTION_H

@@ -14,9 +14,8 @@
 
 namespace lotos2 {
 	namespace database {
-
-class Result;
-typedef boost::shared_ptr<Result> Result_ptr;
+		class Result;
+		typedef boost::shared_ptr<Result> Result_ptr;
 
 class Result
 	: public boost::enable_shared_from_this<Result>

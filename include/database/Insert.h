@@ -7,13 +7,12 @@
 #include <stdint.h>
 
 #include <string>
-#include <iosfwd>
-
-#include "Driver.h"
+#include <sstream>
 
 
 namespace lotos2 {
 	namespace database {
+		class Driver;
 
 /**
  * INSERT statement

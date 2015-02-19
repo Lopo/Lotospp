@@ -13,22 +13,17 @@
 #include <iostream>
 
 #include <boost/bind.hpp>
-#include <boost/date_time.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/system/system_error.hpp>
-#include <boost/asio/placeholders.hpp>
-#include <boost/asio/io_service.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ip/address.hpp>
+#include <boost/asio.hpp>
 
-#include "network/Service.h"
-#include "Scheduler.h"
-#include "network/OutputMessage.h"
+#include "network/ServicePort.h"
+#include "globals.h"
+#include "network/ServiceBase.h"
 #include "network/Connection.h"
 
 #include "Logger.h"
 
-#include "globals.h"
 
 using namespace lotos2;
 using lotos2::network::ServicePort;

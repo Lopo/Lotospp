@@ -6,9 +6,7 @@
 #include <iostream>
 
 #include "network/protocol/Telnet.h"
-#include "Scheduler.h"
 #include "Task.h"
-#include "Talker.h"
 #include "User.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"

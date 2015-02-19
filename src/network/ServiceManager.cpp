@@ -3,32 +3,22 @@
 #include <stdint.h>
 
 #if defined __WINDOWS__ || defined WIN32
-#include <winerror.h>
+#	include <winerror.h>
 #endif
 
 #include <list>
 #include <map>
-#include <string>
-#include <vector>
-#include <iostream>
 
 #include <boost/bind.hpp>
 #include <boost/date_time.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/system/system_error.hpp>
-#include <boost/asio/placeholders.hpp>
-#include <boost/asio/io_service.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ip/address.hpp>
 
-#include "network/Service.h"
-#include "Scheduler.h"
+#include "network/ServiceManager.h"
+#include "globals.h"
 #include "network/OutputMessage.h"
-#include "network/Connection.h"
-
 #include "Logger.h"
 
-#include "globals.h"
+
 
 using namespace lotos2;
 using lotos2::network::ServiceManager;

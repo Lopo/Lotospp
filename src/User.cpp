@@ -8,12 +8,8 @@
 #include <boost/asio/ip/address.hpp>
 
 #include "User.h"
-#include "Scheduler.h"
-#include "Talker.h"
-
-#if defined __EXCEPTION_TRACER__
-#	include "Exception.h"
-#endif
+#include "network/protocol/Telnet.h"
+#include "network/OutputMessage.h"
 
 
 using namespace lotos2;

@@ -3,8 +3,10 @@
 #include <stddef.h>
 
 #include <string>
+#include <sstream>
 
 #include "database/Insert.h"
+#include "database/Driver.h"
 
 
 using namespace lotos2;

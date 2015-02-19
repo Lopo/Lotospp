@@ -1,10 +1,8 @@
 #ifndef LOTOS2_STRUCTS_ACCOUNT_H
 #define	LOTOS2_STRUCTS_ACCOUNT_H
 
-#include "config.h"
 
-#include <string>
-#include <list>
+#include "config.h"
 
 #include <stdint.h>
 

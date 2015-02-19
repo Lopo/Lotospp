@@ -20,14 +20,12 @@
 #include <boost/asio/placeholders.hpp>
 
 #include "network/Connection.h"
+#include "globals.h"
 #include "Singleton.h"
 #include "network/Protocol.h"
 #include "network/OutputMessage.h"
-#include "Scheduler.h"
 #include "network/ServicePort.h"
 #include "Logger.h"
-
-#include "globals.h"
 
 
 using namespace lotos2;

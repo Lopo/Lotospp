@@ -9,7 +9,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "globals.h"
+#include "misc.h"
 
 
 namespace lotos2 {

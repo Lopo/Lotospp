@@ -4,13 +4,14 @@
 
 #include "config.h"
 
-#include <iosfwd>
+#include <sstream>
 
 #include <boost/thread/recursive_mutex.hpp>
 
 
 namespace lotos2 {
 	namespace database {
+
 /**
  * Thread locking hack
  *

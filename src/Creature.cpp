@@ -1,12 +1,5 @@
 #include "config.h"
-
-#include <stdint.h>
-
 #include "Creature.h"
-
-#if defined __EXCEPTION_TRACER__
-#	include "Exception.h"
-#endif
 
 
 using namespace lotos2;

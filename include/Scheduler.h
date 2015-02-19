@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <assert.h>
 
+#include <functional>
 #include <queue>
 #include <vector>
 #include <set>
@@ -16,13 +17,11 @@
 #include <boost/thread.hpp>
 
 #include "Task.h"
-#include "system.h"
 
 
 namespace lotos2 {
 
 #define SCHEDULER_MINTICKS 20
-
 
 class SchedulerTask
 	: public Task

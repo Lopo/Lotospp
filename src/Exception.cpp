@@ -1,14 +1,19 @@
 #include "config.h"
 
-#if defined __EXCEPTION_TRACER__
+#ifdef __EXCEPTION_TRACER__
+
+#include <unistd.h>
 
 #include "Exception.h"
 
+#include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <ctime>
 
 #include <stdlib.h>
+
+#include "globals.h"
 
 using lotos2::ExceptionHandler;
 
@@ -52,7 +57,6 @@ using lotos2::ExceptionHandler;
 	#include <sys/time.h>
 	#include <sys/resource.h> /* POSIX.1-2001 */
 
-	extern time_t start_time;
 	void _SigHandler(int signum, siginfo_t *info, void* secret);
 #endif
 
@@ -538,7 +542,8 @@ void _SigHandler(int signum, siginfo_t *info, void* secret)
 			}
 		//-process info
 		// creation time
-		ts=localtime(&start_time);
+		time_t bootTime=lotos2::options.get<time_t>("runtime.bootTime");
+		ts=localtime(&bootTime);
 		strftime(date_buff, 80, "%d-%m-%Y %H:%M:%S", ts);
 		// kernel time
 		*outdriver << "Kernel time: " << (resources.ru_stime.tv_sec/3600)

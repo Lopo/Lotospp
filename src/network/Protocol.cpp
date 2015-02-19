@@ -1,18 +1,19 @@
 #include "config.h"
 
 #include <assert.h>
-
 #if defined WIN32
-#include <winerror.h>
+#	include <winerror.h>
 #endif
 
-#include <iostream>
+#ifdef __DEBUG_NET_DETAIL__
+#	include <iostream>
+#endif
 
 #include <boost/bind.hpp>
 #include <boost/asio/ip/address.hpp>
 
 #include "network/Protocol.h"
-#include "Scheduler.h"
+#include "globals.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
 

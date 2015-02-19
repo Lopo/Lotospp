@@ -9,12 +9,15 @@
 #include <vector>
 
 #include "AutoList.h"
-#include "structs/Account.h"
-#include "User.h"
-#include "network/ServiceManager.h"
 
 
 namespace lotos2 {
+	class User;
+	typedef std::vector<User*> UserVector;
+	class Thing;
+	namespace network {
+		class ServiceManager;
+		}
 
 /**
  * Main Talker class

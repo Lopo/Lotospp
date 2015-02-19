@@ -8,11 +8,14 @@
 
 #include <string>
 
-#include "database/Query.h"
-#include "database/Result.h"
+#include <boost/shared_ptr.hpp>
+
 
 namespace lotos2 {
 	namespace database {
+		class Query;
+		class Result;
+		typedef boost::shared_ptr<Result> Result_ptr;
 
 enum DBParam_t {
 	DBPARAM_MULTIINSERT=1

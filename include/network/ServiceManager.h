@@ -15,6 +15,7 @@
 #include <boost/asio/deadline_timer.hpp>
 
 #include "network/ServicePort.h"
+#include "network/Service.h"
 
 
 namespace lotos2 {

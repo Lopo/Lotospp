@@ -51,8 +51,11 @@ include_directories(
 	BEFORE
 	${PROJECT_SOURCE_DIR}/include
 	${Boost_INCLUDE_DIR}
-	${MYSQL_INCLUDE_DIR}
 	)
+if (MYSQL_FOUND)
+	include_directories(${MYSQL_INCLUDE_DIR})
+	target_link_libraries(${PROJECT_NAME} ${MYSQL_CLIENT_LIBS})
+endif (MYSQL_FOUND)
 # To find config.h & version.h
 include_directories(
 	BEFORE
@@ -61,15 +64,13 @@ include_directories(
 
 # To find local headers
 #include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 #include_directories(${OPENSSL_INCLUDE_DIR})
-include_directories(${MYSQL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
-target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES})
+#target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${SOCKET_LIBRARIES})
 #target_link_libraries(${PROJECT_NAME} ${MYSQL_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} ${MYSQL_CLIENT_LIBS})
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 

@@ -270,6 +270,12 @@ int main(int argc, char **argv)
 		}
 #endif
 
+	// Provides stack traces when the server crashes, if compiled in.
+#ifdef __EXCEPTION_TRACER__
+	ExceptionHandler mainExceptionHandler;
+	mainExceptionHandler.InstallHandler();
+#endif
+
 	init();
 	network::ServiceManager servicer;
 

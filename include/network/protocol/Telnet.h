@@ -8,16 +8,20 @@
 
 #include <string>
 
+#include <boost/shared_ptr.hpp>
+#include <boost/blank.hpp>
+
 #include "network/Protocol.h"
-#include "network/NetworkMessage.h"
 
 
 namespace lotos2 {
 	class User;
 
 	namespace network {
-
-typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
+		class NetworkMessage;
+		typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
+		class Connection;
+		typedef boost::shared_ptr<Connection> Connection_ptr;
 
 		namespace protocol {
 

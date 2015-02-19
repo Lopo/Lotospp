@@ -6,23 +6,17 @@
 #include <vector>
 
 #include "Talker.h"
-#include "Scheduler.h"
-//#include "tasks.h"
+#include "globals.h"
 #include "User.h"
 #include "network/ServiceManager.h"
-
-#include "globals.h"
+#if defined __EXCEPTION_TRACER__
+#	include <boost/thread/recursive_mutex.hpp>
+	extern boost::recursive_mutex maploadlock;
+#endif
 
 
 using namespace lotos2;
 using lotos2::Talker;
-
-
-#if defined __EXCEPTION_TRACER__
-#	include "Exception.h"
-#	include <boost/thread/recursive_mutex.hpp>
-	extern boost::recursive_mutex maploadlock;
-#endif
 
 
 void Talker::start(network::ServiceManager* servicer)

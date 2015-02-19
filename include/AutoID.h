@@ -1,5 +1,5 @@
-#ifndef LOTOS2_TEMPLATES_H
-#define LOTOS2_TEMPLATES_H
+#ifndef LOTOS2_AUTOID_H
+#define LOTOS2_AUTOID_H
 
 
 #include "config.h"
@@ -56,4 +56,4 @@ protected:
 
 } // namespace lotos2
 
-#endif // LOTOS2_TEMPLATES_H
+#endif // LOTOS2_AUTOID_H

@@ -32,6 +32,7 @@
 
 #cmakedefine USE_MYSQL 1
 #cmakedefine USE_PUEBLO 1
+#cmakedefine USE_DEBUG 1
 
 /* define if you use win32 thread */
 #cmakedefine USE_MSTHREADS 1
@@ -39,11 +40,22 @@
 #cmakedefine USE_PTHREADS 1
 
 #ifdef USE_MYSQL
-        #ifdef SINGLE_SQL_DRIVER
-                #define MULTI_SQL_DRIVERS 1
-        #else
-                #define SINGLE_SQL_DRIVER 1
-        #endif
+#	ifdef SINGLE_SQL_DRIVER
+#		define MULTI_SQL_DRIVERS 1
+#	else
+#		define SINGLE_SQL_DRIVER 1
+#	endif
+#endif
+
+#ifdef USE_DEBUG
+#	define __DEBUG_NET_DETAIL__ 1
+#	define __TRACK_NETWORK__ 1
+#	define __ENABLE_SERVER_DIAGNOSTIC__ 1
+#	define __EXCEPTION_TRACER__ 1
+#endif
+
+#if defined __EXCEPTION_TRACER__
+#	include "Exception.h"
 #endif
 
 #endif // LOTOS2_CONFIG_H

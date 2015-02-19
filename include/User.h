@@ -13,8 +13,8 @@
 #include <boost/asio/ip/address.hpp>
 
 #include "Creature.h"
-#include "network/protocol/Telnet.h"
 #include "AutoList.h"
+#include "network/protocol/Telnet.h"
 
 
 namespace lotos2 {

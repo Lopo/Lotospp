@@ -6,15 +6,18 @@
 
 #include <stdint.h>
 
+#include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/asio/ip/address.hpp>
-
-#include "network/OutputMessage.h"
-#include "network/Connection.h"
 
 
 namespace lotos2 {
 	namespace network {
+		class Connection;
+		typedef boost::shared_ptr<Connection> Connection_ptr;
+		class NetworkMessage;
+		class OutputMessage;
+		typedef boost::shared_ptr<OutputMessage> OutputMessage_ptr;
 
 class Protocol
 	: boost::noncopyable

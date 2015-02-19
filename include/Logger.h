@@ -12,10 +12,10 @@
 namespace lotos2 {
 
 #ifdef __GNUC__
-#define __LOTOS2_PRETTY_FUNCTION__ __PRETTY_FUNCTION__
+#	define __LOTOS2_PRETTY_FUNCTION__ __PRETTY_FUNCTION__
 #endif
 #ifdef _MSC_VER
-#define __LOTOS2_PRETTY_FUNCTION__ __FUNCDNAME__
+#	define __LOTOS2_PRETTY_FUNCTION__ __FUNCDNAME__
 #endif
 
 #define LOG_MESSAGE(channel, type, message) \

@@ -1,17 +1,15 @@
 #include "config.h"
 
-#include <iostream>
+#ifdef __DEBUG_SCHEDULER__
+#	include <iostream>
+#endif
 
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 
 #include "Dispatcher.h"
-#include "system.h"
 #include "network/OutputMessage.h"
-
-#if defined __EXCEPTION_TRACER__
-#include "Exception.h"
-#endif
+#include "Task.h"
 
 
 using namespace lotos2;

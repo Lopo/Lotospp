@@ -1,6 +1,7 @@
 #ifndef LOTOS2_STRUCTS_CONNECTBLOCK_H
 #define	LOTOS2_STRUCTS_CONNECTBLOCK_H
 
+
 #include "config.h"
 
 #include <stdint.h>

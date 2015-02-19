@@ -5,8 +5,6 @@ project(Lotos2)
 
 set(CMAKE_VERBOSE_MAKEFILE true)
 set(CMAKE_BUILD_TYPE Debug)
-add_definitions(-D__DEBUG_NET_DETAIL__)
-add_definitions(-D__ENABLE_SERVER_DIAGNOSTIC__)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -35,10 +33,11 @@ ENDIF (NOT CMAKE_BUILD_TYPE)
 # Options
 #option(USE_OPENSSL "Enable secure communication channels" ON)
 option(USE_IPV6 "Enable IPv6 support" ON)
-option(USE_MYSQL "Enable use of MySQL" OFF)
+option(USE_MYSQL "Enable use of MySQL" ON)
 option(USE_CLANG "Build application with clang" OFF) # OFF is the default
 option(USE_DOXYGEN "Build docs via doxygen" OFF)
 option(USE_PUEBLO "Enable Pueblo support" OFF)
+option(USE_DEBUG "Enable debug things" ON)
 
 include(cmake/CommonCompilerFlags.cmake)
 

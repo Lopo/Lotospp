@@ -16,15 +16,14 @@
 #include <boost/asio/io_service.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/system/error_code.hpp>
-#include <boost/noncopyable.hpp>
-
-#include "network/Service.h"
-#include "network/Protocol.h"
-#include "network/Connection.h"
 
 
 namespace lotos2 {
 	namespace network {
+		class Protocol;
+		class NetworkMessage;
+		class ServiceBase;
+		typedef boost::shared_ptr<ServiceBase> Service_ptr;
 
 typedef boost::shared_ptr<boost::asio::ip::tcp::acceptor> Acceptor_ptr;
 

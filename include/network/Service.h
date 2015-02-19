@@ -6,29 +6,17 @@
 
 #include <stdint.h>
 
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-#include <iostream>
-
 #include <boost/shared_ptr.hpp>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/asio/io_service.hpp>
-#include <boost/weak_ptr.hpp>
-#include <boost/system/error_code.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/asio/deadline_timer.hpp>
 
 #include "network/ServiceBase.h"
-#include "network/Protocol.h"
-#include "network/Connection.h"
 
 
 namespace lotos2 {
 	namespace network {
+		class Protocol;
+		class Connection;
+		typedef boost::shared_ptr<Connection> Connection_ptr;
 
 typedef boost::shared_ptr<boost::asio::ip::tcp::acceptor> Acceptor_ptr;
 

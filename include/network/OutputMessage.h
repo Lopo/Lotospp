@@ -6,8 +6,11 @@
 
 #include <stdint.h>
 
-#include <cstddef>
 #include <list>
+#ifdef __TRACK_NETWORK__
+#	include <string>
+#	include <iostream>
+#endif
 
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
@@ -18,11 +21,9 @@
 
 namespace lotos2 {
 	namespace network {
-
-class Connection;
-class Protocol;
-
-typedef boost::shared_ptr<Connection> Connection_ptr;
+		class Connection;
+		typedef boost::shared_ptr<Connection> Connection_ptr;
+		class Protocol;
 
 #define OUTPUT_POOL_SIZE 100
 
@@ -141,9 +142,9 @@ protected:
 };
 
 #ifdef __TRACK_NETWORK__
-#define TRACK_MESSAGE(omsg) (omsg)->Track(__FILE__, __LINE__, __FUNCTION__)
+#	define TRACK_MESSAGE(omsg) (omsg)->Track(__FILE__, __LINE__, __FUNCTION__)
 #else
-#define TRACK_MESSAGE(omsg)
+#	define TRACK_MESSAGE(omsg)
 #endif
 
 	} // namespace network

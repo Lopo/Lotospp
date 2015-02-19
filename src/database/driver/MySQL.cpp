@@ -1,11 +1,10 @@
+#include "config.h"
 #ifdef USE_MYSQL
 
-#include "config.h"
-
 #ifdef __MYSQL_ALT_INCLUDE__
-#include "errmsg.h"
+#	include "errmsg.h"
 #else
-#include <mysql/errmsg.h>
+#	include <mysql/errmsg.h>
 #endif
 
 #include <iostream>
@@ -13,13 +12,11 @@
 
 #include <boost/bind.hpp>
 
-#include "database/Driver.h"
-#include "database/Query.h"
-#include "database/Result.h"
-
 #include "database/driver/MySQL.h"
+#include "database/Query.h"
 
 #include "globals.h"
+
 
 using namespace lotos2;
 using namespace lotos2::database::driver;

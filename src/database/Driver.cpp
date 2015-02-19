@@ -5,8 +5,9 @@
 
 #include "database/Driver.h"
 
+#include "database/Query.h"
 #ifdef USE_MYSQL
-#include "database/driver/MySQL.h"
+#	include "database/driver/MySQL.h"
 #endif
 
 #include "misc.h"

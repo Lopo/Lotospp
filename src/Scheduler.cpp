@@ -3,23 +3,19 @@
 #include <stdint.h>
 #include <assert.h>
 
-#include <iostream>
+#ifdef __DEBUG_SCHEDULER__
+#	include <iostream>
+#endif
 
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 
 #include "Scheduler.h"
-#include "Logger.h"
-
 #include "globals.h"
-
-#if defined __EXCEPTION_TRACER__
-#include "Exception.h"
-#endif
 
 
 using namespace lotos2;
-using lotos2::Logger;
+using lotos2::Scheduler;
 
 
 Scheduler::Scheduler()
