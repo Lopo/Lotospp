@@ -36,7 +36,14 @@ MySQL::MySQL()
 	mysql_options(&m_handle, MYSQL_OPT_RECONNECT, &reconnect);
 
 	// connects to database
-	if (!mysql_real_connect(&m_handle, options.get<std::string>("global.sqlHost", "localhost").c_str(), options.get<std::string>("global.sqlUser", "root").c_str(), options.get<std::string>("global.sqlPass", "").c_str(), options.get<std::string>("global.sqlDb", "").c_str(), options.get<unsigned int>("global.sqlPort", 3306), NULL, 0)) {
+	if (!mysql_real_connect(&m_handle,
+			options.get<char*>("database.Host", "localhost"),
+			options.get<char*>("database.User", "root"),
+			options.get<char*>("database.Pass", ""),
+			options.get<char*>("database.Db", "lotos2"),
+			options.get<unsigned int>("database.Port", 3306),
+			NULL, 0)
+		) {
 		std::cout << "Failed to connect to database. MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
 		return;
 		}

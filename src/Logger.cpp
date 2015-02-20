@@ -1,8 +1,7 @@
 #include "config.h"
 
-#include <stdio.h>
-#include <time.h>
-
+#include <cstdio>
+#include <ctime>
 #include <string>
 
 #include <boost/date_time.hpp>
@@ -14,12 +13,11 @@
 
 
 using namespace lotos2;
-using lotos2::Logger;
 
 
 Logger::Logger()
 {
-	if (!(m_file=fopen(options.get("global.logFile", "").c_str(), "a"))) {
+	if (!(m_file=fopen(options.get<char*>("global.logFile", ""), "a"))) {
 		m_file=stdout;
 		}
 }

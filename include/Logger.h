@@ -4,8 +4,7 @@
 
 #include "config.h"
 
-#include <stdio.h>
-
+#include <cstdio>
 #include <string>
 
 
@@ -17,9 +16,6 @@ namespace lotos2 {
 #ifdef _MSC_VER
 #	define __LOTOS2_PRETTY_FUNCTION__ __FUNCDNAME__
 #endif
-
-#define LOG_MESSAGE(channel, type, message) \
-	Logger::getInstance()->logMessage(channel, type, message, __LOTOS2_PRETTY_FUNCTION__);
 
 enum eLogType {
 	LOGTYPE_INFO,
@@ -39,6 +35,9 @@ public:
 private:
 	FILE* m_file;
 };
+
+#define LOG_MESSAGE(channel, type, message) \
+	Logger::getInstance()->logMessage(channel, type, message, __LOTOS2_PRETTY_FUNCTION__);
 
 } // namespace lotos2
 

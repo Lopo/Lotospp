@@ -4,12 +4,11 @@
 
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <string>
 
 #include <boost/shared_ptr.hpp>
-#include <boost/blank.hpp>
+#include <boost/bind.hpp>
 
 #include "network/Protocol.h"
 
@@ -32,7 +31,7 @@ public:
 	// static protocol information
 	enum { server_sends_first=true};
 	enum { protocol_identifier=0}; // Not required as we send first
-	static const char* protocol_name() { return "telnet protocol";};
+	static const char* protocolName() { return "telnet protocol";};
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t protocolTelnetCount;
@@ -83,8 +82,7 @@ private:
 	void sendEchoOff();
 
 	void sendTermCoords();
-	template<typename _CharT>
-	void setXtermTitle(const _CharT);
+	void setXtermTitle(const std::string& title);
 	void enableLineWrap();
 	void disableLineWrap();
 };

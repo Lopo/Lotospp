@@ -4,8 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <list>
 #include <map>
 #include <iostream>
@@ -40,8 +39,8 @@ public:
 	template <typename ProtocolType>
 	bool add(uint16_t port);
 
-	bool is_running() const { return m_acceptors.empty()==false;};
-	std::list<uint16_t> get_ports() const;
+	bool isRunning() const { return m_acceptors.empty()==false;};
+	std::list<uint16_t> getPorts() const;
 protected:
 	void die();
 
@@ -56,7 +55,7 @@ template <typename ProtocolType>
 bool ServiceManager::add(uint16_t port)
 {
 	if (!port) {
-		std::cout << "NOTICE: No port provided for service " << ProtocolType::protocol_name() << ". Service disabled." << std::endl;
+		std::cout << "NOTICE: No port provided for service " << ProtocolType::protocolName() << ". Service disabled." << std::endl;
 		return false;
 		}
 	ServicePort_ptr service_port;
@@ -70,15 +69,15 @@ bool ServiceManager::add(uint16_t port)
 		}
 	else {
 		service_port=finder->second;
-		if (service_port->is_single_socket() || ProtocolType::server_sends_first) {
-			std::cout << "ERROR: " << ProtocolType::protocol_name() <<
-				" and " << service_port->get_protocol_names() <<
+		if (service_port->isSingleSocket() || ProtocolType::server_sends_first) {
+			std::cout << "ERROR: " << ProtocolType::protocolName() <<
+				" and " << service_port->getProtocolNames() <<
 				" cannot use the same port " << port << "." << std::endl;
 			return false;
 			}
 		}
 
-	return service_port->add_service(Service_ptr(new Service<ProtocolType>()));
+	return service_port->addService(Service_ptr(new Service<ProtocolType>()));
 };
 
 	} // namespace network

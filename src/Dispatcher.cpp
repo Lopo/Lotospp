@@ -13,7 +13,6 @@
 
 
 using namespace lotos2;
-using lotos2::Dispatcher;
 
 
 Dispatcher::Dispatcher()

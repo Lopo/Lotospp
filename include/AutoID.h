@@ -4,8 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <set>
 
 #include <boost/thread/recursive_mutex.hpp>

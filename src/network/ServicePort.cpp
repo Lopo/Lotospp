@@ -1,11 +1,10 @@
 #include "config.h"
 
-#include <stdint.h>
-
 #if defined __WINDOWS__ || defined WIN32
 #include <winerror.h>
 #endif
 
+#include <cstdint>
 #include <list>
 #include <map>
 #include <string>
@@ -21,12 +20,12 @@
 #include "globals.h"
 #include "network/ServiceBase.h"
 #include "network/Connection.h"
-
+#include "network/ConnectionManager.h"
 #include "Logger.h"
 
 
 using namespace lotos2;
-using lotos2::network::ServicePort;
+using network::ServicePort;
 
 
 bool ServicePort::m_logError=true;
@@ -47,20 +46,20 @@ ServicePort::~ServicePort()
 	close();
 }
 
-bool ServicePort::is_single_socket() const
+bool ServicePort::isSingleSocket() const
 {
-	return m_services.size() && m_services.front()->is_single_socket();
+	return m_services.size() && m_services.front()->isSingleSocket();
 }
 
-std::string ServicePort::get_protocol_names() const
+std::string ServicePort::getProtocolNames() const
 {
 	if (m_services.empty()) {
 		return "";
 		}
-	std::string str=m_services.front()->get_protocol_name();
+	std::string str=m_services.front()->getProtocolName();
 	for (uint32_t i=1; i<m_services.size(); ++i) {
 		str+=", ";
-		str+=m_services[i]->get_protocol_name();
+		str+=m_services[i]->getProtocolName();
 		}
 	return str;
 }
@@ -109,9 +108,9 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 		if (!remote_ip.is_unspecified()) {
 			Connection_ptr connection=ConnectionManager::getInstance()->createConnection(socket, m_io_service, shared_from_this());
 
-			if (m_services.front()->is_single_socket()) {
+			if (m_services.front()->isSingleSocket()) {
 				// Only one handler, and it will send first
-				connection->acceptConnection(m_services.front()->make_protocol(connection));
+				connection->acceptConnection(m_services.front()->makeProtocol(connection));
 				}
 			else {
 				connection->acceptConnection();
@@ -156,14 +155,14 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 		}
 }
 
-network::Protocol* ServicePort::make_protocol(NetworkMessage& msg) const
+network::Protocol* ServicePort::makeProtocol(NetworkMessage& msg) const
 {
-	uint8_t protocolId=msg.GetByte();
+//	uint8_t protocolId=msg.GetByte();
 	for (std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it) {
 		Service_ptr service=*it;
-		if (service->get_protocol_identifier()==protocolId)
+//		if (service->getProtocolIdentifier()==protocolId)
 			// Correct service! Create protocol and get on with it
-			return service->make_protocol(Connection_ptr());
+			return service->makeProtocol(Connection_ptr());
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
 		}
 
@@ -242,11 +241,11 @@ void ServicePort::close()
 	m_tcp_acceptors.clear();
 }
 
-bool ServicePort::add_service(Service_ptr new_svc)
+bool ServicePort::addService(Service_ptr new_svc)
 {
 	for (std::vector<Service_ptr>::const_iterator svc_iter=m_services.begin(); svc_iter!=m_services.end(); ++svc_iter) {
 		Service_ptr svc=*svc_iter;
-		if (svc->is_single_socket()) {
+		if (svc->isSingleSocket()) {
 			return false;
 			}
 		}

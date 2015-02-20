@@ -4,9 +4,8 @@
 
 #include "config.h"
 
-#include <stdint.h>
-#include <assert.h>
-
+#include <cstdint>
+#include <cassert>
 #include <functional>
 #include <queue>
 #include <vector>

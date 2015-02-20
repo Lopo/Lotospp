@@ -1,34 +1,25 @@
 #include "config.h"
 
-#include <time.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <pthread.h>
-
+#include <ctime>
+#include <cstdio>
 #include <string>
-
-#include <boost/algorithm/string.hpp>
 
 #include "misc.h"
 
 
 namespace lotos2 {
 
-
-/*** Returns true if string has whitespace ***/
-int has_whitespace(const char *str)
+/**
+ * Returns true if string has whitespace
+ */
+bool hasWhitespace(const std::string& str)
 {
-	for (; *str; ++str) {
-		if (*str<33) {
-			return 1;
+	for (auto it=str.cbegin(); it!=str.cend(); ++it) {
+		if (*it<33) {
+			return true;
 			}
 		}
-	return 0;
-}
-
-void toLowerCaseString(std::string& source)
-{
-	std::transform(source.begin(), source.end(), source.begin(), tolower);
+	return false;
 }
 
 //buffer should have at least 16 bytes

@@ -8,7 +8,7 @@
 
 
 namespace lotos2 {
-	
+
 class ExceptionHandler
 {
 public:

@@ -4,7 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
@@ -22,11 +22,11 @@ class ServiceBase
 public:
 	virtual ~ServiceBase() {}; // Redundant, but stifles compiler warnings
 
-	virtual bool is_single_socket() const=0;
-	virtual uint8_t get_protocol_identifier() const=0;
-	virtual const char* get_protocol_name() const=0;
+	virtual bool isSingleSocket() const=0;
+	virtual uint8_t getProtocolIdentifier() const=0;
+	virtual const char* getProtocolName() const=0;
 
-	virtual Protocol* make_protocol(Connection_ptr c) const=0;
+	virtual Protocol* makeProtocol(Connection_ptr c) const=0;
 };
 
 typedef boost::shared_ptr<ServiceBase> Service_ptr;

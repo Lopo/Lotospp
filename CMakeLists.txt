@@ -62,7 +62,7 @@ if (USE_OPENSSL)
 #		if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 #			set(OPENSSL_LIBRARIES ${OPENSSL_LIBRARIES} crypto) # because libcrypto is not found automatically
 #		endif (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-	else(OPENSSL_FOUND)
+	else (OPENSSL_FOUND)
 		message(STATUS "OpenSSL not found; secure communication channels will not be available")
 		set(USE_OPENSSL OFF)
 	endif (OPENSSL_FOUND)

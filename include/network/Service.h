@@ -4,7 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/asio/ip/tcp.hpp>
@@ -29,11 +29,11 @@ class Service
 	: public ServiceBase
 {
 public:
-	bool is_single_socket() const { return ProtocolType::server_sends_first;};
-	uint8_t get_protocol_identifier() const { return ProtocolType::protocol_identifier;};
-	const char* get_protocol_name() const { return ProtocolType::protocol_name();};
+	bool isSingleSocket() const { return ProtocolType::server_sends_first;};
+	uint8_t getProtocolIdentifier() const { return ProtocolType::protocol_identifier;};
+	const char* getProtocolName() const { return ProtocolType::protocolName();};
 
-	Protocol* make_protocol(Connection_ptr c) const { return new ProtocolType(c);};
+	Protocol* makeProtocol(Connection_ptr c) const { return new ProtocolType(c);};
 };
 
 	} // namespace network

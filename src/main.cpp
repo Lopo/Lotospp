@@ -4,9 +4,8 @@
 #include "config.h"
 #include "version.h"
 
-#include <stdint.h>
-#include <time.h>
-
+#include <cstdint>
+#include <ctime>
 #include <string>
 #include <iostream>
 #include <ios>
@@ -82,8 +81,7 @@ bool configure(int ac, char **av)
 			std::cerr << "ERROR: The config file '" << cf << "' isn't regular file." << std::endl;
 			exit(1);
 			}
-		std::string scf(cf);
-		pt::ini_parser::read_ini(scf, options);
+		pt::ini_parser::read_ini(cf, options);
 		}
 #ifdef HAVE_FORK
 	if (vm.count("daemon")) {
@@ -141,7 +139,7 @@ void parse_config(void)
 		std::cerr << "ERROR: Server name is too long" << std::endl;
 		exit(1);
 		}
-	if (has_whitespace(serverName.c_str())) {
+	if (hasWhitespace(serverName.c_str())) {
 		std::cerr << "ERROR: Server name can't contain whitespace" << std::endl;
 		exit(1);
 		}
@@ -214,18 +212,13 @@ void init(void)
 #endif
 }
 
-void ErrorMessage(const char* message)
+void ErrorMessage(const std::string& message)
 {
 	std::cout << std::endl << std::endl << "Error: " << message << std::endl;
 #ifdef __WINDOWS__
 	std::string s;
 	std::cin >> s;
 #endif
-}
-
-void ErrorMessage(std::string m)
-{
-	ErrorMessage(m.c_str());
 }
 
 boost::mutex g_loaderLock;
@@ -288,7 +281,7 @@ int main(int argc, char **argv)
 	// Wait for loading to finish
 	g_loaderSignal.wait(g_loaderUniqueLock);
 
-	if (servicer.is_running()) {
+	if (servicer.isRunning()) {
 		servicer.run();
 		}
 	else {

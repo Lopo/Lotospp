@@ -1,10 +1,10 @@
 #include "config.h"
 
-#include <assert.h>
-#if defined WIN32
+#ifdef WIN32
 #	include <winerror.h>
 #endif
 
+#include <cassert>
 #ifdef __DEBUG_NET_DETAIL__
 #	include <iostream>
 #endif
@@ -19,7 +19,7 @@
 
 
 using namespace lotos2;
-using lotos2::network::Protocol;
+using network::Protocol;
 
 
 void Protocol::onSendMessage(OutputMessage_ptr msg)

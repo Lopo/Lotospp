@@ -1,7 +1,6 @@
 #include "config.h"
 
-#include <stddef.h>
-
+#include <cstddef>
 #include <string>
 #include <sstream>
 
@@ -10,7 +9,7 @@
 
 
 using namespace lotos2;
-using lotos2::database::Insert;
+using database::Insert;
 
 
 Insert::Insert(Driver* db)

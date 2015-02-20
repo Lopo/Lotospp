@@ -6,14 +6,14 @@
 
 #include "Exception.h"
 
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <ctime>
 
-#include <stdlib.h>
-
 #include "globals.h"
+
 
 using lotos2::ExceptionHandler;
 
@@ -50,12 +50,12 @@ using lotos2::ExceptionHandler;
 	#endif
 
 #else //Unix/Linux
-	#include <execinfo.h>
-	#include <signal.h>
-	#include <ucontext.h>
+#	include <csignal>
+#	include <execinfo.h>
+#	include <ucontext.h>
 
-	#include <sys/time.h>
-	#include <sys/resource.h> /* POSIX.1-2001 */
+#	include <sys/time.h>
+#	include <sys/resource.h> /* POSIX.1-2001 */
 
 	void _SigHandler(int signum, siginfo_t *info, void* secret);
 #endif

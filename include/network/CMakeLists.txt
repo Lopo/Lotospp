@@ -1,5 +1,6 @@
 set(lotos2_HEADERS
 	Connection.h
+	ConnectionManager.h
 	NetworkMessage.h
 	OutputMessage.h
 	Protocol.h

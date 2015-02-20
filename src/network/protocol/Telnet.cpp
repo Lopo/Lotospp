@@ -1,7 +1,7 @@
 #include "config.h"
+#include "version.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <string>
 #include <iostream>
 
@@ -10,12 +10,11 @@
 #include "User.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
-
 #include "globals.h"
 
 
 using namespace lotos2;
-using lotos2::network::protocol::Telnet;
+using network::protocol::Telnet;
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -92,9 +91,17 @@ Telnet::~Telnet()
 void Telnet::onConnect()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddString("login from: ");
+	output->AddString("\n");
+	output->AddString(options.get<std::string>("global.serverName"));
+	output->AddString("\n");
+	output->AddString(LOTOS2_NAME);
+	output->AddString(" version ");
+	output->AddString(LOTOS2_VERSION_STRING);
+	output->AddString("\n");
+	output->AddString("\n\nconnection from: ");
 	output->AddString(this->getIP().to_string());
 	output->AddString("\n");
+	output->AddString("login: ");
 	OutputMessagePool::getInstance()->send(output);
 //	user=new User("", this);
 }
@@ -258,8 +265,7 @@ void Telnet::sendEchoOff()
 	OutputMessagePool::getInstance()->send(output);
 }
 
-template<typename _CharT>
-void Telnet::setXtermTitle(const _CharT title)
+void Telnet::setXtermTitle(const std::string& title)
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\033]0;");

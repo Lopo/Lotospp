@@ -4,20 +4,20 @@
 
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 
 namespace lotos2 {
 
 struct Account
 {
-	Account() : number(0), warnings(0) {}
+	Account() {};
 	~Account() {};
 
 	uint32_t ip;
 	uint16_t port;
-	uint32_t number;
-	uint32_t warnings;
+	uint32_t number=0;
+	uint32_t warnings=0;
 };
 
 } // namespace lotos2

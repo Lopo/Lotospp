@@ -1,11 +1,10 @@
 #include "config.h"
 
-#include <stdint.h>
-
 #if defined __WINDOWS__ || defined WIN32
 #	include <winerror.h>
 #endif
 
+#include <cstdint>
 #include <list>
 #include <map>
 
@@ -19,9 +18,8 @@
 #include "Logger.h"
 
 
-
 using namespace lotos2;
-using lotos2::network::ServiceManager;
+using network::ServiceManager;
 
 
 ServiceManager::ServiceManager()
@@ -34,7 +32,7 @@ ServiceManager::~ServiceManager()
 	stop();
 }
 
-std::list<uint16_t> ServiceManager::get_ports() const
+std::list<uint16_t> ServiceManager::getPorts() const
 {
 	std::list<uint16_t> ports;
 	for (std::map<uint16_t, ServicePort_ptr>::const_iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it) {

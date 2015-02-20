@@ -4,8 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <string>
 
 #include <boost/shared_ptr.hpp>

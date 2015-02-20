@@ -3,7 +3,11 @@
 
 
 using namespace lotos2;
-using lotos2::Creature;
+
+
+boost::recursive_mutex AutoID::autoIDLock;
+uint32_t AutoID::count=1000;
+AutoID::list_type AutoID::list;
 
 
 Creature::Creature()

@@ -3,7 +3,6 @@
 
 
 #include "config.h"
-
 #include "database/Driver.h"
 
 

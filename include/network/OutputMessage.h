@@ -4,8 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <list>
 #ifdef __TRACK_NETWORK__
 #	include <string>

@@ -4,8 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <string>
 
 #include <boost/shared_ptr.hpp>
@@ -34,6 +33,7 @@ public:
 	std::string GetString();
 	std::string GetRaw();
 	uint8_t GetAt(uint32_t pos);
+	uint8_t operator[](uint32_t pos) { return GetAt(pos);};
 
 	// skips count unknown/unused bytes in an incoming message
 	void SkipBytes(int count);

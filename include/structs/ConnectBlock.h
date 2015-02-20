@@ -4,7 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 
 namespace lotos2 {

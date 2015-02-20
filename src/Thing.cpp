@@ -4,7 +4,6 @@
 
 
 using namespace lotos2;
-using lotos2::Thing;
 
 
 Thing::Thing()

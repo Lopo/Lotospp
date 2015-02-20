@@ -4,8 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -44,11 +43,11 @@ public:
 	static void openAcceptor(boost::weak_ptr<ServicePort> weak_service, uint16_t port);
 	void open(uint16_t port);
 	void close();
-	bool is_single_socket() const;
-	std::string get_protocol_names() const;
+	bool isSingleSocket() const;
+	std::string getProtocolNames() const;
 
-	bool add_service(Service_ptr);
-	Protocol* make_protocol(NetworkMessage& msg) const;
+	bool addService(Service_ptr);
+	Protocol* makeProtocol(NetworkMessage& msg) const;
 
 	void onStopServer();
 	void onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* socket, const boost::system::error_code& error);

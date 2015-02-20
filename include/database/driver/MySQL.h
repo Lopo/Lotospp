@@ -5,7 +5,6 @@
 #include "config.h"
 
 #ifdef USE_MYSQL
-#include <stdint.h>
 
 #ifdef __MYSQL_ALT_INCLUDE__
 #	include <mysql.h>
@@ -13,6 +12,7 @@
 #	include <mysql/mysql.h>
 #endif
 
+#include <cstdint>
 #include <string>
 #include <map>
 

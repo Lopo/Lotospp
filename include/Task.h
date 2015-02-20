@@ -4,7 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/function.hpp>
 #include <boost/date_time.hpp>

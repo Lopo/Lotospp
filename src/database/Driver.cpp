@@ -3,8 +3,9 @@
 #include <string>
 #include <stdexcept>
 
-#include "database/Driver.h"
+#include <boost/algorithm/string/predicate.hpp>
 
+#include "database/Driver.h"
 #include "database/Query.h"
 #ifdef USE_MYSQL
 #	include "database/driver/MySQL.h"
@@ -15,19 +16,17 @@
 
 
 using namespace lotos2;
-using lotos2::database::Driver;
+using database::Driver;
 
 
 Driver* Driver::_instance=nullptr;
 
 Driver* Driver::instance()
 {
-
 	if (!_instance) {
-		std::string type=options.get<std::string>("global.sqlType");
-		::toLowerCaseString(type);
+		char* type=options.get<char*>("database.Type");
 #ifdef USE_MYSQL
-		if (type=="mysql") {
+		if (boost::iequals("mysql", type)) {
 			_instance=new driver::MySQL;
 			}
 #endif

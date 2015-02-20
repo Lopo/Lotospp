@@ -4,12 +4,12 @@
 
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 #ifdef __WINDOWS__
-#ifdef __WIN_LOW_FRAG_HEAP__
-#define _WIN32_WINNT 0x0501
-#endif
+#	ifdef __WIN_LOW_FRAG_HEAP__
+#		define _WIN32_WINNT 0x0501
+#	endif
 #include <winsock2.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -44,11 +44,11 @@ inline int64_t SYS_TIME()
 };
 
 #ifndef SOCKET
-#define SOCKET int
+#	define SOCKET int
 #endif
 
 #ifndef closesocket
-#define closesocket close
+#	define closesocket close
 #endif
 
 #endif // #if defined __WINDOWS__

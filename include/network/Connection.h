@@ -4,7 +4,9 @@
 
 #include "config.h"
 
-#include <list>
+#ifdef __DEBUG_NET__
+#	include <iostream>
+#endif
 
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -114,21 +116,6 @@ private:
 };
 
 typedef boost::shared_ptr<Connection> Connection_ptr;
-
-
-class ConnectionManager
-{
-public:
-	static ConnectionManager* getInstance();
-
-	Connection_ptr createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicers);
-	void releaseConnection(Connection_ptr connection);
-	void closeAll();
-
-protected:
-	std::list<Connection_ptr> m_connections;
-	boost::recursive_mutex m_connectionManagerLock;
-};
 
 	} // namespace network
 } // namespace lotos2

@@ -1,25 +1,18 @@
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <iostream>
 #include <list>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/bind.hpp>
-#include <boost/date_time.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/system/system_error.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ip/address.hpp>
-#include <boost/asio/io_service.hpp>
-#include <boost/asio/write.hpp>
-#include <boost/asio/error.hpp>
-#include <boost/asio/buffer.hpp>
-#include <boost/asio/placeholders.hpp>
+#include <boost/asio.hpp>
 
 #include "network/Connection.h"
+#include "network/ConnectionManager.h"
 #include "globals.h"
 #include "Singleton.h"
 #include "network/Protocol.h"
@@ -29,7 +22,7 @@
 
 
 using namespace lotos2;
-using lotos2::network::Connection;
+using network::Connection;
 
 
 bool Connection::m_logError=true;
@@ -37,61 +30,6 @@ bool Connection::m_logError=true;
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 uint32_t Connection::connectionCount=0;
 #endif
-
-network::ConnectionManager* network::ConnectionManager::getInstance()
-{
-	static Singleton<network::ConnectionManager> instance;
-	return instance.get();
-}
-
-network::Connection_ptr network::ConnectionManager::createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicer)
-{
-#ifdef __DEBUG_NET_DETAIL__
-	std::cout << "Create new Connection" << std::endl;
-#endif
-
-	boost::recursive_mutex::scoped_lock lockClass(m_connectionManagerLock);
-	Connection_ptr connection=boost::shared_ptr<Connection>(new Connection(socket, io_service, servicer));
-	m_connections.push_back(connection);
-	return connection;
-}
-
-void network::ConnectionManager::releaseConnection(Connection_ptr connection)
-{
-#ifdef __DEBUG_NET_DETAIL__
-	std::cout << "Releasing connection" << std::endl;
-#endif
-
-	boost::recursive_mutex::scoped_lock lockClass(m_connectionManagerLock);
-	std::list<Connection_ptr>::iterator it=std::find(m_connections.begin(), m_connections.end(), connection);
-
-	if (it!=m_connections.end()) {
-		m_connections.erase(it);
-		}
-	else {
-		std::cout << "Error: [ConnectionManager::releaseConnection] Connection not found" << std::endl;
-		}
-}
-
-void network::ConnectionManager::closeAll()
-{
-#ifdef __DEBUG_NET_DETAIL__
-	std::cout << "Closing all connections" << std::endl;
-#endif
-	boost::recursive_mutex::scoped_lock lockClass(m_connectionManagerLock);
-	std::list<Connection_ptr>::iterator it;
-	for (it=m_connections.begin(); it!=m_connections.end(); ) {
-		try {
-			boost::system::error_code error;
-			(*it)->m_socket->shutdown(boost::asio::ip::tcp::socket::shutdown_both, error);
-			(*it)->m_socket->close(error);
-			}
-		catch (boost::system::system_error&) {
-			}
-		++it;
-		}
-	m_connections.clear();
-}
 
 Connection::Connection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr service_port)
 	: m_socket(socket),
@@ -311,7 +249,7 @@ void Connection::parsePacket(const boost::system::error_code& error, const std::
 		m_receivedFirst=true;
 		// First message received
 		if (!m_protocol) { // protocol has already been created at this point
-			m_protocol=m_service_port->make_protocol(m_msg);
+			m_protocol=m_service_port->makeProtocol(m_msg);
 			if (!m_protocol) {
 				closeConnection();
 				m_connectionLock.unlock();
@@ -439,7 +377,7 @@ int32_t Connection::unRef()
 void Connection::onWriteOperation(OutputMessage_ptr msg, const boost::system::error_code& error)
 {
 #ifdef __DEBUG_NET_DETAIL__
-	std::cout << "onWriteOperation" << std::endl;
+	std::cout << "Connection::onWriteOperation" << std::endl;
 #endif
 
 	m_connectionLock.lock();

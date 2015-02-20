@@ -1,8 +1,7 @@
 #include "config.h"
 
-#include <stdint.h>
-#include <assert.h>
-
+#include <cstdint>
+#include <cassert>
 #ifdef __DEBUG_SCHEDULER__
 #	include <iostream>
 #endif
@@ -15,7 +14,6 @@
 
 
 using namespace lotos2;
-using lotos2::Scheduler;
 
 
 Scheduler::Scheduler()

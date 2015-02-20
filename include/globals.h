@@ -4,8 +4,9 @@
 
 #include "config.h"
 
-#include <time.h>
 #include <pthread.h>
+
+#include <ctime>
 
 #include <boost/property_tree/ptree.hpp>
 

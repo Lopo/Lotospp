@@ -12,6 +12,7 @@ set(lotos2_SRCS
 	misc.cpp
 
 	network/Connection.cpp
+	network/ConnectionManager.cpp
 	network/NetworkMessage.cpp
 	network/OutputMessage.cpp
 	network/Protocol.cpp

@@ -1,7 +1,6 @@
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <iostream>
 #include <vector>
 
@@ -16,7 +15,6 @@
 
 
 using namespace lotos2;
-using lotos2::Talker;
 
 
 void Talker::start(network::ServiceManager* servicer)

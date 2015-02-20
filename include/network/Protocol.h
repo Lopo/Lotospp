@@ -4,7 +4,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
@@ -26,7 +26,6 @@ public:
 	Protocol(Connection_ptr connection)
 	{
 		m_connection=connection;
-		m_refCount=0;
 	};
 
 	virtual ~Protocol() {};
@@ -54,9 +53,9 @@ protected:
 	virtual void deleteProtocolTask();
 	friend class Connection;
 private:
-	OutputMessage_ptr m_outputBuffer;
-	Connection_ptr m_connection;
-	uint32_t m_refCount;
+	OutputMessage_ptr m_outputBuffer=nullptr;
+	Connection_ptr m_connection=nullptr;
+	uint32_t m_refCount=0;
 };
 
 	} // namespace network

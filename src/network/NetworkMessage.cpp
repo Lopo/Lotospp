@@ -1,15 +1,14 @@
 #include "config.h"
 
-#include <stdint.h>
-#include <string.h>
-
+#include <cstdint>
+#include <cstring>
 #include <string>
 
 #include "network/NetworkMessage.h"
 
 
 using namespace lotos2;
-using lotos2::network::NetworkMessage;
+using network::NetworkMessage;
 
 
 NetworkMessage::NetworkMessage()

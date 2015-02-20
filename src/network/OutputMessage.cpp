@@ -1,6 +1,6 @@
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/bind.hpp>
@@ -14,8 +14,8 @@
 
 
 using namespace lotos2;
-using lotos2::network::OutputMessage;
-using lotos2::network::OutputMessagePool;
+using network::OutputMessage;
+using network::OutputMessagePool;
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__

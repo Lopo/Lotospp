@@ -1,7 +1,6 @@
 #include "config.h"
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <string>
 
 #include <boost/thread/recursive_mutex.hpp>
@@ -13,12 +12,7 @@
 
 
 using namespace lotos2;
-using lotos2::User;
 
-
-boost::recursive_mutex AutoID::autoIDLock;
-uint32_t AutoID::count=1000;
-AutoID::list_type AutoID::list;
 
 AutoList<User> User::listUser;
 
