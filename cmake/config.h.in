@@ -4,7 +4,7 @@
 #define LOTOS2_CONFIG_H 1
 
 #ifndef _GNU_SOURCE
-#define _GNU_SOURCE // activate extra prototypes for glibc
+#	define _GNU_SOURCE // activate extra prototypes for glibc
 #endif
 
 #cmakedefine PACKAGE "${PROJECT_NAME}"
@@ -19,27 +19,13 @@
 #endif
 
 #cmakedefine HAVE_FORK 1
-//#cmakedefine HAVE_SNPRINTF 1
-//#cmakedefine HAVE_VSNPRINTF 1
 
-
-// Enable secure communication channels
-//#cmakedefine USE_OPENSSL 1
-// Use MD5 from OpenSSL
-//#cmakedefine HAVE_OPENSSL_MD5_H
-// Enable IPv6 support
-#cmakedefine USE_IPV6 1
-
-#cmakedefine USE_MYSQL 1
-#cmakedefine USE_PUEBLO 1
+#cmakedefine ENABLE_MYSQL 1
 #cmakedefine USE_DEBUG 1
-
-/* define if you use win32 thread */
 #cmakedefine USE_MSTHREADS 1
-/* define if you use pthreads */
 #cmakedefine USE_PTHREADS 1
 
-#ifdef USE_MYSQL
+#ifdef ENABLE_MYSQL
 #	ifdef SINGLE_SQL_DRIVER
 #		define MULTI_SQL_DRIVERS 1
 #	else

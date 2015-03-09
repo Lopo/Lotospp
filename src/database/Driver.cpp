@@ -7,7 +7,7 @@
 
 #include "database/Driver.h"
 #include "database/Query.h"
-#ifdef USE_MYSQL
+#ifdef ENABLE_MYSQL
 #	include "database/driver/MySQL.h"
 #endif
 
@@ -25,7 +25,7 @@ Driver* Driver::instance()
 {
 	if (!_instance) {
 		char* type=options.get<char*>("database.Type");
-#ifdef USE_MYSQL
+#ifdef ENABLE_MYSQL
 		if (boost::iequals("mysql", type)) {
 			_instance=new driver::MySQL;
 			}

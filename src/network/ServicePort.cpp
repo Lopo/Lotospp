@@ -198,13 +198,6 @@ void ServicePort::open(uint16_t port)
 		Acceptor_ptr aptr(new boost::asio::ip::tcp::acceptor(m_io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::address(), m_serverPort)));
 
 		aptr->set_option(boost::asio::ip::tcp::no_delay(true));
-/*
-#ifdef USE_IPV6
-            Acceptor_ptr aptr6(new boost::asio::ip::tcp::acceptor(m_io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v6(), m_serverPort)));
-            aptr6->set_option(boost::asio::ip::tcp::no_delay(true));
-            aptr6->set_option(boost::asio::ip::v6_only(true));
-#endif
-*/
 
 		accept(aptr);
 		m_tcp_acceptors.push_back(aptr);

@@ -1,5 +1,5 @@
 #include "config.h"
-#ifdef USE_MYSQL
+#ifdef ENABLE_MYSQL
 
 #ifdef __MYSQL_ALT_INCLUDE__
 #	include "errmsg.h"
@@ -347,4 +347,4 @@ MySQLResult::~MySQLResult()
 	mysql_free_result(m_handle);
 }
 
-#endif // USE_MYSQL
+#endif // ENABLE_MYSQL

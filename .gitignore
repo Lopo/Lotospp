@@ -9,12 +9,10 @@
 CMakeCache.txt
 CMakeFiles
 Makefile
-cmake_install.cmake
-install_manifest.txt
 
-include/config.h
-include/version.h
-cmake/Config.cmake
+#generated
+/include/config.h
+/include/version.h
 
 #C++
 *.o
@@ -25,7 +23,7 @@ WORKING_DIRECTORY
 
 todo.txt
 
-bin/Lotos2
+/bin/Lotos2
 
 Doxyfile
 /doc

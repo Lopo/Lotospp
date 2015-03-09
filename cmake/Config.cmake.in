@@ -1,1 +1,0 @@
-include("@Lotos2_SHARE_DIR@/cmake/FindLotos2.cmake")

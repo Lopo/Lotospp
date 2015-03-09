@@ -4,7 +4,7 @@
 
 #include "config.h"
 
-#ifdef USE_MYSQL
+#ifdef ENABLE_MYSQL
 
 #ifdef __MYSQL_ALT_INCLUDE__
 #	include <mysql.h>
@@ -80,5 +80,5 @@ protected:
 	} // namespace database
 } // namespace lotos2
 
-#endif // USE_MYSQL
+#endif // ENABLE_MYSQL
 #endif // LOTOS2_DATABASE_DRIVER_MYSQL_H

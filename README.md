@@ -1,5 +1,5 @@
-Lotos2
-======
+Lotos2 (Lopo's Talker Object System)
+====================================
 
 Lotos2 is a telnet-based talker server, written in C++.
 
