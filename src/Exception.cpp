@@ -505,7 +505,6 @@ void _SigHandler(int signum, siginfo_t *info, void* secret)
 	ucontext_t context=*(ucontext_t*)secret;
 	rusage resources;
 	rlimit resourcelimit;
-	greg_t esp=0;
 	tm *ts;
 	char date_buff[80];
 
@@ -563,7 +562,8 @@ void _SigHandler(int signum, siginfo_t *info, void* secret)
 
 	outdriver->flags(std::ios::hex | std::ios::showbase);
 	*outdriver << "Signal: " << signum;
-
+#if defined(__linux) || defined(__linux__) || defined(linux)
+	greg_t esp=0;
 	{
 	#if __WORDSIZE == 32
 		*outdriver << " at eip = " << context.uc_mcontext.gregs[REG_EIP] << std::endl;
@@ -591,6 +591,7 @@ void _SigHandler(int signum, siginfo_t *info, void* secret)
 		esp=context.uc_mcontext.gregs[REG_RSP];
 	#endif
 	}
+#endif // defined(__linux) || defined(__linux__) || defined(linux)
 	outdriver->flush();
 	*outdriver << std::endl;
 
@@ -599,9 +600,11 @@ void _SigHandler(int signum, siginfo_t *info, void* secret)
 	symbols=backtrace_symbols(buffer, addrs);
 	if (symbols!=NULL && addrs!=0) {
 		*outdriver << "---Stack Trace---" << std::endl;
+#if defined(__linux) || defined(__linux__) || defined(linux)
 		if (esp!=0) {
 			*outdriver << "From: " << (unsigned long)esp << " to: " << (unsigned long)(esp+addrs) << std::endl;
 			}
+#endif // defined(__linux) || defined(__linux__) || defined(linux)
 		for (int i=0; i!=addrs; ++i) {
 			*outdriver << symbols[i] << std::endl;
 			}

@@ -56,6 +56,8 @@ add_executable(${PROJECT_NAME} ${lotos2_SRCS})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
 target_link_libraries(${PROJECT_NAME} ${SOCKET_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${EXEC_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${COMPAT_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
