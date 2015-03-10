@@ -26,3 +26,12 @@ Build
 =====
 
 	cmake . && make
+
+
+Used source codes
+=================
+
+- NUTS-IV (http://www.ogham.demon.co.uk/nuts4.html)
+- Open Tibia Server (https://github.com/opentibia/server)
+- libfreenect (https://github.com/OpenKinect/libfreenect)
+- Licq (https://github.com/licq-im/licq)
