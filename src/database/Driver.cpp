@@ -24,7 +24,7 @@ Driver* Driver::_instance=nullptr;
 Driver* Driver::instance()
 {
 	if (!_instance) {
-		char* type=options.get<char*>("database.Type");
+		std::string type=options.get("database.Type", "");
 #ifdef ENABLE_MYSQL
 		if (boost::iequals("mysql", type)) {
 			_instance=new driver::MySQL;

@@ -37,10 +37,10 @@ MySQL::MySQL()
 
 	// connects to database
 	if (!mysql_real_connect(&m_handle,
-			options.get<char*>("database.Host", "localhost"),
-			options.get<char*>("database.User", "root"),
-			options.get<char*>("database.Pass", ""),
-			options.get<char*>("database.Db", "lotos2"),
+			options.get("database.Host", "localhost").c_str(),
+			options.get("database.User", "root").c_str(),
+			options.get("database.Pass", "").c_str(),
+			options.get("database.Db", "lotos2").c_str(),
 			options.get<unsigned int>("database.Port", 3306),
 			NULL, 0)
 		) {

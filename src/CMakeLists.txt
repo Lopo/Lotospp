@@ -45,13 +45,14 @@ include_directories(
 	${PROJECT_SOURCE_DIR}/include
 	${Boost_INCLUDE_DIR}
 	)
+
+add_executable(${PROJECT_NAME} ${lotos2_SRCS})
+
 if (MYSQL_FOUND)
 	include_directories(${MYSQL_INCLUDE_DIR})
 	target_link_libraries(${PROJECT_NAME} ${MYSQL_CLIENT_LIBS})
 #	target_link_libraries(${PROJECT_NAME} ${MYSQL_LIBRARIES})
 endif (MYSQL_FOUND)
-
-add_executable(${PROJECT_NAME} ${lotos2_SRCS})
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
@@ -59,5 +60,3 @@ target_link_libraries(${PROJECT_NAME} ${SOCKET_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${EXEC_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${COMPAT_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
-
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
