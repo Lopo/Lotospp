@@ -35,3 +35,4 @@ Used source codes
 - Open Tibia Server (https://github.com/opentibia/server)
 - libfreenect (https://github.com/OpenKinect/libfreenect)
 - Licq (https://github.com/licq-im/licq)
+- MySQL (https://dev.mysql.com/downloads)

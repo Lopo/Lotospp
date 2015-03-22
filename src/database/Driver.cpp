@@ -15,8 +15,7 @@
 #include "globals.h"
 
 
-using namespace lotos2;
-using database::Driver;
+using namespace lotos2::database;
 
 
 Driver* Driver::_instance=nullptr;
@@ -44,12 +43,12 @@ bool Driver::executeQuery(const std::string &query)
 	return internalQuery(query);
 }
 
-database::Result_ptr Driver::storeQuery(const std::string &query)
+Result_ptr Driver::storeQuery(const std::string &query)
 {
 	return internalSelectQuery(query);
 }
 
-database::Result_ptr Driver::storeQuery(Query &query)
+Result_ptr Driver::storeQuery(Query &query)
 {
 	return storeQuery(query.str());
 }
@@ -59,7 +58,7 @@ void Driver::freeResult(Result *res)
 	throw std::runtime_error("No database driver loaded, yet a Result was freed.");
 }
 
-database::Result_ptr Driver::verifyResult(Result_ptr result)
+Result_ptr Driver::verifyResult(Result_ptr result)
 {
 	if (!result->advance()) {
 		return Result_ptr();

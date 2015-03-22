@@ -2,8 +2,6 @@
 
 #ifdef __EXCEPTION_TRACER__
 
-#include <unistd.h>
-
 #include "Exception.h"
 
 #include <cstdlib>
@@ -501,8 +499,9 @@ void _SigHandler(int signum, siginfo_t *info, void* secret)
 	int addrs;
 	void* buffer[BACKTRACE_DEPTH];
 	char** symbols;
-
+#if defined(__linux) || defined(__linux__) || defined(linux)
 	ucontext_t context=*(ucontext_t*)secret;
+#endif
 	rusage resources;
 	rlimit resourcelimit;
 	tm *ts;

@@ -1,11 +1,7 @@
 #include "config.h"
 #ifdef ENABLE_MYSQL
 
-#ifdef __MYSQL_ALT_INCLUDE__
-#	include "errmsg.h"
-#else
-#	include <mysql/errmsg.h>
-#endif
+#include <errmsg.h>
 
 #include <iostream>
 #include <string>
@@ -18,7 +14,6 @@
 #include "globals.h"
 
 
-using namespace lotos2;
 using namespace lotos2::database::driver;
 
 /** MySQL definitions */
@@ -79,7 +74,7 @@ MySQL::~MySQL()
 	mysql_close(&m_handle);
 }
 
-bool MySQL::getParam(database::DBParam_t param)
+bool MySQL::getParam(lotos2::database::DBParam_t param)
 {
 	switch (param) {
 		case DBPARAM_MULTIINSERT:
@@ -164,7 +159,7 @@ bool MySQL::internalQuery(const std::string &query)
 	return state;
 }
 
-database::Result_ptr MySQL::internalSelectQuery(const std::string &query)
+lotos2::database::Result_ptr MySQL::internalSelectQuery(const std::string &query)
 {
 	if (!m_connected) {
 		return Result_ptr();
@@ -234,7 +229,7 @@ std::string MySQL::escapeBlob(const char* s, uint32_t length)
 	return r;
 }
 
-void MySQL::freeResult(Result* res)
+void MySQL::freeResult(lotos2::database::Result* res)
 {
 	delete (MySQLResult*)res;
 }
@@ -316,12 +311,12 @@ const char* MySQLResult::getDataStream(const std::string &s, unsigned long &size
 	return NULL;
 }
 
-database::Result_ptr MySQLResult::advance()
+lotos2::database::Result_ptr MySQLResult::advance()
 {
 	m_row=mysql_fetch_row(m_handle);
 	return m_row!=NULL
 		? shared_from_this()
-		: Result_ptr();
+		: lotos2::database::Result_ptr();
 }
 
 bool MySQLResult::empty()

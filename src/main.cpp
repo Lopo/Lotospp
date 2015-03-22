@@ -203,10 +203,8 @@ void init(void)
 		atexit(closePidFile);
 		}
 
-	pthread_mutex_init(&log_mutex, NULL);
-
 	//SIGNALS
-#if defined __WINDOWS__ || defined WIN32
+#if defined WIN32 || defined __WINDOWS__
 #else
 //	closeGuard consoleGuard(boost::bind(handleSignal, boost::ref(io_service)));
 #endif
@@ -215,7 +213,7 @@ void init(void)
 void ErrorMessage(const std::string& message)
 {
 	std::cout << std::endl << std::endl << "Error: " << message << std::endl;
-#ifdef __WINDOWS__
+#if defined WIN32 || defined __WINDOWS__
 	std::string s;
 	std::cin >> s;
 #endif
@@ -237,7 +235,7 @@ void mainLoader(network::ServiceManager* service_manager)
 
 int main(int argc, char **argv)
 {
-#ifndef WIN32
+#if !defined(WIN32) && !defined(__WINDOWS__)
 	if (!getuid() || !geteuid()) {
 		std::cout << "executed as root - login as normal user" << std::endl;
 		return 1;

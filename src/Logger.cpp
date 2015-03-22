@@ -17,7 +17,7 @@ using namespace lotos2;
 
 Logger::Logger()
 {
-	if (!(m_file=fopen(options.get<char*>("global.logFile", ""), "a"))) {
+	if (!(m_file=fopen(options.get("global.logFile", "").c_str(), "a"))) {
 		m_file=stdout;
 		}
 }

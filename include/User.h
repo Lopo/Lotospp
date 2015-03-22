@@ -19,14 +19,13 @@
 namespace lotos2 {
 
 class User
-	: public Creature,
-		public std::ostream
+	: public Creature
 {
 public:
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t userCount;
 #endif
-	User(const std::string& name, network::protocol::Telnet* p);
+	User(network::protocol::Telnet* p);
 	virtual ~User();
 
 	virtual User* getUser() { return this;};

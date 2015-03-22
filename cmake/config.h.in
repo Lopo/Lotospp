@@ -21,7 +21,7 @@
 #cmakedefine HAVE_FORK 1
 
 #cmakedefine ENABLE_MYSQL 1
-#cmakedefine USE_DEBUG 1
+#cmakedefine WITH_DEBUG 1
 #cmakedefine USE_MSTHREADS 1
 #cmakedefine USE_PTHREADS 1
 
@@ -33,7 +33,7 @@
 #	endif
 #endif
 
-#ifdef USE_DEBUG
+#ifdef WITH_DEBUG
 #	define __DEBUG_NET_DETAIL__ 1
 #	define __TRACK_NETWORK__ 1
 #	define __ENABLE_SERVER_DIAGNOSTIC__ 1

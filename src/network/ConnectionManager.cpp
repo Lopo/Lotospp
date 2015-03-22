@@ -11,8 +11,7 @@
 #include "Singleton.h"
 
 
-using namespace lotos2;
-using network::ConnectionManager;
+using namespace lotos2::network;
 
 
 ConnectionManager* ConnectionManager::getInstance()
@@ -21,7 +20,7 @@ ConnectionManager* ConnectionManager::getInstance()
 	return instance.get();
 }
 
-network::Connection_ptr ConnectionManager::createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicer)
+Connection_ptr ConnectionManager::createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicer)
 {
 #ifdef __DEBUG_NET_DETAIL__
 	std::cout << "Create new Connection" << std::endl;

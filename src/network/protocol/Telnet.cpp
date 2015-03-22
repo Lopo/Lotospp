@@ -13,8 +13,7 @@
 #include "globals.h"
 
 
-using namespace lotos2;
-using network::protocol::Telnet;
+using namespace lotos2::network::protocol;
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -72,7 +71,7 @@ void Telnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const Functio
 		}
 }
 
-Telnet::Telnet(Connection_ptr connection)
+Telnet::Telnet(lotos2::network::Connection_ptr connection)
 	: Protocol(connection)
 {
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -106,13 +105,13 @@ void Telnet::onConnect()
 //	user=new User("", this);
 }
 
-void Telnet::onRecvFirstMessage(NetworkMessage& msg)
+void Telnet::onRecvFirstMessage(lotos2::network::NetworkMessage& msg)
 {
 	parseFirstPacket(msg);
 	parsePacket(msg);
 }
 
-void Telnet::setUser(User* u)
+void Telnet::setUser(lotos2::User* u)
 {
 	user=u;
 }
@@ -179,14 +178,14 @@ void Telnet::disconnect()
 
 //********************** Parse methods *******************************
 
-bool Telnet::parseFirstPacket(NetworkMessage &msg)
+bool Telnet::parseFirstPacket(lotos2::network::NetworkMessage &msg)
 {
-    User* _user=new User("", this);
+    User* _user=new User(this);
     addRef();
     return connect(_user->getID());
 }
 
-void Telnet::parsePacket(NetworkMessage &msg)
+void Telnet::parsePacket(lotos2::network::NetworkMessage &msg)
 {
 	uint8_t b;
 	int32_t pos;
@@ -215,7 +214,7 @@ void Telnet::parsePacket(NetworkMessage &msg)
 	msg.setReadPos(0);
 }
 
-void Telnet::parseDebug(NetworkMessage& msg)
+void Telnet::parseDebug(lotos2::network::NetworkMessage& msg)
 {
 	int dataLength=msg.getMessageLength()-1;
 	if (dataLength!=0) {
@@ -242,7 +241,7 @@ void Telnet::sendTextMessage(const std::string& message)
 		}
 }
 
-void Telnet::AddTextMessage(NetworkMessage_ptr msg, const std::string& message)
+void Telnet::AddTextMessage(lotos2::network::NetworkMessage_ptr msg, const std::string& message)
 {
 	msg->AddString(message);
 }

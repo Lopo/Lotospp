@@ -1,7 +1,7 @@
 #include "config.h"
 
-#if defined __WINDOWS__ || defined WIN32
-#include <winerror.h>
+#if defined WIN32 || defined __WINDOWS__
+#	include <winerror.h>
 #endif
 
 #include <cstdint>
@@ -24,8 +24,7 @@
 #include "Logger.h"
 
 
-using namespace lotos2;
-using network::ServicePort;
+using namespace lotos2::network;
 
 
 bool ServicePort::m_logError=true;
@@ -155,7 +154,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 		}
 }
 
-network::Protocol* ServicePort::makeProtocol(NetworkMessage& msg) const
+Protocol* ServicePort::makeProtocol(NetworkMessage& msg) const
 {
 //	uint8_t protocolId=msg.GetByte();
 	for (std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it) {

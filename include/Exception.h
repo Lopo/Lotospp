@@ -1,10 +1,11 @@
 #ifndef LOTOS2_EXCEPTION_H
 #define	LOTOS2_EXCEPTION_H
 
+#include "config.h"
+
 #if defined __EXCEPTION_TRACER__
 
-
-#include "config.h"
+#include "system.h"
 
 
 namespace lotos2 {

@@ -8,8 +8,7 @@
 #include "database/Driver.h"
 
 
-using namespace lotos2;
-using database::Insert;
+using namespace lotos2::database;
 
 
 Insert::Insert(Driver* db)

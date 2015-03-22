@@ -1,6 +1,6 @@
 #include "config.h"
 
-#ifdef WIN32
+#if defined WIN32 || defined __WINDOWS__
 #	include <winerror.h>
 #endif
 
@@ -18,8 +18,7 @@
 #include "network/Connection.h"
 
 
-using namespace lotos2;
-using network::Protocol;
+using namespace lotos2::network;
 
 
 void Protocol::onSendMessage(OutputMessage_ptr msg)
@@ -40,7 +39,7 @@ void Protocol::onRecvMessage(NetworkMessage& msg)
 	parsePacket(msg);
 }
 
-network::OutputMessage_ptr Protocol::getOutputBuffer()
+OutputMessage_ptr Protocol::getOutputBuffer()
 {
 	if (m_outputBuffer && m_outputBuffer->getMessageLength()<NETWORKMESSAGE_MAXSIZE-4096) {
 		return m_outputBuffer;

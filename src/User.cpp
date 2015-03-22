@@ -21,14 +21,13 @@ uint32_t User::userCount=0;
 #endif
 
 
-User::User(const std::string& _name, network::protocol::Telnet* p)
+User::User(network::protocol::Telnet* p)
 	: Creature()
 {
 	client=p;
 	if (client) {
 		client->setUser(this);
 		}
-	name=_name;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	userCount++;

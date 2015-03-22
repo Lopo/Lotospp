@@ -1,6 +1,6 @@
 #include "config.h"
 
-#if defined __WINDOWS__ || defined WIN32
+#if defined WIN32 || defined __WINDOWS__
 #	include <winerror.h>
 #endif
 
@@ -18,8 +18,7 @@
 #include "Logger.h"
 
 
-using namespace lotos2;
-using network::ServiceManager;
+using namespace lotos2::network;
 
 
 ServiceManager::ServiceManager()

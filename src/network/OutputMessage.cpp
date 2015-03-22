@@ -13,9 +13,7 @@
 #include "system.h"
 
 
-using namespace lotos2;
-using network::OutputMessage;
-using network::OutputMessagePool;
+using namespace lotos2::network;
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -36,12 +34,12 @@ char* OutputMessage::getOutputBuffer()
 	return (char*)&m_MsgBuf[m_outputBufferStart];
 }
 
-network::Protocol* OutputMessage::getProtocol()
+Protocol* OutputMessage::getProtocol()
 {
 	return m_protocol;
 }
 
-network::Connection_ptr OutputMessage::getConnection()
+Connection_ptr OutputMessage::getConnection()
 {
 	return m_connection;
 }
@@ -257,7 +255,7 @@ void OutputMessagePool::internalReleaseMessage(OutputMessage* msg)
 	m_outputPoolLock.unlock();
 }
 
-network::OutputMessage_ptr OutputMessagePool::getOutputMessage(Protocol* protocol, bool autosend /*= true*/)
+OutputMessage_ptr OutputMessagePool::getOutputMessage(Protocol* protocol, bool autosend /*= true*/)
 {
 #ifdef __DEBUG_NET_DETAIL__
 	std::cout << "request output message - auto = " << autosend << std::endl;

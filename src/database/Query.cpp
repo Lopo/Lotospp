@@ -4,8 +4,7 @@
 
 #include "database/Query.h"
 
-using namespace lotos2;
-using database::Query;
+using namespace lotos2::database;
 
 boost::recursive_mutex Query::database_lock;
 

@@ -4,8 +4,6 @@
 
 #include "config.h"
 
-#include <pthread.h>
-
 #include <ctime>
 
 #include <boost/property_tree/ptree.hpp>
@@ -25,8 +23,6 @@ namespace lotos2 {
 
 EXTERN boost::property_tree::ptree options;
 EXTERN struct std::tm serverTimeTms;
-
-EXTERN pthread_mutex_t log_mutex;
 
 EXTERN Scheduler g_scheduler;
 EXTERN Dispatcher g_dispatcher;

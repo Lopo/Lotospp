@@ -6,11 +6,9 @@
 
 #ifdef ENABLE_MYSQL
 
-#ifdef __MYSQL_ALT_INCLUDE__
-#	include <mysql.h>
-#else
-#	include <mysql/mysql.h>
-#endif
+#include "system.h"
+
+#include <mysql.h>
 
 #include <cstdint>
 #include <string>
@@ -44,7 +42,7 @@ public:
 
 protected:
 	virtual bool internalQuery(const std::string &query);
-	virtual Result_ptr internalSelectQuery(const std::string &query);
+	virtual lotos2::database::Result_ptr internalSelectQuery(const std::string &query);
 	virtual void freeResult(Result *res);
 
 	MYSQL m_handle;
@@ -62,7 +60,7 @@ public:
 	virtual std::string getDataString(const std::string &s);
 	virtual const char* getDataStream(const std::string &s, unsigned long &size);
 
-	virtual Result_ptr advance();
+	virtual lotos2::database::Result_ptr advance();
 	virtual bool empty();
 
 protected:
