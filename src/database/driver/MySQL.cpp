@@ -36,7 +36,7 @@ MySQL::MySQL()
 			options.get("database.User", "root").c_str(),
 			options.get("database.Pass", "").c_str(),
 			options.get("database.Db", "lotos2").c_str(),
-			options.get<unsigned int>("database.Port", 3306),
+			options.get<unsigned int>("database.Port", MYSQL_PORT),
 			NULL, 0)
 		) {
 		std::cout << "Failed to connect to database. MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
@@ -47,24 +47,20 @@ MySQL::MySQL()
 		//mySQL servers < 5.0.19 has a bug where MYSQL_OPT_RECONNECT is (incorrectly) reset by mysql_real_connect calls
 		//See http://dev.mysql.com/doc/refman/5.0/en/mysql-options.html for more information.
 		mysql_options(&m_handle, MYSQL_OPT_RECONNECT, &reconnect);
-		std::cout << std::endl << "[Warning] Outdated mySQL server detected. Consider upgrading to a newer version." << std::endl;
+		std::cout << std::endl << "[Warning] Outdated MySQL server detected (" << MYSQL_SERVER_VERSION << "). Consider upgrading to a newer version." << std::endl;
 		}
 
 	m_connected=true;
 
 	if (options.get<std::string>("global.mapStorageType", "")=="binary") {
-		Query query;
+		lotos2::database::Query query;
 		query << "SHOW variables LIKE 'max_allowed_packet';";
 
-		Result_ptr result;
-		if ((result=storeQuery(query.str()))) {
-			int32_t max_query=result->getDataInt("Value");
-
-			if (max_query<16777216) {
-				std::cout << std::endl << "[Warning] max_allowed_packet might be set too low for binary map storage." << std::endl;
-				std::cout << "Use the following query to raise max_allow_packet: " << std::endl;
-				std::cout << "\tSET GLOBAL max_allowed_packet = 16777216;" << std::endl;
-				}
+		lotos2::database::Result_ptr result=storeQuery(query.str());
+		if (result && result->getDataInt("Value")<16777216) {
+			std::cout << std::endl << "[Warning] max_allowed_packet might be set too low for binary map storage." << std::endl;
+			std::cout << "Use the following query to raise max_allow_packet: " << std::endl;
+			std::cout << "\tSET GLOBAL max_allowed_packet = 16777216;" << std::endl;
 			}
 		}
 }
@@ -116,7 +112,7 @@ bool MySQL::commit()
 #ifdef __DEBUG_SQL__
 	std::cout << "COMMIT" << std::endl;
 #endif
-	if (mysql_commit(&m_handle)!=0) {
+	if (mysql_commit(&m_handle)) {
 		std::cout << "mysql_commit(): MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
 		return false;
 		}
@@ -137,7 +133,7 @@ bool MySQL::internalQuery(const std::string &query)
 	bool state=true;
 
 	// executes the query
-	if (mysql_real_query(&m_handle, query.c_str(), query.length())!=0) {
+	if (mysql_real_query(&m_handle, query.c_str(), query.length())) {
 		std::cout << "mysql_real_query(): " << query.substr(0, 256) << ": MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
 		int error=mysql_errno(&m_handle);
 
@@ -162,7 +158,7 @@ bool MySQL::internalQuery(const std::string &query)
 lotos2::database::Result_ptr MySQL::internalSelectQuery(const std::string &query)
 {
 	if (!m_connected) {
-		return Result_ptr();
+		return lotos2::database::Result_ptr();
 		}
 
 #ifdef __DEBUG_SQL__
@@ -170,7 +166,7 @@ lotos2::database::Result_ptr MySQL::internalSelectQuery(const std::string &query
 #endif
 
 	// executes the query
-	if (mysql_real_query(&m_handle, query.c_str(), query.length())!=0) {
+	if (mysql_real_query(&m_handle, query.c_str(), query.length())) {
 		std::cout << "mysql_real_query(): " << query << ": MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
 		int error=mysql_errno(&m_handle);
 
@@ -192,11 +188,11 @@ lotos2::database::Result_ptr MySQL::internalSelectQuery(const std::string &query
 			m_connected=false;
 			}
 
-		return Result_ptr();
+		return lotos2::database::Result_ptr();
 		}
 
 	// retriving results of query
-	Result_ptr res(new MySQLResult(m_res), boost::bind(&Driver::freeResult, this, _1));
+	lotos2::database::Result_ptr res(new MySQLResult(m_res), boost::bind(&lotos2::database::Driver::freeResult, this, _1));
 	return verifyResult(res);
 }
 
@@ -235,6 +231,24 @@ void MySQL::freeResult(lotos2::database::Result* res)
 }
 
 /** MySQLResult definitions */
+
+MySQLResult::MySQLResult(MYSQL_RES* res)
+{
+	m_handle=res;
+	m_listNames.clear();
+
+	MYSQL_FIELD* field;
+	int32_t i=0;
+	while ((field=mysql_fetch_field(m_handle))) {
+		m_listNames[field->name]=i;
+		i++;
+		}
+}
+
+MySQLResult::~MySQLResult()
+{
+	mysql_free_result(m_handle);
+}
 
 int32_t MySQLResult::getDataInt(const std::string &s)
 {
@@ -322,24 +336,6 @@ lotos2::database::Result_ptr MySQLResult::advance()
 bool MySQLResult::empty()
 {
 	return m_row==NULL;
-}
-
-MySQLResult::MySQLResult(MYSQL_RES* res)
-{
-	m_handle=res;
-	m_listNames.clear();
-
-	MYSQL_FIELD* field;
-	int32_t i=0;
-	while ((field=mysql_fetch_field(m_handle))) {
-		m_listNames[field->name]=i;
-		i++;
-		}
-}
-
-MySQLResult::~MySQLResult()
-{
-	mysql_free_result(m_handle);
 }
 
 #endif // ENABLE_MYSQL

@@ -23,7 +23,7 @@ namespace lotos2 {
 		namespace driver {
 
 class MySQL
-	: public Driver
+	: public lotos2::database::Driver
 {
 public:
 	MySQL();
@@ -43,13 +43,13 @@ public:
 protected:
 	virtual bool internalQuery(const std::string &query);
 	virtual lotos2::database::Result_ptr internalSelectQuery(const std::string &query);
-	virtual void freeResult(Result *res);
+	virtual void freeResult(lotos2::database::Result *res);
 
 	MYSQL m_handle;
 };
 
 class MySQLResult
-	: public Result
+	: public lotos2::database::Result
 {
 	friend class MySQL;
 
