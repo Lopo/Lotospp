@@ -35,7 +35,7 @@ public:
 	 */
 	static T* get()
 	{
-		boost::call_once(m_flag, initialize);
+		boost::call_once(initialize, m_flag);
 		return m_pointer.get();
 	};
 

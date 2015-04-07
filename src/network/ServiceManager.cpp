@@ -15,7 +15,7 @@
 #include "network/ServiceManager.h"
 #include "globals.h"
 #include "network/OutputMessage.h"
-#include "Logger.h"
+#include "log/Logger.h"
 
 
 using namespace lotos2::network;
@@ -56,7 +56,7 @@ void ServiceManager::run()
 		m_io_service.run();
 		}
 	catch (boost::system::system_error& e) {
-		LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
+		LOG(ERROR) << e.what();
 		}
 }
 
@@ -73,7 +73,7 @@ void ServiceManager::stop()
 			m_io_service.post(boost::bind(&ServicePort::onStopServer, it->second));
 			}
 		catch (boost::system::system_error& e) {
-			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
+			LOG(ERROR) << e.what();
 			}
 		}
 	m_acceptors.clear();

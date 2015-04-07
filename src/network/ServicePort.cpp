@@ -21,7 +21,7 @@
 #include "network/ServiceBase.h"
 #include "network/Connection.h"
 #include "network/ConnectionManager.h"
-#include "Logger.h"
+#include "log/Logger.h"
 
 
 using namespace lotos2::network;
@@ -81,8 +81,8 @@ void ServicePort::accept(Acceptor_ptr acceptor)
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
-			m_logError = false;
+			LOG(ERROR) << e.what();
+			m_logError=false;
             }
         }
 }
@@ -203,7 +203,7 @@ void ServicePort::open(uint16_t port)
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
+			LOG(ERROR) << e.what();
 			m_logError=false;
 			}
 

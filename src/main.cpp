@@ -26,7 +26,7 @@
 
 #include "network/ServiceManager.h"
 #include "network/protocol/Telnet.h"
-#include "Logger.h"
+#include "log/Logger.h"
 
 #include "globals.h"
 
@@ -37,8 +37,10 @@ using namespace lotos2;
 bool configure(int ac, char **av)
 {
 	std::string cf="config.ini",
-		logFile,
-		pidFile;
+		pidFile,
+		logDir;
+	lotos2::log::severity_t logLevelC,
+		logLevelF;
 
 	namespace po=boost::program_options;
 	namespace fs=boost::filesystem;
@@ -52,8 +54,10 @@ bool configure(int ac, char **av)
 #ifdef HAVE_FORK
 		("daemon,d", "fork to background as daemon")
 #endif
-		("logFile,l", po::value<std::string>(&logFile), "")
-		("pidFile,p", po::value<std::string>(&pidFile), "")
+		("logLevelC", po::value<lotos2::log::severity_t>(&logLevelC)->default_value(lotos2::log::severity_t("warning")), "console log level (none, trace, debug, info, warning, error, fatal)")
+		("logLevelF", po::value<lotos2::log::severity_t>(&logLevelF)->default_value(lotos2::log::severity_t("info")), "file log level (trace, debug, info, warning, error, fatal)")
+		("logDir,L", po::value<std::string>(&logDir)->default_value("log"), "")
+		("pidFile,p", po::value<std::string>(&pidFile)->default_value(std::string(av[0])+".pid"), "")
 		("suppress,s", "suppress config info")
 		;
 	po::positional_options_description p;
@@ -94,31 +98,13 @@ bool configure(int ac, char **av)
 	if (vm.count("suppress")) {
 		options.put("global.suppress_config_info", true);
 		}
-	if (logFile!="") {
-		options.put("global.logFile", logFile);
-		}
-	else {
-		logFile=options.get<std::string>("global.logFile", "");
-		}
-
-	if (logFile!="" && logFile!="/dev/null") {
-		if (fs::exists(logFile) && !fs::is_regular_file(logFile)) {
-			std::cerr << "ERROR: The log file must either be a regular file or /dev/null." << std::endl;
-			return false;
-			}
-		unlink(logFile.c_str());
-		options.put("global.logFile", logFile);
-		}
+	options.put("global.log.console.level", logLevelC.to_string());
+	options.put("global.log.file.level", logLevelF.to_string());
+	options.put("global.log.dir", logDir);
 	int userPort=options.get<uint16_t>("global.userPort", 0);
 	if (userPort<=1024) {
 		std::cout << "Main port must be higher then 1024, actual: " << userPort << std::endl;
 		return false;
-		}
-	if (options.get("global.daemon", false)) {
-		if (logFile=="") {
-			std::cerr << "ERROR: You must specify a log file if the server is to be run as a daemon" << std::endl;
-			return false;
-			}
 		}
 	if (pidFile!="") {
 		options.put("global.pidFile", pidFile);
@@ -152,20 +138,19 @@ void parse_config(void)
 		std::cerr << "ERROR: Working dir '" << workingDir << "' don't exist or isn't dir" << std::endl;
 		exit(1);
 		}
-	fs::path wPath=fs::canonical(workingDir);
+	std::string logDir(options.get("global.log.dir", ""));
+	if (boost::ends_with(logDir, "/")) {
+		boost::algorithm::erase_last(logDir, "/");
+		options.put("global.workingDir", logDir);
+		}
+	if (!fs::exists(logDir) || !fs::is_directory(logDir)) {
+		std::cerr << "ERROR: Log dir '" << logDir << "' don't exist or isn't dir" << std::endl;
+		exit(1);
+		}
 	int userPort=options.get<uint16_t>("global.userPort", 0);
 	if (userPort<=1024 || userPort>65535) {
 		std::cerr << "ERROR: Invalid user port number " << userPort << ". Range is 1025 - 65535." << std::endl;
 		exit(1);
-		}
-
-	if (!options.get<bool>("global.suppress_config_info", false)) {
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Server name: "+serverName);
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Original dir: "+options.get<std::string>("runtime.originalDir"));
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Working dir: "+wPath.string());
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Log file: "+(options.get<std::string>("global.logFile", "")!=""? options.get<std::string>("global.logFile", "") : std::string("<stdout>")));
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "User port: "+options.get<std::string>("global.userPort"));
-		LOG_MESSAGE(NULL, LOGTYPE_INFO, "Done.");
 		}
 }
 
@@ -192,8 +177,18 @@ void init(void)
 //	boost::random::mt19937 rng;
 
 	parse_config();
+	lotos2::log::Logger::getInstance()->init();
 
-	LOG_MESSAGE(NULL, LOGTYPE_INFO, "Number of found CPUs: "+std::to_string(boost::thread::hardware_concurrency()));
+	if (!options.get<bool>("global.suppress_config_info", false)) {
+		LOG(INFO) << "Server name: " << options.get("global.serverName", "");
+		LOG(INFO) << "Original dir: " << options.get("runtime.originalDir", "");
+		LOG(INFO) << "Working dir: " << boost::filesystem::canonical(options.get("global.workingDir", ""));
+		LOG(INFO) << "Log dir: " << options.get("global.log.dir", "");
+		LOG(INFO) << "User port: " << options.get("global.userPort", 0);
+		LOG(INFO) << "Done.";
+		}
+
+	LOG(INFO) << "Number of found CPUs: " << boost::thread::hardware_concurrency();
 
 	std::string pidFile(options.get("global.pidFile", ""));
 	if (pidFile!="") {

@@ -2,7 +2,6 @@ set(lotos2_SRCS
 	Creature.cpp
 	Exception.cpp
 	Dispatcher.cpp
-	Logger.cpp
 	Scheduler.cpp
 	Talker.cpp
 	Thing.cpp
@@ -10,6 +9,9 @@ set(lotos2_SRCS
 
 	main.cpp
 	misc.cpp
+
+	log/Logger.cpp
+	log/severity_t.cpp
 
 	network/Connection.cpp
 	network/ConnectionManager.cpp

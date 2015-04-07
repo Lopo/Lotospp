@@ -18,7 +18,7 @@
 #include "network/Protocol.h"
 #include "network/OutputMessage.h"
 #include "network/ServicePort.h"
-#include "Logger.h"
+#include "log/Logger.h"
 
 
 using namespace lotos2::network;
@@ -139,7 +139,7 @@ void Connection::closeSocket()
 			}
 		catch (boost::system::system_error& e) {
 			if (m_logError) {
-				LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
+				LOG(ERROR) << e.what();
 				m_logError=false;
 				}
 			}
@@ -192,7 +192,7 @@ void Connection::deleteConnectionTask()
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
+			LOG(ERROR) << e.what();
 			m_logError=false;
 			}
 		}
@@ -219,7 +219,7 @@ void Connection::acceptConnection()
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
+			LOG(ERROR) << e.what();
 			m_logError=false;
 			closeConnection();
 			}
@@ -278,7 +278,7 @@ void Connection::parsePacket(const boost::system::error_code& error, const std::
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
+			LOG(ERROR) << e.what();
 			m_logError=false;
 			closeConnection();
 			}
@@ -345,7 +345,7 @@ void Connection::internalSend(OutputMessage_ptr msg)
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG_MESSAGE("NETWORK", LOGTYPE_ERROR, e.what());
+			LOG(ERROR) << e.what();
 			m_logError=false;
 			}
 		}

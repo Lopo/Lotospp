@@ -9,6 +9,7 @@
 #include <cstdint>
 
 #if defined WIN32 || defined __WINDOWS__
+#define NOGDI
 #include <winsock2.h>
 #include <Windows.h>
 #include <stddef.h>
