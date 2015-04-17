@@ -10,7 +10,7 @@
 #include "network/Connection.h"
 #include "network/Protocol.h"
 #include "Singleton.h"
-#include "system.h"
+#include "system/system.h"
 
 
 using namespace lotos2::network;

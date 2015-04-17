@@ -28,7 +28,7 @@ using lotos2::ExceptionHandler;
 		int ExceptionHandler::ref_counter=0;
 
 	#elif __GNUC__
-		#include "system.h"
+		#include "system/system.h"
 		#include <excpt.h>
 		#include <tlhelp32.h>
 

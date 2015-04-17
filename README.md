@@ -38,3 +38,4 @@ Used source codes
 - Licq (https://github.com/licq-im/licq)
 - MySQL (https://dev.mysql.com/downloads)
 - Pushy (https://github.com/godexsoft/pushy)
+- Chromium (https://chromium.googlesource.com/chromium/src)

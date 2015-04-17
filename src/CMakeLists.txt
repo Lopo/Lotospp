@@ -32,6 +32,8 @@ set(lotos2_SRCS
 	network/ServiceManager.cpp
 
 	network/protocol/Telnet.cpp
+
+	strings/stringprintf.cpp
 	)
 if (USE_DATABASE)
 	set(lotos2_SRCS

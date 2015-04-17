@@ -6,7 +6,7 @@
 
 #ifdef ENABLE_MYSQL
 
-#include "system.h"
+#include "system/system.h"
 
 #include <mysql.h>
 

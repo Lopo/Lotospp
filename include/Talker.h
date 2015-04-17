@@ -45,10 +45,6 @@ public:
 	UserVector getUsersByIP(uint32_t ip, uint32_t mask=0xFFFFFFFF);
 
 	/**
-	 * Remove User from the map
-	 *
-	 * Removes the User the map
-	 *
 	 * @param user User to remove
 	 */
 	bool removeUser(User* user);
