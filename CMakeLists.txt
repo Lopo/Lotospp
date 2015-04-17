@@ -117,14 +117,17 @@ if (ENABLE_DOXYGEN)
 		)
 endif (ENABLE_DOXYGEN)
 
+set(GENERATED_INCLUDES)
+set(GENERATED_SOURCES)
+
 include_directories(include)
 set(SUBDIRS
+	gsrc
 	src
 	)
 foreach(subdir ${SUBDIRS})
 	add_subdirectory(${subdir})
 endforeach()
-
 
 include(cmake/Macros.cmake)
 message("Building with support for:")

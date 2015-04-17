@@ -1,4 +1,13 @@
+foreach (gsrc ${GENERATED_SOURCES})
+	set_source_files_properties(${gsrc} PROPERTIES GENERATED 1)
+endforeach()
+foreach (gh ${GENERATED_INCLUDES})
+	set_source_files_properties(${gh} PROPERTIES GENERATED 1)
+endforeach()
+
 set(lotos2_SRCS
+	${GENERATED_SOURCES}
+
 	Creature.cpp
 	Exception.cpp
 	Dispatcher.cpp
@@ -49,6 +58,7 @@ include_directories(
 	)
 
 add_executable(${PROJECT_NAME} ${lotos2_SRCS})
+add_dependencies(${PROJECT_NAME} generated_objects)
 
 if (MYSQL_FOUND)
 	include_directories(${MYSQL_INCLUDE_DIR})

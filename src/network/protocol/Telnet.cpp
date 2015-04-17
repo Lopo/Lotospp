@@ -10,6 +10,7 @@
 #include "User.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
+#include "generated/consts.h"
 #include "globals.h"
 
 
@@ -19,44 +20,6 @@ using namespace lotos2::network::protocol;
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 uint32_t Telnet::protocolTelnetCount=0;
 #endif
-
-enum {
-	TELNET_ECHO=1,
-	TELNET_SGA=3,
-	TELNET_BEEP=7,
-	TELNET_TERM=24,
-	TELNET_NAWS=31,
-	TELNET_SE=240,
-	TELNET_SB=250,
-	TELNET_WILL,
-	TELNET_WONT,
-	TELNET_DO,
-	TELNET_DONT,
-	TELNET_IAC
-	};
-enum {
-	ANSI_RESET,
-	ANSI_BOLD,
-	ANSI_UNDERLINE=4,
-	ANSI_BLINK,
-	ANSI_REVERSE=7,
-	ANSI_FG_BLACK=30,
-	ANSI_FG_RED,
-	ANSI_FG_GREEN,
-	ANSI_FG_YELLOW,
-	ANSI_FG_BLUE,
-	ANSI_FG_MAGENTA,
-	ANSI_FG_CYAN,
-	ANSI_FG_WHITE,
-	ANSI_BG_BLACK=40,
-	ANSI_BG_RED,
-	ANSI_BG_GREEN,
-	ANSI_BG_YELLOW,
-	ANSI_BG_BLUE,
-	ANSI_BG_MAGENTA,
-	ANSI_BG_CYAN,
-	ANSI_BG_WHITE
-	};
 
 // Helping templates to add dispatcher tasks
 
@@ -208,7 +171,7 @@ void Telnet::parsePacket(lotos2::network::NetworkMessage &msg)
 		}
 
 	// Ignore control code replies
-	if (msg.GetByte()==TELNET_IAC) {
+	if (msg.GetByte()==enums::TELNET_IAC) {
 		return;
 		}
 	msg.setReadPos(0);
@@ -249,18 +212,18 @@ void Telnet::AddTextMessage(lotos2::network::NetworkMessage_ptr msg, const std::
 void Telnet::sendEchoOn()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(TELNET_IAC);
-	output->AddByte(TELNET_WONT);
-	output->AddByte(TELNET_ECHO);
+	output->AddByte(enums::TELNET_IAC);
+	output->AddByte(enums::TELNET_WONT);
+	output->AddByte(enums::TELNET_ECHO);
 	OutputMessagePool::getInstance()->send(output);
 }
 
 void Telnet::sendEchoOff()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(TELNET_IAC);
-	output->AddByte(TELNET_WILL);
-	output->AddByte(TELNET_ECHO);
+	output->AddByte(enums::TELNET_IAC);
+	output->AddByte(enums::TELNET_WILL);
+	output->AddByte(enums::TELNET_ECHO);
 	OutputMessagePool::getInstance()->send(output);
 }
 
@@ -276,9 +239,9 @@ void Telnet::setXtermTitle(const std::string& title)
 void Telnet::sendTermCoords()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(TELNET_IAC);
-	output->AddByte(TELNET_DO);
-	output->AddByte(TELNET_NAWS);
+	output->AddByte(enums::TELNET_IAC);
+	output->AddByte(enums::TELNET_DO);
+	output->AddByte(enums::TELNET_NAWS);
 	OutputMessagePool::getInstance()->send(output);
 }
 
@@ -306,8 +269,8 @@ void Telnet::f1()
 void Telnet::f2()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(TELNET_IAC);
-	output->AddByte(TELNET_DO);
+	output->AddByte(enums::TELNET_IAC);
+	output->AddByte(enums::TELNET_DO);
 	output->AddByte(TELOPT_NEW_ENVIRON);
 	OutputMessagePool::getInstance()->send(output);
 }
@@ -315,8 +278,8 @@ void Telnet::f2()
 void Telnet::f3()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(TELNET_IAC);
-	output->AddByte(TELNET_WILL);
+	output->AddByte(enums::TELNET_IAC);
+	output->AddByte(enums::TELNET_WILL);
 	output->AddByte(TELOPT_NEW_ENVIRON);
 	OutputMessagePool::getInstance()->send(output);
 }

@@ -9,7 +9,7 @@ If you don't know what a talker is, read http://en.wikipedia.org/wiki/Talker .
 Dependencies
 ============
 
-- cmake
+- CMake (http://www.cmake.org)
 - Boost libraries (http://www.boost.org)
   - boost
   - boost-program-options
@@ -19,7 +19,8 @@ Dependencies
   - boost-date-time
   - boost-random
   - boost-log
-- MySQL
+- MySQL (www.mysql.com)
+- Lua (www.lua.org)
 - make
 
 
@@ -34,10 +35,6 @@ Used source codes
 
 - NUTS-IV (http://www.ogham.demon.co.uk/nuts4.html)
 - Open Tibia Server (https://github.com/opentibia/server)
-  - base network
 - Licq (https://github.com/licq-im/licq)
-  - Cmake things
 - MySQL (https://dev.mysql.com/downloads)
-  - Cmake module
 - Pushy (https://github.com/godexsoft/pushy)
-  - logging

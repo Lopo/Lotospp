@@ -94,6 +94,7 @@ public:
 	// Some useful types
 	typedef std::map<Enum<E, size_>, std::vector<std::string> > EnumToString;
 	typedef std::map<std::string, Enum<E, size_> > StringToEnum;
+	typedef std::map<Enum<E, size_>, std::string> EnumToValue;
 	// Required for some name-resolving of BitEnums
 	typedef Enum<E, size_> base_class;
 	typedef E enum_type;
@@ -154,6 +155,24 @@ public:
 			throw enum_conversion_error(os.str());
 			}
 		return i->second.front();
+	};
+
+	/**
+	 * Converts an Enum value to a value
+	 * will throw if the value does not exist
+	 *
+	 * @param _e The enum value to convert to a string
+	 */
+	static std::string toValue(const Enum<E, size_>& _e)
+	{
+		init();
+		typename EnumToValue::const_iterator i=enum_to_value.find(_e);
+		if (i==enum_to_value.end()) {
+			std::ostringstream os;
+			os << "Enum " << enum_name << " value out of range (" << (int)_e.e << ")";
+			throw enum_conversion_error(os.str());
+			}
+		return i->second;
 	};
 
 	/**
@@ -263,6 +282,18 @@ public:
 	};
 
 	/**
+	 * Returns this enum value converted to a real value
+	 *
+	 * throws if value is not part of the enum
+	 *
+	 * @return The real value of this value
+	 */
+	std::string toValue() const
+	{
+		return toValue(*this);
+	};
+
+	/**
 	 * Returns a list of all string values of this enum value (may be empty)
 	 *
 	 * @return The name(s) of this value
@@ -312,9 +343,12 @@ protected: // Private stuff
 		initialize();
 	};
 
-	static void initAddValue(E _e, std::string str, bool real_name)
+	static void initAddValue(E _e, std::string str, std::string value=NULL)
 	{
 		enum_to_string[_e].push_back(str);
+		if (value.length()) {
+			enum_to_value.emplace(_e, value);
+			}
 
 		string_to_enum[str]=_e;
 		std::transform(str.begin(), str.end(), str.begin(), tolower);
@@ -324,6 +358,7 @@ protected: // Private stuff
 	static bool initialized;
 	static std::string enum_name;
 	static EnumToString enum_to_string;
+	static EnumToValue enum_to_value;
 	static StringToEnum string_to_enum;
 	static StringToEnum lstring_to_enum;
 
@@ -335,6 +370,8 @@ public: // Operators
 	bool operator>=(const Enum<E, size_>& o) const { return e>=o.e;};
 	bool operator<(const Enum<E, size_>& o) const { return e<o.e;};
 	bool operator>(const Enum<E, size_>& o) const { return e>o.e;};
+
+	Enum<E, size_> operator[](int id) const { return fromInteger(id);};
 
 	friend class enum_iterator< Enum<E, size_> >;
 	friend class enum_iterator< BitEnum<E, size_> >;
