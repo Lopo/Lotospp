@@ -10,6 +10,9 @@ if (DEFINED CMAKE_BUILD_TYPE)
 endif (DEFINED CMAKE_BUILD_TYPE)
 set(CUSTOM_C_FLAGS $ENV{CFLAGS})
 
+get_filename_component(ROOT_DIR ${CMAKE_SOURCE_DIR} REALPATH CACHE)
+set(SOURCE_DIR ${ROOT_DIR}/src)
+set(INCLUDE_DIR ${ROOT_DIR}/include)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 #-----------------------------------------------------------------------
@@ -17,7 +20,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #-----------------------------------------------------------------------
 
 # Look for our custom modules in cmake/Modules:
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/Modules")
+set(CMAKE_MODULE_PATH "${ROOT_DIR}/cmake/Modules")
 
 # includes
 include(CheckFunctionExists)
@@ -86,8 +89,8 @@ check_include_file(direct.h HAVE_DIRECT_H)
 
 # Generate config.h
 configure_file(
-	${PROJECT_SOURCE_DIR}/cmake/config.h.in
-	${PROJECT_SOURCE_DIR}/include/config.h
+	${ROOT_DIR}/cmake/config.h.in
+	${INCLUDE_DIR}/config.h
 	)
 # Generate version.h
 include(cmake/Version.cmake)
@@ -114,6 +117,7 @@ if (ENABLE_DOXYGEN)
 		)
 endif (ENABLE_DOXYGEN)
 
+include_directories(include)
 set(SUBDIRS
 	src
 	)
@@ -121,7 +125,6 @@ foreach(subdir ${SUBDIRS})
 	add_subdirectory(${subdir})
 endforeach()
 
-include_directories(include)
 
 include(cmake/Macros.cmake)
 message("Building with support for:")

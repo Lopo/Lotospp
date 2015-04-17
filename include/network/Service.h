@@ -30,7 +30,6 @@ class Service
 {
 public:
 	bool isSingleSocket() const { return ProtocolType::server_sends_first;};
-	uint8_t getProtocolIdentifier() const { return ProtocolType::protocol_identifier;};
 	const char* getProtocolName() const { return ProtocolType::protocolName();};
 
 	Protocol* makeProtocol(Connection_ptr c) const { return new ProtocolType(c);};

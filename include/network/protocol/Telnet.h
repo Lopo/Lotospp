@@ -30,7 +30,6 @@ class Telnet
 public:
 	// static protocol information
 	enum { server_sends_first=true};
-	enum { protocol_identifier=0}; // Not required as we send first
 	static const char* protocolName() { return "telnet protocol";};
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__

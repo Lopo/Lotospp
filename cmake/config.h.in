@@ -7,15 +7,12 @@
 #	define _GNU_SOURCE // activate extra prototypes for glibc
 #endif
 
-#cmakedefine PACKAGE "${PROJECT_NAME}"
 #define LOTOS2_NAME "Lotos2"
 
 #cmakedefine HAVE_DIRECT_H
-#ifndef getcwd
-#	ifdef HAVE_DIRECT_H
-#		include <direct.h>
-#		define getcwd _getcwd
-#	endif
+#if !defined(getcwd) && defined(HAVE_DIRECT_H)
+#	include <direct.h>
+#	define getcwd _getcwd
 #endif
 
 #cmakedefine HAVE_FORK 1
@@ -40,7 +37,7 @@
 #	define __EXCEPTION_TRACER__ 1
 #endif
 
-#if defined __EXCEPTION_TRACER__
+#ifdef __EXCEPTION_TRACER__
 #	include "Exception.h"
 #endif
 

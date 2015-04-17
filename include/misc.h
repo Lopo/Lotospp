@@ -12,7 +12,7 @@
 namespace lotos2 {
 
 bool hasWhitespace(const std::string& str);
-inline void toLowerCaseString(std::string& source) { std::transform(source.begin(), source.end(), source.begin(), tolower);}
+inline void toLowerCaseString(std::string& source) { std::transform(source.begin(), source.end(), source.begin(), tolower);};
 void formatTime(time_t time, char* buffer);
 
 } // namespace lotos2

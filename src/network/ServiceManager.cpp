@@ -13,9 +13,9 @@
 #include <boost/system/system_error.hpp>
 
 #include "network/ServiceManager.h"
-#include "globals.h"
 #include "network/OutputMessage.h"
 #include "log/Logger.h"
+#include "globals.h"
 
 
 using namespace lotos2::network;

@@ -23,7 +23,6 @@ public:
 	virtual ~ServiceBase() {}; // Redundant, but stifles compiler warnings
 
 	virtual bool isSingleSocket() const=0;
-	virtual uint8_t getProtocolIdentifier() const=0;
 	virtual const char* getProtocolName() const=0;
 
 	virtual Protocol* makeProtocol(Connection_ptr c) const=0;

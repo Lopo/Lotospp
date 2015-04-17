@@ -20,7 +20,6 @@
 #include <boost/asio.hpp>
 #include <boost/date_time/c_time.hpp>
 #include <fstream>
-//#include <boost/random.hpp>
 
 #include "misc.h"
 
@@ -125,7 +124,7 @@ void parse_config(void)
 		std::cerr << "ERROR: Server name is too long" << std::endl;
 		exit(1);
 		}
-	if (hasWhitespace(serverName.c_str())) {
+	if (hasWhitespace(serverName)) {
 		std::cerr << "ERROR: Server name can't contain whitespace" << std::endl;
 		exit(1);
 		}
@@ -173,8 +172,6 @@ void init(void)
 	options.put("runtime.bootTime", t0);
 	options.put("runtime.serverTime", t0);
 	boost::date_time::c_time::localtime(&t0, &serverTimeTms);
-//	srandom((u_int)time(NULL));
-//	boost::random::mt19937 rng;
 
 	parse_config();
 	lotos2::log::Logger::getInstance()->init();

@@ -17,11 +17,11 @@
 #include <boost/asio.hpp>
 
 #include "network/ServicePort.h"
-#include "globals.h"
 #include "network/ServiceBase.h"
 #include "network/Connection.h"
 #include "network/ConnectionManager.h"
 #include "log/Logger.h"
+#include "globals.h"
 
 
 using namespace lotos2::network;
@@ -156,12 +156,9 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 
 Protocol* ServicePort::makeProtocol(NetworkMessage& msg) const
 {
-//	uint8_t protocolId=msg.GetByte();
 	for (std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it) {
 		Service_ptr service=*it;
-//		if (service->getProtocolIdentifier()==protocolId)
-			// Correct service! Create protocol and get on with it
-			return service->makeProtocol(Connection_ptr());
+		return service->makeProtocol(Connection_ptr());
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
 		}
 

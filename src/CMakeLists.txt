@@ -26,25 +26,25 @@ set(lotos2_SRCS
 	)
 if (USE_DATABASE)
 	set(lotos2_SRCS
+		${lotos2_SRCS}
+
 		database/Driver.cpp
 		database/Insert.cpp
 		database/Query.cpp
-
-		${lotos2_SRCS}
 		)
 endif (USE_DATABASE)
 if (MYSQL_FOUND)
 	set(lotos2_SRCS
-		database/driver/MySQL.cpp
-
 		${lotos2_SRCS}
+
+		database/driver/MySQL.cpp
 		)
 endif (MYSQL_FOUND)
 
 # To find public headers
 include_directories(
 	BEFORE
-	${PROJECT_SOURCE_DIR}/include
+	${INCLUDE_DIR}
 	${Boost_INCLUDE_DIR}
 	)
 
