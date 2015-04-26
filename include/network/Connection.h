@@ -70,7 +70,7 @@ public:
 
 	bool send(OutputMessage_ptr msg);
 
-	boost::asio::ip::address getIP() const;
+	boost::asio::ip::address getAddress() const;
 
 	int32_t addRef();
 	int32_t unRef();

@@ -31,6 +31,7 @@ include(CheckLibraryExists)
 option(ENABLE_MYSQL "Enable use of MySQL" ON)
 option(ENABLE_DOXYGEN "Build docs via Doxygen" OFF)
 option(WITH_DEBUG "Enable debug things" ON)
+option(ENABLE_IPV6 "Enable IPv6" ON)
 
 set(BUILDTYPE_DOCSTRING
 	"Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel"

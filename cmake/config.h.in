@@ -17,6 +17,7 @@
 #cmakedefine WITH_DEBUG 1
 #cmakedefine USE_MSTHREADS 1
 #cmakedefine USE_PTHREADS 1
+#cmakedefine ENABLE_IPV6 1
 
 #ifdef ENABLE_MYSQL
 #	ifdef SINGLE_SQL_DRIVER

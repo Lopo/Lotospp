@@ -15,6 +15,8 @@
 #include <boost/weak_ptr.hpp>
 #include <boost/system/system_error.hpp>
 #include <boost/asio.hpp>
+#include <boost/asio/ip/address.hpp>
+#include <boost/asio/ip/v6_only.hpp>
 
 #include "network/ServicePort.h"
 #include "network/ServiceBase.h"
@@ -186,17 +188,30 @@ void ServicePort::openAcceptor(boost::weak_ptr<ServicePort> weak_service, uint16
 
 void ServicePort::open(uint16_t port)
 {
+	namespace ip=boost::asio::ip;
+
 	m_serverPort=port;
 	m_pendingStart=false;
 
 	try {
-		// std::cout << "\n" << ip->to_string() << "\n";
-		Acceptor_ptr aptr(new boost::asio::ip::tcp::acceptor(m_io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::address(), m_serverPort)));
-
-		aptr->set_option(boost::asio::ip::tcp::no_delay(true));
-
+#ifdef ENABLE_IPV6
+		ip::v6_only v6_only;
+		boost::system::error_code ec;
+		Acceptor_ptr aptr(new ip::tcp::acceptor(m_io_service, ip::tcp::endpoint(ip::address_v6(), m_serverPort)));
+		aptr->set_option(v6_only, ec);
+		aptr->set_option(ip::tcp::no_delay(true));
+		aptr->get_option(v6_only);
 		accept(aptr);
 		m_tcp_acceptors.push_back(aptr);
+		if (!aptr->is_open() || v6_only) {
+#endif
+			Acceptor_ptr aptr(new ip::tcp::acceptor(m_io_service, ip::tcp::endpoint(ip::address(), m_serverPort)));
+			aptr->set_option(ip::tcp::no_delay(true));
+			accept(aptr);
+			m_tcp_acceptors.push_back(aptr);
+#ifdef ENABLE_IPV6
+			}
+#endif
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {

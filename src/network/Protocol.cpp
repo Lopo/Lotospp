@@ -71,11 +71,30 @@ void Protocol::deleteProtocolTask()
 	delete this;
 }
 
-boost::asio::ip::address Protocol::getIP() const
+void Protocol::disconnect()
 {
 	if (getConnection()) {
-		return getConnection()->getIP();
+		getConnection()->closeConnection();
+		}
+}
+
+boost::asio::ip::address Protocol::getAddress() const
+{
+	if (getConnection()) {
+		return getConnection()->getAddress();
 		}
 
 	return boost::asio::ip::address();
+}
+
+void Protocol::setUser(lotos2::User* u)
+{
+	user=u;
+}
+
+void Protocol::write(const std::string& str)
+{
+	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	output->AddString(str);
+	OutputMessagePool::getInstance()->send(output);
 }

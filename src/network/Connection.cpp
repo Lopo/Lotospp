@@ -351,7 +351,7 @@ void Connection::internalSend(OutputMessage_ptr msg)
 		}
 }
 
-boost::asio::ip::address Connection::getIP() const
+boost::asio::ip::address Connection::getAddress() const
 {
 	//Ip is expressed in network byte order
 	boost::system::error_code error;

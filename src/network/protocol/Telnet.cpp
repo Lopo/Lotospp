@@ -54,29 +54,23 @@ void Telnet::onConnect()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\n");
-	output->AddString(options.get<std::string>("global.serverName"));
+	output->AddString(options.get("global.serverName", ""));
 	output->AddString("\n");
 	output->AddString(LOTOS2_NAME);
 	output->AddString(" version ");
 	output->AddString(LOTOS2_VERSION_STRING);
 	output->AddString("\n");
 	output->AddString("\n\nconnection from: ");
-	output->AddString(this->getIP().to_string());
+	output->AddString(getAddress().to_string());
 	output->AddString("\n");
 	output->AddString("login: ");
 	OutputMessagePool::getInstance()->send(output);
-//	user=new User("", this);
 }
 
 void Telnet::onRecvFirstMessage(lotos2::network::NetworkMessage& msg)
 {
 	parseFirstPacket(msg);
 	parsePacket(msg);
-}
-
-void Telnet::setUser(lotos2::User* u)
-{
-	user=u;
 }
 
 void Telnet::releaseProtocol()
@@ -106,14 +100,7 @@ void Telnet::deleteProtocolTask()
 bool Telnet::connect(uint32_t userId)
 {
 	unRef();
-	eventConnect=0;/*
-	User* _user=g_talker.getUserByID(userId);
-	if (!_user || _user->client) {
-		disconnectClient("You are already logged in.");
-		return false;
-		}
-
-	user=_user;*/
+	eventConnect=0;
 	user->addRef();
 	user->client=this;
 	m_acceptPackets=true;
@@ -132,18 +119,11 @@ void Telnet::disconnectClient(const char* message)
 	disconnect();
 }
 
-void Telnet::disconnect()
-{
-	if (getConnection()) {
-		getConnection()->closeConnection();
-		}
-}
-
 //********************** Parse methods *******************************
 
 bool Telnet::parseFirstPacket(lotos2::network::NetworkMessage &msg)
 {
-    User* _user=new User(this);
+    User* _user=new User("", this);
     addRef();
     return connect(_user->getID());
 }
@@ -179,7 +159,8 @@ void Telnet::parsePacket(lotos2::network::NetworkMessage &msg)
 
 void Telnet::parseDebug(lotos2::network::NetworkMessage& msg)
 {
-	int dataLength=msg.getMessageLength()-1;
+	int32_t pos=msg.getReadPos(),
+		dataLength=msg.getMessageLength();
 	if (dataLength!=0) {
 		printf("data: ");
 		int data=msg.GetByte();
@@ -191,23 +172,10 @@ void Telnet::parseDebug(lotos2::network::NetworkMessage& msg)
 			}
 		printf("\n");
 		}
+	msg.setReadPos(pos);
 }
 
 //********************** Send methods *******************************
-
-void Telnet::sendTextMessage(const std::string& message)
-{
-	NetworkMessage_ptr msg=getOutputBuffer();
-	if (msg) {
-		TRACK_MESSAGE(msg);
-		AddTextMessage(msg, message);
-		}
-}
-
-void Telnet::AddTextMessage(lotos2::network::NetworkMessage_ptr msg, const std::string& message)
-{
-	msg->AddString(message);
-}
 
 void Telnet::sendEchoOn()
 {
@@ -247,16 +215,12 @@ void Telnet::sendTermCoords()
 
 void Telnet::enableLineWrap()
 {
-	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddString("\033[7h");
-	OutputMessagePool::getInstance()->send(output);
+	write("\033[7h");
 }
 
 void Telnet::disableLineWrap()
 {
-	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddString("\033[7l");
-	OutputMessagePool::getInstance()->send(output);
+	write("\033[7l");
 }
 /*
 void Telnet::f1()

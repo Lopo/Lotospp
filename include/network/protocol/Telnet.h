@@ -39,12 +39,9 @@ public:
 	Telnet(Connection_ptr connection);
 	virtual ~Telnet();
 
-	void setUser(lotos2::User* p);
-
 private:
 	bool connect(uint32_t userId);
 	void disconnectClient(const char* message);
-	void disconnect();
 
 	virtual void releaseProtocol();
 	virtual void deleteProtocolTask();
@@ -56,10 +53,6 @@ private:
 
 	void parseDebug(NetworkMessage& msg);
 
-	void sendTextMessage(const std::string& message);
-
-	void AddTextMessage(NetworkMessage_ptr msg, const std::string& message);
-
 	friend class lotos2::User;
 
 	// Helper so we don't need to bind every time
@@ -68,8 +61,6 @@ private:
 
 	template<class FunctionType>
 	void addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType&);
-
-	lotos2::User* user=nullptr;
 
 	uint32_t eventConnect=0;
 	bool m_debugAssertSent=false;

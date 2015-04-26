@@ -13,10 +13,15 @@
 
 #include "Creature.h"
 #include "AutoList.h"
-#include "network/protocol/Telnet.h"
+#include "network/Protocol.h"
 
 
 namespace lotos2 {
+	namespace network {
+		namespace protocol {
+			class Telnet;
+			}
+		}
 
 class User
 	: public Creature
@@ -25,7 +30,7 @@ public:
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static uint32_t userCount;
 #endif
-	User(network::protocol::Telnet* p);
+	User(const std::string& n="", network::Protocol* p=nullptr);
 	virtual ~User();
 
 	virtual User* getUser() { return this;};
@@ -40,22 +45,19 @@ public:
 
 	bool isOnline() const { return getID()!=0;};
 	void disconnect() { if(client) client->disconnect();};
-	boost::asio::ip::address getIP() const;
+	boost::asio::ip::address getAddress() const;
 
-	void sendTextMessage(const std::string& message) const { if (client) client->sendTextMessage(message);};
-
-	template<typename _CharT>
-	void uWrite(const _CharT message);
+	void uWrite(const std::string& message);
 
 protected:
-	network::protocol::Telnet* client;
-
 	std::string name;
+	network::Protocol* client=nullptr;
 
 	virtual void parseLine(const std::string& line);
 	virtual void prompt();
 
 	friend class Talker;
+	friend class network::Protocol;
 	friend class network::protocol::Telnet;
 };
 

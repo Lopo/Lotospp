@@ -21,21 +21,25 @@ uint32_t User::userCount=0;
 #endif
 
 
-User::User(network::protocol::Telnet* p)
-	: Creature()
+User::User(const std::string& n /*=""*/, network::Protocol* p/*=nullptr*/)
+	: Creature(),
+		name(n), client(p)
 {
-	client=p;
-	if (client) {
-		client->setUser(this);
-		}
-
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	userCount++;
 #endif
+
+	if (client) {
+		client->setUser(this);
+		}
 }
 
 User::~User()
 {
+	if (client) {
+		client->setUser(nullptr);
+		}
+	client=nullptr;
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	userCount--;
 #endif
@@ -51,10 +55,10 @@ void User::removeList()
 	listUser.removeList(getID());
 }
 
-boost::asio::ip::address User::getIP() const
+boost::asio::ip::address User::getAddress() const
 {
 	if (client) {
-		return client->getIP();
+		return client->getAddress();
 		}
 	return boost::asio::ip::address();
 }
@@ -70,10 +74,9 @@ void User::prompt()
 	uWrite(">");
 }
 
-template<typename _CharT>
-void User::uWrite(const _CharT message)
+void User::uWrite(const std::string& message)
 {
-    network::OutputMessage_ptr output=network::OutputMessagePool::getInstance()->getOutputMessage(client, false);
-    output->AddString(message);
-    network::OutputMessagePool::getInstance()->send(output);
+	if (client && message.length()) {
+		client->write(message);
+		}
 }

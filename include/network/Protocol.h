@@ -12,6 +12,8 @@
 
 
 namespace lotos2 {
+	class User;
+
 	namespace network {
 		class Connection;
 		typedef boost::shared_ptr<Connection> Connection_ptr;
@@ -41,9 +43,13 @@ public:
 	const Connection_ptr getConnection() const { return m_connection;};
 	void setConnection(Connection_ptr connection) { m_connection=connection;};
 
-	boost::asio::ip::address getIP() const;
+	boost::asio::ip::address getAddress() const;
 	int32_t addRef() { return ++m_refCount;};
 	int32_t unRef() { return --m_refCount;};
+
+	void setUser(lotos2::User* p);
+
+	virtual void write(const std::string& str);
 
 protected:
 	//Use this function for autosend messages only
@@ -51,7 +57,12 @@ protected:
 
 	virtual void releaseProtocol();
 	virtual void deleteProtocolTask();
+	virtual void disconnect();
+
+	lotos2::User* user=nullptr;
+
 	friend class Connection;
+	friend class lotos2::User;
 private:
 	OutputMessage_ptr m_outputBuffer=nullptr;
 	Connection_ptr m_connection=nullptr;
