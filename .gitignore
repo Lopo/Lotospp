@@ -21,7 +21,7 @@ cmake_install.cmake
 *.a
 
 WORKING_DIRECTORY
-
+.travis.yml
 todo.txt
 
 /bin/Lotos2
@@ -30,3 +30,4 @@ Doxyfile
 /doc
 
 *.log
+report.txt
