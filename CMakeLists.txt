@@ -99,8 +99,30 @@ include(cmake/Version.cmake)
 # Doxygen is option
 if (ENABLE_DOXYGEN)
 	find_package(Doxygen)
-	if (NOT DOXYGEN_DOT_FOUND)
-		message(SEND_ERROR "Need the dot program to build documentation")
+	if (DOXYGEN_DOT_FOUND)
+		execute_process(COMMAND
+			${DOXYGEN_DOT_EXECUTABLE} -V
+#			OUTPUT_VARIABLE _DOTEXEC_VER
+			ERROR_VARIABLE _DOTEXEC_VER
+#			ERROR_QUIET
+			OUTPUT_STRIP_TRAILING_WHITESPACE
+			)
+		if (_DOTEXEC_VER)
+			set (DOTEXEC_VERSION_FULL "${_DOTEXEC_VER}")
+			string(REGEX
+				MATCH " ([0-9]+[.0-9]+)[ \\t]"
+				tmp
+				"${_DOTEXEC_VER}"
+				)
+			set(DOTEXEC_VERSION "${CMAKE_MATCH_1}")
+		endif ()
+		message("Found dot program: ${DOXYGEN_DOT_EXECUTABLE} ver ${DOTEXEC_VERSION}")
+		set(DOT1810PLUS "NO")
+		if (${DOTEXEC_VERSION} VERSION_GREATER "1.8.10")
+			set(DOT1810PLUS "YES")
+		endif()
+		get_filename_component(DOXYGEN_DOT_EXE "${DOXYGEN_DOT_EXECUTABLE}" DIRECTORY)
+		file(TO_NATIVE_PATH "${DOXYGEN_DOT_EXE}" DOXYGEN_DOT_PATH)
 	endif ()
 	set (DOXY_CONFIG ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 	message(STATUS "Generating ${DOXY_CONFIG}")
@@ -113,7 +135,7 @@ if (ENABLE_DOXYGEN)
 		${DOXYGEN_EXECUTABLE} ${DOXY_CONFIG}
 		DEPENDS ${DOXY_CONFIG}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		COMMENT "Generating doxygen documentation"
+		COMMENT "Generating API documentation with Doxygen"
 		VERBATIM
 		)
 endif ()

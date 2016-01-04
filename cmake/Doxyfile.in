@@ -5,8 +5,8 @@
 #---------------------------------------------------------------------------
 
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "Lotos2"
-PROJECT_NUMBER         = @LOTOS2_VERSION_MAJOR@.@LOTOS2_VERSION_MINOR@.@LOTOS2_VERSION_PATCH@@LOTOS2_VERSION_STATE@
+PROJECT_NAME           = "@PROJECT_NAME@"
+PROJECT_NUMBER         = "@LOTOS2_VERSION_MAJOR@.@LOTOS2_VERSION_MINOR@.@LOTOS2_VERSION_PATCH@"
 PROJECT_BRIEF          = "telnet-based talker server, written in C++"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = doc
@@ -52,10 +52,10 @@ LOOKUP_CACHE_SIZE      = 0
 # Build related configuration options
 #---------------------------------------------------------------------------
 
-EXTRACT_ALL            = NO
+EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = NO
 EXTRACT_PACKAGE        = NO
-EXTRACT_STATIC         = NO
+EXTRACT_STATIC         = YES
 EXTRACT_LOCAL_CLASSES  = YES
 EXTRACT_LOCAL_METHODS  = NO
 EXTRACT_ANON_NSPACES   = NO
@@ -69,11 +69,11 @@ HIDE_SCOPE_NAMES       = NO
 HIDE_COMPOUND_REFERENCE= NO
 SHOW_INCLUDE_FILES     = YES
 SHOW_GROUPED_MEMB_INC  = NO
-FORCE_LOCAL_INCLUDES   = NO
+FORCE_LOCAL_INCLUDES   = YES
 INLINE_INFO            = YES
 SORT_MEMBER_DOCS       = YES
 SORT_BRIEF_DOCS        = NO
-SORT_MEMBERS_CTORS_1ST = NO
+SORT_MEMBERS_CTORS_1ST = YES
 SORT_GROUP_NAMES       = NO
 SORT_BY_SCOPE_NAME     = NO
 STRICT_PROTO_MATCHING  = NO
@@ -94,7 +94,7 @@ CITE_BIB_FILES         =
 # Configuration options related to warning and progress messages
 #---------------------------------------------------------------------------
 
-QUIET                  = NO
+QUIET                  = YES
 WARNINGS               = YES
 WARN_IF_UNDOCUMENTED   = YES
 WARN_IF_DOC_ERROR      = YES
@@ -130,7 +130,7 @@ USE_MDFILE_AS_MAINPAGE = README.md
 
 SOURCE_BROWSER         = YES
 INLINE_SOURCES         = NO
-STRIP_CODE_COMMENTS    = YES
+STRIP_CODE_COMMENTS    = NO
 REFERENCED_BY_RELATION = YES
 REFERENCES_RELATION    = YES
 REFERENCES_LINK_SOURCE = YES
@@ -190,7 +190,7 @@ DISABLE_INDEX          = NO
 GENERATE_TREEVIEW      = YES
 ENUM_VALUES_PER_LINE   = 4
 TREEVIEW_WIDTH         = 250
-EXT_LINKS_IN_WINDOW    = NO
+EXT_LINKS_IN_WINDOW    = YES
 FORMULA_FONTSIZE       = 10
 FORMULA_TRANSPARENT    = YES
 USE_MATHJAX            = NO
@@ -314,7 +314,7 @@ CLASS_DIAGRAMS         = YES
 MSCGEN_PATH            =
 DIA_PATH               =
 HIDE_UNDOC_RELATIONS   = YES
-HAVE_DOT               = YES
+HAVE_DOT               = @DOXYGEN_DOT_FOUND@
 DOT_NUM_THREADS        = 0
 DOT_FONTNAME           = Helvetica
 DOT_FONTSIZE           = 10
@@ -327,21 +327,21 @@ UML_LIMIT_NUM_FIELDS   = 10
 TEMPLATE_RELATIONS     = NO
 INCLUDE_GRAPH          = YES
 INCLUDED_BY_GRAPH      = YES
-CALL_GRAPH             = NO
-CALLER_GRAPH           = NO
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
 GRAPHICAL_HIERARCHY    = YES
 DIRECTORY_GRAPH        = YES
 DOT_IMAGE_FORMAT       = svg
 INTERACTIVE_SVG        = YES
-DOT_PATH               = @DOXYGEN_DOT_PATH@
+DOT_PATH               = "@DOXYGEN_DOT_PATH@"
 DOTFILE_DIRS           =
 MSCFILE_DIRS           =
 DIAFILE_DIRS           =
 PLANTUML_JAR_PATH      =
 PLANTUML_INCLUDE_PATH  =
-DOT_GRAPH_MAX_NODES    = 50
+DOT_GRAPH_MAX_NODES    = 100
 MAX_DOT_GRAPH_DEPTH    = 0
 DOT_TRANSPARENT        = NO
-DOT_MULTI_TARGETS      = YES
+DOT_MULTI_TARGETS      = @DOT1810PLUS@
 GENERATE_LEGEND        = YES
 DOT_CLEANUP            = YES
