@@ -4,6 +4,12 @@ message(STATUS "Running cmake version ${CMAKE_VERSION}")
 
 project(Lotos2)
 
+set(LOTOS2_VERSION_MAJOR 0)
+set(LOTOS2_VERSION_MINOR 2)
+set(LOTOS2_VERSION_PATCH 1)
+# Change to false for releases
+set(DEVELOPMENT_BUILD true)
+
 set(CMAKE_VERBOSE_MAKEFILE true)
 if (DEFINED CMAKE_BUILD_TYPE)
 	set(HAVE_CMAKE_BUILD_TYPE TRUE)
@@ -37,7 +43,7 @@ set(BUILDTYPE_DOCSTRING
 	"Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel"
 	)
 
-if (WITH_DEBUG)
+if (WITH_DEBUG OR DEVELOPMENT_BUILD)
 	set(CMAKE_BUILD_TYPE "Debug" CACHE STRING ${BUILDTYPE_DOCSTRING} FORCE)
 	if (UNIX AND NOT APPLE)
 		# Compiling with PIC speeds up embedded build, on PIC sensitive systems

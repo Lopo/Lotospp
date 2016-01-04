@@ -1,28 +1,32 @@
 # Generates include/version.h
 
 # Lotos2 version
-set(LOTOS2_VERSION_MAJOR 0)
-set(LOTOS2_VERSION_MINOR 2)
-set(LOTOS2_VERSION_PATCH 1)
-set(LOTOS2_VERSION_BUILD "dev")
+set(LOTOS2_VERSION_STRING "${LOTOS2_VERSION_MAJOR}.${LOTOS2_VERSION_MINOR}.${LOTOS2_VERSION_PATCH}")
+set(LOTOS2_VERSION_BUILD "" CACHE STRING "Stuff to append to version string")
 
-# When building from a git clone, set the extra version to the HEAD revision, replacing any existing value
-find_program(lotos2_git git)
-if (lotos2_git)
-	if (NOT LOTOS2_VERSION_SOURCE_DIR)
-		set(LOTOS2_VERSION_SOURCE_DIR ${PROJECT_SOURCE_DIR})
-	endif ()
+if (LOTOS2_VERSION_BUILD)
+	set(LOTOS2_VERSION_STRING "${LOTOS2_VERSION_STRING}-${LOTOS2_VERSION_BUILD}")
+elseif (DEVELOPMENT_BUILD)
+	set(LOTOS2_VERSION_STRING "${LOTOS2_VERSION_STRING}-dev")
+else ()
+	# When building from a git clone, set the extra version to the HEAD revision, replacing any existing value
+	find_program(lotos2_git git)
+	if (lotos2_git)
+		if (NOT LOTOS2_VERSION_SOURCE_DIR)
+			set(LOTOS2_VERSION_SOURCE_DIR ${PROJECT_SOURCE_DIR})
+		endif ()
 
-	execute_process(COMMAND ${lotos2_git} rev-parse HEAD
-		WORKING_DIRECTORY ${LOTOS2_VERSION_SOURCE_DIR}
-		RESULT_VARIABLE lotos2_git_result
-		OUTPUT_VARIABLE lotos2_git_output
-		ERROR_QUIET
-		OUTPUT_STRIP_TRAILING_WHITESPACE
-		)
-	if (${lotos2_git_result} EQUAL 0)
-		string(SUBSTRING ${lotos2_git_output} 0 7 lotos2_git_short)
-		set(LOTOS2_VERSION_BUILD "-${lotos2_git_short}")
+		execute_process(COMMAND ${lotos2_git} rev-parse HEAD
+			WORKING_DIRECTORY ${LOTOS2_VERSION_SOURCE_DIR}
+			RESULT_VARIABLE lotos2_git_result
+			OUTPUT_VARIABLE lotos2_git_output
+			ERROR_QUIET
+			OUTPUT_STRIP_TRAILING_WHITESPACE
+			)
+		if (${lotos2_git_result} EQUAL 0)
+			string(SUBSTRING ${lotos2_git_output} 0 7 lotos2_git_short)
+			set(LOTOS2_VERSION_BUILD "-${lotos2_git_short}")
+		endif ()
 	endif ()
 endif ()
 
@@ -38,7 +42,7 @@ set(lotos2_new_version
 #define LOTOS2_VERSION_MINOR ${LOTOS2_VERSION_MINOR}
 #define LOTOS2_VERSION_PATCH ${LOTOS2_VERSION_PATCH}
 #define LOTOS2_VERSION_BUILD \"${LOTOS2_VERSION_BUILD}\"
-#define LOTOS2_VERSION_STRING \"${LOTOS2_VERSION_MAJOR}.${LOTOS2_VERSION_MINOR}.${LOTOS2_VERSION_PATCH}${LOTOS2_VERSION_BUILD}\"
+#define LOTOS2_VERSION_STRING \"${LOTOS2_VERSION_STRING}\"
 
 #endif // LOTOS2_VERSION_H
 ")
@@ -53,7 +57,6 @@ string(COMPARE NOTEQUAL
 	"${lotos2_old_version}" "${lotos2_new_version}"
 	lotos2_update_version_file
 	)
-
 if (${lotos2_update_version_file})
 	message(STATUS "Creating ${lotos2_version_file}")
 	file(WRITE ${lotos2_version_file} ${lotos2_new_version})

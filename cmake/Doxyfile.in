@@ -6,7 +6,7 @@
 
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "@PROJECT_NAME@"
-PROJECT_NUMBER         = "@LOTOS2_VERSION_MAJOR@.@LOTOS2_VERSION_MINOR@.@LOTOS2_VERSION_PATCH@"
+PROJECT_NUMBER         = "@LOTOS2_VERSION_STRING@"
 PROJECT_BRIEF          = "telnet-based talker server, written in C++"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = doc
