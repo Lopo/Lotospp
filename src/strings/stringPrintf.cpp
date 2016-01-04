@@ -34,7 +34,7 @@ static void StringAppendVT(StringType* dst, const typename StringType::value_typ
 	typename StringType::value_type stack_buf[1024];
 
 	va_list ap_copy;
-	GG_VA_COPY(ap_copy, ap);
+	va_copy(ap_copy, ap);
 
 	int result=vsnprintfT(stack_buf, arraysize(stack_buf), format, ap_copy);
 	va_end(ap_copy);
@@ -78,7 +78,7 @@ static void StringAppendVT(StringType* dst, const typename StringType::value_typ
 
 		// NOTE: You can only use a va_list once. Since we're in a while loop, we
 		// need to make a new copy each time so we don't use up the original.
-		GG_VA_COPY(ap_copy, ap);
+		va_copy(ap_copy, ap);
 		result=vsnprintfT(&mem_buf[0], mem_length, format, ap_copy);
 		va_end(ap_copy);
 
