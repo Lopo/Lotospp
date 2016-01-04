@@ -396,17 +396,27 @@ public:
 	BitEnum<E, size_> operator~() const { return E(~int(Enum<E, size_>::e));};
 	BitEnum<E, size_> operator|(const BitEnum<E, size_>& o) const { return E(int(Enum<E, size_>::e) | int(o.e));};
 	BitEnum<E, size_> operator&(const BitEnum<E, size_>& o) const { return E(int(Enum<E, size_>::e) & int(o.e));};
-
 	BitEnum<E, size_>& operator|=(const BitEnum<E, size_>& o)
 	{
 		Enum<E, size_>::e=E(int(Enum<E, size_>::e) | int(o.e));
 		return *this;
 	};
-
 	BitEnum<E, size_>& operator&=(const BitEnum<E, size_>& o)
 	{
 		Enum<E, size_>::e=E(int(Enum<E, size_>::e) & int(o.e));
 		return *this;
+	};
+	bool isset(const BitEnum<E, size_>& o)
+	{
+		return int(Enum<E, size_>::e) & int(o.e) >0;
+	};
+	void set(const BitEnum<E, size_>& o)
+	{
+		Enum<E, size_>::e=E(int(Enum<E, size_>::e) | int(o.e));
+	};
+	void unset(const BitEnum<E, size_>& o)
+	{
+		Enum<E, size_>::e=E(int(Enum<E, size_>::e) &= ~int(o.e));
 	};
 
 	// Classes
