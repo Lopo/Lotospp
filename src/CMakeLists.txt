@@ -33,7 +33,7 @@ set(lotos2_SRCS
 
 	network/protocol/Telnet.cpp
 
-	strings/stringprintf.cpp
+	strings/stringPrintf.cpp
 	)
 if (USE_DATABASE)
 	set(lotos2_SRCS
@@ -43,14 +43,14 @@ if (USE_DATABASE)
 		database/Insert.cpp
 		database/Query.cpp
 		)
-endif (USE_DATABASE)
+endif ()
 if (MYSQL_FOUND)
 	set(lotos2_SRCS
 		${lotos2_SRCS}
 
 		database/driver/MySQL.cpp
 		)
-endif (MYSQL_FOUND)
+endif ()
 
 # To find public headers
 include_directories(
@@ -67,12 +67,12 @@ if (MYSQL_FOUND)
 	link_directories(${MYSQL_LIB_DIR})
 #	target_link_libraries(${PROJECT_NAME} ${MYSQL_CLIENT_LIBS})
 	target_link_libraries(${PROJECT_NAME} ${MYSQL_LIBRARIES})
-endif (MYSQL_FOUND)
+endif ()
 
 if (UNIX)
 	find_package(Threads)
 	target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
-endif (UNIX)
+endif ()
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
 target_link_libraries(${PROJECT_NAME} ${SOCKET_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${EXEC_LIBRARIES})

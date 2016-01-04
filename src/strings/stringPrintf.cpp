@@ -1,4 +1,4 @@
-#include "strings/stringprintf.h"
+#include "strings/stringPrintf.h"
 
 #include <cstdarg>
 #include <cerrno>
