@@ -19,8 +19,8 @@ Dependencies
   - boost-date-time
   - boost-random
   - boost-log
-- MySQL (www.mysql.com)
-- Lua (www.lua.org)
+- MySQL (http://www.mysql.com)
+- Lua (http://www.lua.org)
 - make
 
 
@@ -32,7 +32,7 @@ Build
 
 Used source codes
 =================
-
+- Lotos (https://github.com/Lopo/Lotos)
 - NUTS-IV (http://www.ogham.demon.co.uk/nuts4.html)
 - Open Tibia Server (https://github.com/opentibia/server)
 - Licq (https://github.com/licq-im/licq)
