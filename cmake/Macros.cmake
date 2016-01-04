@@ -14,7 +14,7 @@ macro(SHOW_END_MESSAGE_YESNO what enabled)
 		set(enabled_string "yes")
 	else (${enabled})
 		set(enabled_string "no")
-	endif (${enabled})
+	endif ()
 
 	show_end_message("${what}" "${enabled_string}")
 endmacro(SHOW_END_MESSAGE_YESNO what enabled)

@@ -11,7 +11,7 @@ find_program(lotos2_git git)
 if (lotos2_git)
 	if (NOT LOTOS2_VERSION_SOURCE_DIR)
 		set(LOTOS2_VERSION_SOURCE_DIR ${PROJECT_SOURCE_DIR})
-	endif (NOT LOTOS2_VERSION_SOURCE_DIR)
+	endif ()
 
 	execute_process(COMMAND ${lotos2_git} rev-parse HEAD
 		WORKING_DIRECTORY ${LOTOS2_VERSION_SOURCE_DIR}
@@ -23,8 +23,8 @@ if (lotos2_git)
 	if (${lotos2_git_result} EQUAL 0)
 		string(SUBSTRING ${lotos2_git_output} 0 7 lotos2_git_short)
 		set(LOTOS2_VERSION_BUILD "-${lotos2_git_short}")
-	endif (${lotos2_git_result} EQUAL 0)
-endif (lotos2_git)
+	endif ()
+endif ()
 
 # version.h content
 set(lotos2_version_file "${CMAKE_CURRENT_BINARY_DIR}/include/version.h")
@@ -46,7 +46,7 @@ set(lotos2_new_version
 # Read in the old file (if it exists)
 if (EXISTS ${lotos2_version_file})
 	file(READ ${lotos2_version_file} lotos2_old_version)
-endif (EXISTS ${lotos2_version_file})
+endif ()
 
 # Only write the file if the content has changed
 string(COMPARE NOTEQUAL
@@ -57,4 +57,4 @@ string(COMPARE NOTEQUAL
 if (${lotos2_update_version_file})
 	message(STATUS "Creating ${lotos2_version_file}")
 	file(WRITE ${lotos2_version_file} ${lotos2_new_version})
-endif (${lotos2_update_version_file})
+endif ()
