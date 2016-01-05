@@ -52,6 +52,7 @@ public:
 	 * Get the blob of a field in database
 	 *
 	 * @param s The name of the field
+	 * @param size
 	 * @return a PropStream that is initiated with the blob data field, if not exist it returns NULL
 	 */
 	virtual const char* getDataStream(const std::string &s, unsigned long &size) { return 0;};

@@ -225,7 +225,7 @@ void mainLoader(network::ServiceManager* service_manager)
 }
 
 
-int main(int argc, char **argv)
+extern "C" int main(int argc, char **argv)
 {
 #if !defined(WIN32) && !defined(__WINDOWS__)
 	if (!getuid() || !geteuid()) {
