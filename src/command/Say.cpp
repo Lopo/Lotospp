@@ -3,7 +3,7 @@
 #include "command/Say.h"
 
 
-using namespace lotos2::command;
+using namespace lotospp::command;
 
 
 Say::Say()
@@ -11,7 +11,7 @@ Say::Say()
 {
 }
 
-void Say::execute(lotos2::User* user, std::string inpstr)
+void Say::execute(lotospp::User* user, std::string inpstr)
 {
 	if (user->getWords().size()<2) {
 		user->uWrite("Usage: .say <text>\n");

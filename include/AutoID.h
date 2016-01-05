@@ -1,5 +1,5 @@
-#ifndef LOTOS2_AUTOID_H
-#define LOTOS2_AUTOID_H
+#ifndef LOTOSPP_AUTOID_H
+#define LOTOSPP_AUTOID_H
 
 
 #include "config.h"
@@ -10,7 +10,7 @@
 #include <boost/thread/recursive_mutex.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 
 class AutoID
 {
@@ -53,6 +53,6 @@ protected:
 	static list_type list;
 };
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_AUTOID_H
+#endif // LOTOSPP_AUTOID_H

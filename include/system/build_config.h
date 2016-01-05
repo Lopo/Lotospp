@@ -8,8 +8,8 @@
 //    ARCH_CPU_X86 / ARCH_CPU_X86_64 / ARCH_CPU_X86_FAMILY (X86 or X86_64)
 //    ARCH_CPU_32_BITS / ARCH_CPU_64_BITS
 
-#ifndef LOTOS2_SYSTEM_BUILD_CONFIG_H
-#define LOTOS2_SYSTEM_BUILD_CONFIG_H
+#ifndef LOTOSPP_SYSTEM_BUILD_CONFIG_H
+#define LOTOSPP_SYSTEM_BUILD_CONFIG_H
 
 // A set of macros to use for platform detection.
 #if defined(__native_client__)
@@ -125,4 +125,4 @@
 #	error Please add support for your architecture in build/build_config.h
 #endif
 
-#endif // LOTOS2_SYSTEM_BUILD_CONFIG_H
+#endif // LOTOSPP_SYSTEM_BUILD_CONFIG_H

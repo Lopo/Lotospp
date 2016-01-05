@@ -3,7 +3,7 @@
 
 #include "strings/stringSplit.h"
 
-namespace lotos2 {
+namespace lotospp {
 	namespace strings {
 
 std::vector<std::string> &StringSplit(const std::string &s, const std::string& delim, std::vector<std::string> &elems)
@@ -42,4 +42,4 @@ std::vector<std::string> wordFind(const std::string& inpstr)
 }
 
 	} // namespace strings
-} // namespace lotos2
+} // namespace lotospp

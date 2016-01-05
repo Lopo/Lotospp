@@ -1,5 +1,5 @@
-#ifndef LOTOS2_DATABASE_INSERT_H
-#define	LOTOS2_DATABASE_INSERT_H
+#ifndef LOTOSPP_DATABASE_INSERT_H
+#define	LOTOSPP_DATABASE_INSERT_H
 
 
 #include "config.h"
@@ -9,7 +9,7 @@
 #include <sstream>
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace database {
 		class Driver;
 
@@ -69,6 +69,6 @@ protected:
 };
 
 	} // namespace database
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_DATABASE_INSERT_H
+#endif // LOTOSPP_DATABASE_INSERT_H

@@ -12,7 +12,7 @@
 #include "Task.h"
 
 
-using namespace lotos2;
+using namespace lotospp;
 
 
 Dispatcher::Dispatcher()

@@ -1,5 +1,5 @@
-#ifndef LOTOS2_USER_H
-#define	LOTOS2_USER_H
+#ifndef LOTOSPP_USER_H
+#define	LOTOSPP_USER_H
 
 
 #include "config.h"
@@ -18,7 +18,7 @@
 #include "generated/enums.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace network {
 		namespace protocol {
 			class Telnet;
@@ -93,6 +93,6 @@ protected:
 
 typedef std::vector<User*> UserVector;
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_USER_H
+#endif // LOTOSPP_USER_H

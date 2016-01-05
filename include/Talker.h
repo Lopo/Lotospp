@@ -1,5 +1,5 @@
-#ifndef LOTOS2_TALKER_H
-#define	LOTOS2_TALKER_H
+#ifndef LOTOSPP_TALKER_H
+#define	LOTOSPP_TALKER_H
 
 
 #include "config.h"
@@ -10,7 +10,7 @@
 #include "AutoList.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	class Creature;
 	class User;
 	typedef std::vector<User*> UserVector;
@@ -74,6 +74,6 @@ protected:
 	network::ServiceManager* service_manager;
 };
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_TALKER_H
+#endif // LOTOSPP_TALKER_H

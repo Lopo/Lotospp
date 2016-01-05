@@ -8,7 +8,7 @@
 #include "strings/string_util.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace strings {
 		namespace {
 
@@ -115,4 +115,4 @@ void StringAppendV(std::string* dst, const char* format, va_list ap)
 }
 
 	} // namespace strings
-} // namespace lotos2
+} // namespace lotospp

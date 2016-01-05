@@ -1,5 +1,5 @@
-#ifndef LOTOS2_NETWORK_OUTPUTMESSAGE_H
-#define LOTOS2_NETWORK_OUTPUTMESSAGE_H
+#ifndef LOTOSPP_NETWORK_OUTPUTMESSAGE_H
+#define LOTOSPP_NETWORK_OUTPUTMESSAGE_H
 
 
 #include "config.h"
@@ -18,7 +18,7 @@
 #include "network/NetworkMessage.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace network {
 		class Connection;
 		typedef boost::shared_ptr<Connection> Connection_ptr;
@@ -57,7 +57,7 @@ public:
 			last_uses.pop_front();
 			}
 		std::ostringstream os;
-		os << /*file << ":"*/ "line " << line << " " << func;
+		os << file << ":" "line " << line << " " << func;
 		last_uses.push_back(os.str());
 	};
 
@@ -142,11 +142,12 @@ protected:
 
 #ifdef __TRACK_NETWORK__
 #	define TRACK_MESSAGE(omsg) (omsg)->Track(__FILE__, __LINE__, __FUNCTION__)
+//#define TRACK_MESSAGE(omsg) std::cout << __FILE__ << ":" << __LINE__ << " " << __FUNCTION__ << std::endl
 #else
 #	define TRACK_MESSAGE(omsg)
 #endif
 
 	} // namespace network
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_NETWORK_OUTPUTMESSAGE_H
+#endif // LOTOSPP_NETWORK_OUTPUTMESSAGE_H

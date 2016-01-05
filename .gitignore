@@ -24,7 +24,7 @@ WORKING_DIRECTORY
 .travis.yml
 todo.txt
 
-/bin/Lotos2
+/bin/Lotos++
 
 Doxyfile
 /doc

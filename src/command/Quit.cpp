@@ -3,7 +3,7 @@
 #include "command/Quit.h"
 
 
-using namespace lotos2::command;
+using namespace lotospp::command;
 
 
 Quit::Quit()
@@ -11,7 +11,7 @@ Quit::Quit()
 {
 }
 
-void Quit::execute(lotos2::User* user, std::string inpstr)
+void Quit::execute(lotospp::User* user, std::string inpstr)
 {
 	user->kick();
 	user->removeList();

@@ -1,13 +1,11 @@
-# Doxyfile 1.8.9
-
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
 
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "@PROJECT_NAME@"
-PROJECT_NUMBER         = "@LOTOS2_VERSION_STRING@"
-PROJECT_BRIEF          = "telnet-based talker server, written in C++"
+PROJECT_NUMBER         = "@LOTOSPP_VERSION_STRING@"
+PROJECT_BRIEF          = "talker server, written in C++"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = doc
 CREATE_SUBDIRS         = YES

@@ -1,5 +1,5 @@
-#ifndef LOTOS2_COMMAND_SAY_H
-#define	LOTOS2_COMMAND_SAY_H
+#ifndef LOTOSPP_COMMAND_SAY_H
+#define	LOTOSPP_COMMAND_SAY_H
 
 
 #include "config.h"
@@ -7,7 +7,7 @@
 #include "Command.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace command {
 
 class Say
@@ -15,10 +15,10 @@ class Say
 {
 public:
 	Say();
-	virtual void execute(lotos2::User* user, std::string inpstr);
+	virtual void execute(lotospp::User* user, std::string inpstr);
 };
 
 	} // namespace command
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_COMMAND_SAY_H
+#endif // LOTOSPP_COMMAND_SAY_H

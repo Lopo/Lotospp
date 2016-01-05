@@ -1,12 +1,12 @@
-#ifndef LOTOS2_DATABASE_TRANSACTION_H
-#define	LOTOS2_DATABASE_TRANSACTION_H
+#ifndef LOTOSPP_DATABASE_TRANSACTION_H
+#define	LOTOSPP_DATABASE_TRANSACTION_H
 
 
 #include "config.h"
 #include "database/Driver.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace database {
 
 class Transaction
@@ -50,6 +50,6 @@ private:
 };
 
 	} // namespace database
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_DATABASE_TRANSACTION_H
+#endif // LOTOSPP_DATABASE_TRANSACTION_H

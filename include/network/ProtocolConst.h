@@ -1,11 +1,11 @@
-#ifndef LOTOS2_NETWORK_PROTOCOLCONST_H
-#define LOTOS2_NETWORK_PROTOCOLCONST_H
+#ifndef LOTOSPP_NETWORK_PROTOCOLCONST_H
+#define LOTOSPP_NETWORK_PROTOCOLCONST_H
 
 
 #include "config.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace network {
 
 // This files defines limits of the protocol
@@ -15,6 +15,6 @@ namespace lotos2 {
 #define NETWORKMESSAGE_MAXSIZE 15340
 
 	} // namespace network
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_NETWORK_PROTOCOLCONST_H
+#endif // LOTOSPP_NETWORK_PROTOCOLCONST_H

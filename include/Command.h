@@ -1,5 +1,5 @@
-#ifndef LOTOS2_COMMAND_H
-#define	LOTOS2_COMMAND_H
+#ifndef LOTOSPP_COMMAND_H
+#define	LOTOSPP_COMMAND_H
 
 
 #include "config.h"
@@ -11,7 +11,7 @@
 #include "User.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 
 class Command
 	: boost::noncopyable,
@@ -29,6 +29,6 @@ private:
 	enums::UserLevel level=enums::UserLevel_NOVICE;
 };
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_COMMAND_H
+#endif // LOTOSPP_COMMAND_H

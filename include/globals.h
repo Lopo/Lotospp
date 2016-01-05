@@ -1,5 +1,5 @@
-#ifndef LOTOS2_GLOBALS_H
-#define LOTOS2_GLOBALS_H
+#ifndef LOTOSPP_GLOBALS_H
+#define LOTOSPP_GLOBALS_H
 
 
 #include "config.h"
@@ -19,7 +19,7 @@
 #endif
 
 
-namespace lotos2 {
+namespace lotospp {
 
 EXTERN boost::property_tree::ptree options;
 EXTERN struct std::tm serverTimeTms;
@@ -28,6 +28,6 @@ EXTERN Scheduler g_scheduler;
 EXTERN Dispatcher g_dispatcher;
 EXTERN Talker g_talker;
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_GLOBALS_H
+#endif // LOTOSPP_GLOBALS_H

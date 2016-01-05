@@ -1,5 +1,5 @@
-#ifndef LOTOS2_ENUM_H
-#define LOTOS2_ENUM_H
+#ifndef LOTOSPP_ENUM_H
+#define LOTOSPP_ENUM_H
 
 
 #include "config.h"
@@ -13,7 +13,7 @@
 #include <sstream>
 
 
-namespace lotos2 {
+namespace lotospp {
 
 class enum_conversion_error
 	: public std::logic_error
@@ -517,6 +517,6 @@ int operator<<(int i, const Enum<E, size_>& e)
 	return 1 << e.value();
 }
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_ENUM_H
+#endif // LOTOSPP_ENUM_H

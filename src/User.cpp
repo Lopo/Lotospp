@@ -24,7 +24,7 @@
 #include "command/Quit.h"
 
 
-using namespace lotos2;
+using namespace lotospp;
 
 
 AutoList<User> User::listUser;
@@ -102,7 +102,7 @@ void User::uRead(network::NetworkMessage msg)
 			}
 		}
 	else {
-		lotos2::terminate(input);
+		lotospp::terminate(input);
 		}
 // GOT_LINE
 	buff.erase();
@@ -265,8 +265,8 @@ void User::login(std::string inpstr)
 					uWrite("login: ");
 					return;
 				case enums::LoginCom_VERSION:
-					uWrite("\nLotos2 ");
-					uWrite(LOTOS2_VERSION_STRING);
+					uWrite("\nLotos++ ");
+					uWrite(LOTOSPP_VERSION_STRING);
 					uWrite("\n");
 					uWrite("login: ");
 					client->disconnect();

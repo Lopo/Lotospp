@@ -1,4 +1,4 @@
-Lotos2 (Lopo's Talker Object System)
+Lotos++ (Lopo's Talker Object System)
 ====================================
 
 A telnet-based talker server, cross-platform, written in C++.

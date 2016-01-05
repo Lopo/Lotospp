@@ -1,5 +1,5 @@
-#ifndef LOTOS2_LOG_SEVERITY_T_H
-#define LOTOS2_LOG_SEVERITY_T_H
+#ifndef LOTOSPP_LOG_SEVERITY_T_H
+#define LOTOSPP_LOG_SEVERITY_T_H
 
 
 #include "config.h"
@@ -11,7 +11,7 @@
 #include <boost/assign/list_of.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace log {
 		enum severity_level {
 			TRACE,
@@ -60,6 +60,6 @@ std::ostream& operator<<(std::ostream& os, const severity_t& sev);
 std::istream& operator>>(std::istream& is, severity_t& sev);
 
 	} // namespace log
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_LOG_SEVERITY_T_H
+#endif // LOTOSPP_LOG_SEVERITY_T_H

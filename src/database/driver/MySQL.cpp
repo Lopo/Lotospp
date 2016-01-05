@@ -14,7 +14,7 @@
 #include "globals.h"
 
 
-using namespace lotos2::database::driver;
+using namespace lotospp::database::driver;
 
 /** MySQL definitions */
 
@@ -35,7 +35,7 @@ MySQL::MySQL()
 			options.get("database.Host", "localhost").c_str(),
 			options.get("database.User", "root").c_str(),
 			options.get("database.Pass", "").c_str(),
-			options.get("database.Db", "lotos2").c_str(),
+			options.get("database.Db", "lotos").c_str(),
 			options.get<unsigned int>("database.Port", MYSQL_PORT),
 			NULL, 0)
 		) {
@@ -53,10 +53,10 @@ MySQL::MySQL()
 	m_connected=true;
 
 	if (options.get<std::string>("global.mapStorageType", "")=="binary") {
-		lotos2::database::Query query;
+		lotospp::database::Query query;
 		query << "SHOW variables LIKE 'max_allowed_packet';";
 
-		lotos2::database::Result_ptr result=storeQuery(query.str());
+		lotospp::database::Result_ptr result=storeQuery(query.str());
 		if (result && result->getDataInt("Value")<16777216) {
 			std::cout << std::endl << "[Warning] max_allowed_packet might be set too low for binary map storage." << std::endl;
 			std::cout << "Use the following query to raise max_allow_packet: " << std::endl;
@@ -70,7 +70,7 @@ MySQL::~MySQL()
 	mysql_close(&m_handle);
 }
 
-bool MySQL::getParam(lotos2::database::DBParam_t param)
+bool MySQL::getParam(lotospp::database::DBParam_t param)
 {
 	switch (param) {
 		case DBPARAM_MULTIINSERT:
@@ -155,10 +155,10 @@ bool MySQL::internalQuery(const std::string &query)
 	return state;
 }
 
-lotos2::database::Result_ptr MySQL::internalSelectQuery(const std::string &query)
+lotospp::database::Result_ptr MySQL::internalSelectQuery(const std::string &query)
 {
 	if (!m_connected) {
-		return lotos2::database::Result_ptr();
+		return lotospp::database::Result_ptr();
 		}
 
 #ifdef __DEBUG_SQL__
@@ -188,11 +188,11 @@ lotos2::database::Result_ptr MySQL::internalSelectQuery(const std::string &query
 			m_connected=false;
 			}
 
-		return lotos2::database::Result_ptr();
+		return lotospp::database::Result_ptr();
 		}
 
 	// retriving results of query
-	lotos2::database::Result_ptr res(new MySQLResult(m_res), boost::bind(&lotos2::database::Driver::freeResult, this, _1));
+	lotospp::database::Result_ptr res(new MySQLResult(m_res), boost::bind(&lotospp::database::Driver::freeResult, this, _1));
 	return verifyResult(res);
 }
 
@@ -225,7 +225,7 @@ std::string MySQL::escapeBlob(const char* s, uint32_t length)
 	return r;
 }
 
-void MySQL::freeResult(lotos2::database::Result* res)
+void MySQL::freeResult(lotospp::database::Result* res)
 {
 	delete (MySQLResult*)res;
 }
@@ -325,12 +325,12 @@ const char* MySQLResult::getDataStream(const std::string &s, unsigned long &size
 	return NULL;
 }
 
-lotos2::database::Result_ptr MySQLResult::advance()
+lotospp::database::Result_ptr MySQLResult::advance()
 {
 	m_row=mysql_fetch_row(m_handle);
 	return m_row!=NULL
 		? shared_from_this()
-		: lotos2::database::Result_ptr();
+		: lotospp::database::Result_ptr();
 }
 
 bool MySQLResult::empty()

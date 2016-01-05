@@ -1,5 +1,5 @@
-#ifndef LOTOS2_SINGLETON_H
-#define	LOTOS2_SINGLETON_H
+#ifndef LOTOSPP_SINGLETON_H
+#define	LOTOSPP_SINGLETON_H
 
 
 #include "config.h"
@@ -9,7 +9,7 @@
 #include <boost/scoped_ptr.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 
 /**
  * The Singleton class is a simple class that can be used to initialize once a
@@ -53,6 +53,6 @@ boost::scoped_ptr<T> Singleton<T>::m_pointer;
 template<typename T>
 boost::once_flag Singleton<T>::m_flag=BOOST_ONCE_INIT;
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_SINGLETON_H
+#endif // LOTOSPP_SINGLETON_H

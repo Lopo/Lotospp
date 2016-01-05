@@ -1,5 +1,5 @@
-#ifndef LOTOS2_STRUCTS_CONNECTBLOCK_H
-#define	LOTOS2_STRUCTS_CONNECTBLOCK_H
+#ifndef LOTOSPP_STRUCTS_CONNECTBLOCK_H
+#define	LOTOSPP_STRUCTS_CONNECTBLOCK_H
 
 
 #include "config.h"
@@ -7,7 +7,7 @@
 #include <cstdint>
 
 
-namespace lotos2 {
+namespace lotospp {
 
 struct ConnectBlock
 {
@@ -16,6 +16,6 @@ struct ConnectBlock
 	uint32_t count;
 };
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_STRUCTS_CONNECTBLOCK_H
+#endif // LOTOSPP_STRUCTS_CONNECTBLOCK_H

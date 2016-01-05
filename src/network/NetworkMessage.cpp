@@ -7,7 +7,7 @@
 #include "network/NetworkMessage.h"
 
 
-using namespace lotos2::network;
+using namespace lotospp::network;
 
 
 NetworkMessage::NetworkMessage()

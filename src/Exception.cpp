@@ -13,7 +13,7 @@
 #include "globals.h"
 
 
-using lotos2::ExceptionHandler;
+using lotospp::ExceptionHandler;
 
 #if defined WIN32 || defined __WINDOWS__
 	#if defined _MSC_VER || defined __USE_MINIDUMP__
@@ -540,7 +540,7 @@ void _SigHandler(int signum, siginfo_t *info, void* secret)
 			}
 		//-process info
 		// creation time
-		time_t bootTime=lotos2::options.get<time_t>("runtime.bootTime");
+		time_t bootTime=lotospp::options.get<time_t>("runtime.bootTime");
 		ts=localtime(&bootTime);
 		strftime(date_buff, 80, "%d-%m-%Y %H:%M:%S", ts);
 		// kernel time

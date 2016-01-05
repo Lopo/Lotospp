@@ -1,5 +1,5 @@
-#ifndef LOTOS2_STRUCTS_ACCOUNT_H
-#define	LOTOS2_STRUCTS_ACCOUNT_H
+#ifndef LOTOSPP_STRUCTS_ACCOUNT_H
+#define	LOTOSPP_STRUCTS_ACCOUNT_H
 
 
 #include "config.h"
@@ -7,7 +7,7 @@
 #include <cstdint>
 
 
-namespace lotos2 {
+namespace lotospp {
 
 struct Account
 {
@@ -20,6 +20,6 @@ struct Account
 	uint32_t warnings=0;
 };
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_STRUCTS_ACCOUNT_H
+#endif // LOTOSPP_STRUCTS_ACCOUNT_H

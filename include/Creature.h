@@ -1,5 +1,5 @@
-#ifndef LOTOS2_CREATURE_H
-#define	LOTOS2_CREATURE_H
+#ifndef LOTOSPP_CREATURE_H
+#define	LOTOSPP_CREATURE_H
 
 
 #include "config.h"
@@ -11,7 +11,7 @@
 #include "Thing.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 
 class Creature
 	: public AutoID,
@@ -43,4 +43,4 @@ protected:
 
 }
 
-#endif // LOTOS2_CREATURE_H
+#endif // LOTOSPP_CREATURE_H

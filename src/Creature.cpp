@@ -2,7 +2,7 @@
 #include "Creature.h"
 
 
-using namespace lotos2;
+using namespace lotospp;
 
 
 boost::recursive_mutex AutoID::autoIDLock;

@@ -1,5 +1,5 @@
-#ifndef LOTOS2_MACROS_H
-#define LOTOS2_MACROS_H
+#ifndef LOTOSPP_MACROS_H
+#define LOTOSPP_MACROS_H
 
 
 #include <cstddef>  // For size_t
@@ -26,4 +26,4 @@ char (&ArraySizeHelper(const T (&array)[N]))[N];
 
 #define arraysize(array) (sizeof(ArraySizeHelper(array)))
 
-#endif // LOTOS2_MACROS_H
+#endif // LOTOSPP_MACROS_H

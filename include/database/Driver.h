@@ -1,5 +1,5 @@
-#ifndef LOTOS2_DATABASE_DRIVER_H
-#define	LOTOS2_DATABASE_DRIVER_H
+#ifndef LOTOSPP_DATABASE_DRIVER_H
+#define	LOTOSPP_DATABASE_DRIVER_H
 
 
 #include "config.h"
@@ -10,7 +10,7 @@
 #include <boost/shared_ptr.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace database {
 		class Query;
 		class Result;
@@ -142,6 +142,6 @@ private:
 };
 
 	} // namespace database
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_DATABASE_DRIVER_H
+#endif // LOTOSPP_DATABASE_DRIVER_H

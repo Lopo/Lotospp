@@ -1,5 +1,5 @@
-#ifndef LOTOS2_DATABASE_QUERY_H
-#define	LOTOS2_DATABASE_QUERY_H
+#ifndef LOTOSPP_DATABASE_QUERY_H
+#define	LOTOSPP_DATABASE_QUERY_H
 
 
 #include "config.h"
@@ -9,7 +9,7 @@
 #include <boost/thread/recursive_mutex.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace database {
 
 /**
@@ -33,6 +33,6 @@ protected:
 };
 
 	} // namespace database
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_DATABASE_QUERY_H
+#endif // LOTOSPP_DATABASE_QUERY_H

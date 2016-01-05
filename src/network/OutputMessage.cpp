@@ -13,7 +13,7 @@
 #include "system/system.h"
 
 
-using namespace lotos2::network;
+using namespace lotospp::network;
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__

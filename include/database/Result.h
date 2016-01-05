@@ -1,5 +1,5 @@
-#ifndef LOTOS2_DATABASE_RESULT_H
-#define	LOTOS2_DATABASE_RESULT_H
+#ifndef LOTOSPP_DATABASE_RESULT_H
+#define	LOTOSPP_DATABASE_RESULT_H
 
 
 #include "config.h"
@@ -11,7 +11,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace database {
 		class Result;
 		typedef boost::shared_ptr<Result> Result_ptr;
@@ -77,6 +77,6 @@ protected:
 };
 
 	} // namespace database
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_DATABASE_RESULT_H
+#endif // LOTOSPP_DATABASE_RESULT_H

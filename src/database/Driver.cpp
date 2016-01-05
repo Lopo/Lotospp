@@ -15,7 +15,7 @@
 #include "globals.h"
 
 
-using namespace lotos2::database;
+using namespace lotospp::database;
 
 
 Driver* Driver::_instance=nullptr;

@@ -18,7 +18,7 @@
 #include "globals.h"
 
 
-using namespace lotos2::log;
+using namespace lotospp::log;
 namespace logging=boost::log;
 
 
@@ -53,7 +53,7 @@ bool Logger::init()
 
 	boost::shared_ptr<textSink> cSink=boost::make_shared<textSink>();
 	cSink->set_formatter(fmt);
-	cSink->set_filter(severity>=lotos2::log::severity_t::to_severity(options.get("global.log.console.level", "")));
+	cSink->set_filter(severity>=lotospp::log::severity_t::to_severity(options.get("global.log.console.level", "")));
 	boost::shared_ptr<std::ostream> cStream(&std::clog, boost::null_deleter());
 	cSink->locked_backend()->add_stream(cStream);
 	core->add_sink(cSink);
@@ -66,7 +66,7 @@ bool Logger::init()
 		);
 	boost::shared_ptr<fileSink> fSink(new fileSink(fBck));
 	fSink->set_formatter(fmt);
-	fSink->set_filter(severity>=lotos2::log::severity_t::to_severity(options.get("global.log.file.level", "")));
+	fSink->set_filter(severity>=lotospp::log::severity_t::to_severity(options.get("global.log.file.level", "")));
 	core->add_sink(fSink);
 
 	logging::add_common_attributes();

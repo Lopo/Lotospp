@@ -14,7 +14,7 @@
 #endif
 
 
-using namespace lotos2;
+using namespace lotospp;
 
 
 void Talker::start(network::ServiceManager* servicer)

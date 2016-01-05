@@ -1,5 +1,5 @@
-#ifndef LOTOS2_SPLITLINE_H
-#define	LOTOS2_SPLITLINE_H
+#ifndef LOTOSPP_SPLITLINE_H
+#define	LOTOSPP_SPLITLINE_H
 
 
 #include "config.h"
@@ -8,7 +8,7 @@
 #include <deque>
 
 
-namespace lotos2 {
+namespace lotospp {
 	
 class Splitline
 {
@@ -32,6 +32,6 @@ public:
 	bool endQuote=false;
 };
 	
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_SPLITLINE_H
+#endif // LOTOSPP_SPLITLINE_H

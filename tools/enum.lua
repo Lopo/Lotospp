@@ -190,23 +190,23 @@ function BeginEnumFile(filename)
 	implementation:write(automated_text)
 
 	-- Include guards
-	header:write("#ifndef LOTOS2_GENERATED_" .. filename:upper() .. "_H\n")
-	header:write("#define LOTOS2_GENERATED_" .. filename:upper() .. "_H\n\n\n")
+	header:write("#ifndef LOTOSPP_GENERATED_" .. filename:upper() .. "_H\n")
+	header:write("#define LOTOSPP_GENERATED_" .. filename:upper() .. "_H\n\n\n")
 
 	-- Includes
 	header:write("#include \"config.h\"\n")
 	header:write("#include \"enum.h\"\n\n\n")
-	header:write("using lotos2::Enum;\n\n")
-	header:write("namespace lotos2 {\n")
+	header:write("using lotospp::Enum;\n\n")
+	header:write("namespace lotospp {\n")
 	implementation:write("#include \"config.h\"\n")
 	implementation:write("#include \"generated/" .. header.name .. "\"\n\n\n")
-	implementation:write("namespace lotos2 {\n\n")
+	implementation:write("namespace lotospp {\n\n")
 end
 
 function EndEnumFile()
-	header:write("} // namespace lotos2\n\n")
+	header:write("} // namespace lotospp\n\n")
 	header:write("#endif\n")
-	implementation:write("} // namespace lotos2\n")
+	implementation:write("} // namespace lotospp\n")
 
 	local hfile = io.open("include/generated/" .. header.name, "w+")
 	hfile:write(header._)

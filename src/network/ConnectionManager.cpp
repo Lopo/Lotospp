@@ -11,7 +11,7 @@
 #include "Singleton.h"
 
 
-using namespace lotos2::network;
+using namespace lotospp::network;
 
 
 ConnectionManager* ConnectionManager::getInstance()

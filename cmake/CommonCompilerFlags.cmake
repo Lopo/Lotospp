@@ -7,7 +7,7 @@ else (MSVC)
 	find_package(CXX11 REQUIRED)
 endif ()
 
-# Boost is required for all plugins as it is used in Lotos2 includes
+# Boost is required for all plugins as it is used in Lotos++ includes
 add_definitions(-DBOOST_LOG_DYN_LINK)
 #add_definitions(-DBOOST_ALL_NO_LIB)
 add_definitions(-DBOOST_DATE_TIME_NO_LIB)

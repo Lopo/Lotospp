@@ -15,7 +15,7 @@
 #include "log/Logger.h"
 
 
-using namespace lotos2::network::protocol;
+using namespace lotospp::network::protocol;
 
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -35,7 +35,7 @@ void Telnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const Functio
 		}
 }
 
-Telnet::Telnet(lotos2::network::Connection_ptr connection)
+Telnet::Telnet(lotospp::network::Connection_ptr connection)
 	: Protocol(connection)
 {
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -58,9 +58,9 @@ void Telnet::onConnect()
 	output->AddString("\n")
 		->AddString(options.get("global.serverName", ""))
 		->AddString("\n")
-		->AddString(LOTOS2_NAME)
+		->AddString(LOTOSPP_NAME)
 		->AddString(" version ")
-		->AddString(LOTOS2_VERSION_STRING)
+		->AddString(LOTOSPP_VERSION_STRING)
 		->AddString("\n")
 		->AddString("\n\nconnection from: ")
 		->AddString(getAddress().to_string())
@@ -69,7 +69,7 @@ void Telnet::onConnect()
 	OutputMessagePool::getInstance()->send(output);
 }
 
-void Telnet::onRecvFirstMessage(lotos2::network::NetworkMessage& msg)
+void Telnet::onRecvFirstMessage(lotospp::network::NetworkMessage& msg)
 {
 	parseFirstPacket(msg);
 	parsePacket(msg);
@@ -123,7 +123,7 @@ void Telnet::disconnectClient(const char* message)
 
 //********************** Parse methods *******************************
 
-bool Telnet::parseFirstPacket(lotos2::network::NetworkMessage &msg)
+bool Telnet::parseFirstPacket(lotospp::network::NetworkMessage &msg)
 {
     User* _user=new User("", this);
 	_user->setID();
@@ -133,7 +133,7 @@ bool Telnet::parseFirstPacket(lotos2::network::NetworkMessage &msg)
     return connect(_user->getID());
 }
 
-void Telnet::parsePacket(lotos2::network::NetworkMessage &msg)
+void Telnet::parsePacket(lotospp::network::NetworkMessage &msg)
 {
 	if (!user || !m_acceptPackets || msg.getMessageLength()<=0) {
 		return;

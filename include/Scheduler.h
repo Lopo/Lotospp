@@ -1,5 +1,5 @@
-#ifndef LOTOS2_SCHEDULER_H
-#define LOTOS2_SCHEDULER_H
+#ifndef LOTOSPP_SCHEDULER_H
+#define LOTOSPP_SCHEDULER_H
 
 
 #include "config.h"
@@ -18,7 +18,7 @@
 #include "Task.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 
 #define SCHEDULER_MINTICKS 20
 
@@ -105,6 +105,6 @@ protected:
 
 extern Scheduler g_scheduler;
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_SCHEDULER_H
+#endif // LOTOSPP_SCHEDULER_H

@@ -1,5 +1,5 @@
-#ifndef LOTOS2_NETWORK_SERVICEPORT_H
-#define LOTOS2_NETWORK_SERVICEPORT_H
+#ifndef LOTOSPP_NETWORK_SERVICEPORT_H
+#define LOTOSPP_NETWORK_SERVICEPORT_H
 
 
 #include "config.h"
@@ -17,7 +17,7 @@
 #include <boost/system/error_code.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace network {
 		class Protocol;
 		class NetworkMessage;
@@ -67,6 +67,6 @@ protected:
 typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
 
 	} // namespace network
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_NETWORK_SERVICEPORT_H
+#endif // LOTOSPP_NETWORK_SERVICEPORT_H

@@ -1,5 +1,5 @@
-#ifndef LOTOS2_STRINGS_STRING_UTIL_H
-#define LOTOS2_STRINGS_STRING_UTIL_H
+#ifndef LOTOSPP_STRINGS_STRING_UTIL_H
+#define LOTOSPP_STRINGS_STRING_UTIL_H
 
 
 #include <cctype>
@@ -11,7 +11,7 @@
 #include "system/compiler_specific.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace strings {
 
 // C standard-library functions like "strncasecmp" and "snprintf" that aren't
@@ -26,7 +26,7 @@ int vsnprintf(char* buffer, size_t size, const char* format, va_list arguments)
 	PRINTF_FORMAT(3, 0);
 
 	} // namespace strings
-} // namespace lotos2
+} // namespace lotospp
 
 #if defined(OS_WIN)
 #	include "strings/string_util_win.h"
@@ -36,4 +36,4 @@ int vsnprintf(char* buffer, size_t size, const char* format, va_list arguments)
 #	error Define string operations appropriately for your platform
 #endif
 
-#endif // LOTOS2_STRINGS_STRING_UTIL_H
+#endif // LOTOSPP_STRINGS_STRING_UTIL_H

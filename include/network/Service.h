@@ -1,5 +1,5 @@
-#ifndef LOTOS2_NETWORK_SERVICE_H
-#define LOTOS2_NETWORK_SERVICE_H
+#ifndef LOTOSPP_NETWORK_SERVICE_H
+#define LOTOSPP_NETWORK_SERVICE_H
 
 
 #include "config.h"
@@ -12,7 +12,7 @@
 #include "network/ServiceBase.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace network {
 		class Protocol;
 		class Connection;
@@ -36,6 +36,6 @@ public:
 };
 
 	} // namespace network
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_NETWORK_SERVICE_H
+#endif // LOTOSPP_NETWORK_SERVICE_H

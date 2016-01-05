@@ -1,5 +1,5 @@
-#ifndef LOTOS2_LOG_LOGGER_H
-#define LOTOS2_LOG_LOGGER_H
+#ifndef LOTOSPP_LOG_LOGGER_H
+#define LOTOSPP_LOG_LOGGER_H
 
 
 #include "config.h"
@@ -13,7 +13,7 @@
 #include "log/severity_t.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace log {
 
 class Logger
@@ -21,14 +21,14 @@ class Logger
 public:
 	static Logger* getInstance();
 	bool init();
-	boost::log::sources::severity_logger_mt<lotos2::log::severity_level>& get() { return _logger;};
+	boost::log::sources::severity_logger_mt<lotospp::log::severity_level>& get() { return _logger;};
 private:
-	boost::log::sources::severity_logger_mt<lotos2::log::severity_level> _logger;
+	boost::log::sources::severity_logger_mt<lotospp::log::severity_level> _logger;
 };
 
 	} // namespace log
-} // namespace lotos2
+} // namespace lotospp
 
-#define LOG(lvl) BOOST_LOG_STREAM_WITH_PARAMS((lotos2::log::Logger::getInstance()->get()), (::boost::log::keywords::severity=lotos2::log::lvl))
+#define LOG(lvl) BOOST_LOG_STREAM_WITH_PARAMS((lotospp::log::Logger::getInstance()->get()), (::boost::log::keywords::severity=lotospp::log::lvl))
 
-#endif // LOTOS2_LOG_LOGGER_H
+#endif // LOTOSPP_LOG_LOGGER_H

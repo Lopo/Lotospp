@@ -18,7 +18,7 @@
 #include "globals.h"
 
 
-using namespace lotos2::network;
+using namespace lotospp::network;
 
 
 ServiceManager::ServiceManager()

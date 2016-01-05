@@ -1,5 +1,5 @@
-#ifndef LOTOS2_TASK_H
-#define LOTOS2_TASK_H
+#ifndef LOTOSPP_TASK_H
+#define LOTOSPP_TASK_H
 
 
 #include "config.h"
@@ -11,7 +11,7 @@
 #include <boost/thread/thread_time.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 
 
 class Task
@@ -63,6 +63,6 @@ inline Task* createTask(uint32_t expiration, boost::function<void (void)> f)
 	return new Task(expiration, f);
 };
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_TASK_H
+#endif // LOTOSPP_TASK_H

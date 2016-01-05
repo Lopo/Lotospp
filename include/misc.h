@@ -1,5 +1,5 @@
-#ifndef LOTOS2_MISC_H
-#define LOTOS2_MISC_H
+#ifndef LOTOSPP_MISC_H
+#define LOTOSPP_MISC_H
 
 
 #include "config.h"
@@ -9,7 +9,7 @@
 #include <algorithm>
 
 
-namespace lotos2 {
+namespace lotospp {
 
 inline void toLowerCaseString(std::string& source) { std::transform(source.begin(), source.end(), source.begin(), tolower);};
 
@@ -18,6 +18,6 @@ void formatTime(time_t time, char* buffer);
 void terminate(std::string& str);
 void removeFirst(std::string& str);
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // MISC_H
+#endif // LOTOSPP_MISC_H

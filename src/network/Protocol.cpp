@@ -19,7 +19,7 @@
 #include "User.h"
 
 
-using namespace lotos2::network;
+using namespace lotospp::network;
 
 
 void Protocol::onSendMessage(OutputMessage_ptr msg)
@@ -88,7 +88,7 @@ boost::asio::ip::address Protocol::getAddress() const
 	return boost::asio::ip::address();
 }
 
-void Protocol::setUser(lotos2::User* u)
+void Protocol::setUser(lotospp::User* u)
 {
 	user=u;
 	if (user) {
@@ -104,7 +104,7 @@ void Protocol::write(const std::string& str)
 	getConnection()->send(output);
 }
 
-void Protocol::parseDebug(lotos2::network::NetworkMessage& msg)
+void Protocol::parseDebug(NetworkMessage& msg)
 {
 	int32_t pos=msg.getReadPos(),
 		dataLength=msg.getMessageLength();

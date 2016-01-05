@@ -1,5 +1,5 @@
-#ifndef LOTOS2_EXCEPTION_H
-#define	LOTOS2_EXCEPTION_H
+#ifndef LOTOSPP_EXCEPTION_H
+#define	LOTOSPP_EXCEPTION_H
 
 #include "config.h"
 
@@ -8,7 +8,7 @@
 #include "system/system.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 
 class ExceptionHandler
 {
@@ -38,7 +38,7 @@ private:
 	bool isInstalled=false;
 };
 
-} // namespace lotos2
+} // namespace lotospp
 
 #endif // __EXCEPTION_TRACER__
-#endif // LOTOS2_EXCEPTION_H
+#endif // LOTOSPP_EXCEPTION_H

@@ -1,5 +1,5 @@
-#ifndef LOTOS2_NETWORK_CONNECTION_H
-#define LOTOS2_NETWORK_CONNECTION_H
+#ifndef LOTOSPP_NETWORK_CONNECTION_H
+#define LOTOSPP_NETWORK_CONNECTION_H
 
 
 #include "config.h"
@@ -21,7 +21,7 @@
 #include "network/NetworkMessage.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace network {
 		class ServicePort;
 		typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
@@ -118,6 +118,6 @@ private:
 typedef boost::shared_ptr<Connection> Connection_ptr;
 
 	} // namespace network
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_NETWORK_CONNECTION_H
+#endif // LOTOSPP_NETWORK_CONNECTION_H

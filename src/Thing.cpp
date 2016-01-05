@@ -3,7 +3,7 @@
 #include "Thing.h"
 
 
-using namespace lotos2;
+using namespace lotospp;
 
 
 Thing::Thing()

@@ -26,7 +26,7 @@
 #include "globals.h"
 
 
-using namespace lotos2::network;
+using namespace lotospp::network;
 
 
 bool ServicePort::m_logError=true;

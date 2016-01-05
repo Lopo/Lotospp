@@ -9,7 +9,7 @@
 #include <boost/program_options/errors.hpp>
 
 
-using namespace lotos2::log;
+using namespace lotospp::log;
 
 
 severity_level severity_t::to_severity(const std::string& name)
@@ -40,13 +40,13 @@ const std::string severity_t::to_string(const severity_level lvl)
 	throw std::runtime_error("can't convert severity lvl to string");
 }
 
-std::ostream& lotos2::log::operator<<(std::ostream& os, const severity_t& sev)
+std::ostream& lotospp::log::operator<<(std::ostream& os, const severity_t& sev)
 {
 	os << sev.to_string();
 	return os;
 }
 
-std::istream& lotos2::log::operator>>(std::istream& is, severity_t& sev)
+std::istream& lotospp::log::operator>>(std::istream& is, severity_t& sev)
 {
 	std::string name;
 	is >> name;
@@ -54,7 +54,7 @@ std::istream& lotos2::log::operator>>(std::istream& is, severity_t& sev)
 	return is;
 }
 
-namespace lotos2 { namespace log { // why are these required ?
+namespace lotospp { namespace log { // why are these required ?
 template<typename CharT, typename TraitsT>
 std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT>& strm, severity_level lvl)
 {

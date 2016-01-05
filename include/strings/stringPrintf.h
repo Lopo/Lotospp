@@ -1,5 +1,5 @@
-#ifndef LOTOS2_STRINGS_STRINGPRINTF_H
-#define LOTOS2_STRINGS_STRINGPRINTF_H
+#ifndef LOTOSPP_STRINGS_STRINGPRINTF_H
+#define LOTOSPP_STRINGS_STRINGPRINTF_H
 
 #include <cstdarg>
 #include <string>
@@ -7,7 +7,7 @@
 #include "system/compiler_specific.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace strings {
 
 // Return a C++ string given printf-like input.
@@ -23,6 +23,6 @@ void StringAppendV(std::string* dst, const char* format, va_list ap)
 	PRINTF_FORMAT(2, 0);
 
 	}  // namespace strings
-}  // namespace lotos2
+}  // namespace lotospp
 
-#endif // LOTOS2_STRINGS_STRINGPRINTF_H
+#endif // LOTOSPP_STRINGS_STRINGPRINTF_H

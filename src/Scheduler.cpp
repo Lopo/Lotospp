@@ -13,7 +13,7 @@
 #include "globals.h"
 
 
-using namespace lotos2;
+using namespace lotospp;
 
 
 Scheduler::Scheduler()

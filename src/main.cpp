@@ -30,7 +30,7 @@
 #include "globals.h"
 
 
-using namespace lotos2;
+using namespace lotospp;
 
 
 bool configure(int ac, char **av)
@@ -38,7 +38,7 @@ bool configure(int ac, char **av)
 	std::string cf="config.ini",
 		pidFile,
 		logDir;
-	lotos2::log::severity_t logLevelC,
+	lotospp::log::severity_t logLevelC,
 		logLevelF;
 
 	namespace po=boost::program_options;
@@ -53,8 +53,8 @@ bool configure(int ac, char **av)
 #ifdef HAVE_FORK
 		("daemon,d", "fork to background as daemon")
 #endif
-		("logLevelC", po::value<lotos2::log::severity_t>(&logLevelC)->default_value(lotos2::log::severity_t("warning")), "console log level (none, trace, debug, info, warning, error, fatal)")
-		("logLevelF", po::value<lotos2::log::severity_t>(&logLevelF)->default_value(lotos2::log::severity_t("info")), "file log level (trace, debug, info, warning, error, fatal)")
+		("logLevelC", po::value<lotospp::log::severity_t>(&logLevelC)->default_value(lotospp::log::severity_t("warning")), "console log level (none, trace, debug, info, warning, error, fatal)")
+		("logLevelF", po::value<lotospp::log::severity_t>(&logLevelF)->default_value(lotospp::log::severity_t("info")), "file log level (trace, debug, info, warning, error, fatal)")
 		("logDir,L", po::value<std::string>(&logDir)->default_value("log"), "")
 		("pidFile,p", po::value<std::string>(&pidFile)->default_value(std::string(av[0])+".pid"), "")
 		("suppress,s", "suppress config info")
@@ -67,7 +67,7 @@ bool configure(int ac, char **av)
 	po::notify(vm);
 
 	if (vm.count("version")) {
-		std::cout << LOTOS2_VERSION_STRING << std::endl;
+		std::cout << LOTOSPP_VERSION_STRING << std::endl;
 		return false;
 		}
 	if (vm.count("help")) {
@@ -174,7 +174,7 @@ void init(void)
 	boost::date_time::c_time::localtime(&t0, &serverTimeTms);
 
 	parse_config();
-	lotos2::log::Logger::getInstance()->init();
+	lotospp::log::Logger::getInstance()->init();
 
 	if (!options.get<bool>("global.suppress_config_info", false)) {
 		LOG(INFO) << "Server name: " << options.get("global.serverName", "");

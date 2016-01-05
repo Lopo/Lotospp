@@ -21,7 +21,7 @@
 #include "log/Logger.h"
 
 
-using namespace lotos2::network;
+using namespace lotospp::network;
 
 
 bool Connection::m_logError=true;

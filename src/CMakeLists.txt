@@ -5,7 +5,7 @@ foreach (gh ${GENERATED_INCLUDES})
 	set_source_files_properties(${gh} PROPERTIES GENERATED 1)
 endforeach()
 
-set(lotos2_SRCS
+set(lotospp_SRCS
 	${GENERATED_SOURCES}
 
 	Creature.cpp
@@ -40,8 +40,8 @@ set(lotos2_SRCS
 	command/Quit.cpp
 	)
 if (USE_DATABASE)
-	set(lotos2_SRCS
-		${lotos2_SRCS}
+	set(lotospp_SRCS
+		${lotospp_SRCS}
 
 		database/Driver.cpp
 		database/Insert.cpp
@@ -49,8 +49,8 @@ if (USE_DATABASE)
 		)
 endif ()
 if (MYSQL_FOUND)
-	set(lotos2_SRCS
-		${lotos2_SRCS}
+	set(lotospp_SRCS
+		${lotospp_SRCS}
 
 		database/driver/MySQL.cpp
 		)
@@ -63,7 +63,7 @@ include_directories(
 	${Boost_INCLUDE_DIR}
 	)
 
-add_executable(${PROJECT_NAME} ${lotos2_SRCS})
+add_executable(${PROJECT_NAME} ${lotospp_SRCS})
 add_dependencies(${PROJECT_NAME} generated_objects)
 
 if (MYSQL_FOUND)

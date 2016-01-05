@@ -1,5 +1,5 @@
-#ifndef LOTOS2_DISPATCHER_H
-#define LOTOS2_DISPATCHER_H
+#ifndef LOTOSPP_DISPATCHER_H
+#define LOTOSPP_DISPATCHER_H
 
 
 #include "config.h"
@@ -9,7 +9,7 @@
 #include <boost/thread.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 	class Task;
 
 const int DISPATCHER_TASK_EXPIRATION=2000;
@@ -54,6 +54,6 @@ protected:
 
 extern Dispatcher g_dispatcher;
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_DISPATCHER_H
+#endif // LOTOSPP_DISPATCHER_H

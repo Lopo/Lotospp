@@ -1,5 +1,5 @@
-#ifndef LOTOS2_NETWORK_SERVICEMANAGER_H
-#define LOTOS2_NETWORK_SERVICEMANAGER_H
+#ifndef LOTOSPP_NETWORK_SERVICEMANAGER_H
+#define LOTOSPP_NETWORK_SERVICEMANAGER_H
 
 
 #include "config.h"
@@ -17,7 +17,7 @@
 #include "network/Service.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace network {
 
 /**
@@ -81,6 +81,6 @@ bool ServiceManager::add(uint16_t port)
 };
 
 	} // namespace network
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_NETWORK_SERVICEMANAGER_H
+#endif // LOTOSPP_NETWORK_SERVICEMANAGER_H

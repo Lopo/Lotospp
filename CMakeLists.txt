@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 cmake_policy(VERSION 3.0)
 message(STATUS "Running cmake version ${CMAKE_VERSION}")
 
-project(Lotos2)
+project(Lotos++)
 
-set(LOTOS2_VERSION_MAJOR 0)
-set(LOTOS2_VERSION_MINOR 2)
-set(LOTOS2_VERSION_PATCH 2)
+set(LOTOSPP_VERSION_MAJOR 0)
+set(LOTOSPP_VERSION_MINOR 2)
+set(LOTOSPP_VERSION_PATCH 2)
 # Change to false for releases
 set(DEVELOPMENT_BUILD true)
 

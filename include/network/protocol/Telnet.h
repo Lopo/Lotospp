@@ -1,5 +1,5 @@
-#ifndef LOTOS2_NETWORK_PROTOCOL_TELNET_H
-#define LOTOS2_NETWORK_PROTOCOL_TELNET_H
+#ifndef LOTOSPP_NETWORK_PROTOCOL_TELNET_H
+#define LOTOSPP_NETWORK_PROTOCOL_TELNET_H
 
 
 #include "config.h"
@@ -13,7 +13,7 @@
 #include "network/Protocol.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	class User;
 
 	namespace network {
@@ -57,7 +57,7 @@ private:
 	bool parseFirstPacket(NetworkMessage& msg);
 	virtual void parsePacket(NetworkMessage& msg);
 
-	friend class lotos2::User;
+	friend class lotospp::User;
 
 	// Helper so we don't need to bind every time
 #define addTalkerTask(f, ...) addTalkerTaskInternal(false, 0, boost::bind(f, &g_talker, __VA_ARGS__))
@@ -78,6 +78,6 @@ private:
 
 		} // namespace protocol
 	} // namespace network
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_NETWORK_PROTOCOL_TELNET_H
+#endif // LOTOSPP_NETWORK_PROTOCOL_TELNET_H

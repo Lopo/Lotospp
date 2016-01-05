@@ -1,5 +1,5 @@
-#ifndef LOTOS2_DATABASE_DRIVER_MYSQL_H
-#define LOTOS2_DATABASE_DRIVER_MYSQL_H
+#ifndef LOTOSPP_DATABASE_DRIVER_MYSQL_H
+#define LOTOSPP_DATABASE_DRIVER_MYSQL_H
 
 
 #include "config.h"
@@ -18,18 +18,18 @@
 #include "database/Result.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace database {
 		namespace driver {
 
 class MySQL
-	: public lotos2::database::Driver
+	: public lotospp::database::Driver
 {
 public:
 	MySQL();
 	virtual ~MySQL();
 
-	virtual bool getParam(lotos2::database::DBParam_t param);
+	virtual bool getParam(lotospp::database::DBParam_t param);
 
 	virtual bool beginTransaction();
 	virtual bool rollback();
@@ -42,14 +42,14 @@ public:
 
 protected:
 	virtual bool internalQuery(const std::string &query);
-	virtual lotos2::database::Result_ptr internalSelectQuery(const std::string &query);
-	virtual void freeResult(lotos2::database::Result *res);
+	virtual lotospp::database::Result_ptr internalSelectQuery(const std::string &query);
+	virtual void freeResult(lotospp::database::Result *res);
 
 	MYSQL m_handle;
 };
 
 class MySQLResult
-	: public lotos2::database::Result
+	: public lotospp::database::Result
 {
 	friend class MySQL;
 
@@ -60,7 +60,7 @@ public:
 	virtual std::string getDataString(const std::string &s);
 	virtual const char* getDataStream(const std::string &s, unsigned long &size);
 
-	virtual lotos2::database::Result_ptr advance();
+	virtual lotospp::database::Result_ptr advance();
 	virtual bool empty();
 
 protected:
@@ -76,7 +76,7 @@ protected:
 
 		} // namespace driver
 	} // namespace database
-} // namespace lotos2
+} // namespace lotospp
 
 #endif // ENABLE_MYSQL
-#endif // LOTOS2_DATABASE_DRIVER_MYSQL_H
+#endif // LOTOSPP_DATABASE_DRIVER_MYSQL_H

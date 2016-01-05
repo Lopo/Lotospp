@@ -7,7 +7,7 @@
 #include "misc.h"
 
 
-namespace lotos2 {
+namespace lotospp {
 
 /**
  * Returns true if string has whitespace
@@ -60,4 +60,4 @@ void removeFirst(std::string& str)
 	str.erase(str.begin(), it);
 }
 
-} // namespace lotos2
+} // namespace lotospp

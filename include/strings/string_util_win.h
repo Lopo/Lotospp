@@ -1,5 +1,5 @@
-#ifndef LOTOS2_STRINGS_STRING_UTIL_WIN_H
-#define LOTOS2_STRINGS_STRING_UTIL_WIN_H
+#ifndef LOTOSPP_STRINGS_STRING_UTIL_WIN_H
+#define LOTOSPP_STRINGS_STRING_UTIL_WIN_H
 
 
 #include <cstdarg>
@@ -7,7 +7,7 @@
 #include <cstring>
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace strings {
 
 inline int vsnprintf(char* buffer, size_t size, const char* format, va_list arguments)
@@ -23,6 +23,6 @@ inline int vsnprintf(char* buffer, size_t size, const char* format, va_list argu
 }
 
 	} // namespace strings
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_STRINGS_STRING_UTIL_WIN_H
+#endif // LOTOSPP_STRINGS_STRING_UTIL_WIN_H

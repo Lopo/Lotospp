@@ -1,5 +1,5 @@
-#ifndef LOTOS2_THING_H
-#define LOTOS2_THING_H
+#ifndef LOTOSPP_THING_H
+#define LOTOSPP_THING_H
 
 
 #include "config.h"
@@ -7,7 +7,7 @@
 #include <cstdint>
 
 
-namespace lotos2 {
+namespace lotospp {
 
 class Thing
 {
@@ -24,6 +24,6 @@ private:
 	int32_t m_refCount;
 };
 
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_THING_H
+#endif // LOTOSPP_THING_H

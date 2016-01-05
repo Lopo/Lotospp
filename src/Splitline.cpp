@@ -7,7 +7,7 @@
 #include "strings/stringsplit.h"
 
 
-using namespace lotos2;
+using namespace lotospp;
 
 
 Splitline::~Splitline()

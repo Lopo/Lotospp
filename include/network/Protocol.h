@@ -1,5 +1,5 @@
-#ifndef LOTOS2_NETWORK_PROTOCOL_H
-#define	LOTOS2_NETWORK_PROTOCOL_H
+#ifndef LOTOSPP_NETWORK_PROTOCOL_H
+#define	LOTOSPP_NETWORK_PROTOCOL_H
 
 
 #include "config.h"
@@ -11,7 +11,7 @@
 #include <boost/asio/ip/address.hpp>
 
 
-namespace lotos2 {
+namespace lotospp {
 	class User;
 
 	namespace network {
@@ -47,7 +47,7 @@ public:
 	int32_t addRef() { return ++m_refCount;};
 	int32_t unRef() { return --m_refCount;};
 
-	void setUser(lotos2::User* p);
+	void setUser(lotospp::User* p);
 
 	virtual void write(const std::string& str);
 
@@ -67,10 +67,10 @@ protected:
 	virtual void deleteProtocolTask();
 	virtual void disconnect();
 
-	lotos2::User* user=nullptr;
+	lotospp::User* user=nullptr;
 
 	friend class Connection;
-	friend class lotos2::User;
+	friend class lotospp::User;
 
 private:
 	OutputMessage_ptr m_outputBuffer=nullptr;
@@ -79,6 +79,6 @@ private:
 };
 
 	} // namespace network
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_NETWORK_PROTOCOL_H
+#endif // LOTOSPP_NETWORK_PROTOCOL_H

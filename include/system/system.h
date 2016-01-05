@@ -1,5 +1,5 @@
-#ifndef LOTOS2_SYSTEM_H
-#define LOTOS2_SYSTEM_H
+#ifndef LOTOSPP_SYSTEM_H
+#define LOTOSPP_SYSTEM_H
 
 
 #include "config.h"
@@ -52,4 +52,4 @@ inline int64_t SYS_TIME()
 
 #endif // #if defined WIN32 || defined __WINDOWS__
 
-#endif // LOTOS2_SYSTEM_H
+#endif // LOTOSPP_SYSTEM_H

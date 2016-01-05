@@ -1,12 +1,12 @@
-#ifndef LOTOS2_STRINGS_STRING_UTIL_POSIX_H
-#define LOTOS2_STRINGS_STRING_UTIL_POSIX_H
+#ifndef LOTOSPP_STRINGS_STRING_UTIL_POSIX_H
+#define LOTOSPP_STRINGS_STRING_UTIL_POSIX_H
 
 
 #include <cstdio>
 #include <cstdarg>
 
 
-namespace lotos2 {
+namespace lotospp {
 	namespace strings {
 
 inline int vsnprintf(char* buffer, size_t size, const char* format, va_list arguments)
@@ -15,6 +15,6 @@ inline int vsnprintf(char* buffer, size_t size, const char* format, va_list argu
 }
 
 	} // namespace strings
-} // namespace lotos2
+} // namespace lotospp
 
-#endif // LOTOS2_STRINGS_STRING_UTIL_POSIX_H
+#endif // LOTOSPP_STRINGS_STRING_UTIL_POSIX_H
