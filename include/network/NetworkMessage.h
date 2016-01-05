@@ -36,17 +36,17 @@ public:
 	uint8_t operator[](uint32_t pos) { return GetAt(pos);};
 
 	// skips count unknown/unused bytes in an incoming message
-	void SkipBytes(int count);
+	NetworkMessage* SkipBytes(int count);
 
 	// simply write functions for outgoing message
-	void AddByte(uint8_t value);
-	void AddU16(uint16_t value);
-	void AddU32(uint32_t value);
-	void AddU64(uint64_t value);
-	void AddBytes(const char* bytes, uint32_t size);
+	NetworkMessage* AddByte(uint8_t value);
+	NetworkMessage* AddU16(uint16_t value);
+	NetworkMessage* AddU32(uint32_t value);
+	NetworkMessage* AddU64(uint64_t value);
+	NetworkMessage* AddBytes(const char* bytes, uint32_t size);
 
-	void AddString(const std::string &value);
-	void AddString(const char* value);
+	NetworkMessage* AddString(const std::string &value);
+	NetworkMessage* AddString(const char* value);
 
 	int32_t getMessageLength() const;
 	void setMessageLength(int32_t newSize);

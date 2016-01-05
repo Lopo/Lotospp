@@ -94,12 +94,15 @@ function enum(params, ...)
 	-- Write the enum declaration to the header
 	header:write("\tnamespace enums {\n")
 	header:write("\t\tenum " .. name .. " {\n")
-	for _, v in ipairs(values) do
+	for k, v in ipairs(values) do
 		header:write("\t\t\t" .. v["name"][1])
 		if v["int"] then
 			header:write("=" .. v["int"])
 		end
-		header:write(",\n")
+		if k~=#values then
+			header:write(",")
+		end
+		header:write("\n")
 	end
 
 	-- End enum
@@ -128,6 +131,7 @@ function enum(params, ...)
 	for _, v in ipairs(values) do
 		header:write("\tconst " .. name .. " " .. v["name"][1] .. "(enums::" .. v["name"][1] .. ");\n")
 	end
+	header:write("\n\ttypedef " .. name .. " " .. name .. "Type;\n")
 
 	if namespace then
 		header:write("\t} // namespace " .. namespace .. "\n")
@@ -158,6 +162,8 @@ function enum(params, ...)
 				implementation:write(", \"" .. v["name"][2] .. "\"")
 			elseif t=="number" then
 				implementation:write(", " .. v["name"][2])
+			else
+				implementation:write(", \"\"")
 			end
 		end
 		implementation:write(");\n")

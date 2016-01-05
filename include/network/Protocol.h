@@ -29,7 +29,6 @@ public:
 	{
 		m_connection=connection;
 	};
-
 	virtual ~Protocol() {};
 
 	virtual void parsePacket(NetworkMessage& msg)=0;
@@ -42,6 +41,7 @@ public:
 	Connection_ptr getConnection() { return m_connection;};
 	const Connection_ptr getConnection() const { return m_connection;};
 	void setConnection(Connection_ptr connection) { m_connection=connection;};
+	bool logout(bool forced);
 
 	boost::asio::ip::address getAddress() const;
 	int32_t addRef() { return ++m_refCount;};
@@ -50,6 +50,14 @@ public:
 	void setUser(lotos2::User* p);
 
 	virtual void write(const std::string& str);
+
+	void parseDebug(NetworkMessage& msg);
+
+protected:
+	// Tell telnet to echo characters
+	virtual void sendEchoOn() {};
+	// Tell telnet not to echo characters - for password entry etc.
+	virtual void sendEchoOff() {};
 
 protected:
 	//Use this function for autosend messages only
@@ -63,6 +71,7 @@ protected:
 
 	friend class Connection;
 	friend class lotos2::User;
+
 private:
 	OutputMessage_ptr m_outputBuffer=nullptr;
 	Connection_ptr m_connection=nullptr;

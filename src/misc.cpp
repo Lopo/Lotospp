@@ -34,4 +34,30 @@ void formatTime(time_t time, char* buffer)
 		}
 }
 
+/*** Put string terminate char. at first char < 32 ***/
+void terminate(std::string& str)
+{
+	for (auto it=str.begin(); it!=str.end(); ++it) {
+		if (*it<32) {
+			str.erase(it, str.end());
+			return;
+			}
+		}
+}
+
+void removeFirst(std::string& str)
+{
+	auto it=str.begin();
+	while (*it<33 && *it) {
+		++it;
+		}
+	while (*it>32) {
+		++it;
+		}
+	while (*it<33 && *it) {
+		++it;
+		}
+	str.erase(str.begin(), it);
+}
+
 } // namespace lotos2

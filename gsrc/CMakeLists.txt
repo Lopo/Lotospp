@@ -6,6 +6,7 @@ message(STATUS "Found Lua binary: ${LUAEXEC} ver ${LUAEXEC_VERSION}")
 
 set(SOURCES_TO_GENERATE
 	consts
+	enums
 	)
 
 file(GLOB_RECURSE deps ${ROOT_DIR}/tools/*.lua)

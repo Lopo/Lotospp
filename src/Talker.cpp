@@ -22,6 +22,22 @@ void Talker::start(network::ServiceManager* servicer)
 	service_manager=servicer;
 }
 
+Creature* Talker::getCreatureByID(uint32_t id)
+{
+	if (id==0) {
+		return nullptr;
+		}
+
+	AutoList<Creature>::listiterator it=listCreature.list.find(id);
+	if (it!=listCreature.list.end()) {
+//		if (!it->second->isRemoved()) {
+//			return it->second;
+//			}
+		}
+
+	return nullptr; //just in case the user doesnt exist
+}
+
 User* Talker::getUserByID(uint32_t id)
 {
 	if (id==0) {
@@ -30,6 +46,9 @@ User* Talker::getUserByID(uint32_t id)
 
 	AutoList<User>::listiterator it=User::listUser.list.find(id);
 	if (it!=User::listUser.list.end()) {
+//		if (!it->second->isRemoved()) {
+//			return it->second;
+//			}
 		}
 
 	return nullptr; //just in case the user doesnt exist
@@ -44,9 +63,9 @@ UserVector Talker::getUsersByIP(uint32_t ipadress, uint32_t mask)
 	return users;
 }
 
-bool Talker::removeUser(User* user)
+bool Talker::removeCreature(Creature* creature)
 {
-	listUser.removeList(user->getID());
+	listCreature.removeList(creature->getID());
 
 	return true;
 }

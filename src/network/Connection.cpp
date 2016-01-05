@@ -336,12 +336,27 @@ void Connection::internalSend(OutputMessage_ptr msg)
 				boost::weak_ptr<Connection>(shared_from_this()),
 				boost::asio::placeholders::error
 			));
-
+/*
 		boost::asio::async_write(
 			getHandle(),
 			boost::asio::buffer(msg->getOutputBuffer(), msg->getMessageLength()),
 			boost::bind(&Connection::onWriteOperation, shared_from_this(), msg, boost::asio::placeholders::error)
 			);
+*/
+		ssize_t len=boost::asio::write(
+			getHandle(),
+			boost::asio::buffer(msg->getOutputBuffer(), msg->getMessageLength())
+			);
+		boost::system::error_code ec;
+		this->onWriteOperation(msg, ec);
+		if (len!=msg->getMessageLength() && m_logError) {
+			LOG(ERROR) << "Unable to write all the bytes";
+			m_logError=false;
+			}
+		if (len==-1 && m_logError) {
+			LOG(ERROR) << "Remote end closed the connection";
+			m_logError=false;
+			}
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {

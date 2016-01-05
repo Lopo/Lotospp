@@ -16,6 +16,7 @@
 #include "globals.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
+#include "User.h"
 
 
 using namespace lotos2::network;
@@ -90,11 +91,46 @@ boost::asio::ip::address Protocol::getAddress() const
 void Protocol::setUser(lotos2::User* u)
 {
 	user=u;
+	if (user) {
+		user->addRef();
+		}
 }
 
 void Protocol::write(const std::string& str)
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString(str);
-	OutputMessagePool::getInstance()->send(output);
+//	OutputMessagePool::getInstance()->send(output);
+	getConnection()->send(output);
+}
+
+void Protocol::parseDebug(lotos2::network::NetworkMessage& msg)
+{
+	int32_t pos=msg.getReadPos(),
+		dataLength=msg.getMessageLength();
+	if (dataLength!=0) {
+		printf("data: ");
+		int data=msg.GetByte();
+		while (dataLength>0) {
+			printf("%d ", data);
+			if (--dataLength>0) {
+				data=msg.GetByte();
+				}
+			}
+		printf("\n");
+		}
+	msg.setReadPos(pos);
+}
+
+bool Protocol::logout(bool forced)
+{
+	if (!user) {
+		return false;
+		}
+
+	if (Connection_ptr connection=getConnection()) {
+		connection->closeConnection();
+		}
+
+	return g_talker.removeCreature(user);
 }

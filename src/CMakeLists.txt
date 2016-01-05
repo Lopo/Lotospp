@@ -34,6 +34,10 @@ set(lotos2_SRCS
 	network/protocol/Telnet.cpp
 
 	strings/stringPrintf.cpp
+	strings/stringSplit.cpp
+
+	command/Say.cpp
+	command/Quit.cpp
 	)
 if (USE_DATABASE)
 	set(lotos2_SRCS

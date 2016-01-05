@@ -62,87 +62,95 @@ std::string NetworkMessage::GetString()
 
 std::string NetworkMessage::GetRaw()
 {
-	uint16_t stringlen=m_MsgSize-m_ReadPos;
-	if (stringlen>=(NETWORKMESSAGE_MAXSIZE-m_ReadPos)) {
+	if (m_MsgSize>=NETWORKMESSAGE_MAXSIZE) {
 		return std::string();
 		}
 
+	uint16_t stringlen=m_MsgSize-m_ReadPos;
 	char* v=(char*)(m_MsgBuf+m_ReadPos);
 	m_ReadPos+=stringlen;
 	return std::string(v, stringlen);
 }
 
-void NetworkMessage::SkipBytes(int count)
+NetworkMessage* NetworkMessage::SkipBytes(int count)
 {
 	m_ReadPos+=count;
+	return this;
 }
 
-void NetworkMessage::AddByte(uint8_t value)
+NetworkMessage* NetworkMessage::AddByte(uint8_t value)
 {
 	if (!canAdd(1)) {
-		return;
+		return this;
 		}
 	m_MsgBuf[m_ReadPos++]=value;
 	m_MsgSize++;
+	return this;
 }
 
-void NetworkMessage::AddU16(uint16_t value)
+NetworkMessage* NetworkMessage::AddU16(uint16_t value)
 {
 	if (!canAdd(2)) {
-		return;
+		return this;
 		}
 	*(uint16_t*)(m_MsgBuf+m_ReadPos)=value;
 	m_ReadPos+=2;
 	m_MsgSize+=2;
+	return this;
 }
 
-void NetworkMessage::AddU32(uint32_t value)
+NetworkMessage* NetworkMessage::AddU32(uint32_t value)
 {
 	if (!canAdd(4)) {
-		return;
+		return this;
 		}
 	*(uint32_t*)(m_MsgBuf+m_ReadPos)=value;
 	m_ReadPos+=4;
 	m_MsgSize+=4;
+	return this;
 }
 
-void NetworkMessage::AddU64(uint64_t value)
+NetworkMessage* NetworkMessage::AddU64(uint64_t value)
 {
 	if (!canAdd(8)) {
-		return;
+		return this;
 		}
 	*(uint64_t*)(m_MsgBuf+m_ReadPos)=value;
 	m_ReadPos+=8;
 	m_MsgSize+=8;
+	return this;
 }
 
-void NetworkMessage::AddString(const char* value)
+NetworkMessage* NetworkMessage::AddString(const char* value)
 {
 	uint32_t stringlen=(uint32_t)strlen(value);
 	if (!canAdd(stringlen+1) || stringlen>8192) {
-		return;
+		return this;
 		}
 
 	strcpy((char*)(m_MsgBuf+m_ReadPos), value);
 	m_ReadPos+=stringlen;
 	m_MsgSize+=stringlen;
 	AddByte('\0');
+	return this;
 }
 
-void NetworkMessage::AddBytes(const char* bytes, uint32_t size)
+NetworkMessage* NetworkMessage::AddBytes(const char* bytes, uint32_t size)
 {
 	if (!canAdd(size) || size>8192) {
-		return;
+		return this;
 		}
 
 	memcpy(m_MsgBuf+m_ReadPos, bytes, size);
 	m_ReadPos+=size;
 	m_MsgSize+=size;
+	return this;
 }
 
-void NetworkMessage::AddString(const std::string &value)
+NetworkMessage* NetworkMessage::AddString(const std::string &value)
 {
 	AddString(value.c_str());
+	return this;
 }
 
 int32_t NetworkMessage::getMessageLength() const

@@ -12,6 +12,7 @@
 #include "network/Connection.h"
 #include "generated/consts.h"
 #include "globals.h"
+#include "log/Logger.h"
 
 
 using namespace lotos2::network::protocol;
@@ -52,18 +53,19 @@ Telnet::~Telnet()
 
 void Telnet::onConnect()
 {
+	sendEchoOn();
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddString("\n");
-	output->AddString(options.get("global.serverName", ""));
-	output->AddString("\n");
-	output->AddString(LOTOS2_NAME);
-	output->AddString(" version ");
-	output->AddString(LOTOS2_VERSION_STRING);
-	output->AddString("\n");
-	output->AddString("\n\nconnection from: ");
-	output->AddString(getAddress().to_string());
-	output->AddString("\n");
-	output->AddString("login: ");
+	output->AddString("\n")
+		->AddString(options.get("global.serverName", ""))
+		->AddString("\n")
+		->AddString(LOTOS2_NAME)
+		->AddString(" version ")
+		->AddString(LOTOS2_VERSION_STRING)
+		->AddString("\n")
+		->AddString("\n\nconnection from: ")
+		->AddString(getAddress().to_string())
+		->AddString("\n")
+		->AddString("login: ");
 	OutputMessagePool::getInstance()->send(output);
 }
 
@@ -124,55 +126,33 @@ void Telnet::disconnectClient(const char* message)
 bool Telnet::parseFirstPacket(lotos2::network::NetworkMessage &msg)
 {
     User* _user=new User("", this);
+	_user->setID();
+	_user->stage=enums::UserStage_LOGIN_ID;
+	_user->addList();
     addRef();
     return connect(_user->getID());
 }
 
 void Telnet::parsePacket(lotos2::network::NetworkMessage &msg)
 {
-	uint8_t b;
-	int32_t pos;
-
 	if (!user || !m_acceptPackets || msg.getMessageLength()<=0) {
 		return;
 		}
-
-	while ((pos=msg.getReadPos())<=msg.getMessageLength()) {
-		b=msg.GetByte();
-		switch (b) {
-			case '\r':
-				msg.setReadPos(0);
-                user->parseLine(msg.GetString().substr(0, pos));
-                break;
-			case '\0':
-			case '\n':
-				break;
+	try {
+		user->uRead(msg);
+		}
+	catch (enums::UserStage stg) {
+		switch (stg) {
+			case enums::UserStage_DISCONNECT:
+				user->disconnect();
+			case enums::UserStage_SWAPPED:
+				delete user;
+				user=nullptr;
+				return;
+			default:
+				LOG(ERROR) << "INTERNAL ERROR: Caught unexpected user_stage " << stg << "in parsePacket()";
 			}
 		}
-
-	// Ignore control code replies
-	if (msg.GetByte()==enums::TELNET_IAC) {
-		return;
-		}
-	msg.setReadPos(0);
-}
-
-void Telnet::parseDebug(lotos2::network::NetworkMessage& msg)
-{
-	int32_t pos=msg.getReadPos(),
-		dataLength=msg.getMessageLength();
-	if (dataLength!=0) {
-		printf("data: ");
-		int data=msg.GetByte();
-		while (dataLength>0) {
-			printf("%d ", data);
-			if (--dataLength>0) {
-				data=msg.GetByte();
-				}
-			}
-		printf("\n");
-		}
-	msg.setReadPos(pos);
 }
 
 //********************** Send methods *******************************
@@ -180,36 +160,36 @@ void Telnet::parseDebug(lotos2::network::NetworkMessage& msg)
 void Telnet::sendEchoOn()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(enums::TELNET_IAC);
-	output->AddByte(enums::TELNET_WONT);
-	output->AddByte(enums::TELNET_ECHO);
+	output->AddByte(enums::TELNET_IAC)
+		->AddByte(enums::TELNET_WONT)
+		->AddByte(enums::TELNET_ECHO);
 	OutputMessagePool::getInstance()->send(output);
 }
 
 void Telnet::sendEchoOff()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(enums::TELNET_IAC);
-	output->AddByte(enums::TELNET_WILL);
-	output->AddByte(enums::TELNET_ECHO);
+	output->AddByte(enums::TELNET_IAC)
+		->AddByte(enums::TELNET_WILL)
+		->AddByte(enums::TELNET_ECHO);
 	OutputMessagePool::getInstance()->send(output);
 }
 
 void Telnet::setXtermTitle(const std::string& title)
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddString("\033]0;");
-	output->AddString(title);
-	output->AddByte(0x07);
+	output->AddString("\033]0;")
+		->AddString(title)
+		->AddByte(0x07);
 	OutputMessagePool::getInstance()->send(output);
 }
 
 void Telnet::sendTermCoords()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(enums::TELNET_IAC);
-	output->AddByte(enums::TELNET_DO);
-	output->AddByte(enums::TELNET_NAWS);
+	output->AddByte(enums::TELNET_IAC)
+		->AddByte(enums::TELNET_DO)
+		->AddByte(enums::TELNET_NAWS);
 	OutputMessagePool::getInstance()->send(output);
 }
 
@@ -226,7 +206,7 @@ void Telnet::disableLineWrap()
 void Telnet::f1()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddString("\033[?25h\033c\033[?7h");
+	output->AddString("\033[?25h\033c\033[?7h"); // Shows the cursor + Reset terminal to initial state + Autowrap on
 	OutputMessagePool::getInstance()->send(output);
 }
 

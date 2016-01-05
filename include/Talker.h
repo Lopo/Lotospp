@@ -11,6 +11,7 @@
 
 
 namespace lotos2 {
+	class Creature;
 	class User;
 	typedef std::vector<User*> UserVector;
 	class Thing;
@@ -28,7 +29,14 @@ public:
 	void start(network::ServiceManager* servicer);
 
 	/**
-	 * Returns a user based on the unique soul identifier
+	 * Returns a creature based on the unique creature identifier
+	 *
+	 * @param id is the unique creature id to get a creature pointer to
+	 * @return A Pointer to the creature
+	 */
+	Creature* getCreatureByID(uint32_t id);
+	/**
+	 * Returns a user based on the unique creature identifier
 	 *
 	 * @param id is the unique user id to get a user pointer to
 	 * @return A Pointer to the user
@@ -45,9 +53,9 @@ public:
 	UserVector getUsersByIP(uint32_t ip, uint32_t mask=0xFFFFFFFF);
 
 	/**
-	 * @param user User to remove
+	 * @param creature Creature to remove
 	 */
-	bool removeUser(User* user);
+	bool removeCreature(Creature* creature);
 
 	uint32_t getUsersOnline();
 
@@ -59,7 +67,7 @@ public:
 protected:
 	std::vector<Thing*> toReleaseThings;
 
-	AutoList<User> listUser;
+	AutoList<Creature> listCreature;
 
 	uint32_t maxUsers;
 

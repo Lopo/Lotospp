@@ -28,6 +28,7 @@
 #endif
 
 #ifdef WITH_DEBUG
+#	define __DEBUG_NET__ 1
 #	define __DEBUG_NET_DETAIL__ 1
 #	define __TRACK_NETWORK__ 1
 #	define __ENABLE_SERVER_DIAGNOSTIC__ 1

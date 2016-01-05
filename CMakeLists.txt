@@ -6,7 +6,7 @@ project(Lotos2)
 
 set(LOTOS2_VERSION_MAJOR 0)
 set(LOTOS2_VERSION_MINOR 2)
-set(LOTOS2_VERSION_PATCH 1)
+set(LOTOS2_VERSION_PATCH 2)
 # Change to false for releases
 set(DEVELOPMENT_BUILD true)
 
