@@ -15,6 +15,7 @@ set(lotospp_SRCS
 	Talker.cpp
 	Thing.cpp
 	User.cpp
+	IOUser.cpp
 
 	main.cpp
 	misc.cpp

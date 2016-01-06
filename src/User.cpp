@@ -1,5 +1,3 @@
-#include "config.h"
-
 #include <cstdint>
 #include <string>
 #include <cstdarg>
@@ -22,6 +20,7 @@
 #include "globals.h"
 #include "command/Say.h"
 #include "command/Quit.h"
+#include "IOUser.h"
 
 
 using namespace lotospp;
@@ -269,7 +268,6 @@ void User::login(std::string inpstr)
 					uWrite(LOTOSPP_VERSION_STRING);
 					uWrite("\n");
 					uWrite("login: ");
-					client->disconnect();
 					return;
 				}
 			if (inpstr.length()<MIN_USERNAME_LEN) {
@@ -289,22 +287,18 @@ void User::login(std::string inpstr)
 					}
 				}
 			toLowerCaseString(inpstr);
-if (inpstr!="lopo") {
-	uWrite("\ninvalid login\n\n");
-	return;
-	}
-password=new std::string("pswd");
 			inpstr[0]=::toupper(inpstr[0]);
 			name=inpstr;
 			toLowerCaseString(inpstr);
+			// If user has hung on another login clear that session
 			for (auto u=listUser.list.begin(); u!=listUser.list.end(); ++u) {
 				if (u->second->level==enums::UserLevel_LOGIN && u->second!=this && boost::iequals(u->second->name, name)) {
-					u->second->client->disconnect();
+					u->second->kick();
 					}
 				}
-//			if (!loadDetails()) {
-				
-//				}
+			if (!IOUser::instance()->load(this, inpstr, true)) {
+				uWrite("creating new account\n");
+				}
 //			else {
 //				if (boost::iequals(name, "lopo")) {
 //					level=enums::UserLevel_ADMIN;
@@ -321,15 +315,18 @@ password=new std::string("pswd");
 				attempt();
 				return;
 				}
-			if (!password) {
+			if (!password || !password->length()) {
 				password=new std::string(inpstr);
 				uWrite("\n\nconfirm: ");
 				stage=enums::UserStage_LOGIN_REENTER_PWD;
 				}
 			else {
 				if (!password->compare(inpstr)) {
+					delete password;
+					password=nullptr;
 					client->sendEchoOn();
 //					cls();
+					uWrite("press [ENTER] to login");
 					stage=enums::UserStage_LOGIN_PROMPT;
 					return;
 					}
@@ -337,9 +334,25 @@ password=new std::string("pswd");
 				attempt();
 				}
 			return;
-//		case enums::UserStage_LOGIN_REENTER_PWD:
-		case enums::UserStage_LOGIN_PROMPT:
+		case enums::UserStage_LOGIN_REENTER_PWD:
+			if (password->compare(inpstr)) {
+				uWrite("\n\npassword nomatch\n\n");
+				attempt();
+				return;
+				}
+			client->sendEchoOn();
 			level=enums::UserLevel_NOVICE;
+			guid=IOUser::instance()->create(this);
+			delete password;
+			password=nullptr;
+//			cls();
+			uWrite("press [ENTER] to login");
+			stage=enums::UserStage_LOGIN_PROMPT;
+			return;
+		case enums::UserStage_LOGIN_PROMPT:
+			IOUser::instance()->load(this, inpstr);
+			delete password;
+			password=nullptr;
 			uWrite("\n\n");
 			stage=enums::UserStage_CMD_LINE;
 			uConnect();

@@ -41,6 +41,9 @@ public:
 	virtual const std::string& getName() const { return name;};
 	virtual const std::vector<std::string>& getWords() const { return word;};
 
+	void setGUID(const uint32_t _guid) { guid=_guid;}
+	uint32_t getGUID() const { return guid;}
+
 	virtual uint32_t idRange() { return 0x10000000;};
 	static AutoList<User> listUser;
 	void addList();
@@ -82,9 +85,12 @@ protected:
 	bool checho=false;
 	std::vector<std::string> word;
 
+	uint32_t guid;
+
 	friend class Talker;
 	friend class network::Protocol;
 	friend class network::protocol::Telnet;
+	friend class IOUser;
 
 	int execCommand(std::string inpstr);
 	void cmd_quit(std::string input);
