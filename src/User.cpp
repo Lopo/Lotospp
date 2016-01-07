@@ -21,6 +21,7 @@
 #include "command/Say.h"
 #include "command/Quit.h"
 #include "IOUser.h"
+#include "security/crypt_blowfish.h"
 
 
 using namespace lotospp;
@@ -315,13 +316,13 @@ void User::login(std::string inpstr)
 				attempt();
 				return;
 				}
-			if (!password || !password->length()) {
-				password=new std::string(inpstr);
+			if (!password || !password->length()) { // if new user
+				password=new std::string(security::Bcrypt::crypt(inpstr));
 				uWrite("\n\nconfirm: ");
 				stage=enums::UserStage_LOGIN_REENTER_PWD;
 				}
 			else {
-				if (!password->compare(inpstr)) {
+				if (!password->compare(security::Bcrypt::crypt(inpstr, password->c_str()))) {
 					delete password;
 					password=nullptr;
 					client->sendEchoOn();
@@ -335,7 +336,7 @@ void User::login(std::string inpstr)
 				}
 			return;
 		case enums::UserStage_LOGIN_REENTER_PWD:
-			if (password->compare(inpstr)) {
+			if (password->compare(security::Bcrypt::crypt(inpstr, password->c_str()))) {
 				uWrite("\n\npassword nomatch\n\n");
 				attempt();
 				return;

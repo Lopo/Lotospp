@@ -37,6 +37,8 @@ set(lotospp_SRCS
 	strings/stringPrintf.cpp
 	strings/stringSplit.cpp
 
+	security/crypt_blowfish.cpp
+
 	command/Say.cpp
 	command/Quit.cpp
 	)

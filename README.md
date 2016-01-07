@@ -39,3 +39,4 @@ Used source codes
 - MySQL (https://dev.mysql.com/downloads)
 - Pushy (https://github.com/godexsoft/pushy)
 - Chromium (https://chromium.googlesource.com/chromium/src)
+- PHP (https://secure.php.net)
