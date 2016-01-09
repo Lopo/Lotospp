@@ -1,4 +1,3 @@
-#include "config.h"
 #include "log/Logger.h"
 
 #include <iostream>

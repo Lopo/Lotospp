@@ -1,24 +1,19 @@
-#include "config.h"
+#include "network/ServicePort.h"
 
 #if defined WIN32 || defined __WINDOWS__
 #	include <winerror.h>
 #endif
 
-#include <cstdint>
 #include <list>
 #include <map>
-#include <string>
-#include <vector>
 #include <iostream>
 
 #include <boost/bind.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/system/system_error.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ip/address.hpp>
 #include <boost/asio/ip/v6_only.hpp>
 
-#include "network/ServicePort.h"
 #include "network/ServiceBase.h"
 #include "network/Connection.h"
 #include "network/ConnectionManager.h"

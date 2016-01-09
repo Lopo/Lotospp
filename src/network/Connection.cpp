@@ -1,17 +1,13 @@
-#include "config.h"
+#include "network/Connection.h"
 
 #include <cstdint>
 #include <iostream>
 #include <list>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/bind.hpp>
-#include <boost/thread/recursive_mutex.hpp>
 #include <boost/system/system_error.hpp>
 #include <boost/asio.hpp>
 
-#include "network/Connection.h"
 #include "network/ConnectionManager.h"
 #include "globals.h"
 #include "Singleton.h"

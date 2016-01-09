@@ -1,10 +1,6 @@
-#include "config.h"
-
-#include <ctime>
-#include <cstdio>
-#include <string>
-
 #include "misc.h"
+
+#include <cstdio>
 
 
 namespace lotospp {

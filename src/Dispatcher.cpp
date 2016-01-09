@@ -1,13 +1,11 @@
-#include "config.h"
+#include "Dispatcher.h"
 
 #ifdef __DEBUG_SCHEDULER__
 #	include <iostream>
 #endif
 
-#include <boost/thread.hpp>
 #include <boost/bind.hpp>
 
-#include "Dispatcher.h"
 #include "network/OutputMessage.h"
 #include "Task.h"
 

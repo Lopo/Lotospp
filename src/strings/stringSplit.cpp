@@ -1,7 +1,8 @@
+#include "strings/stringSplit.h"
+
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 
-#include "strings/stringSplit.h"
 
 namespace lotospp {
 	namespace strings {

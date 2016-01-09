@@ -1,10 +1,7 @@
-#include "config.h"
-
-#include <cstdint>
-#include <iostream>
-#include <vector>
-
 #include "Talker.h"
+
+#include <iostream>
+
 #include "globals.h"
 #include "User.h"
 #include "network/ServiceManager.h"

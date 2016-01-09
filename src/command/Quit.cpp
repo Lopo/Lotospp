@@ -1,5 +1,3 @@
-#include "config.h"
-
 #include "command/Quit.h"
 
 

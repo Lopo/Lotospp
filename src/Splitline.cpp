@@ -1,8 +1,7 @@
-#include "config.h"
+#include "Splitline.h"
 
 #include <algorithm>
 
-#include "Splitline.h"
 #include "generated/enums.h"
 #include "strings/stringsplit.h"
 

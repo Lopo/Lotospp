@@ -1,9 +1,3 @@
-#include "config.h"
-
-#include <cstddef>
-#include <string>
-#include <sstream>
-
 #include "database/Insert.h"
 #include "database/Driver.h"
 

@@ -1,18 +1,13 @@
-#include "config.h"
+#include "network/ServiceManager.h"
 
 #if defined WIN32 || defined __WINDOWS__
 #	include <winerror.h>
 #endif
 
-#include <cstdint>
-#include <list>
-#include <map>
-
 #include <boost/bind.hpp>
 #include <boost/date_time.hpp>
 #include <boost/system/system_error.hpp>
 
-#include "network/ServiceManager.h"
 #include "network/OutputMessage.h"
 #include "log/Logger.h"
 #include "globals.h"

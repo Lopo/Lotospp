@@ -1,14 +1,14 @@
-#include "config.h"
+#include "database/driver/MySQL.h"
+
 #ifdef ENABLE_MYSQL
 
 #include <errmsg.h>
 
 #include <iostream>
-#include <string>
 
 #include <boost/bind.hpp>
 
-#include "database/driver/MySQL.h"
+
 #include "database/Query.h"
 
 #include "globals.h"

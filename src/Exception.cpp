@@ -1,8 +1,6 @@
-#include "config.h"
+#include "Exception.h"
 
 #ifdef __EXCEPTION_TRACER__
-
-#include "Exception.h"
 
 #include <cstdlib>
 #include <iostream>

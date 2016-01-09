@@ -9,6 +9,7 @@
 #include <string>
 #include <iostream>
 #include <ios>
+#include <fstream>
 
 #include <boost/program_options.hpp>
 #include <boost/program_options/detail/utf8_codecvt_facet.hpp>
@@ -19,7 +20,6 @@
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/date_time/c_time.hpp>
-#include <fstream>
 
 #include "misc.h"
 

@@ -4,7 +4,6 @@
 
 #include <cctype>
 #include <cstdarg> // va_list
-#include <string>
 #include <vector>
 
 #include "macros.h"

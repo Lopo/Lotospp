@@ -1,5 +1,3 @@
-#include "config.h"
-
 #include "command/Say.h"
 
 

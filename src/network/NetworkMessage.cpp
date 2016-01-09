@@ -1,10 +1,6 @@
-#include "config.h"
-
-#include <cstdint>
-#include <cstring>
-#include <string>
-
 #include "network/NetworkMessage.h"
+
+#include <cstring>
 
 
 using namespace lotospp::network;

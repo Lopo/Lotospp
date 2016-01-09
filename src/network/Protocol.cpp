@@ -1,4 +1,4 @@
-#include "config.h"
+#include "network/Protocol.h"
 
 #if defined WIN32 || defined __WINDOWS__
 #	include <winerror.h>
@@ -10,9 +10,7 @@
 #endif
 
 #include <boost/bind.hpp>
-#include <boost/asio/ip/address.hpp>
 
-#include "network/Protocol.h"
 #include "globals.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"

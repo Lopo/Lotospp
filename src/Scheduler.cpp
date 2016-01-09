@@ -1,15 +1,11 @@
-#include "config.h"
+#include "Scheduler.h"
 
-#include <cstdint>
-#include <cassert>
 #ifdef __DEBUG_SCHEDULER__
 #	include <iostream>
 #endif
 
-#include <boost/thread.hpp>
 #include <boost/bind.hpp>
 
-#include "Scheduler.h"
 #include "globals.h"
 
 

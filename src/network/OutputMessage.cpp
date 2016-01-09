@@ -1,11 +1,7 @@
-#include "config.h"
+#include "network/OutputMessage.h"
 
-#include <cstdint>
-
-#include <boost/thread/recursive_mutex.hpp>
 #include <boost/bind.hpp>
 
-#include "network/OutputMessage.h"
 #include "globals.h"
 #include "network/Connection.h"
 #include "network/Protocol.h"

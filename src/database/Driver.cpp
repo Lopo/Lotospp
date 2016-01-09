@@ -1,11 +1,9 @@
-#include "config.h"
+#include "database/Driver.h"
 
-#include <string>
 #include <stdexcept>
 
 #include <boost/algorithm/string/predicate.hpp>
 
-#include "database/Driver.h"
 #include "database/Query.h"
 #ifdef ENABLE_MYSQL
 #	include "database/driver/MySQL.h"

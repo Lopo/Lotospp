@@ -198,7 +198,6 @@ function BeginEnumFile(filename)
 	header:write("#include \"enum.h\"\n\n\n")
 	header:write("using lotospp::Enum;\n\n")
 	header:write("namespace lotospp {\n")
-	implementation:write("#include \"config.h\"\n")
 	implementation:write("#include \"generated/" .. header.name .. "\"\n\n\n")
 	implementation:write("namespace lotospp {\n\n")
 end

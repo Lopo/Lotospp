@@ -1,12 +1,8 @@
-#include "config.h"
+#include "network/ConnectionManager.h"
 
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/io_service.hpp>
-#include <boost/thread/recursive_mutex.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/system/system_error.hpp>
 
-#include "network/ConnectionManager.h"
 #include "network/Connection.h"
 #include "Singleton.h"
 

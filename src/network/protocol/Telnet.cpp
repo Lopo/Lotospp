@@ -1,11 +1,8 @@
-#include "config.h"
-#include "version.h"
+#include "network/protocol/Telnet.h"
 
-#include <cstdint>
-#include <string>
 #include <iostream>
 
-#include "network/protocol/Telnet.h"
+#include "version.h"
 #include "Task.h"
 #include "User.h"
 #include "network/OutputMessage.h"

@@ -1,17 +1,14 @@
-#include <cstdint>
-#include <string>
+#include "User.h"
+
 #include <cstdarg>
 
 #include <boost/thread/recursive_mutex.hpp>
-#include <boost/asio/ip/address.hpp>
 #include <boost/algorithm/string.hpp>
 
 #include "define.h"
-#include "User.h"
 #include "network/protocol/Telnet.h"
 #include "network/OutputMessage.h"
 #include "generated/consts.h"
-#include "generated/enums.h"
 #include "version.h"
 #include "strings/stringPrintf.h"
 #include "strings/stringSplit.h"
@@ -300,11 +297,6 @@ void User::login(std::string inpstr)
 			if (!IOUser::instance()->load(this, inpstr, true)) {
 				uWrite("creating new account\n");
 				}
-//			else {
-//				if (boost::iequals(name, "lopo")) {
-//					level=enums::UserLevel_ADMIN;
-//					}
-//				}
 			uWrite("\n\npassword: ");
 			client->sendEchoOff();
 			level=enums::UserLevel_LOGIN;

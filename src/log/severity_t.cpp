@@ -1,6 +1,3 @@
-#include "config.h"
-
-
 #include "log/severity_t.h"
 
 #include <stdexcept>

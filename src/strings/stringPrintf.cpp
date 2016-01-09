@@ -1,8 +1,6 @@
 #include "strings/stringPrintf.h"
 
-#include <cstdarg>
 #include <cerrno>
-#include <string>
 #include <vector>
 
 #include "strings/string_util.h"
