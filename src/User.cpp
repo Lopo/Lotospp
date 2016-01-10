@@ -258,8 +258,25 @@ void User::login(std::string inpstr)
 					uWrite("\n\n*** Login abandoned ***\n\n");
 					throw enums::UserStage_DISCONNECT;
 				case enums::LoginCom_WHO:
-					uWrite("\ndisabled\n");
-					uWrite("login: ");
+					{
+					uint32_t i=0;
+					User* u=nullptr;
+					for (auto uit=User::listUser.list.begin(); uit!=User::listUser.list.end(); uit++) {
+						u=(*uit).second;
+						if (u==this || u->level==enums::UserLevel_LOGIN) {
+							continue;
+							}
+						++i;
+						if (!(i%4)) {
+							uWrite("\n");
+							}
+						uPrintf("%-*s", 19, u->name);
+						}
+					if (!i) {
+						uWrite("no1 :(");
+						}
+					}
+					uWrite("\nlogin: ");
 					return;
 				case enums::LoginCom_VERSION:
 					uWrite("\nLotos++ ");
