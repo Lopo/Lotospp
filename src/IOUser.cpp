@@ -32,9 +32,11 @@ bool IOUser::load(User* user, const std::string& userName, bool preload/*=false*
 		}
 	user->setGUID(result->getDataInt("id"));
 	if (user->password) {
-		delete user->password;
+		user->password->assign(result->getDataString("password"))
 		}
-	user->password=new std::string(result->getDataString("password"));
+	else {
+		new std::string(result->getDataString("password"))
+		}
 
 	if (preload) {
 		//only loading basic info

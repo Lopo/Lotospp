@@ -432,7 +432,10 @@ void User::attempt()
 		return;
 		}
 	stage=enums::UserStage_LOGIN_NAME;
-	delete password;
+	if (password) {
+		delete password;
+		password=nullptr;
+		}
 	uWrite("\nlogin: ");
 	client->sendEchoOn();
 }
