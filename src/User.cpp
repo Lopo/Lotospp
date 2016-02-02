@@ -196,7 +196,7 @@ void User::uWrite(const std::string& message)
 		}
 }
 
-void User::uPrintf(const std::string& fmtstr, ...)
+void User::uPrintf(const char* fmtstr, ...)
 {
 	std::string str, str2;
 	size_t i, str2max=str2.max_size();
@@ -204,7 +204,7 @@ void User::uPrintf(const std::string& fmtstr, ...)
 	va_list args;
 
 	va_start(args, fmtstr);
-	str=strings::StringPrintV(fmtstr.c_str(), args);
+	str=strings::StringPrintV(fmtstr, args);
 
 	for (i=0; str2.length()<str2max && str[i]; ++i) {
 		switch (str[i]) {
@@ -270,7 +270,7 @@ void User::login(std::string inpstr)
 						if (!(i%4)) {
 							uWrite("\n");
 							}
-						uPrintf("%-*s", 19, u->name);
+						uPrintf("%-*s", 19, u->name.c_str());
 						}
 					if (!i) {
 						uWrite("no1 :(");

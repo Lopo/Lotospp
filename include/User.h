@@ -56,7 +56,7 @@ public:
 
 	virtual void uRead(network::NetworkMessage msg);
 	virtual void uWrite(const std::string& message);
-	virtual void uPrintf(const std::string& fmtstr, ...);
+	virtual void uPrintf(const char* fmtstr, ...);
 
 protected:
 	std::string name;
