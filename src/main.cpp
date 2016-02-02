@@ -21,8 +21,7 @@
 #include <boost/asio.hpp>
 #include <boost/date_time/c_time.hpp>
 
-#include "misc.h"
-
+#include "strings/misc.h"
 #include "network/ServiceManager.h"
 #include "network/protocol/Telnet.h"
 #include "log/Logger.h"
@@ -124,7 +123,7 @@ void parse_config(void)
 		std::cerr << "ERROR: Server name is too long" << std::endl;
 		exit(1);
 		}
-	if (hasWhitespace(serverName)) {
+	if (strings::hasWhitespace(serverName)) {
 		std::cerr << "ERROR: Server name can't contain whitespace" << std::endl;
 		exit(1);
 		}

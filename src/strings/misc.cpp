@@ -1,9 +1,10 @@
-#include "misc.h"
+#include "strings/misc.h"
 
 #include <cstdio>
 
 
 namespace lotospp {
+	namespace strings {
 
 /**
  * Returns true if string has whitespace
@@ -56,4 +57,5 @@ void removeFirst(std::string& str)
 	str.erase(str.begin(), it);
 }
 
+	} // namespace strings
 } // namespace lotospp

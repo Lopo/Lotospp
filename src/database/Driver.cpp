@@ -9,7 +9,7 @@
 #	include "database/driver/MySQL.h"
 #endif
 
-#include "misc.h"
+#include "strings/misc.h"
 #include "globals.h"
 
 

@@ -10,6 +10,7 @@
 
 
 namespace lotospp {
+	namespace strings {
 
 inline void toLowerCaseString(std::string& source) { std::transform(source.begin(), source.end(), source.begin(), tolower);};
 
@@ -18,6 +19,7 @@ void formatTime(time_t time, char* buffer);
 void terminate(std::string& str);
 void removeFirst(std::string& str);
 
+	} // namespace strings
 } // namespace lotospp
 
 #endif // LOTOSPP_MISC_H

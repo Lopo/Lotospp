@@ -12,7 +12,7 @@
 #include "version.h"
 #include "strings/stringPrintf.h"
 #include "strings/stringSplit.h"
-#include "misc.h"
+#include "strings/misc.h"
 #include "network/Connection.h"
 #include "globals.h"
 #include "command/Say.h"
@@ -99,7 +99,7 @@ void User::uRead(network::NetworkMessage msg)
 			}
 		}
 	else {
-		lotospp::terminate(input);
+		lotospp::strings::terminate(input);
 		}
 // GOT_LINE
 	buff.erase();
@@ -301,10 +301,10 @@ void User::login(std::string inpstr)
 					attempt();
 					}
 				}
-			toLowerCaseString(inpstr);
+			strings::toLowerCaseString(inpstr);
 			inpstr[0]=::toupper(inpstr[0]);
 			name=inpstr;
-			toLowerCaseString(inpstr);
+			strings::toLowerCaseString(inpstr);
 			// If user has hung on another login clear that session
 			for (auto u=listUser.list.begin(); u!=listUser.list.end(); ++u) {
 				if (u->second->level==enums::UserLevel_LOGIN && u->second!=this && boost::iequals(u->second->name, name)) {
@@ -407,7 +407,7 @@ bool User::getCharclientLine(std::string& inpstr)
 		buff[buffpos]=inpstr[l];
 		/* See if end of line */
 		if (inpstr[l]<32 || buffpos+2==inpstr.max_size()) {
-			terminate(buff);
+			strings::terminate(buff);
 			inpstr.assign(buff);
 			if (checho) {
 				uWrite("\n");
@@ -451,7 +451,7 @@ int User::execCommand(std::string inpstr)
 		uWrite("Unknown command\n");
 		return 0;
 		}
-	removeFirst(inpstr);
+	strings::removeFirst(inpstr);
 	Command* cmd=nullptr;
 	if (comWord=="say") {
 		cmd=new command::Say;

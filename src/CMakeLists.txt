@@ -18,7 +18,6 @@ set(lotospp_SRCS
 	IOUser.cpp
 
 	main.cpp
-	misc.cpp
 
 	log/Logger.cpp
 	log/severity_t.cpp
@@ -36,6 +35,7 @@ set(lotospp_SRCS
 
 	strings/stringPrintf.cpp
 	strings/stringSplit.cpp
+	strings/misc.cpp
 
 	security/crypt_blowfish.cpp
 
