@@ -32,10 +32,10 @@ bool IOUser::load(User* user, const std::string& userName, bool preload/*=false*
 		}
 	user->setGUID(result->getDataInt("id"));
 	if (user->password) {
-		user->password->assign(result->getDataString("password"))
+		user->password->assign(result->getDataString("password"));
 		}
 	else {
-		new std::string(result->getDataString("password"))
+		new std::string(result->getDataString("password"));
 		}
 
 	if (preload) {
