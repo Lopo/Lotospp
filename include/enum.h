@@ -408,7 +408,7 @@ public:
 	};
 	bool isset(const BitEnum<E, size_>& o)
 	{
-		return int(Enum<E, size_>::e) & int(o.e) >0;
+		return (int(Enum<E, size_>::e) & int(o.e)) >0;
 	};
 	void set(const BitEnum<E, size_>& o)
 	{
@@ -416,7 +416,7 @@ public:
 	};
 	void unset(const BitEnum<E, size_>& o)
 	{
-		Enum<E, size_>::e=E(int(Enum<E, size_>::e) &= ~int(o.e));
+		Enum<E, size_>::e=E(int(Enum<E, size_>::e) & ~int(o.e));
 	};
 
 	// Classes
