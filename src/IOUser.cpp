@@ -35,7 +35,7 @@ bool IOUser::load(User* user, const std::string& userName, bool preload/*=false*
 		user->password->assign(result->getDataString("password"));
 		}
 	else {
-		new std::string(result->getDataString("password"));
+		user->password=new std::string(result->getDataString("password"));
 		}
 
 	if (preload) {
