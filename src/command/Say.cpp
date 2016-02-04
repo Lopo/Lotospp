@@ -11,10 +11,10 @@ Say::Say()
 
 void Say::execute(lotospp::User* user, std::string inpstr)
 {
-	if (user->getWords().size()<2) {
-		user->uWrite("Usage: .say <text>\n");
-		return;
-		}
+//	if (user->getWords().size()<2) {
+//		user->uWrite("Usage: .say <text>\n");
+//		return;
+//		}
 	user->uPrintf("You say: %s\n", inpstr.c_str());
 	User* u=nullptr;
 	for (auto it=user->listUser.list.begin(); it!=user->listUser.list.end(); it++) {
