@@ -15,7 +15,7 @@ class Quit
 {
 public:
 	Quit();
-	virtual void execute(lotospp::User* user, std::string inpstr);
+	virtual void execute(lotospp::User* user);
 };
 
 	} // namespace command

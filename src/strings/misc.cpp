@@ -57,5 +57,34 @@ void removeFirst(std::string& str)
 	str.erase(str.begin(), it);
 }
 
+void cleanString(std::string& str)
+{
+	// Remove any printf() percent codes.
+	// Also remove certain ASCII control codes.
+	for (auto it=str.begin(), it2=str.begin()+1; *it; ++it) {
+		// Percents
+		if (*it=='%') {
+			if (*it2!='%') {
+				*it=' ';
+				}
+			else {
+				it++;
+				}
+			}
+		else {
+			if (*it<32) {
+				switch (*it) {
+					case '\n':
+					case '\r':
+					case '\t':
+						break;
+					*it=' ';
+					}
+				}
+			}
+		it2=it+2;
+		}
+}
+
 	} // namespace strings
 } // namespace lotospp

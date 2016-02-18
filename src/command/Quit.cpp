@@ -9,7 +9,7 @@ Quit::Quit()
 {
 }
 
-void Quit::execute(lotospp::User* user, std::string inpstr)
+void Quit::execute(lotospp::User* user)
 {
 	user->kick();
 	user->removeList();

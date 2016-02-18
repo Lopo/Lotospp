@@ -16,6 +16,7 @@
 #include "network/Protocol.h"
 #include "network/NetworkMessage.h"
 #include "generated/enums.h"
+#include "strings/Splitline.h"
 
 
 namespace lotospp {
@@ -39,7 +40,6 @@ public:
 	virtual const User* getUser() const { return this;};
 
 	virtual const std::string& getName() const { return name;};
-	virtual const std::vector<std::string>& getWords() const { return word;};
 
 	void setGUID(const uint32_t _guid) { guid=_guid;}
 	uint32_t getGUID() const { return guid;}
@@ -58,32 +58,37 @@ public:
 	virtual void uWrite(const std::string& message);
 	virtual void uPrintf(const char* fmtstr, ...);
 
+	strings::Splitline com;
+
 protected:
 	std::string name;
 	network::Protocol* client=nullptr;
 	std::string* password=nullptr;
 
 	virtual void parseLine();
-	virtual bool getCharclientLine(std::string& inpstr);
 	virtual void prompt();
 	void login(std::string inpstr);
 	void attempt();
 	void uConnect();
+	bool parseTelopt();
+	int getTermsize();
+	int getTermtype();
+	TelnetFlag flagsTelnet;
 
 	UserLevel level=enums::UserLevel_LOGIN;
 	UserStage stage=enums::UserStage_NEW;
 
 	uint8_t attempts=0;
-	int bpos=0;
+	uint32_t bpos=0;
 	uint8_t buffnum=0;
 	std::string buff;
 	std::string textBuffer[2];
-	std::string::iterator tbuff=textBuffer[buffnum].begin();
 	int tbpos=0;
 	std::string inlinePrompt;
 	size_t buffpos=0;
 	bool checho=false;
-	std::vector<std::string> word;
+	uint16_t termCols=80, termRows=25;
+	std::string termType;
 
 	uint32_t guid;
 
@@ -92,9 +97,7 @@ protected:
 	friend class network::protocol::Telnet;
 	friend class IOUser;
 
-	int execCommand(std::string inpstr);
-	void cmd_quit(std::string input);
-	void cmd_say(std::string input);
+	virtual void runCmdLine();
 };
 
 typedef std::vector<User*> UserVector;

@@ -50,7 +50,6 @@ Telnet::~Telnet()
 
 void Telnet::onConnect()
 {
-	sendEchoOn();
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\n")
 		->AddString(options.get("global.serverName", ""))
@@ -62,7 +61,11 @@ void Telnet::onConnect()
 		->AddString("\n\nconnection from: ")
 		->AddString(getAddress().to_string())
 		->AddString("\n")
-		->AddString("login: ");
+		->AddByte(enums::TELCMD_IAC)->AddByte(enums::TELCMD_WILL)->AddByte(enums::TELOPT_SGA)
+		->AddByte(enums::TELCMD_IAC)->AddByte(enums::TELCMD_WILL)->AddByte(enums::TELOPT_ECHO) // echo off
+		->AddByte(enums::TELCMD_IAC)->AddByte(enums::TELCMD_DO)->AddByte(enums::TELOPT_TERM)
+		->AddByte(enums::TELCMD_IAC)->AddByte(enums::TELCMD_DO)->AddByte(enums::TELOPT_NAWS)
+		;
 	OutputMessagePool::getInstance()->send(output);
 }
 
@@ -157,18 +160,18 @@ void Telnet::parsePacket(lotospp::network::NetworkMessage &msg)
 void Telnet::sendEchoOn()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(enums::TELNET_IAC)
-		->AddByte(enums::TELNET_WONT)
-		->AddByte(enums::TELNET_ECHO);
+	output->AddByte(enums::TELCMD_IAC)
+		->AddByte(enums::TELCMD_WONT)
+		->AddByte(enums::TELOPT_ECHO);
 	OutputMessagePool::getInstance()->send(output);
 }
 
 void Telnet::sendEchoOff()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(enums::TELNET_IAC)
-		->AddByte(enums::TELNET_WILL)
-		->AddByte(enums::TELNET_ECHO);
+	output->AddByte(enums::TELCMD_IAC)
+		->AddByte(enums::TELCMD_WILL)
+		->AddByte(enums::TELOPT_ECHO);
 	OutputMessagePool::getInstance()->send(output);
 }
 
@@ -184,9 +187,9 @@ void Telnet::setXtermTitle(const std::string& title)
 void Telnet::sendTermCoords()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(enums::TELNET_IAC)
-		->AddByte(enums::TELNET_DO)
-		->AddByte(enums::TELNET_NAWS);
+	output->AddByte(enums::TELCMD_IAC)
+		->AddByte(enums::TELCMD_DO)
+		->AddByte(enums::TELOPT_NAWS);
 	OutputMessagePool::getInstance()->send(output);
 }
 
@@ -200,7 +203,7 @@ void Telnet::disableLineWrap()
 	write("\033[7l");
 }
 /*
-void Telnet::f1()
+void Telnet::f1() // statline==CHARMODE
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\033[?25h\033c\033[?7h"); // Shows the cursor + Reset terminal to initial state + Autowrap on
@@ -210,18 +213,18 @@ void Telnet::f1()
 void Telnet::f2()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(enums::TELNET_IAC);
-	output->AddByte(enums::TELNET_DO);
-	output->AddByte(TELOPT_NEW_ENVIRON);
+	output->AddByte(enums::TELCMD_IAC)
+		->AddByte(enums::TELCMD_DO)
+		->AddByte(TELOPT_NEWENV);
 	OutputMessagePool::getInstance()->send(output);
 }
 
 void Telnet::f3()
 {
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	output->AddByte(enums::TELNET_IAC);
-	output->AddByte(enums::TELNET_WILL);
-	output->AddByte(TELOPT_NEW_ENVIRON);
+	output->AddByte(enums::TELCMD_IAC)
+		->AddByte(enums::TELCMD_WILL)
+		->AddByte(TELOPT_NEWENV);
 	OutputMessagePool::getInstance()->send(output);
 }
 */

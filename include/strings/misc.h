@@ -18,6 +18,7 @@ bool hasWhitespace(const std::string& str);
 void formatTime(time_t time, char* buffer);
 void terminate(std::string& str);
 void removeFirst(std::string& str);
+void cleanString(std::string& str);
 
 	} // namespace strings
 } // namespace lotospp

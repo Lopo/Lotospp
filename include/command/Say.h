@@ -15,7 +15,7 @@ class Say
 {
 public:
 	Say();
-	virtual void execute(lotospp::User* user, std::string inpstr);
+	virtual void execute(lotospp::User* user);
 };
 
 	} // namespace command

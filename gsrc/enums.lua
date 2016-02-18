@@ -30,7 +30,7 @@ enum("UserStage",
 	{"UserStage_SUICIDE", "suicide"}
 	)
 
-enum("UserFlag",
+enum({name="UserFlag", bitmask=true},
 	"UserFlag_PROMPT",
 	"UserFlag_PUIP"
 	)
@@ -67,7 +67,7 @@ enum("PrintCode",
 	{"PrintCode_PR", "PR"}
 	)
 
-enum("TelnetFlag",
+enum({name="TelnetFlag", bitmask=true},
 	"TelnetFlag_ECHO",
 	"TelnetFlag_SGA",
 	"TelnetFlag_TERMTYPE",

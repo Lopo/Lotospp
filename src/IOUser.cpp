@@ -25,7 +25,7 @@ bool IOUser::load(User* user, const std::string& userName, bool preload/*=false*
 
 	query << "SELECT id, level, password \
 		FROM `users` \
-		WHERE login=" << db->escapeString(userName);
+		WHERE login=LOWER(" << db->escapeString(userName) << ")";
 
 	if (!(result=db->storeQuery(query))) {
 		return false;

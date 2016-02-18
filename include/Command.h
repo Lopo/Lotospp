@@ -21,7 +21,7 @@ public:
 	Command(const std::string n="", const enums::UserLevel l=enums::UserLevel_NOVICE) : name(n), level(l) {};
 	virtual ~Command() {};
 
-	virtual void execute(User* user, std::string inpstr)=0;
+	virtual void execute(User* user)=0;
 	std::string getName();
 
 private:
