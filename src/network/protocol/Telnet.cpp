@@ -50,6 +50,10 @@ Telnet::~Telnet()
 
 void Telnet::onConnect()
 {
+	boost::asio::ip::address adr=getAddress();
+
+	LOG(INFO) << "User connection from " << adr;
+
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\n")
 		->AddString(options.get("global.serverName", ""))
@@ -59,7 +63,7 @@ void Telnet::onConnect()
 		->AddString(LOTOSPP_VERSION_STRING)
 		->AddString("\n")
 		->AddString("\n\nconnection from: ")
-		->AddString(getAddress().to_string())
+		->AddString(adr.to_string())
 		->AddString("\n")
 		->AddByte(enums::TELCMD_IAC)->AddByte(enums::TELCMD_WILL)->AddByte(enums::TELOPT_SGA)
 		->AddByte(enums::TELCMD_IAC)->AddByte(enums::TELCMD_WILL)->AddByte(enums::TELOPT_ECHO) // echo off

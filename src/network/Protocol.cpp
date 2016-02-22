@@ -10,6 +10,7 @@
 #endif
 
 #include <boost/bind.hpp>
+#include <boost/asio/connect.hpp>
 
 #include "globals.h"
 #include "network/OutputMessage.h"
@@ -84,6 +85,15 @@ boost::asio::ip::address Protocol::getAddress() const
 		}
 
 	return boost::asio::ip::address();
+}
+
+std::string Protocol::getHostname() const
+{
+	if (getConnection()) {
+		return getConnection()->getHostname();
+		}
+
+	return std::string();
 }
 
 void Protocol::setUser(lotospp::User* u)

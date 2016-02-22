@@ -44,6 +44,7 @@ public:
 	bool logout(bool forced);
 
 	boost::asio::ip::address getAddress() const;
+	std::string getHostname() const;
 	int32_t addRef() { return ++m_refCount;};
 	int32_t unRef() { return --m_refCount;};
 

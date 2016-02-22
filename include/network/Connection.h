@@ -71,6 +71,7 @@ public:
 	bool send(OutputMessage_ptr msg);
 
 	boost::asio::ip::address getAddress() const;
+	std::string getHostname();
 
 	int32_t addRef();
 	int32_t unRef();
@@ -86,6 +87,7 @@ private:
 
 	static void handleReadTimeout(boost::weak_ptr<Connection> weak_conn, const boost::system::error_code& error);
 	static void handleWriteTimeout(boost::weak_ptr<Connection> weak_conn, const boost::system::error_code& error);
+	static void handleResolveTimeout(boost::weak_ptr<Connection> weak_conn, const boost::system::error_code& error);
 
 	void closeConnectionTask();
 	void deleteConnectionTask();
@@ -93,6 +95,7 @@ private:
 	void closeSocket();
 	void onReadTimeout();
 	void onWriteTimeout();
+	void onResolveTimeout();
 
 	void internalSend(OutputMessage_ptr msg);
 
@@ -113,6 +116,8 @@ private:
 	boost::recursive_mutex m_connectionLock;
 
 	Protocol* m_protocol=nullptr;
+
+	std::string hostName;
 };
 
 typedef boost::shared_ptr<Connection> Connection_ptr;

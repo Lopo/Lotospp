@@ -374,6 +374,35 @@ boost::asio::ip::address Connection::getAddress() const
 	return boost::asio::ip::address();
 }
 
+std::string Connection::getHostname()
+{
+	if (hostName.length()) {
+		return hostName;
+		}
+	boost::system::error_code error;
+
+	try {
+		boost::asio::io_service io_service;
+		boost::asio::deadline_timer timer(io_service);
+		const boost::asio::ip::tcp::endpoint endpoint=m_socket->remote_endpoint(error);
+		timer.expires_from_now(boost::posix_time::seconds(Connection::read_timeout));
+		boost::asio::ip::tcp::resolver resolver(io_service);
+
+		timer.async_wait(boost::bind(
+				&Connection::handleResolveTimeout,
+				boost::weak_ptr<Connection>(shared_from_this()),
+				boost::asio::placeholders::error
+			));
+		hostName=resolver.resolve(endpoint)->host_name();
+		LOG(INFO) << "User address " << getAddress() << " = " << hostName;
+		}
+	catch (boost::system::system_error& error) {
+		LOG(ERROR) << "Address " << getAddress() << " does not resolve";
+		}
+
+	return hostName;
+}
+
 int32_t Connection::addRef()
 {
 	return ++m_refCount;
@@ -458,6 +487,11 @@ void Connection::onWriteTimeout()
 		}
 }
 
+void Connection::onResolveTimeout()
+{
+	boost::recursive_mutex::scoped_lock lockClass(m_connectionLock);
+}
+
 void Connection::handleReadTimeout(boost::weak_ptr<Connection> weak_conn, const boost::system::error_code& error)
 {
 	if (error!=boost::asio::error::operation_aborted) {
@@ -513,6 +547,22 @@ void Connection::handleWriteTimeout(boost::weak_ptr<Connection> weak_conn, const
 			std::cout << "Connection::handleWriteTimeout" << std::endl;
 #endif
 			connection->onWriteTimeout();
+			}
+		}
+}
+
+void Connection::handleResolveTimeout(boost::weak_ptr<Connection> weak_conn, const boost::system::error_code& error)
+{
+	if (error!=boost::asio::error::operation_aborted) {
+		if (weak_conn.expired()) {
+			return;
+			}
+
+		if (boost::shared_ptr<Connection> connection=weak_conn.lock()) {
+#ifdef __DEBUG_NET_DETAIL__
+			std::cout << "Connection::handleResolveTimeout" << std::endl;
+#endif
+			connection->onResolveTimeout();
 			}
 		}
 }
