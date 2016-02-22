@@ -110,7 +110,7 @@ bool configure(int ac, char **av)
 	return true;
 }
 
-void parse_config(void)
+void parseConfig(void)
 {
 	namespace fs=boost::filesystem;
 
@@ -154,7 +154,10 @@ void parse_config(void)
 
 void closePidFile(void)
 {
-	remove(options.get("global.pidFile", "").c_str());
+	std::string pidFile=options.get("global.pidFile", "");
+	if (pidFile!="") {
+		remove(pidFile.c_str());
+		}
 }
 
 void init(void)
@@ -172,7 +175,7 @@ void init(void)
 	options.put("runtime.serverTime", t0);
 	boost::date_time::c_time::localtime(&t0, &serverTimeTms);
 
-	parse_config();
+	parseConfig();
 	lotospp::log::Logger::getInstance()->init();
 
 	if (!options.get<bool>("global.suppress_config_info", false)) {
