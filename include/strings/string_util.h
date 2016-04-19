@@ -27,9 +27,9 @@ int vsnprintf(char* buffer, size_t size, const char* format, va_list arguments)
 	} // namespace strings
 } // namespace lotospp
 
-#if defined(OS_WIN)
+#if defined(OS_WIN) && !defined(COMPILER_MINGW)
 #	include "strings/string_util_win.h"
-#elif defined(OS_POSIX)
+#elif defined(OS_POSIX) || defined(COMPILER_MINGW)
 #	include "strings/string_util_posix.h"
 #else
 #	error Define string operations appropriately for your platform

@@ -6,6 +6,10 @@
 
 #include <cstdint>
 
+#ifdef OS_OPENBSD
+#	include <unistd.h> // OpenBSD5.9+boost1.58
+#endif
+
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/asio/ip/address.hpp>
@@ -74,8 +78,8 @@ protected:
 	friend class lotospp::User;
 
 private:
-	OutputMessage_ptr m_outputBuffer=nullptr;
-	Connection_ptr m_connection=nullptr;
+	OutputMessage_ptr m_outputBuffer={};
+	Connection_ptr m_connection={};
 	uint32_t m_refCount=0;
 };
 

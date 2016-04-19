@@ -1,6 +1,6 @@
 #include "network/ServicePort.h"
 
-#if defined WIN32 || defined __WINDOWS__
+#ifdef OS_WIN
 #	include <winerror.h>
 #endif
 
@@ -78,7 +78,7 @@ void ServicePort::accept(Acceptor_ptr acceptor)
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG(ERROR) << e.what();
+			LOG(LERROR) << e.what();
 			m_logError=false;
             }
         }
@@ -210,7 +210,7 @@ void ServicePort::open(uint16_t port)
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG(ERROR) << e.what();
+			LOG(LERROR) << e.what();
 			m_logError=false;
 			}
 

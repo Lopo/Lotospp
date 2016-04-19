@@ -135,7 +135,7 @@ void Connection::closeSocket()
 			}
 		catch (boost::system::system_error& e) {
 			if (m_logError) {
-				LOG(ERROR) << e.what();
+				LOG(LERROR) << e.what();
 				m_logError=false;
 				}
 			}
@@ -188,7 +188,7 @@ void Connection::deleteConnectionTask()
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG(ERROR) << e.what();
+			LOG(LERROR) << e.what();
 			m_logError=false;
 			}
 		}
@@ -215,7 +215,7 @@ void Connection::acceptConnection()
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG(ERROR) << e.what();
+			LOG(LERROR) << e.what();
 			m_logError=false;
 			closeConnection();
 			}
@@ -274,7 +274,7 @@ void Connection::parsePacket(const boost::system::error_code& error, const std::
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG(ERROR) << e.what();
+			LOG(LERROR) << e.what();
 			m_logError=false;
 			closeConnection();
 			}
@@ -332,31 +332,21 @@ void Connection::internalSend(OutputMessage_ptr msg)
 				boost::weak_ptr<Connection>(shared_from_this()),
 				boost::asio::placeholders::error
 			));
-/*
-		boost::asio::async_write(
+		boost::system::error_code ec;
+		std::size_t len=boost::asio::write(
 			getHandle(),
 			boost::asio::buffer(msg->getOutputBuffer(), msg->getMessageLength()),
-			boost::bind(&Connection::onWriteOperation, shared_from_this(), msg, boost::asio::placeholders::error)
+			ec
 			);
-*/
-		ssize_t len=boost::asio::write(
-			getHandle(),
-			boost::asio::buffer(msg->getOutputBuffer(), msg->getMessageLength())
-			);
-		boost::system::error_code ec;
 		this->onWriteOperation(msg, ec);
 		if (len!=msg->getMessageLength() && m_logError) {
-			LOG(ERROR) << "Unable to write all the bytes";
-			m_logError=false;
-			}
-		if (len==-1 && m_logError) {
-			LOG(ERROR) << "Remote end closed the connection";
+			LOG(LERROR) << "Unable to write all the bytes";
 			m_logError=false;
 			}
 		}
 	catch (boost::system::system_error& e) {
 		if (m_logError) {
-			LOG(ERROR) << e.what();
+			LOG(LERROR) << e.what();
 			m_logError=false;
 			}
 		}
@@ -394,10 +384,10 @@ std::string Connection::getHostname()
 				boost::asio::placeholders::error
 			));
 		hostName=resolver.resolve(endpoint)->host_name();
-		LOG(INFO) << "User address " << getAddress() << " = " << hostName;
+		LOG(LINFO) << "User address " << getAddress() << " = " << hostName;
 		}
 	catch (boost::system::system_error& error) {
-		LOG(ERROR) << "Address " << getAddress() << " does not resolve";
+		LOG(LERROR) << "Address " << getAddress() << " does not resolve";
 		}
 
 	return hostName;

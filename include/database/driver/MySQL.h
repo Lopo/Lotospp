@@ -4,10 +4,11 @@
 
 #include "config.h"
 
-#ifdef ENABLE_MYSQL
+#ifdef WITH_MYSQL
 
-#include "system/system.h"
-
+#ifdef OS_WIN
+#	include <winsock.h>
+#endif
 #include <mysql.h>
 
 #include <cstdint>
@@ -78,5 +79,5 @@ protected:
 	} // namespace database
 } // namespace lotospp
 
-#endif // ENABLE_MYSQL
+#endif // WITH_MYSQL
 #endif // LOTOSPP_DATABASE_DRIVER_MYSQL_H

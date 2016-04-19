@@ -5,7 +5,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 
 #include "database/Query.h"
-#ifdef ENABLE_MYSQL
+#ifdef WITH_MYSQL
 #	include "database/driver/MySQL.h"
 #endif
 
@@ -22,7 +22,7 @@ Driver* Driver::instance()
 {
 	if (!_instance) {
 		std::string type=options.get("database.Type", "");
-#ifdef ENABLE_MYSQL
+#ifdef WITH_MYSQL
 		if (boost::iequals("mysql", type)) {
 			_instance=new driver::MySQL;
 			}

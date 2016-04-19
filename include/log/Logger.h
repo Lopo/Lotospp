@@ -5,6 +5,10 @@
 #include "config.h"
 
 #include <string>
+#ifdef __MINGW32__
+#	define swprintf _snwprintf
+#	define vswprintf _vsnwprintf
+#endif
 
 #include <boost/log/keywords/severity.hpp>
 #include <boost/log/sources/severity_logger.hpp>

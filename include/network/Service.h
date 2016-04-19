@@ -18,11 +18,8 @@ namespace lotospp {
 		class Connection;
 		typedef boost::shared_ptr<Connection> Connection_ptr;
 
-typedef boost::shared_ptr<boost::asio::ip::tcp::acceptor> Acceptor_ptr;
-
-// The Service class is very thin, it's only real job is to create dynamic
-// dispatch of the protocol attributes, which would otherwise be very hard,
-// and require templating of many Service functions
+// The Service class is very thin, it's only real job is to create dynamic dispatch of the protocol attributes,
+// which would otherwise be very hard, and require templating of many Service functions
 
 template <typename ProtocolType>
 class Service

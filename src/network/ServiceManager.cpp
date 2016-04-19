@@ -1,6 +1,6 @@
 #include "network/ServiceManager.h"
 
-#if defined WIN32 || defined __WINDOWS__
+#ifdef OS_WIN
 #	include <winerror.h>
 #endif
 
@@ -51,7 +51,7 @@ void ServiceManager::run()
 		m_io_service.run();
 		}
 	catch (boost::system::system_error& e) {
-		LOG(ERROR) << e.what();
+		LOG(LERROR) << e.what();
 		}
 }
 
@@ -68,7 +68,7 @@ void ServiceManager::stop()
 			m_io_service.post(boost::bind(&ServicePort::onStopServer, it->second));
 			}
 		catch (boost::system::system_error& e) {
-			LOG(ERROR) << e.what();
+			LOG(LERROR) << e.what();
 			}
 		}
 	m_acceptors.clear();

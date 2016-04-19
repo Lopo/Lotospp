@@ -6,58 +6,77 @@ project(Lotos++)
 
 set(LOTOSPP_VERSION_MAJOR 0)
 set(LOTOSPP_VERSION_MINOR 2)
-set(LOTOSPP_VERSION_PATCH 2)
+set(LOTOSPP_VERSION_PATCH 3)
 # Change to false for releases
-set(DEVELOPMENT_BUILD true)
+set(DEVELOPMENT_BUILD TRUE)
 
-set(CMAKE_VERBOSE_MAKEFILE true)
-if (DEFINED CMAKE_BUILD_TYPE)
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
+
+# Options
+option(ENABLE_MYSQL "Enable use of MySQL" ON)
+option(ENABLE_DOXYGEN "Build docs via Doxygen" ON)
+option(WITH_DEBUG "Enable debug things" ON)
+option(ENABLE_IPV6 "Enable IPv6" ON)
+option(ENABLE_STRIP "Strip all symbols from executables" ON)
+option(ENABLE_MULTIBUILD "Compile on all CPU cores simltaneously in MSVC" ON)
+
+if (DEFINED CMAKE_BUILD_TYPE AND NOT ${CMAKE_BUILD_TYPE} EQUAL "")
 	set(HAVE_CMAKE_BUILD_TYPE TRUE)
 endif ()
 set(CUSTOM_C_FLAGS $ENV{CFLAGS})
+set(CUSTOM_CXX_FLAGS $ENV{CXXFLAGS})
 
 get_filename_component(ROOT_DIR ${CMAKE_SOURCE_DIR} REALPATH CACHE)
 set(SOURCE_DIR ${ROOT_DIR}/src)
 set(INCLUDE_DIR ${ROOT_DIR}/include)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ROOT_DIR}/bin)
+
+if (UNIX AND CMAKE_SYSTEM_NAME MATCHES BSD)
+	set(BSD true)
+endif ()
+if (UNIX AND CMAKE_SYSTEM_NAME MATCHES Linux)
+	set(LINUX true)
+endif ()
 
 #-----------------------------------------------------------------------
 # Find packages and other useful checks
 #-----------------------------------------------------------------------
 
 # Look for our custom modules in cmake/Modules:
-set(CMAKE_MODULE_PATH "${ROOT_DIR}/cmake/Modules")
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 # includes
+include(cmake/Macros.cmake)
+include(CheckInSourceBuild)
 include(CheckFunctionExists)
 include(CheckIncludeFile)
 include(CheckLibraryExists)
 
-# Options
-option(ENABLE_MYSQL "Enable use of MySQL" ON)
-option(ENABLE_DOXYGEN "Build docs via Doxygen" OFF)
-option(WITH_DEBUG "Enable debug things" ON)
-option(ENABLE_IPV6 "Enable IPv6" ON)
+include(cmake/util.cmake)
+include(cmake/ReallySmall.cmake)
 
 set(BUILDTYPE_DOCSTRING
 	"Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel"
 	)
-
 if (WITH_DEBUG OR DEVELOPMENT_BUILD)
-	set(CMAKE_BUILD_TYPE "Debug" CACHE STRING ${BUILDTYPE_DOCSTRING} FORCE)
-	if (UNIX AND NOT APPLE)
-		# Compiling with PIC speeds up embedded build, on PIC sensitive systems
-		# Predefine it to ON, in case user chooses to build embedded.
-		set(WITH_PIC ON CACHE BOOL "Compile with PIC")
+	if (HAVE_CMAKE_BUILD_TYPE)
+		if (CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
+			message(WARNING "WITH_DEBUG and DEVELOPMENT_BUILD are in conflict with CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}, disabling Debug/Dev")
+			set(WITH_DEBUG FALSE)
+			set(DEVELOPMENT_BUILD FALSE)
+		elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+			message(WARNING "WITH_DEBUG or DEVELOPMENT_BUILD set to TRUE are in conflict with CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}, updating CMAKE_BUILD_TYPE to RelWithDebInfo")
+			set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING ${BUILDTYPE_DOCSTRING} FORCE)
+		endif ()
+	else ()
+		set(CMAKE_BUILD_TYPE "Debug" CACHE STRING ${BUILDTYPE_DOCSTRING} FORCE)
 	endif ()
-	set(OLD_WITH_DEBUG 1 CACHE INTERNAL "" FORCE)
-elseif (NOT HAVE_CMAKE_BUILD_TYPE OR OLD_WITH_DEBUG)
+elseif (NOT HAVE_CMAKE_BUILD_TYPE)
 	if (CUSTOM_C_FLAGS)
 		set(CMAKE_BUILD_TYPE "" CACHE STRING ${BUILDTYPE_DOCSTRING} FORCE)
-	else (CMAKE_BUILDTYPE MATCHES "Debug" OR NOT HAVE_CMAKE_BUILD_TYPE)
+	elseif (CMAKE_BUILD_TYPE MATCHES "Debug" OR NOT HAVE_CMAKE_BUILD_TYPE)
 		set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING ${BUILDTYPE_DOCSTRING} FORCE)
 	endif ()
-	set(OLD_WITH_DEBUG 0 CACHE INTERNAL "" FORCE)
 endif ()
 
 include(cmake/CommonCompilerFlags.cmake)
@@ -81,18 +100,20 @@ check_library_exists(compat ftime "" HAVE_LIBCOMPAT)
 if (HAVE_LIBCOMPAT)
 	set(COMPAT_LIBRARIES ${COMPAT_LIBRARIES} compat)
 endif ()
+# OpenSSL library (for Blowfish)
+find_package(OpenSSL 0.9.9 REQUIRED)
 
 # DB
-set(USE_DATABASE OFF)
+set(WITH_DATABASE OFF)
 if (ENABLE_MYSQL)
 	find_package(MySQL)
 	if (MYSQL_FOUND)
-		set(USE_DATABASE TRUE)
+		set(WITH_DATABASE TRUE)
+		set(WITH_MYSQL TRUE)
 	endif ()
 endif ()
 
 check_function_exists(fork HAVE_FORK)
-check_include_file(direct.h HAVE_DIRECT_H)
 
 # Generate config.h
 configure_file(
@@ -103,9 +124,11 @@ configure_file(
 include(cmake/Version.cmake)
 
 # Doxygen is option
+set(WITH_DOXYGEN FALSE)
 if (ENABLE_DOXYGEN)
 	find_package(Doxygen)
 	if (DOXYGEN_DOT_FOUND)
+		set(WITH_DOXYGEN TRUE)
 		execute_process(COMMAND
 			${DOXYGEN_DOT_EXECUTABLE} -V
 #			OUTPUT_VARIABLE _DOTEXEC_VER
@@ -126,24 +149,39 @@ if (ENABLE_DOXYGEN)
 		set(DOT1810PLUS "NO")
 		if (${DOTEXEC_VERSION} VERSION_GREATER "1.8.10")
 			set(DOT1810PLUS "YES")
-		endif()
+		endif ()
 		get_filename_component(DOXYGEN_DOT_EXE "${DOXYGEN_DOT_EXECUTABLE}" DIRECTORY)
 		file(TO_NATIVE_PATH "${DOXYGEN_DOT_EXE}" DOXYGEN_DOT_PATH)
+		set (DOXY_CONFIG ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+		message(STATUS "Generating ${DOXY_CONFIG}")
+		configure_file(
+			"${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in"
+			${DOXY_CONFIG} @ONLY
+			)
+		add_custom_target(docs
+			${DOXYGEN_EXECUTABLE} ${DOXY_CONFIG}
+			DEPENDS ${DOXY_CONFIG}
+			WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+			COMMENT "Generating API documentation with Doxygen"
+			VERBATIM
+			)
 	endif ()
-	set (DOXY_CONFIG ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-	message(STATUS "Generating ${DOXY_CONFIG}")
-	configure_file(
-		"${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in"
-		${DOXY_CONFIG} @ONLY
-		)
-	add_custom_target(
-		docs
-		${DOXYGEN_EXECUTABLE} ${DOXY_CONFIG}
-		DEPENDS ${DOXY_CONFIG}
-		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		COMMENT "Generating API documentation with Doxygen"
-		VERBATIM
-		)
+endif ()
+
+if (ENABLE_STRIP OR CMAKE_BUILD_TYPE MATCHES "MinSizeRel")
+	if (CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
+		message(WARNING "ENABLE_STRIP & CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} are in conflict, ENABLE_STRIP ignored")
+	elseif (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUC)
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s")
+	endif ()
+	# TODO: Add support for other compilers
+endif ()
+
+if (ENABLE_MULTIBUILD)
+	if (WIN32 AND MSVC)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+		message(STATUS "Added parallel build arguments to CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+	endif ()
 endif ()
 
 set(GENERATED_INCLUDES)
@@ -154,12 +192,33 @@ set(SUBDIRS
 	gsrc
 	src
 	)
-foreach(subdir ${SUBDIRS})
+foreach (subdir ${SUBDIRS})
 	add_subdirectory(${subdir})
-endforeach()
+endforeach ()
 
-include(cmake/Macros.cmake)
-message("Building with support for:")
-show_end_message_yesno("MySQL" ENABLE_MYSQL)
-show_end_message_yesno("Doxygen" ENABLE_DOXYGEN)
-show_end_message_yesno("debug things" WITH_DEBUG)
+message("${PROJECT_NAME} ${PROJECT_VERSION}
+")
+if (WIN32 AND MSVC)
+	message("Platform: Windows (MSVC)")
+elseif (WIN32 AND MINGW)
+	message("Platform: Windows (MinGW)")
+elseif (WIN32)
+	message("Platform: Windows (Other)")
+elseif (APPLE)
+	message("Platform: Mac")
+elseif (BSD)
+	message("Platform: BSD")
+elseif (LINUX)
+	message("Platform: Linux")
+else ()
+	message("Platform: Other/No platform code")
+endif ()
+message("System  : ${CMAKE_SYSTEM}")
+message("	compiler | ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+	cxxflags | ${CMAKE_CXX_FLAGS}
+	builddir | ${CMAKE_BINARY_DIR}
+	buildtype| ${CMAKE_BUILD_TYPE}
+Building with support for:")
+show_end_message_yesno("MySQL" WITH_MYSQL)
+show_end_message_yesno("Doxygen" WITH_DOXYGEN)
+show_end_message_yesno("Debug" WITH_DEBUG)

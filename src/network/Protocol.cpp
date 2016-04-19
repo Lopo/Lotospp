@@ -1,6 +1,6 @@
 #include "network/Protocol.h"
 
-#if defined WIN32 || defined __WINDOWS__
+#ifdef OS_WIN
 #	include <winerror.h>
 #endif
 

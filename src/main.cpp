@@ -25,6 +25,7 @@
 #include "network/ServiceManager.h"
 #include "network/protocol/Telnet.h"
 #include "log/Logger.h"
+#include "ExceptionHandler.h"
 
 #include "globals.h"
 
@@ -34,7 +35,7 @@ using namespace lotospp;
 
 bool configure(int ac, char **av)
 {
-	std::string cf="config.ini",
+	std::string cf="etc/config.ini",
 		pidFile,
 		logDir;
 	lotospp::log::severity_t logLevelC,
@@ -46,7 +47,7 @@ bool configure(int ac, char **av)
 
 	po::options_description generic("Allowed options");
 	generic.add_options()
-		("configFile,c", po::value<std::string>(&cf)->default_value("config.ini"), "config file")
+		("configFile,c", po::value<std::string>(&cf)->default_value("etc/config.ini"), "config file")
 		("help,h", "this help")
 		("version,V", "")
 #ifdef HAVE_FORK
@@ -139,7 +140,7 @@ void parseConfig(void)
 	std::string logDir(options.get("global.log.dir", ""));
 	if (boost::ends_with(logDir, "/")) {
 		boost::algorithm::erase_last(logDir, "/");
-		options.put("global.workingDir", logDir);
+		options.put("global.log.dir", logDir);
 		}
 	if (!fs::exists(logDir) || !fs::is_directory(logDir)) {
 		std::cerr << "ERROR: Log dir '" << logDir << "' don't exist or isn't dir" << std::endl;
@@ -163,13 +164,13 @@ void closePidFile(void)
 void init(void)
 {
 	setlocale(LC_ALL, "C");
-	char* original_dir=getcwd(NULL, 0);
-	if (!original_dir) {
-		std::cerr << "ERROR: getcwd()" << std::endl;
+	boost::system::error_code ec;
+	boost::filesystem::path original_dir(boost::filesystem::current_path(ec));
+	if (ec) {
+		std::cerr << "ERROR: current_path(): " << ec.message() << std::endl;
 		exit(1);
 		}
 	options.put("runtime.originalDir", original_dir);
-	free(original_dir);
 	time_t t0=time(NULL);
 	options.put("runtime.bootTime", t0);
 	options.put("runtime.serverTime", t0);
@@ -179,15 +180,15 @@ void init(void)
 	lotospp::log::Logger::getInstance()->init();
 
 	if (!options.get<bool>("global.suppress_config_info", false)) {
-		LOG(INFO) << "Server name: " << options.get("global.serverName", "");
-		LOG(INFO) << "Original dir: " << options.get("runtime.originalDir", "");
-		LOG(INFO) << "Working dir: " << boost::filesystem::canonical(options.get("global.workingDir", ""));
-		LOG(INFO) << "Log dir: " << options.get("global.log.dir", "");
-		LOG(INFO) << "User port: " << options.get("global.userPort", 0);
-		LOG(INFO) << "Done.";
+		LOG(LINFO) << "Server name: " << options.get("global.serverName", "");
+		LOG(LINFO) << "Original dir: " << options.get("runtime.originalDir", "");
+		LOG(LINFO) << "Working dir: " << boost::filesystem::canonical(options.get("global.workingDir", ""));
+		LOG(LINFO) << "Log dir: " << options.get("global.log.dir", "");
+		LOG(LINFO) << "User port: " << options.get("global.userPort", 0);
+		LOG(LINFO) << "Done.";
 		}
 
-	LOG(INFO) << "Number of found CPUs: " << boost::thread::hardware_concurrency();
+	LOG(LINFO) << "Number of found CPUs: " << boost::thread::hardware_concurrency();
 
 	std::string pidFile(options.get("global.pidFile", ""));
 	if (pidFile!="") {
@@ -198,7 +199,7 @@ void init(void)
 		}
 
 	//SIGNALS
-#if defined WIN32 || defined __WINDOWS__
+#ifdef OS_WIN
 #else
 //	closeGuard consoleGuard(boost::bind(handleSignal, boost::ref(io_service)));
 #endif
@@ -207,7 +208,7 @@ void init(void)
 void ErrorMessage(const std::string& message)
 {
 	std::cout << std::endl << std::endl << "Error: " << message << std::endl;
-#if defined WIN32 || defined __WINDOWS__
+#ifdef OS_WIN
 	std::string s;
 	std::cin >> s;
 #endif
@@ -227,8 +228,13 @@ void mainLoader(network::ServiceManager* service_manager)
 }
 
 
-extern "C" int main(int argc, char **argv)
+extern "C"
+int main(int argc, char **argv)
 {
+#ifdef OS_OPENBSD
+	extern char *malloc_options;
+	malloc_options=(char*)"S";
+#endif
 #if !defined(WIN32) && !defined(__WINDOWS__)
 	if (!getuid() || !geteuid()) {
 		std::cout << "executed as root - login as normal user" << std::endl;
@@ -267,7 +273,7 @@ extern "C" int main(int argc, char **argv)
 	// Start scheduler and dispatcher threads
 	g_dispatcher.start();
 	g_scheduler.start();
-// Add load task
+	// Add load task
 	g_dispatcher.addTask(createTask(boost::bind(mainLoader, &servicer)));
 
 	// Wait for loading to finish
@@ -280,7 +286,7 @@ extern "C" int main(int argc, char **argv)
 		ErrorMessage("No services running. Server is not online.");
         }
 
-#if defined __EXCEPTION_TRACER__
+#ifdef __EXCEPTION_TRACER__
 	mainExceptionHandler.RemoveHandler();
 #endif
 	g_scheduler.shutdownAndWait();

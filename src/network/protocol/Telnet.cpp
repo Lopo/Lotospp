@@ -52,7 +52,7 @@ void Telnet::onConnect()
 {
 	boost::asio::ip::address adr=getAddress();
 
-	LOG(INFO) << "User connection from " << adr;
+	LOG(LINFO) << "User connection from " << adr;
 
 	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	output->AddString("\n")
@@ -154,7 +154,7 @@ void Telnet::parsePacket(lotospp::network::NetworkMessage &msg)
 				user=nullptr;
 				return;
 			default:
-				LOG(ERROR) << "INTERNAL ERROR: Caught unexpected user_stage " << stg << "in parsePacket()";
+				LOG(LERROR) << "INTERNAL ERROR: Caught unexpected user_stage " << stg << "in parsePacket()";
 			}
 		}
 }

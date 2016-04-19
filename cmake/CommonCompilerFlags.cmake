@@ -7,6 +7,11 @@ else (MSVC)
 	find_package(CXX11 REQUIRED)
 endif ()
 
+if (WIN32)
+	get_WIN32_WINNT(ver)
+	add_definitions(-D_WIN32_WINNT=${ver})
+endif ()
+
 # Boost is required for all plugins as it is used in Lotos++ includes
 add_definitions(-DBOOST_LOG_DYN_LINK)
 #add_definitions(-DBOOST_ALL_NO_LIB)
@@ -22,10 +27,10 @@ link_directories(${Boost_LIBRARY_DIRS})
 include_directories(${Boost_INCLUDE_DIR})
 if (WIN32)
 	add_definitions(-DBOOST_ASIO_HAS_MOVE)
-endif ()
-if (WIN32 AND __COMPILER_GNU)
-	# mingw-gcc fails to link boost::thread
-	add_definitions(-DBOOST_THREAD_USE_LIB)
+	if (__COMPILER_GNU)
+		# mingw-gcc fails to link boost::thread
+		add_definitions(-DBOOST_THREAD_USE_LIB)
+	endif ()
 endif ()
 
 include(CheckCXXCompilerFlag)

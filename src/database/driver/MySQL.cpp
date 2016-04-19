@@ -1,6 +1,6 @@
 #include "database/driver/MySQL.h"
 
-#ifdef ENABLE_MYSQL
+#ifdef WITH_MYSQL
 
 #include <errmsg.h>
 
@@ -338,4 +338,4 @@ bool MySQLResult::empty()
 	return m_row==NULL;
 }
 
-#endif // ENABLE_MYSQL
+#endif // WITH_MYSQL

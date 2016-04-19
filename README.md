@@ -21,13 +21,14 @@ Dependencies
   - boost-log
 - MySQL (http://www.mysql.com)
 - Lua (http://www.lua.org)
+- OpenSSL (https://www.openssl.org/)
 - make
 
 
 Build
 =====
 
-	cmake . && make
+	mkdir builddir && cd builddir && cmake .. && make
 
 
 Used source codes

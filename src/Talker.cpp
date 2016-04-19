@@ -5,7 +5,7 @@
 #include "globals.h"
 #include "User.h"
 #include "network/ServiceManager.h"
-#if defined __EXCEPTION_TRACER__
+#ifdef __EXCEPTION_TRACER__
 #	include <boost/thread/recursive_mutex.hpp>
 	extern boost::recursive_mutex maploadlock;
 #endif

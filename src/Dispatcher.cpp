@@ -8,6 +8,7 @@
 
 #include "network/OutputMessage.h"
 #include "Task.h"
+#include "ExceptionHandler.h"
 
 
 using namespace lotospp;
@@ -35,7 +36,7 @@ void Dispatcher::start()
 void Dispatcher::dispatcherThread(void* p)
 {
 	Dispatcher* dispatcher=(Dispatcher*)p;
-#if defined __EXCEPTION_TRACER__
+#ifdef __EXCEPTION_TRACER__
 	ExceptionHandler dispatcherExceptionHandler;
 	dispatcherExceptionHandler.InstallHandler();
 #endif
@@ -93,7 +94,7 @@ void Dispatcher::dispatcherThread(void* p)
 #endif
 			}
 		}
-#if defined __EXCEPTION_TRACER__
+#ifdef __EXCEPTION_TRACER__
 	dispatcherExceptionHandler.RemoveHandler();
 #endif
 }

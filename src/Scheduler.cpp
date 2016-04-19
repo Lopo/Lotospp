@@ -6,6 +6,7 @@
 
 #include <boost/bind.hpp>
 
+#include "ExceptionHandler.h"
 #include "globals.h"
 
 
@@ -32,7 +33,7 @@ void Scheduler::start()
 void Scheduler::schedulerThread(void* p)
 {
 	Scheduler* scheduler=(Scheduler*)p;
-#if defined __EXCEPTION_TRACER__
+#ifdef __EXCEPTION_TRACER__
 	ExceptionHandler schedulerExceptionHandler;
 	schedulerExceptionHandler.InstallHandler();
 #endif
@@ -102,7 +103,7 @@ void Scheduler::schedulerThread(void* p)
 				}
 			}
 		}
-#if defined __EXCEPTION_TRACER__
+#ifdef __EXCEPTION_TRACER__
 	schedulerExceptionHandler.RemoveHandler();
 #endif
 }

@@ -11,12 +11,12 @@
 #ifndef LOTOSPP_SYSTEM_BUILD_CONFIG_H
 #define LOTOSPP_SYSTEM_BUILD_CONFIG_H
 
-// A set of macros to use for platform detection.
+// A set of macros to use for platform detection
 #if defined(__native_client__)
-// __native_client__ must be first, so that other OS_ defines are not set.
+// __native_client__ must be first, so that other OS_ defines are not set
 #	define OS_NACL 1
-// OS_NACL comes in two sandboxing technology flavors, SFI or Non-SFI.
-// PNaCl toolchain defines __native_client_nonsfi__ macro in Non-SFI build mode, while it does not in SFI build mode.
+// OS_NACL comes in two sandboxing technology flavors, SFI or Non-SFI
+// PNaCl toolchain defines __native_client_nonsfi__ macro in Non-SFI build mode, while it does not in SFI build mode
 #	if defined(__native_client_nonsfi__)
 #		define OS_NACL_NONSFI
 #	else
@@ -38,11 +38,12 @@
 #	endif
 #elif defined(_WIN32)
 #	define OS_WIN 1
-#	define TOOLKIT_VIEWS 1
 #elif defined(__FreeBSD__)
 #	define OS_FREEBSD 1
 #elif defined(__OpenBSD__)
 #	define OS_OPENBSD 1
+#elif defined(__NetBSD__)
+#	define OS_NETBSD 1
 #elif defined(__sun)
 #	define OS_SOLARIS 1
 #elif defined(__QNXNTO__)
@@ -51,31 +52,25 @@
 #	error Please add support for your platform in build/build_config.h
 #endif
 
-#if defined(USE_OPENSSL) && defined(USE_NSS)
-#	error Cannot use both OpenSSL and NSS
-#endif
-
-// For access to standard BSD features, use OS_BSD instead of a
-// more specific macro.
-#if defined(OS_FREEBSD) || defined(OS_OPENBSD)
+// For access to standard BSD features, use OS_BSD instead of a more specific macro
+#if defined(OS_FREEBSD) || defined(OS_OPENBSD) || defined(OS_NETBSD)
 #	define OS_BSD 1
 #endif
 
-// For access to standard POSIXish features, use OS_POSIX instead of a
-// more specific macro.
-#if defined(OS_MACOSX) || defined(OS_LINUX) || defined(OS_FREEBSD) || defined(OS_OPENBSD) || defined(OS_SOLARIS) || \
+// For access to standard POSIXish features, use OS_POSIX instead of a more specific macro
+#if defined(OS_MACOSX) || defined(OS_LINUX) || defined(OS_BSD) || defined(OS_SOLARIS) || \
 	defined(OS_NACL) || defined(OS_QNX)
 #	define OS_POSIX 1
 #endif
 
-// Use tcmalloc
-#if (defined(OS_WIN) || defined(OS_LINUX)) && !defined(NO_TCMALLOC)
-#	define USE_TCMALLOC 1
-#endif
-
-// Compiler detection.
+// Compiler detection
 #if defined(__GNUC__)
 #	define COMPILER_GCC 1
+#	if defined(__clang__)
+#		define COMPILER_CLANG 1
+#	elif defined(__MINGW32__)
+#		define COMPILER_MINGW 1
+#	endif
 #elif defined(_MSC_VER)
 #	define COMPILER_MSVC 1
 #else

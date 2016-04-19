@@ -3,10 +3,10 @@
 
 #include "config.h"
 
-#if defined __EXCEPTION_TRACER__
-
-#include "system/system.h"
-
+#ifdef __EXCEPTION_TRACER__
+#	ifdef OS_WIN
+#		include <Windows.h>
+#	endif
 
 namespace lotospp {
 
@@ -19,20 +19,17 @@ public:
 	bool RemoveHandler();
 	static void dumpStack();
 private:
-#if defined WIN32 || defined __WINDOWS__
-#if defined _MSC_VER || defined __USE_MINIDUMP__
-
-	static long __stdcall MiniDumpExceptionHandler(struct _EXCEPTION_POINTERS *pExceptionInfo);
-	static int ref_counter;
-
-#elif __GNUC__
-
+#ifdef OS_WIN
+#	if defined(_MSC_VER) || defined(__USE_MINIDUMP__)
+	static LONG WINAPI MiniDumpExceptionHandler(struct _EXCEPTION_POINTERS *pExceptionInfo);
+	static int refCounter;
+#	elif __GNUC__
 	struct SEHChain {
 		SEHChain *prev;
 		void *SEHfunction;
 		};
 	SEHChain chain;
-#endif
+#	endif
 #endif
 
 	bool isInstalled=false;

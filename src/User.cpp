@@ -18,7 +18,7 @@
 #include "command/Say.h"
 #include "command/Quit.h"
 #include "IOUser.h"
-#include "security/crypt_blowfish.h"
+#include "security/Blowfish.h"
 #include "strings/Splitline.h"
 #include "Command.h"
 
@@ -164,7 +164,7 @@ void User::uRead(network::NetworkMessage msg)
 				textBuffer[buffnum].erase(tbpos);
 				inlinePrompt.clear();
 				tbpos=0;
-				if (flagsTelnet.isset(enums::TelnetFlag_ECHO) && flagsTelnet.isset(enums::TelnetFlag_SGA)) {
+				if (flagsTelnet.isSet(enums::TelnetFlag_ECHO) && flagsTelnet.isSet(enums::TelnetFlag_SGA)) {
 					uWrite("\r\n");
 					}
 				if (level==enums::UserLevel_LOGIN) {
@@ -202,7 +202,7 @@ void User::uRead(network::NetworkMessage msg)
 						uWrite("*");
 						break;
 					default:
-//						if (flagsTelnet.isset(enums::TelnetFlag_ECHO) && flagsTelnet.isset(enums::TelnetFlag_SGA)) {
+//						if (flagsTelnet.isSet(enums::TelnetFlag_ECHO) && flagsTelnet.isSet(enums::TelnetFlag_SGA)) {
 							uWrite(input.substr(i, 1));
 //							}
 					}
@@ -339,12 +339,12 @@ void User::login(std::string inpstr)
 				return;
 				}
 			if (!password || !password->length()) { // new user
-				password=new std::string(security::Bcrypt::crypt(inpstr));
+				password=new std::string(security::Blowfish::crypt(inpstr));
 				uPrintf("\n\nconfirm: ");
 				stage=enums::UserStage_LOGIN_REENTER_PWD;
 				}
 			else {
-				if (!password->compare(security::Bcrypt::crypt(inpstr, password->c_str()))) {
+				if (!password->compare(security::Blowfish::crypt(inpstr, password->c_str()))) {
 					IOUser::instance()->load(this, name);
 					delete password;
 					password=nullptr;
@@ -359,7 +359,7 @@ void User::login(std::string inpstr)
 				}
 			return;
 		case enums::UserStage_LOGIN_REENTER_PWD:
-			if (password->compare(security::Bcrypt::crypt(inpstr, password->c_str()))) {
+			if (password->compare(security::Blowfish::crypt(inpstr, password->c_str()))) {
 				uPrintf("\n\npassword nomatch\n\n");
 				attempt();
 				return;
@@ -480,7 +480,7 @@ bool User::parseTelopt()
 					case enums::TELOPT_TERM:
 						uPrintf("Unable to get your terminal type.\n");
 						flagsTelnet.set(enums::TelnetFlag_TERMTYPE);
-						termType=strdup("<unresolved>");
+						termType="<unresolved>";
 						break;
 					default:
 						uPrintf("WARNING: Your client sent unexpected TELNET_WILL\n");
@@ -537,11 +537,11 @@ bool User::parseTelopt()
 		buff.erase(0, shift);
 		}
 
-	if (!flagsTelnet.isset(enums::TelnetFlag_GOT_TELOPT_INFO)
-		&& flagsTelnet.isset(enums::TelnetFlag_ECHO)
-		&& flagsTelnet.isset(enums::TelnetFlag_SGA)
-		&& flagsTelnet.isset(enums::TelnetFlag_TERMTYPE)
-		&& flagsTelnet.isset(enums::TelnetFlag_TERMSIZE)
+	if (!flagsTelnet.isSet(enums::TelnetFlag_GOT_TELOPT_INFO)
+		&& flagsTelnet.isSet(enums::TelnetFlag_ECHO)
+		&& flagsTelnet.isSet(enums::TelnetFlag_SGA)
+		&& flagsTelnet.isSet(enums::TelnetFlag_TERMTYPE)
+		&& flagsTelnet.isSet(enums::TelnetFlag_TERMSIZE)
 		) {
 		// Got all telopt info so send prelogin screen and print initial prompt 
 //		sprintf(path, "%s/%s", ETC_DIR, PRELOGIN_SCREEN);
@@ -560,7 +560,7 @@ bool User::parseTelopt()
  */
 int User::getTermsize()
 {
-	uint pos1, pos2, def;
+	unsigned int pos1, pos2, def;
 
 	if (bpos<9) {
 		return 0;
@@ -672,7 +672,7 @@ int User::getTermtype()
 		}
 	uPrintf("Terminal type: %s\n", termType.c_str());
 
-	if (!flagsTelnet.isset(enums::TelnetFlag_ANSI_TERM)) {
+	if (!flagsTelnet.isSet(enums::TelnetFlag_ANSI_TERM)) {
 		uPrintf("WARNING: Your terminal is not recognised as ANSI code compatable.\n");
 		}
 

@@ -48,7 +48,7 @@ public:
 	NetworkMessage* AddString(const std::string &value);
 	NetworkMessage* AddString(const char* value);
 
-	int32_t getMessageLength() const;
+	std::size_t getMessageLength() const;
 	void setMessageLength(int32_t newSize);
 	int32_t getReadPos() const;
 	void setReadPos(int32_t pos);
@@ -64,7 +64,7 @@ protected:
 	void Reset();
 	bool canAdd(uint32_t size) const;
 
-	int32_t m_MsgSize;
+	std::size_t m_MsgSize;
 	int32_t m_ReadPos;
 
 	uint8_t m_MsgBuf[NETWORKMESSAGE_MAXSIZE];

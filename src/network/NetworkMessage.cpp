@@ -149,7 +149,7 @@ NetworkMessage* NetworkMessage::AddString(const std::string &value)
 	return this;
 }
 
-int32_t NetworkMessage::getMessageLength() const
+std::size_t NetworkMessage::getMessageLength() const
 {
 	return m_MsgSize;
 }

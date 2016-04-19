@@ -14,27 +14,27 @@
 namespace lotospp {
 	namespace log {
 		enum severity_level {
-			TRACE,
-			DEBUG,
-			INFO,
-			WARNING,
-			ERROR,
-			FATAL
+			LTRACE,
+			LDEBUG,
+			LINFO,
+			LWARNING,
+			LERROR,
+			LFATAL
 			};
 		// Attribute value tag type
 		struct severity_tag;
 		
 		typedef boost::bimap<severity_level, std::string> severityBimap;
 		static severityBimap severityMap=boost::assign::list_of<severityBimap::relation>
-			(TRACE, "TRACE")
-			(DEBUG, "DEBUG")
-			(INFO, "INFO")
-			(WARNING, "WARNING")
-			(ERROR, "ERROR")
-			(FATAL, "FATAL");
+			(LTRACE, "TRACE")
+			(LDEBUG, "DEBUG")
+			(LINFO, "INFO")
+			(LWARNING, "WARNING")
+			(LERROR, "ERROR")
+			(LFATAL, "FATAL");
 
 struct severity_t {
-	severity_t() : level(INFO) {};
+	severity_t() : level(LINFO) {};
 	severity_t(const std::string& s) : level(to_severity(s)) {};
 	severity_t(const severity_t& sev) : level(sev.level) {};
 	severity_t& operator=(const severity_t& sev)

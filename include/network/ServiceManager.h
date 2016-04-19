@@ -70,9 +70,9 @@ bool ServiceManager::add(uint16_t port)
 	else {
 		service_port=finder->second;
 		if (service_port->isSingleSocket() || ProtocolType::server_sends_first) {
-			std::cout << "ERROR: " << ProtocolType::protocolName() <<
-				" and " << service_port->getProtocolNames() <<
-				" cannot use the same port " << port << "." << std::endl;
+			std::cout << "ERROR: " << ProtocolType::protocolName()
+				<< " and " << service_port->getProtocolNames()
+				<< " cannot use the same port " << port << "." << std::endl;
 			return false;
 			}
 		}

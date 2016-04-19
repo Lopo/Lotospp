@@ -406,7 +406,7 @@ public:
 		Enum<E, size_>::e=E(int(Enum<E, size_>::e) & int(o.e));
 		return *this;
 	};
-	bool isset(const BitEnum<E, size_>& o)
+	bool isSet(const BitEnum<E, size_>& o)
 	{
 		return (int(Enum<E, size_>::e) & int(o.e)) >0;
 	};

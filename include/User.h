@@ -9,8 +9,6 @@
 #include <string>
 #include <vector>
 
-#include <boost/asio/ip/address.hpp>
-
 #include "Creature.h"
 #include "AutoList.h"
 #include "network/Protocol.h"

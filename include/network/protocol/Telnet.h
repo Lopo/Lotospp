@@ -37,13 +37,18 @@ public:
 
 	Telnet(Connection_ptr connection);
 	virtual ~Telnet();
-	static const char* protocolName() { return "telnet protocol";};
+	static const char* protocolName() { return "Telnet protocol";};
 
 protected:
 	// Tell telnet to echo characters
 	virtual void sendEchoOn();
 	// Tell telnet not to echo characters - for password entry etc.
 	virtual void sendEchoOff();
+
+	void sendTermCoords();
+	void setXtermTitle(const std::string& title);
+	void enableLineWrap();
+	void disableLineWrap();
 
 private:
 	bool connect(uint32_t userId);
@@ -69,11 +74,6 @@ private:
 	uint32_t eventConnect=0;
 	bool m_debugAssertSent=false;
 	bool m_acceptPackets=false;
-
-	void sendTermCoords();
-	void setXtermTitle(const std::string& title);
-	void enableLineWrap();
-	void disableLineWrap();
 };
 
 		} // namespace protocol

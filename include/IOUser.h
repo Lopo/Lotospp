@@ -4,6 +4,7 @@
 
 #include "config.h"
 
+#include <cstdint>
 #include <string>
 
 
