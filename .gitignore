@@ -1,6 +1,9 @@
 #NetBeans
 /nbproject
 
+#CLion
+/.idea
+
 #Code::Blocks
 *.cbp
 *.layout
@@ -30,4 +33,3 @@ Doxyfile
 
 *.log
 report.txt
-/builddir

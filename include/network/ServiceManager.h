@@ -38,6 +38,8 @@ public:
 	// Adds a new service to be managed
 	template <typename ProtocolType>
 	bool add(uint16_t port);
+	// Remove service
+	bool remove(uint16_t port);
 
 	bool isRunning() const { return m_acceptors.empty()==false;};
 	std::list<uint16_t> getPorts() const;

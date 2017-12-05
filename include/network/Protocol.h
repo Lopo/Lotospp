@@ -12,14 +12,14 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/asio/ip/address.hpp>
+//#include <boost/asio/ip/address.hpp>
+#include "network/Connection.h"
 
 
 namespace lotospp {
 	class User;
 
 	namespace network {
-		class Connection;
 		typedef boost::shared_ptr<Connection> Connection_ptr;
 		class NetworkMessage;
 		class OutputMessage;
@@ -29,10 +29,7 @@ class Protocol
 	: boost::noncopyable
 {
 public:
-	Protocol(Connection_ptr connection)
-	{
-		m_connection=connection;
-	};
+	Protocol(Connection_ptr connection) :m_connection(connection) {};
 	virtual ~Protocol() {};
 
 	virtual void parsePacket(NetworkMessage& msg)=0;
@@ -48,6 +45,7 @@ public:
 	bool logout(bool forced);
 
 	boost::asio::ip::address getAddress() const;
+	u_short getPort() const;
 	std::string getHostname() const;
 	int32_t addRef() { return ++m_refCount;};
 	int32_t unRef() { return --m_refCount;};
@@ -65,6 +63,7 @@ protected:
 	virtual void sendEchoOff() {};
 
 protected:
+	boost::asio::io_service& getIoService() { return m_connection->getIoService();};
 	//Use this function for autosend messages only
 	OutputMessage_ptr getOutputBuffer();
 

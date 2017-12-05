@@ -87,6 +87,15 @@ boost::asio::ip::address Protocol::getAddress() const
 	return boost::asio::ip::address();
 }
 
+u_short Protocol::getPort() const
+{
+	if (getConnection()) {
+		return getConnection()->getPort();
+		}
+
+	return 0;
+}
+
 std::string Protocol::getHostname() const
 {
 	if (getConnection()) {

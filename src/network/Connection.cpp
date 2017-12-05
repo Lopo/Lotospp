@@ -10,7 +10,6 @@
 
 #include "network/ConnectionManager.h"
 #include "globals.h"
-#include "Singleton.h"
 #include "network/Protocol.h"
 #include "network/OutputMessage.h"
 #include "network/ServicePort.h"
@@ -362,6 +361,18 @@ boost::asio::ip::address Connection::getAddress() const
 		}
 	PRINT_ASIO_ERROR("Getting remote ip");
 	return boost::asio::ip::address();
+}
+
+u_short Connection::getPort() const
+{
+	//Ip is expressed in network byte order
+	boost::system::error_code error;
+	const boost::asio::ip::tcp::endpoint endpoint=m_socket->remote_endpoint(error);
+	if (!error) {
+		return endpoint.port();
+		}
+	PRINT_ASIO_ERROR("Getting remote port");
+	return 0;
 }
 
 std::string Connection::getHostname()

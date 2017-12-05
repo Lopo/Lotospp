@@ -57,10 +57,11 @@ public:
 	virtual void uPrintf(const char* fmtstr, ...);
 
 	strings::Splitline com;
+	network::Protocol* client=nullptr;
+	UserStage stage=enums::UserStage_NEW;
 
 protected:
 	std::string name;
-	network::Protocol* client=nullptr;
 	std::string* password=nullptr;
 
 	virtual void parseLine();
@@ -74,7 +75,6 @@ protected:
 	TelnetFlag flagsTelnet;
 
 	UserLevel level=enums::UserLevel_LOGIN;
-	UserStage stage=enums::UserStage_NEW;
 
 	uint8_t attempts=0;
 	uint32_t bpos=0;

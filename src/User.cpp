@@ -35,7 +35,7 @@ uint32_t User::userCount=0;
 
 User::User(const std::string& n /*=""*/, network::Protocol* p/*=nullptr*/)
 	: Creature(),
-		name(n), client(p)
+		client(p), name(n)
 {
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	userCount++;

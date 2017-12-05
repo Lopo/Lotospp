@@ -14,10 +14,7 @@ set(main_SRCS
 	Thing.cpp
 	User.cpp
 	IOUser.cpp
-
-	main.cpp
 	)
-source_group(main FILES ${main_SRCS})
 
 set(log_SRCS
 	log/Logger.cpp
@@ -40,8 +37,7 @@ set(network_protocol_SRCS
 	network/protocol/Telnet.cpp
 	)
 source_group(network\\protocol FILES ${network_protocol_SRCS})
-set(network_SRCS
-	${network_SRCS}
+list(APPEND network_SRCS
 	${network_protocol_SRCS}
 	)
 
@@ -82,11 +78,12 @@ if (WITH_DATABASE)
 
 	source_group(database\\driver FILES ${database_driver_SRCS})
 
-	set(database_SRCS
-		${database_SRCS}
+	list(APPEND database_SRCS
 		${database_driver_SRCS}
 		)
 endif ()
+
+source_group(main FILES ${main_SRCS})
 
 set(lotospp_SRCS
 	${generated_SRCS}
@@ -107,7 +104,8 @@ include_directories(
 	${OPENSSL_INCLUDE_DIR}
 	)
 
-add_executable(${PROJECT_NAME} ${lotospp_SRCS})
+add_library(Lotospp ${lotospp_SRCS})
+add_executable(${PROJECT_NAME} main.cpp)
 make_small_executable(${PROJECT_NAME})
 add_dependencies(${PROJECT_NAME} generated_objects)
 
@@ -123,8 +121,12 @@ if (UNIX)
 	target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 endif ()
 
+target_link_libraries(${PROJECT_NAME} Lotospp)
+
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
 target_link_libraries(${PROJECT_NAME} ${SOCKET_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${EXEC_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${COMPAT_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${CRYPTO_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${MISC_LIBRARIES})

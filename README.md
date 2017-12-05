@@ -28,7 +28,7 @@ Dependencies
 Build
 =====
 
-	mkdir builddir && cd builddir && cmake .. && make
+	cd builddir && cmake .. && make
 
 
 Used source codes

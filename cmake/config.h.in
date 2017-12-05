@@ -5,7 +5,7 @@
 
 #define LOTOSPP_NAME "Lotos++"
 
-#define ETCDIR "/etc"
+#define ETCDIR "etc"
 
 #cmakedefine HAVE_FORK 1
 

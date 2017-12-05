@@ -10,8 +10,8 @@ In-source builds are disallowed. They are a source of infinite pain,
 - causing cmake to silently refuse creating out-of-source builds
 - overwriting the root Makefile (which contains cleaninsourcebuild)
 
-To perform an out-of-source build,
-- mkdir builddir; cd builddir; cmake ..
+To perform an out-of-source build, remove ${CMAKE_SOURCE_DIR}/CMakeCache.txt and
+- cd builddir; cmake ..
 
 If you really want to perform an in-source build, use -DALLOW_IN_SOURCE_BUILD=TRUE
 

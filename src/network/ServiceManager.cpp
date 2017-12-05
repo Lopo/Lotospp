@@ -79,3 +79,22 @@ void ServiceManager::stop()
 	death_timer.expires_from_now(boost::posix_time::seconds(3));
 	death_timer.async_wait(boost::bind(&ServiceManager::die, this));
 }
+
+bool ServiceManager::remove(uint16_t port)
+{
+	if (!port) {
+		std::cout << "NOTICE: No port provided for service remove. Service not removed." << std::endl;
+		return false;
+		}
+
+	std::map<uint16_t, ServicePort_ptr>::iterator finder=m_acceptors.find(port);
+	if (finder==m_acceptors.end()) {
+		std::cout << "ERROR: " << "No service found for port " << port;
+		return false;
+		}
+	ServicePort_ptr service_port=finder->second;
+	service_port->close();
+	m_acceptors.erase(finder);
+	delete service_port.get();
+	return true;
+}

@@ -50,7 +50,7 @@ public:
 
 	std::size_t getMessageLength() const;
 	void setMessageLength(int32_t newSize);
-	int32_t getReadPos() const;
+	std::size_t getReadPos() const;
 	void setReadPos(int32_t pos);
 
 	char* getBuffer();
@@ -65,7 +65,7 @@ protected:
 	bool canAdd(uint32_t size) const;
 
 	std::size_t m_MsgSize;
-	int32_t m_ReadPos;
+	std::size_t m_ReadPos;
 
 	uint8_t m_MsgBuf[NETWORKMESSAGE_MAXSIZE];
 };

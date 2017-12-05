@@ -23,6 +23,7 @@
 
 namespace lotospp {
 	namespace network {
+		class Connection;
 		class ServicePort;
 		typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
 		class Protocol;
@@ -72,10 +73,14 @@ public:
 	bool send(OutputMessage_ptr msg);
 
 	boost::asio::ip::address getAddress() const;
+	u_short getPort() const;
 	std::string getHostname();
 
 	int32_t addRef();
 	int32_t unRef();
+
+protected:
+	boost::asio::io_service& getIoService() { return m_io_service;};
 
 private:
 	void parsePacket(const boost::system::error_code& error, const std::size_t bytes_transferred);
@@ -119,6 +124,8 @@ private:
 	Protocol* m_protocol=nullptr;
 
 	std::string hostName;
+
+	friend class Protocol;
 };
 
 typedef boost::shared_ptr<Connection> Connection_ptr;

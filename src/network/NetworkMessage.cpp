@@ -159,7 +159,7 @@ void NetworkMessage::setMessageLength(int32_t newSize)
 	m_MsgSize=newSize;
 }
 
-int32_t NetworkMessage::getReadPos() const
+std::size_t NetworkMessage::getReadPos() const
 {
 	return m_ReadPos;
 }

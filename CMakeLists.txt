@@ -19,6 +19,7 @@ option(WITH_DEBUG "Enable debug things" ON)
 option(ENABLE_IPV6 "Enable IPv6" ON)
 option(ENABLE_STRIP "Strip all symbols from executables" ON)
 option(ENABLE_MULTIBUILD "Compile on all CPU cores simltaneously in MSVC" ON)
+option(FORCE32 "Force 32-bit build. It will add `-m32` to compiler flags" OFF)
 
 if (DEFINED CMAKE_BUILD_TYPE AND NOT ${CMAKE_BUILD_TYPE} EQUAL "")
 	set(HAVE_CMAKE_BUILD_TYPE TRUE)
@@ -81,6 +82,12 @@ endif ()
 
 include(cmake/CommonCompilerFlags.cmake)
 
+if (FORCE32)
+	set(TARGET_M "-m32")
+	set(OBJ_FORMAT "elf32-i386")
+	set(LINKER_SCRIPT "ld_script_i386.xc")
+endif ()
+
 # Network libraries (needed on Solaris)
 check_library_exists(socket getaddrinfo "" HAVE_LIBSOCKET)
 if (HAVE_LIBSOCKET)
@@ -120,8 +127,12 @@ configure_file(
 	${ROOT_DIR}/cmake/config.h.in
 	${INCLUDE_DIR}/config.h
 	)
+set_source_files_properties(${INCLUDE_DIR}/config.h PROPERTIES GENERATED 1)
+list(APPEND ADDITIONAL_MAKE_CLEAN_FILES ${INCLUDE_DIR}/config.h)
 # Generate version.h
 include(cmake/Version.cmake)
+set_source_files_properties(${INCLUDE_DIR}/version.h PROPERTIES GENERATED 1)
+list(APPEND ADDITIONAL_MAKE_CLEAN_FILES ${INCLUDE_DIR}/version.h)
 
 # Doxygen is option
 set(WITH_DOXYGEN FALSE)
@@ -196,8 +207,7 @@ foreach (subdir ${SUBDIRS})
 	add_subdirectory(${subdir})
 endforeach ()
 
-message("${PROJECT_NAME} ${PROJECT_VERSION}
-")
+message("${PROJECT_NAME} ${PROJECT_VERSION}\n")
 if (WIN32 AND MSVC)
 	message("Platform: Windows (MSVC)")
 elseif (WIN32 AND MINGW)

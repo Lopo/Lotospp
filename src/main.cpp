@@ -25,7 +25,9 @@
 #include "network/ServiceManager.h"
 #include "network/protocol/Telnet.h"
 #include "log/Logger.h"
-#include "ExceptionHandler.h"
+#ifdef __EXCEPTION_TRACER__
+#	include "ExceptionHandler.h"
+#endif
 
 #include "globals.h"
 
@@ -231,7 +233,7 @@ void mainLoader(network::ServiceManager* service_manager)
 extern "C"
 int main(int argc, char **argv)
 {
-#ifdef OS_OPENBSD
+#ifdef OS_OPENBSD // must be called before any mallocs
 	extern char *malloc_options;
 	malloc_options=(char*)"S";
 #endif
