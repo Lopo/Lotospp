@@ -3,6 +3,7 @@
 
 #CLion
 /.idea
+/cmake-build-*
 
 #Code::Blocks
 *.cbp
