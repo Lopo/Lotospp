@@ -20,6 +20,8 @@ using namespace lotospp::network;
 
 
 bool Connection::m_logError=true;
+const int64_t Connection::write_timeout=30;
+const int64_t Connection::read_timeout=30;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 uint32_t Connection::connectionCount=0;
