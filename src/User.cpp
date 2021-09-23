@@ -9,7 +9,7 @@
 #include "network/protocol/Telnet.h"
 #include "network/OutputMessage.h"
 #include "generated/consts.h"
-#include "version.h"
+#include "Lotospp/buildinfo.h"
 #include "strings/stringPrintf.h"
 #include "strings/stringSplit.h"
 #include "strings/misc.h"
@@ -296,7 +296,7 @@ void User::login(std::string inpstr)
 					return;
 				case enums::LoginCom_VERSION:
 					uPrintf("\nLotos++ ");
-					uPrintf(LOTOSPP_VERSION_STRING);
+					uPrintf(Lotospp_get_buildinfo()->project_version);
 					uPrintf("\n");
 					return;
 				}

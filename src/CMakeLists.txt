@@ -105,6 +105,7 @@ include_directories(
 	)
 
 add_library(Lotospp ${lotospp_SRCS})
+target_link_libraries(Lotospp Lotospp-buildinfo)
 add_executable(${PROJECT_NAME} main.cpp)
 make_small_executable(${PROJECT_NAME})
 add_dependencies(${PROJECT_NAME} generated_objects)

@@ -4,7 +4,7 @@
 
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "@PROJECT_NAME@"
-PROJECT_NUMBER         = "@LOTOSPP_VERSION_STRING@"
+PROJECT_NUMBER         = "@PROJECT_VERSION@"
 PROJECT_BRIEF          = "talker server, written in C++"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = docs-generated

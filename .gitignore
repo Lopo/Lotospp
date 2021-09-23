@@ -13,10 +13,13 @@
 CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
+/.hunter
+cmake/cable
+cmake/Hunter/disabled-mode
 
 #generated
 /include/config.h
-/include/version.h
+/docs-generated
 
 #C++
 *.o

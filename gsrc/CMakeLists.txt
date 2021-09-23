@@ -1,8 +1,5 @@
-include(FindLuaExec)
-if (NOT LUAEXEC)
-	message(FATAL_ERROR "Lua binary not found")
-endif ()
-message(STATUS "Found Lua binary: ${LUAEXEC} ver ${LUAEXEC_VERSION}")
+hunter_add_package(Lua)
+find_package(Lua CONFIG REQUIRED)
 
 set(SOURCES_TO_GENERATE
 	consts
@@ -12,7 +9,7 @@ file(GLOB_RECURSE deps ${ROOT_DIR}/tools/*.lua)
 foreach (_file ${SOURCES_TO_GENERATE})
 	add_custom_command(
 		OUTPUT ${INCLUDE_DIR}/generated/${_file}.h ${SOURCE_DIR}/generated/${_file}.cpp
-		COMMAND ${LUAEXEC} -e "package.path=package.path..';./?.lua;./?/init.lua'" -l tools/enum ${CMAKE_CURRENT_SOURCE_DIR}/${_file}.lua
+		COMMAND ${LUA_EXECUTABLE} -e "package.path=package.path..';./?.lua;./?/init.lua'" -l tools/enum ${CMAKE_CURRENT_SOURCE_DIR}/${_file}.lua
 		MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${_file}.lua
 		DEPENDS ${deps}
 		WORKING_DIRECTORY ${ROOT_DIR}

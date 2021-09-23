@@ -1,16 +1,79 @@
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-cmake_policy(VERSION 3.0)
-message(STATUS "Running cmake version ${CMAKE_VERSION}")
+cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
+#test art: figlet -f ogre Lotos++ #| sed -e 's/\\/\\\\/g'
+message("
+   __       _
+  / /  ___ | |_ ___  ___   _     _
+ / /  / _ \\| __/ _ \\/ __|_| |_ _| |_
+/ /__| (_) | || (_) \\__ \\_   _|_   _|
+\\____/\\___/ \\__\\___/|___/ |_|   |_|
+")
 
-project(Lotos++)
+find_package(Git QUIET)
+if (GIT_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
+	# Update submodules as needed
+	option(GIT_SUBMODULE "Check submodules during build" ON)
+	if (GIT_SUBMODULE)
+		message(STATUS "GIT Submodule update")
+		execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+				WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+				RESULT_VARIABLE GIT_SUBMOD_RESULT)
+		if (NOT GIT_SUBMOD_RESULT EQUAL "0")
+			message(FATAL_ERROR "${GIT_EXECUTABLE} submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+		endif ()
+	endif ()
+endif ()
 
-set(LOTOSPP_VERSION_MAJOR 0)
-set(LOTOSPP_VERSION_MINOR 2)
-set(LOTOSPP_VERSION_PATCH 3)
+option(HUNTER_ENABLED "Enable Hunter package manager" YES)
+set(HUNTER_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/.hunter CACHE PATH "") # use own local dir instead of global (for debug)
+option(HUNTER_STATUS_DEBUG ON)
+
+include(cmake/cable/bootstrap.cmake)
+include(CableBuildInfo)
+include(CableBuildType)
+include(CableToolchains)
+include(HunterGate)
+
+cable_configure_toolchain(DEFAULT cxx11)
+
+set(HUNTER_CONFIGURATION_TYPES Release CACHE STRING "Build type of Hunter packages")
+include(ProcessorCount)
+ProcessorCount(_count)
+set(HUNTER_JOBS_NUMBER ${_count} CACHE STRING "Number of parallel builds used by Hunter")
+HunterGate(
+	URL "https://github.com/cpp-pm/hunter/archive/v0.23.314.tar.gz"
+	SHA1 "95c47c92f68edb091b5d6d18924baabe02a6962a"
+	LOCAL # enable cmake/Hunter/config.cmake
+)
+cable_set_build_type(DEFAULT Release CONFIGURATION_TYPES Release RelWithDebInfo Debug)
+
 # Change to false for releases
 set(DEVELOPMENT_BUILD TRUE)
 
-set(CMAKE_VERBOSE_MAKEFILE TRUE)
+string(FIND ${CMAKE_BUILD_TYPE} "Deb" IsDebV)
+if (NOT IsDebV EQUAL -1)
+	set(IsDeb TRUE)
+else ()
+	set(IsDeb FALSE)
+endif ()
+
+#set(CMAKE_VERBOSE_MAKEFILE ${IsDeb})
+set(CMAKE_VERBOSE_MAKEFILE ON CACHE INTERNAL "")
+
+project(Lotos++ VERSION 0.2.3)
+
+get_filename_component(ROOT_DIR ${CMAKE_SOURCE_DIR} REALPATH CACHE)
+
+# CMake policies
+message(STATUS "setting CMake policies")
+foreach (pol
+		CMP0015 # link_directories() treats paths relative to the source dir
+		CMP0054 # Only interpret if() arguments as variables or keywords when unquoted
+		CMP0067 # Honor language standard in try_compile() source-file signature
+		)
+	if (POLICY ${pol})
+		cmake_policy(SET ${pol} NEW)
+	endif ()
+endforeach ()
 
 # Options
 option(ENABLE_MYSQL "Enable use of MySQL" ON)
@@ -27,7 +90,6 @@ endif ()
 set(CUSTOM_C_FLAGS $ENV{CFLAGS})
 set(CUSTOM_CXX_FLAGS $ENV{CXXFLAGS})
 
-get_filename_component(ROOT_DIR ${CMAKE_SOURCE_DIR} REALPATH CACHE)
 set(SOURCE_DIR ${ROOT_DIR}/src)
 set(INCLUDE_DIR ${ROOT_DIR}/include)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ROOT_DIR}/bin)
@@ -108,7 +170,16 @@ if (HAVE_LIBCOMPAT)
 	set(COMPAT_LIBRARIES ${COMPAT_LIBRARIES} compat)
 endif ()
 # OpenSSL library (for Blowfish)
-find_package(OpenSSL 0.9.9 REQUIRED)
+hunter_add_package(OpenSSL)
+find_package(OpenSSL REQUIRED)
+
+set(BoostMods program_options system filesystem thread date_time random log)
+if (WITH_TEST)
+	list(APPEND BoostMods unit_test_framework)
+endif ()
+#set(Boost_DEBUG ON)
+hunter_add_package(Boost COMPONENTS ${BoostMods})
+find_package(Boost CONFIG REQUIRED COMPONENTS ${BoostMods})
 
 # DB
 set(WITH_DATABASE OFF)
@@ -129,10 +200,6 @@ configure_file(
 	)
 set_source_files_properties(${INCLUDE_DIR}/config.h PROPERTIES GENERATED 1)
 list(APPEND ADDITIONAL_MAKE_CLEAN_FILES ${INCLUDE_DIR}/config.h)
-# Generate version.h
-include(cmake/Version.cmake)
-set_source_files_properties(${INCLUDE_DIR}/version.h PROPERTIES GENERATED 1)
-list(APPEND ADDITIONAL_MAKE_CLEAN_FILES ${INCLUDE_DIR}/version.h)
 
 # Doxygen is option
 set(WITH_DOXYGEN FALSE)
@@ -232,3 +299,5 @@ Building with support for:")
 show_end_message_yesno("MySQL" WITH_MYSQL)
 show_end_message_yesno("Doxygen" WITH_DOXYGEN)
 show_end_message_yesno("Debug" WITH_DEBUG)
+
+cable_add_buildinfo_library(PROJECT_NAME Lotospp)

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "version.h"
+#include "Lotospp/buildinfo.h"
 #include "Task.h"
 #include "User.h"
 #include "network/OutputMessage.h"
@@ -58,9 +58,9 @@ void Telnet::onConnect()
 	output->AddString("\n")
 		->AddString(options.get("global.serverName", ""))
 		->AddString("\n")
-		->AddString(LOTOSPP_NAME)
+		->AddString("Lotos++")
 		->AddString(" version ")
-		->AddString(LOTOSPP_VERSION_STRING)
+		->AddString(Lotospp_get_buildinfo()->project_version)
 		->AddString("\n")
 		->AddString("\n\nconnection from: ")
 		->AddString(adr.to_string())

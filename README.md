@@ -10,18 +10,7 @@ Dependencies
 ============
 
 - CMake (http://www.cmake.org)
-- Boost libraries (http://www.boost.org)
-  - boost
-  - boost-program-options
-  - boost-system
-  - boost-filesystem
-  - boost-thread
-  - boost-date-time
-  - boost-random
-  - boost-log
 - MySQL (http://www.mysql.com)
-- Lua (http://www.lua.org)
-- OpenSSL (https://www.openssl.org/)
 - make
 
 

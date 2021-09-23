@@ -2,7 +2,7 @@
 #define MAINFILE
 
 #include "config.h"
-#include "version.h"
+#include "Lotospp/buildinfo.h"
 
 #include <cstdint>
 #include <ctime>
@@ -69,7 +69,7 @@ bool configure(int ac, char **av)
 	po::notify(vm);
 
 	if (vm.count("version")) {
-		std::cout << LOTOSPP_VERSION_STRING << std::endl;
+		std::cout << Lotospp_get_buildinfo()->project_version << std::endl;
 		return false;
 		}
 	if (vm.count("help")) {
