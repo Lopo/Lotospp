@@ -265,14 +265,10 @@ endif ()
 set(GENERATED_INCLUDES)
 set(GENERATED_SOURCES)
 
+include_regular_expression("^.*\\.h$")
+
 include_directories(include)
-set(SUBDIRS
-	gsrc
-	src
-	)
-foreach (subdir ${SUBDIRS})
-	add_subdirectory(${subdir})
-endforeach ()
+add_subdirectory(src)
 
 message("${PROJECT_NAME} ${PROJECT_VERSION}\n")
 if (WIN32 AND MSVC)

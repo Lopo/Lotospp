@@ -7,8 +7,6 @@
 #include <string>
 #include <deque>
 
-#include "generated/enums.h"
-
 
 namespace lotospp {
 	namespace strings {

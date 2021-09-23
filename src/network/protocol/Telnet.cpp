@@ -7,7 +7,8 @@
 #include "User.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
-#include "generated/consts.h"
+#include "Common/Enums/TelnetCmd.h"
+#include "Common/Enums/TelnetOpt.h"
 #include "globals.h"
 #include "log/Logger.h"
 

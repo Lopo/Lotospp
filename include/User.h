@@ -13,7 +13,9 @@
 #include "AutoList.h"
 #include "network/Protocol.h"
 #include "network/NetworkMessage.h"
-#include "generated/enums.h"
+#include "Common/Enums/UserStage.h"
+#include "Common/Enums/TelnetFlag.h"
+#include "Common/Enums/UserLevel.h"
 #include "strings/Splitline.h"
 
 

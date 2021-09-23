@@ -1,9 +1,4 @@
-foreach (gsrc ${generated_SRCS})
-	set_source_files_properties(${gsrc} PROPERTIES GENERATED 1)
-endforeach ()
-foreach (ghdr ${generated_HDRS})
-	set_source_files_properties(${ghdr} PROPERTIES GENERATED 1)
-endforeach ()
+include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}) # enum.h
 
 set(main_SRCS
 	Creature.cpp
@@ -85,8 +80,9 @@ endif ()
 
 source_group(main FILES ${main_SRCS})
 
+add_subdirectory(Common)
+
 set(lotospp_SRCS
-	${generated_SRCS}
 	${main_SRCS}
 	${log_SRCS}
 	${network_SRCS}
@@ -108,7 +104,7 @@ add_library(Lotospp ${lotospp_SRCS})
 target_link_libraries(Lotospp Lotospp-buildinfo)
 add_executable(${PROJECT_NAME} main.cpp)
 make_small_executable(${PROJECT_NAME})
-add_dependencies(${PROJECT_NAME} generated_objects)
+add_dependencies(${PROJECT_NAME} CommonEnums)
 
 if (WITH_MYSQL)
 	include_directories(${MYSQL_INCLUDE_DIR})
@@ -123,6 +119,7 @@ if (UNIX)
 endif ()
 
 target_link_libraries(${PROJECT_NAME} Lotospp)
+target_link_libraries(${PROJECT_NAME} CommonEnums)
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
 target_link_libraries(${PROJECT_NAME} ${SOCKET_LIBRARIES})

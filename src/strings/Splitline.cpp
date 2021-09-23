@@ -4,7 +4,7 @@
 
 #include <string.h>
 
-#include "generated/enums.h"
+#include "Common/Enums/ReturnValue.h"
 #include "strings/stringSplit.h"
 
 

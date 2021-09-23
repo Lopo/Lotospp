@@ -7,7 +7,7 @@
 #include <string>
 
 #include "AutoID.h"
-#include "generated/enums.h"
+#include "Common/Enums/UserLevel.h"
 #include "User.h"
 
 
