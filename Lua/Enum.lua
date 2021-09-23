@@ -205,7 +205,7 @@ function BeginEnumFile(filename)
 
 	-- Includes
 	header:write("#include \"config.h\"\n")
-	header:write("#include \"enum.h\"\n\n\n")
+	header:write("#include \"Common/enum.h\"\n\n\n")
 	header:write("using lotospp::Enum;\n\n")
 	header:write("namespace lotospp {\n")
 	implementation:write("#include \"" .. filename .. ".h\"\n\n\n")
