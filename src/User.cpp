@@ -527,7 +527,7 @@ bool User::parseTelopt()
 				shift=3;
 				break;
 			case enums::TELCMD_AYT:
-				uPrintf("[%s : yes]\n", LOTOSPP_NAME);
+				uPrintf("[Lotos++ : yes]\n");
 				shift=2;
 				break;
 			case enums::TELCMD_IAC:

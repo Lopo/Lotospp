@@ -3,10 +3,6 @@
 #ifndef LOTOSPP_CONFIG_H
 #define LOTOSPP_CONFIG_H 1
 
-#define LOTOSPP_NAME "Lotos++"
-
-#define ETCDIR "etc"
-
 #cmakedefine HAVE_FORK 1
 
 #cmakedefine WITH_MYSQL 1

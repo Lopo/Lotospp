@@ -193,13 +193,6 @@ endif ()
 
 check_function_exists(fork HAVE_FORK)
 
-# Generate config.h
-configure_file(
-	${ROOT_DIR}/cmake/config.h.in
-	${INCLUDE_DIR}/config.h
-	)
-set_source_files_properties(${INCLUDE_DIR}/config.h PROPERTIES GENERATED 1)
-list(APPEND ADDITIONAL_MAKE_CLEAN_FILES ${INCLUDE_DIR}/config.h)
 
 # Doxygen is option
 set(WITH_DOXYGEN FALSE)
