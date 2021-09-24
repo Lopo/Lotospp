@@ -4,7 +4,7 @@
 
 #include "config.h"
 
-#include "Command.h"
+#include "Common/Command.h"
 
 
 namespace lotospp {

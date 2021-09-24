@@ -3,13 +3,13 @@
 #include <iostream>
 
 #include "Lotospp/buildinfo.h"
-#include "Task.h"
-#include "User.h"
+#include "Common/Task.h"
+#include "Common/User.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
 #include "Common/Enums/TelnetCmd.h"
 #include "Common/Enums/TelnetOpt.h"
-#include "globals.h"
+#include "Common/globals.h"
 #include "log/Logger.h"
 
 

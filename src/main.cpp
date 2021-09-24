@@ -26,10 +26,10 @@
 #include "network/protocol/Telnet.h"
 #include "log/Logger.h"
 #ifdef __EXCEPTION_TRACER__
-#	include "ExceptionHandler.h"
+#	include "Common/ExceptionHandler.h"
 #endif
 
-#include "globals.h"
+#include "Common/globals.h"
 
 
 using namespace lotospp;

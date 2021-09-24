@@ -2,10 +2,10 @@
 
 #include <boost/bind.hpp>
 
-#include "globals.h"
+#include "Common/globals.h"
 #include "network/Connection.h"
 #include "network/Protocol.h"
-#include "Singleton.h"
+#include "Common/Singleton.h"
 #include "system/system.h"
 
 

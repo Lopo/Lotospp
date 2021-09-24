@@ -10,7 +10,7 @@
 #endif
 
 #include "strings/misc.h"
-#include "globals.h"
+#include "Common/globals.h"
 
 
 using namespace lotospp::database;

@@ -9,7 +9,7 @@
 #include <boost/asio.hpp>
 
 #include "network/ConnectionManager.h"
-#include "globals.h"
+#include "Common/globals.h"
 #include "network/Protocol.h"
 #include "network/OutputMessage.h"
 #include "network/ServicePort.h"

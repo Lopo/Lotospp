@@ -12,10 +12,10 @@
 #include <boost/bind.hpp>
 #include <boost/asio/connect.hpp>
 
-#include "globals.h"
+#include "Common/globals.h"
 #include "network/OutputMessage.h"
 #include "network/Connection.h"
-#include "User.h"
+#include "Common/User.h"
 
 
 using namespace lotospp::network;

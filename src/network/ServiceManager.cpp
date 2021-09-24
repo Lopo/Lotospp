@@ -10,7 +10,7 @@
 
 #include "network/OutputMessage.h"
 #include "log/Logger.h"
-#include "globals.h"
+#include "Common/globals.h"
 
 
 using namespace lotospp::network;

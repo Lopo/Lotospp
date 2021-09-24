@@ -13,8 +13,8 @@
 #include <boost/log/support/date_time.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
 
-#include "Singleton.h"
-#include "globals.h"
+#include "Common/Singleton.h"
+#include "Common/globals.h"
 
 
 using namespace lotospp::log;

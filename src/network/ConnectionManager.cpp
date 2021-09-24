@@ -4,7 +4,7 @@
 #include <boost/system/system_error.hpp>
 
 #include "network/Connection.h"
-#include "Singleton.h"
+#include "Common/Singleton.h"
 
 
 using namespace lotospp::network;
