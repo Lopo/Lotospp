@@ -1,16 +1,13 @@
 #include "Scheduler.h"
-
+#include "ExceptionHandler.h"
+#include "globals.h"
+#include <boost/bind.hpp>
 #ifdef __DEBUG_SCHEDULER__
 #	include <iostream>
 #endif
 
-#include <boost/bind.hpp>
 
-#include "ExceptionHandler.h"
-#include "globals.h"
-
-
-using namespace lotospp;
+using namespace LotosPP::Common;
 
 
 Scheduler::Scheduler()
@@ -45,7 +42,7 @@ void Scheduler::schedulerThread(void* p)
 	boost::unique_lock<boost::mutex> eventLockUnique(scheduler->m_eventLock, boost::defer_lock);
 
 	while (scheduler->m_threadState!=STATE_TERMINATED) {
-		SchedulerTask* task=nullptr;
+		SchedulerTask* task{nullptr};
 		bool runTask{false};
 		bool ret{true};
 
@@ -70,14 +67,13 @@ void Scheduler::schedulerThread(void* p)
 #endif
 
 		// the mutex is locked again now...
-		if (ret==false && (scheduler->m_threadState!=STATE_TERMINATED)) {
+		if (!ret && (scheduler->m_threadState!=STATE_TERMINATED)) {
 			// ok we had a timeout, so there has to be an event we have to execute...
 			task=scheduler->m_eventList.top();
 			scheduler->m_eventList.pop();
 
 			// check if the event was stopped
-			EventIdSet::iterator it=scheduler->m_eventIds.find(task->getEventId());
-			if (it!=scheduler->m_eventIds.end()) {
+			if (EventIdSet::iterator it=scheduler->m_eventIds.find(task->getEventId()); it!=scheduler->m_eventIds.end()) {
 				// was not stopped so we should run it
 				runTask=true;
 				scheduler->m_eventIds.erase(it);
@@ -95,7 +91,7 @@ void Scheduler::schedulerThread(void* p)
 #ifdef __DEBUG_SCHEDULER__
 				std::cout << "Scheduler: Executing event " << task->getEventId() << std::endl;
 #endif
-				g_dispatcher.addTask(task);
+				LotosPP::g_dispatcher.addTask(task);
 				}
 			else {
 				// was stopped, have to be deleted here
@@ -113,7 +109,6 @@ uint32_t Scheduler::addEvent(SchedulerTask* task)
 	bool do_signal{false};
 	m_eventLock.lock();
 	if (Scheduler::m_threadState==Scheduler::STATE_RUNNING) {
-
 		// check if the event has a valid id
 		if (task->getEventId()==0) {
 			// if not generate one
@@ -154,7 +149,7 @@ uint32_t Scheduler::addEvent(SchedulerTask* task)
 
 bool Scheduler::stopEvent(uint32_t eventid)
 {
-	if (eventid==0) {
+	if (!eventid) {
 		return false;
 		}
 
@@ -165,8 +160,7 @@ bool Scheduler::stopEvent(uint32_t eventid)
 	m_eventLock.lock();
 
 	// search the event id..
-	EventIdSet::iterator it=m_eventIds.find(eventid);
-	if (it!=m_eventIds.end()) {
+	if (EventIdSet::iterator it=m_eventIds.find(eventid); it!=m_eventIds.end()) {
 		// if it is found erase from the list
 		m_eventIds.erase(it);
 		m_eventLock.unlock();

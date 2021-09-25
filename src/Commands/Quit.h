@@ -1,24 +1,20 @@
-#ifndef LOTOSPP_COMMAND_QUIT_H
-#define	LOTOSPP_COMMAND_QUIT_H
-
+#ifndef LOTOSPP_COMMANDS_QUIT_H
+#define	LOTOSPP_COMMANDS_QUIT_H
 
 #include "config.h"
-
 #include "Common/Command.h"
 
 
-namespace lotospp {
-	namespace command {
+namespace LotosPP::Commands {
 
 class Quit
-	: public Command
+	: public LotosPP::Common::Command
 {
 public:
 	Quit();
-	virtual void execute(lotospp::User* user);
+	virtual void execute(LotosPP::Common::User* user);
 };
 
-	} // namespace command
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_COMMAND_QUIT_H
+#endif

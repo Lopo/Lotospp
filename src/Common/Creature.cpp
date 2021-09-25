@@ -1,7 +1,7 @@
 #include "Creature.h"
 
 
-using namespace lotospp;
+using namespace LotosPP::Common;
 
 
 Creature::Creature()

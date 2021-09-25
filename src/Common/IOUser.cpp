@@ -1,14 +1,14 @@
 #include "IOUser.h"
 #include "Singleton.h"
-#include "database/Driver.h"
-#include "database/Query.h"
-#include "database/Transaction.h"
-#include "database/Insert.h"
-#include "database/Result.h"
+#include "Database/Driver.h"
+#include "Database/Query.h"
+#include "Database/Transaction.h"
+#include "Database/Insert.h"
+#include "Database/Result.h"
 #include "User.h"
 
 
-using namespace lotospp;
+using namespace LotosPP::Common;
 
 
 IOUser* IOUser::instance()
@@ -19,9 +19,9 @@ IOUser* IOUser::instance()
 
 bool IOUser::load(User* user, const std::string& userName, bool preload/*=false*/)
 {
-	database::Driver* db=database::Driver::instance();
-	database::Query query;
-	database::Result_ptr result;
+	Database::Driver* db=Database::Driver::instance();
+	Database::Query query;
+	Database::Result_ptr result;
 
 	query << "SELECT id, level, password \
 		FROM `users` \
@@ -50,16 +50,15 @@ bool IOUser::load(User* user, const std::string& userName, bool preload/*=false*
 
 bool IOUser::save(const User* user, bool shallow/*=false*/)
 {
-	database::Driver* db=database::Driver::instance();
-	database::Query query;
-	database::Result_ptr result;
+	Database::Driver* db=Database::Driver::instance();
+	Database::Query query;
+	Database::Result_ptr result;
 
 	query << "UPDATE users SET "
 		<< " login=" << db->escapeString(user->name)
 		<< ", level=" << user->level.value()
-		;
-	query << " WHERE id=" << user->getGUID();
-	database::Transaction transaction(db);
+		<< " WHERE id=" << user->getGUID();
+	Database::Transaction transaction(db);
 	if (!transaction.begin()) {
 		return false;
 		}
@@ -71,11 +70,11 @@ bool IOUser::save(const User* user, bool shallow/*=false*/)
 
 uint64_t IOUser::create(const User* user)
 {
-	database::Driver* db=database::Driver::instance();
-	database::Query query;
-	database::Transaction transaction(db);
+	Database::Driver* db=Database::Driver::instance();
+	Database::Query query;
+	Database::Transaction transaction(db);
 	transaction.begin();
-	database::Insert insert(db);
+	Database::Insert insert(db);
 
 	insert.setQuery("INSERT INTO users (login, password, level) VALUES");
 	query.reset();

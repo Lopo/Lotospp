@@ -1,21 +1,17 @@
 #include "Dispatcher.h"
-
+#include "Network/OutputMessage.h"
+#include "Task.h"
+#include "ExceptionHandler.h"
+#include <boost/bind.hpp>
 #ifdef __DEBUG_SCHEDULER__
 #	include <iostream>
 #endif
 
-#include <boost/bind.hpp>
 
-#include "network/OutputMessage.h"
-#include "Task.h"
-#include "ExceptionHandler.h"
-
-
-using namespace lotospp;
+using namespace LotosPP::Common;
 
 
 Dispatcher::Dispatcher()
-	: m_threadState{STATE_TERMINATED}
 {
 	m_taskList.clear();
 }
@@ -44,7 +40,7 @@ void Dispatcher::dispatcherThread(void* p)
 	std::cout << "Starting Dispatcher" << std::endl;
 #endif
 
-	network::OutputMessagePool* outputPool;
+	Network::OutputMessagePool* outputPool;
 
 	// NOTE: second argument defer_lock is to prevent from immediate locking
 	boost::unique_lock<boost::mutex> taskLockUnique(dispatcher->m_taskLock, boost::defer_lock);
@@ -78,10 +74,10 @@ void Dispatcher::dispatcherThread(void* p)
 		// finally execute the task...
 		if (task) {
 			if (!task->hasExpired()) {
-				network::OutputMessagePool::getInstance()->startExecutionFrame();
+				Network::OutputMessagePool::getInstance()->startExecutionFrame();
 				(*task)();
 
-				outputPool=network::OutputMessagePool::getInstance();
+				outputPool=Network::OutputMessagePool::getInstance();
 				if (outputPool) {
 					outputPool->sendAll();
 					}
@@ -138,7 +134,7 @@ void Dispatcher::flush()
 		m_taskList.pop_front();
 		(*task)();
 		delete task;
-		if (network::OutputMessagePool* outputPool=network::OutputMessagePool::getInstance(); outputPool) {
+		if (Network::OutputMessagePool* outputPool=Network::OutputMessagePool::getInstance(); outputPool) {
 			outputPool->sendAll();
 			}
 		}

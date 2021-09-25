@@ -1,30 +1,26 @@
-#ifndef LOTOSPP_USER_H
-#define	LOTOSPP_USER_H
-
+#ifndef LOTOSPP_COMMON_USER_H
+#define	LOTOSPP_COMMON_USER_H
 
 #include "config.h"
-
-#include <cstdint>
-#include <ostream>
-#include <string>
-#include <vector>
-
 #include "Creature.h"
 #include "AutoList.h"
-#include "network/Protocol.h"
-#include "network/NetworkMessage.h"
+#include "Network/Protocol.h"
+#include "Network/NetworkMessage.h"
 #include "Common/Enums/UserStage.h"
 #include "Common/Enums/TelnetFlag.h"
 #include "Common/Enums/UserLevel.h"
-#include "strings/Splitline.h"
+#include "Strings/Splitline.h"
+#include <ostream>
+#include <string>
+#include <vector>
+#include <cstdint>
 
 
-namespace lotospp {
-	namespace network {
-		namespace protocol {
-			class Telnet;
-			}
+namespace LotosPP {
+	namespace Network::Protocols {
+		class Telnet;
 		}
+	namespace Common {
 
 class User
 	: public Creature
@@ -33,38 +29,64 @@ public:
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static inline uint32_t userCount{0};
 #endif
-	User(const std::string& n="", network::Protocol* p=nullptr);
+	User(const std::string& n="", LotosPP::Network::Protocol* p=nullptr);
 	virtual ~User();
 
-	virtual User* getUser() { return this;};
-	virtual const User* getUser() const { return this;};
+	virtual User* getUser()
+	{
+		return this;
+	};
+	virtual const User* getUser() const
+	{
+		return this;
+	};
 
-	virtual const std::string& getName() const { return name;};
+	virtual const std::string& getName() const
+	{
+		return name;
+	};
 
-	void setGUID(const uint32_t _guid) { guid=_guid;}
-	uint32_t getGUID() const { return guid;}
+	void setGUID(const uint32_t _guid)
+	{
+		guid=_guid;
+	}
+	uint32_t getGUID() const
+	{
+		return guid;
+	}
 
-	virtual uint32_t idRange() { return 0x10000000;};
+	virtual uint32_t idRange()
+	{
+		return 0x10000000;
+	};
 	static inline AutoList<User> listUser{};
 	void addList();
 	void removeList();
 
-	bool isOnline() const { return getID()!=0;};
-	void disconnect() { if(client) client->disconnect();};
+	bool isOnline() const
+	{
+		return getID()!=0;
+	};
+	void disconnect()
+	{
+		if (client) {
+			client->disconnect();
+			}
+	};
 	boost::asio::ip::address getAddress() const;
 	void kick();
 
-	virtual void uRead(network::NetworkMessage msg);
+	virtual void uRead(LotosPP::Network::NetworkMessage msg);
 	virtual void uWrite(const std::string& message);
 	virtual void uPrintf(const char* fmtstr, ...);
 
-	strings::Splitline com;
-	network::Protocol* client=nullptr;
+	LotosPP::Strings::Splitline com;
+	LotosPP::Network::Protocol* client{nullptr};
 	UserStage stage{enums::UserStage_NEW};
 
 protected:
 	std::string name;
-	std::string* password=nullptr;
+	std::string* password{nullptr};
 
 	virtual void parseLine();
 	virtual void prompt();
@@ -93,8 +115,8 @@ protected:
 	uint32_t guid{0};
 
 	friend class Talker;
-	friend class network::Protocol;
-	friend class network::protocol::Telnet;
+	friend class LotosPP::Network::Protocol;
+	friend class LotosPP::Network::Protocols::Telnet;
 	friend class IOUser;
 
 	virtual void runCmdLine();
@@ -102,6 +124,7 @@ protected:
 
 typedef std::vector<User*> UserVector;
 
-} // namespace lotospp
+		}
+	}
 
-#endif // LOTOSPP_USER_H
+#endif

@@ -1,15 +1,13 @@
-#ifndef LOTOSPP_SINGLETON_H
-#define	LOTOSPP_SINGLETON_H
-
+#ifndef LOTOSPP_COMMON_SINGLETON_H
+#define	LOTOSPP_COMMON_SINGLETON_H
 
 #include "config.h"
-
 #include <boost/noncopyable.hpp>
 #include <boost/thread/once.hpp>
 #include <boost/scoped_ptr.hpp>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 /**
  * The Singleton class is a simple class that can be used to initialize once a
@@ -41,18 +39,12 @@ public:
 
 private:
 	/// A scoped pointer holding the actual resource.
-	static boost::scoped_ptr<T> m_pointer;
+	static inline boost::scoped_ptr<T> m_pointer{nullptr};
 
 	/// One-time initialization flag
-	static boost::once_flag m_flag;
+	static inline boost::once_flag m_flag{BOOST_ONCE_INIT};
 };
 
-template<typename T>
-boost::scoped_ptr<T> Singleton<T>::m_pointer;
+	}
 
-template<typename T>
-boost::once_flag Singleton<T>::m_flag=BOOST_ONCE_INIT;
-
-} // namespace lotospp
-
-#endif // LOTOSPP_SINGLETON_H
+#endif

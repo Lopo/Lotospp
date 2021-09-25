@@ -1,14 +1,12 @@
-#ifndef LOTOSPP_AUTOLIST_H
-#define LOTOSPP_AUTOLIST_H
-
+#ifndef LOTOSPP_COMMON_AUTOLIST_H
+#define LOTOSPP_COMMON_AUTOLIST_H
 
 #include "config.h"
-
-#include <cstdint>
 #include <map>
+#include <cstdint>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 template<typename T>
 class AutoList
@@ -37,6 +35,6 @@ public:
 	typedef typename list_type::iterator listiterator;
 };
 
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_AUTOLIST_H
+#endif

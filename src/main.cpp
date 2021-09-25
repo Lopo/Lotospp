@@ -3,14 +3,14 @@
 
 #include "config.h"
 #include "Lotospp/buildinfo.h"
-
-#include <cstdint>
-#include <ctime>
-#include <string>
-#include <iostream>
-#include <ios>
-#include <fstream>
-
+#include "Strings/misc.h"
+#include "Network/ServiceManager.h"
+#include "Network/Protocols/Telnet.h"
+#include "Log/Logger.h"
+#ifdef __EXCEPTION_TRACER__
+#	include "Common/ExceptionHandler.h"
+#endif
+#include "globals.h"
 #include <boost/program_options.hpp>
 #include <boost/program_options/detail/utf8_codecvt_facet.hpp>
 #include <boost/filesystem.hpp>
@@ -20,19 +20,15 @@
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/date_time/c_time.hpp>
-
-#include "strings/misc.h"
-#include "network/ServiceManager.h"
-#include "network/protocol/Telnet.h"
-#include "log/Logger.h"
-#ifdef __EXCEPTION_TRACER__
-#	include "Common/ExceptionHandler.h"
-#endif
-
-#include "Common/globals.h"
+#include <string>
+#include <iostream>
+#include <ios>
+#include <fstream>
+#include <cstdint>
+#include <ctime>
 
 
-using namespace lotospp;
+using namespace LotosPP;
 
 
 bool configure(int ac, char **av)
@@ -40,7 +36,7 @@ bool configure(int ac, char **av)
 	std::string cf{"etc/config.ini"},
 		pidFile,
 		logDir;
-	lotospp::log::severity_t logLevelC,
+	LotosPP::Log::severity_t logLevelC,
 		logLevelF;
 
 	namespace po=boost::program_options;
@@ -55,8 +51,8 @@ bool configure(int ac, char **av)
 #ifdef HAVE_FORK
 		("daemon,d", "fork to background as daemon")
 #endif
-		("logLevelC", po::value<lotospp::log::severity_t>(&logLevelC)->default_value(lotospp::log::severity_t("warning")), "console log level (none, trace, debug, info, warning, error, fatal)")
-		("logLevelF", po::value<lotospp::log::severity_t>(&logLevelF)->default_value(lotospp::log::severity_t("info")), "file log level (trace, debug, info, warning, error, fatal)")
+		("logLevelC", po::value<LotosPP::Log::severity_t>(&logLevelC)->default_value(LotosPP::Log::severity_t("warning")), "console log level (none, trace, debug, info, warning, error, fatal)")
+		("logLevelF", po::value<LotosPP::Log::severity_t>(&logLevelF)->default_value(LotosPP::Log::severity_t("info")), "file log level (trace, debug, info, warning, error, fatal)")
 		("logDir,L", po::value<std::string>(&logDir)->default_value("log"), "")
 		("pidFile,p", po::value<std::string>(&pidFile)->default_value(std::string(av[0])+".pid"), "")
 		("suppress,s", "suppress config info")
@@ -102,8 +98,7 @@ bool configure(int ac, char **av)
 	options.put("global.log.console.level", logLevelC.to_string());
 	options.put("global.log.file.level", logLevelF.to_string());
 	options.put("global.log.dir", logDir);
-	int userPort=options.get<uint16_t>("global.userPort", 0);
-	if (userPort<=1024) {
+	if (int userPort=options.get<uint16_t>("global.userPort", 0); userPort<=1024) {
 		std::cout << "Main port must be higher then 1024, actual: " << userPort << std::endl;
 		return false;
 		}
@@ -126,7 +121,7 @@ void parseConfig(void)
 		std::cerr << "ERROR: Server name is too long" << std::endl;
 		exit(1);
 		}
-	if (strings::hasWhitespace(serverName)) {
+	if (Strings::hasWhitespace(serverName)) {
 		std::cerr << "ERROR: Server name can't contain whitespace" << std::endl;
 		exit(1);
 		}
@@ -177,7 +172,7 @@ void init(void)
 	boost::date_time::c_time::localtime(&t0, &serverTimeTms);
 
 	parseConfig();
-	lotospp::log::Logger::getInstance()->init();
+	LotosPP::Log::Logger::getInstance()->init();
 
 	if (!options.get<bool>("global.suppress_config_info", false)) {
 		LOG(LINFO) << "Server name: " << options.get("global.serverName", "");
@@ -217,10 +212,10 @@ boost::mutex g_loaderLock;
 boost::condition_variable g_loaderSignal;
 boost::unique_lock<boost::mutex> g_loaderUniqueLock(g_loaderLock);
 
-void mainLoader(network::ServiceManager* service_manager)
+void mainLoader(Network::ServiceManager* service_manager)
 {
 	// Tie ports and register services
-	service_manager->add<network::protocol::Telnet>(options.get<uint16_t>("global.userPort"));
+	service_manager->add<Network::Protocols::Telnet>(options.get<uint16_t>("global.userPort"));
 
 	g_talker.start(service_manager);
 	g_loaderSignal.notify_all();
@@ -262,18 +257,18 @@ int main(int argc, char **argv)
 
 	// Provides stack traces when the server crashes, if compiled in.
 #ifdef __EXCEPTION_TRACER__
-	ExceptionHandler mainExceptionHandler;
+	Common::ExceptionHandler mainExceptionHandler;
 	mainExceptionHandler.InstallHandler();
 #endif
 
 	init();
-	network::ServiceManager servicer;
+	Network::ServiceManager servicer;
 
 	// Start scheduler and dispatcher threads
 	g_dispatcher.start();
 	g_scheduler.start();
 	// Add load task
-	g_dispatcher.addTask(createTask(boost::bind(mainLoader, &servicer)));
+	g_dispatcher.addTask(LotosPP::Common::createTask(boost::bind(mainLoader, &servicer)));
 
 	// Wait for loading to finish
 	g_loaderSignal.wait(g_loaderUniqueLock);

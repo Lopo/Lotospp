@@ -1,17 +1,16 @@
 #ifndef LOTOSPP_IOUSER_H
 #define LOTOSPP_IOUSER_H
 
-
 #include "config.h"
-
-#include <cstdint>
 #include <string>
+#include <cstdint>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 	class User;
 
-class IOUser {
+class IOUser
+{
 public:
 	static IOUser* instance();
 
@@ -35,6 +34,6 @@ public:
 	bool getPassword(const std::string& userName, std::string& password);
 };
 
-} //namespace lotospp
+	}
 
-#endif // LOTOSPP_IOUSER_H
+#endif

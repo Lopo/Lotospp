@@ -1,19 +1,18 @@
-#ifndef LOTOSPP_ENUM_H
-#define LOTOSPP_ENUM_H
+#ifndef LOTOSPP_COMMON_ENUM_H
+#define LOTOSPP_COMMON_ENUM_H
 
 
 #include "config.h"
-
 #include <string>
 #include <vector>
 #include <map>
-#include <cassert>
 #include <stdexcept>
 #include <algorithm>
 #include <sstream>
+#include <cassert>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 class enum_conversion_error
 	: public std::logic_error
@@ -516,6 +515,6 @@ int operator<<(int i, const Enum<E, size_>& e)
 	return 1 << e.value();
 }
 
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_ENUM_H
+#endif

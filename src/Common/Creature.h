@@ -1,17 +1,14 @@
 #ifndef LOTOSPP_CREATURE_H
 #define	LOTOSPP_CREATURE_H
 
-
 #include "config.h"
-
-#include <cstdint>
-#include <string>
-
 #include "AutoID.h"
 #include "Thing.h"
+#include <string>
+#include <cstdint>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 class Creature
 	: public AutoID,
@@ -41,6 +38,6 @@ protected:
 	friend class Talker;
 };
 
-}
+	}
 
-#endif // LOTOSPP_CREATURE_H
+#endif

@@ -1,24 +1,20 @@
-#ifndef LOTOSPP_SCHEDULER_H
-#define LOTOSPP_SCHEDULER_H
-
+#ifndef LOTOSPP_COMMON_SCHEDULER_H
+#define LOTOSPP_COMMON_SCHEDULER_H
 
 #include "config.h"
-
-#include <cstdint>
-#include <cassert>
+#include "Task.h"
+#include <boost/date_time.hpp>
+#include <boost/function.hpp>
+#include <boost/thread.hpp>
 #include <functional>
 #include <queue>
 #include <vector>
 #include <set>
-
-#include <boost/date_time.hpp>
-#include <boost/function.hpp>
-#include <boost/thread.hpp>
-
-#include "Task.h"
+#include <cstdint>
+#include <cassert>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 #define SCHEDULER_MINTICKS 20
 
@@ -28,10 +24,19 @@ class SchedulerTask
 public:
 	~SchedulerTask() {};
 
-	void setEventId(uint32_t eventid) { m_eventid=eventid;};
-	uint32_t getEventId() const { return m_eventid;};
+	void setEventId(uint32_t eventid)
+	{
+		m_eventid=eventid;
+	};
+	uint32_t getEventId() const
+	{
+		return m_eventid;
+	};
 
-	boost::system_time getCycle() const { return m_expiration;};
+	boost::system_time getCycle() const
+	{
+		return m_expiration;
+	};
 
 	bool operator<(const SchedulerTask& other) const
 	{
@@ -41,11 +46,9 @@ public:
 protected:
 	SchedulerTask(uint32_t delay, const boost::function<void (void)>& f)
 		: Task(delay, f)
-	{
-		m_eventid=0;
-	};
+	{};
 
-	uint32_t m_eventid;
+	uint32_t m_eventid{0};
 
 	friend SchedulerTask* createSchedulerTask(uint32_t, const boost::function<void (void)>&);
 };
@@ -73,7 +76,8 @@ class Scheduler
 {
 public:
 	Scheduler();
-	~Scheduler() {};
+	~Scheduler()
+	{};
 
 	uint32_t addEvent(SchedulerTask* task);
 	bool stopEvent(uint32_t eventId);
@@ -105,6 +109,6 @@ protected:
 
 extern Scheduler g_scheduler;
 
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_SCHEDULER_H
+#endif

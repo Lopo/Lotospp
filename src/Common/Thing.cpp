@@ -1,7 +1,7 @@
 #include "Thing.h"
 
 
-using namespace lotospp;
+using namespace LotosPP::Common;
 
 
 Thing::Thing()

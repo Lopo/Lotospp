@@ -1,15 +1,15 @@
 #include "Commands/Quit.h"
 
 
-using namespace lotospp::command;
+using namespace LotosPP::Commands;
 
 
 Quit::Quit()
-	: Command("quit", enums::UserLevel_NOVICE)
+	: Command("quit", LotosPP::Common::enums::UserLevel_NOVICE)
 {
 }
 
-void Quit::execute(lotospp::User* user)
+void Quit::execute(LotosPP::Common::User* user)
 {
 	user->kick();
 	user->removeList();

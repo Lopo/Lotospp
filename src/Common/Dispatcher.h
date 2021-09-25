@@ -1,15 +1,12 @@
-#ifndef LOTOSPP_DISPATCHER_H
-#define LOTOSPP_DISPATCHER_H
-
+#ifndef LOTOSPP_COMMON_DISPATCHER_H
+#define LOTOSPP_COMMON_DISPATCHER_H
 
 #include "config.h"
-
+#include <boost/thread.hpp>
 #include <list>
 
-#include <boost/thread.hpp>
 
-
-namespace lotospp {
+namespace LotosPP::Common {
 	class Task;
 
 const int DISPATCHER_TASK_EXPIRATION=2000;
@@ -48,12 +45,12 @@ protected:
 	boost::mutex m_taskLock;
 	boost::condition_variable m_taskSignal;
 
-	std::list<Task*> m_taskList;
-	DispatcherState m_threadState;
+	std::list<Task*> m_taskList{};
+	DispatcherState m_threadState{STATE_TERMINATED};
 };
 
 extern Dispatcher g_dispatcher;
 
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_DISPATCHER_H
+#endif

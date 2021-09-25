@@ -1,36 +1,34 @@
 #include "User.h"
-
-#include <cstdarg>
-
-#include <boost/thread/recursive_mutex.hpp>
-#include <boost/algorithm/string.hpp>
-
 #include "define.h"
-#include "network/protocol/Telnet.h"
-#include "network/OutputMessage.h"
+#include "Network/Protocols/Telnet.h"
+#include "Network/OutputMessage.h"
 #include "Common/Enums/TelnetCmd.h"
 #include "Common/Enums/AsciiChar.h"
 #include "Common/Enums/LoginCom.h"
 #include "Common/Enums/TelnetOpt.h"
 #include "Common/Enums/TelnetSub.h"
 #include "Lotospp/buildinfo.h"
-#include "strings/stringPrintf.h"
-#include "strings/stringSplit.h"
-#include "strings/misc.h"
-#include "network/Connection.h"
+#include "Strings/stringPrintf.h"
+#include "Strings/stringSplit.h"
+#include "Strings/misc.h"
+#include "Network/Connection.h"
 #include "globals.h"
 #include "Commands/Say.h"
 #include "Commands/Quit.h"
 #include "IOUser.h"
-#include "security/Blowfish.h"
-#include "strings/Splitline.h"
+#include "Security/Blowfish.h"
+#include "Strings/Splitline.h"
 #include "Command.h"
+#include <boost/thread/recursive_mutex.hpp>
+#include <boost/algorithm/string.hpp>
+#include <cstdarg>
 
 
-using namespace lotospp;
+using LotosPP::Common::User;
+using namespace LotosPP;
 
 
-User::User(const std::string& n /*=""*/, network::Protocol* p/*=nullptr*/)
+User::User(const std::string& n/*=""*/, Network::Protocol* p/*=nullptr*/)
 	: Creature(),
 		client{p}, name{n}
 {
@@ -75,7 +73,7 @@ boost::asio::ip::address User::getAddress() const
 
 void User::parseLine()
 {
-	strings::cleanString(textBuffer[buffnum]);
+	Strings::cleanString(textBuffer[buffnum]);
 	com.parse(textBuffer[buffnum]);
 
 	bool skipPrompt{false};
@@ -130,10 +128,10 @@ void User::prompt()
 	}
 }
 
-void User::uRead(network::NetworkMessage msg)
+void User::uRead(Network::NetworkMessage msg)
 {
 	size_t remain;
-	uint32_t i, len=msg.getMessageLength();
+	uint32_t i, len{msg.getMessageLength()};
 	std::string input=msg.GetRaw();
 
 	for (i=0; i<len; ++i) { // Loop through input
@@ -222,7 +220,7 @@ void User::uPrintf(const char* fmtstr, ...)
 	va_list args;
 
 	va_start(args, fmtstr);
-	str=strings::StringPrintV(fmtstr, args);
+	str=Strings::StringPrintV(fmtstr, args);
 
 	for (i=0; str2.length()<str2max && str[i]; ++i) {
 		switch (str[i]) {
@@ -313,7 +311,7 @@ void User::login(std::string inpstr)
 					attempt();
 					}
 				}
-			strings::toLowerCaseString(inpstr);
+			Strings::toLowerCaseString(inpstr);
 			name.assign(inpstr);
 			name[0]=::toupper(name[0]);
 			// If user has hung on another login clear that session
@@ -336,12 +334,12 @@ void User::login(std::string inpstr)
 				return;
 				}
 			if (!password || !password->length()) { // new user
-				password=new std::string(security::Blowfish::crypt(inpstr));
+				password=new std::string(Security::Blowfish::crypt(inpstr));
 				uPrintf("\n\nconfirm: ");
 				stage=enums::UserStage_LOGIN_REENTER_PWD;
 				}
 			else {
-				if (!password->compare(security::Blowfish::crypt(inpstr, password->c_str()))) {
+				if (!password->compare(Security::Blowfish::crypt(inpstr, password->c_str()))) {
 					IOUser::instance()->load(this, name);
 					delete password;
 					password=nullptr;
@@ -356,7 +354,7 @@ void User::login(std::string inpstr)
 				}
 			return;
 		case enums::UserStage_LOGIN_REENTER_PWD:
-			if (password->compare(security::Blowfish::crypt(inpstr, password->c_str()))) {
+			if (password->compare(Security::Blowfish::crypt(inpstr, password->c_str()))) {
 				uPrintf("\n\npassword nomatch\n\n");
 				attempt();
 				return;
@@ -657,7 +655,7 @@ int User::getTermtype()
 
 	// Set colour flag if user has compatable terminal. 
 	if (std::string ansiTerms=options.get("global.ansiTerms", ""); ansiTerms!="") {
-		for (std::string term : strings::StringSplit(ansiTerms, ",")) {
+		for (std::string term : Strings::StringSplit(ansiTerms, ",")) {
 			if (boost::iequals(termType, term)) {
 				flagsTelnet.set(enums::TelnetFlag_ANSI_TERM);
 				break;
@@ -692,12 +690,12 @@ void User::runCmdLine()
 
 	std::string w=com.word[0].substr(dot);
 	if (boost::iequals(w, "say")) {
-		Command* cmd=new command::Say;
+		Command* cmd=new Commands::Say;
 		cmd->execute(this);
 		prompt();
 		}
 	else if (boost::iequals(w, "quit")) {
-		Command* cmd=new command::Quit;
+		Command* cmd=new Commands::Quit;
 		cmd->execute(this);
 		}
 	else {

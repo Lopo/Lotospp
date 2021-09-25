@@ -11,16 +11,16 @@ include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DI
 set(SUBDIRS
 	Common
 	Commands
-	log
-	network
-	security
-	strings
+	Log
+	Network
+	Security
+	Strings
 	)
 foreach (subdir ${SUBDIRS})
 	add_subdirectory(${subdir})
 endforeach ()
 if (WITH_DATABASE)
-	add_subdirectory(database)
+	add_subdirectory(Database)
 endif()
 
 # To find public headers

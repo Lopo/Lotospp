@@ -1,5 +1,5 @@
-#ifndef LOTOSPP_EXCEPTION_H
-#define	LOTOSPP_EXCEPTION_H
+#ifndef LOTOSPP_COMMON_EXCEPTIONHANDLER_H
+#define	LOTOSPP_COMMON_EXCEPTIONHANDLER_H
 
 #include "config.h"
 
@@ -8,7 +8,7 @@
 #		include <Windows.h>
 #	endif
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 class ExceptionHandler
 {
@@ -25,8 +25,8 @@ private:
 	static int refCounter;
 #	elif __GNUC__
 	struct SEHChain {
-		SEHChain *prev;
-		void *SEHfunction;
+		SEHChain* prev;
+		void* SEHfunction;
 		};
 	SEHChain chain;
 #	endif
@@ -35,7 +35,7 @@ private:
 	bool isInstalled{false};
 };
 
-} // namespace lotospp
+	}
 
 #endif // __EXCEPTION_TRACER__
-#endif // LOTOSPP_EXCEPTION_H
+#endif

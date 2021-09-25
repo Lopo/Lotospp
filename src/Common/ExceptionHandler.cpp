@@ -2,17 +2,16 @@
 
 #ifdef __EXCEPTION_TRACER__
 
+#include "globals.h"
+#include "Strings/stringPrintf.h"
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <ctime>
 
-#include "globals.h"
-#include "strings/stringPrintf.h"
 
-
-using lotospp::ExceptionHandler;
+using LotosPP::Common::ExceptionHandler;
 
 
 #ifdef OS_WIN
@@ -34,7 +33,7 @@ using lotospp::ExceptionHandler;
 		unsigned long max_off;
 		unsigned long min_off;
 		typedef std::map<unsigned long, char*> FunctionMap;
-		FunctionMap functionMap;
+		FunctionMap functionMap{};
 
 		EXCEPTION_DISPOSITION
 		__cdecl _SEHHandler(
@@ -54,9 +53,9 @@ using lotospp::ExceptionHandler;
 #	endif
 
 #	include <sys/time.h>
-#	include <sys/resource.h> /* POSIX.1-2001 */
+#	include <sys/resource.h> // POSIX.1-2001
 
-	void _SigHandler(int signum, siginfo_t *info, void* secret);
+	void _SigHandler(int signum, siginfo_t* info, void* secret);
 #endif
 
 #ifndef COMPILER_STRING
@@ -203,7 +202,7 @@ LONG WINAPI ExceptionHandler::MiniDumpExceptionHandler(struct _EXCEPTION_POINTER
 
 	std::cout << "Generating minidump file... " << dumpfile << std::endl;
 
-	if (BOOL bOK=pDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL); !bOK) {
+	if (!pDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL)) {
 		std::cout << "Could not dump memory to file." << std::endl;
 		::CloseHandle(hFile);
 		return EXCEPTION_CONTINUE_SEARCH;
@@ -217,9 +216,9 @@ LONG WINAPI ExceptionHandler::MiniDumpExceptionHandler(struct _EXCEPTION_POINTER
 
 char* getFunctionName(unsigned long addr, unsigned long& start)
 {
-	FunctionMap::iterator functions;
 	if (addr>=min_off && addr<=max_off) {
-		for (functions=functionMap.begin(); functions!=functionMap.end(); ++functions) {
+		FunctionMap::iterator functions;
+		for (FunctionMap::iterator functions : functionMap) {
 			if (functions->first>addr && functions!=functionMap.begin()) {
 				functions--;
 				start=functions->first;
@@ -233,23 +232,23 @@ char* getFunctionName(unsigned long addr, unsigned long& start)
 
 EXCEPTION_DISPOSITION
 __cdecl _SEHHandler(
-	struct _EXCEPTION_RECORD *ExceptionRecord,
-	void * EstablisherFrame,
-	struct _CONTEXT *ContextRecord,
-	void * DispatcherContext
+	struct _EXCEPTION_RECORD* ExceptionRecord,
+	void* EstablisherFrame,
+	struct _CONTEXT* ContextRecord,
+	void* DispatcherContext
 	)
 {
 	//
-	unsigned long *esp;
-	unsigned long *next_ret;
+	unsigned long* esp;
+	unsigned long* next_ret;
 	unsigned long stack_val;
-	unsigned long *stacklimit;
-	unsigned long *stackstart;
-	unsigned long nparameters=0;
-	unsigned long file,foundRetAddress=0;
+	unsigned long* stacklimit;
+	unsigned long* stackstart;
+	unsigned long nparameters{0};
+	unsigned long file, foundRetAddress{0};
 	_MEMORY_BASIC_INFORMATION mbi;
 
-	std::ostream *outdriver;
+	std::ostream* outdriver;
 	std::cout << "Error: generating report file..." << std::endl;
 	std::ofstream output("report.txt", std::ios_base::app);
 	if (output.fail()) {
@@ -310,9 +309,8 @@ __cdecl _SEHHandler(
 
 	// n threads
 	PROCESSENTRY32 uProcess;
-	HANDLE lSnapShot=CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,0);
 	BOOL r;
-	if (lSnapShot!=0) {
+	if (HANDLE lSnapShot=CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,0); lSnapShot!=0) {
 		uProcess.dwSize=sizeof(uProcess);
 		r=Process32First(lSnapShot, &uProcess);
 		while (r) {
@@ -480,13 +478,10 @@ void ExceptionHandler::dumpStack()
 #define BACKTRACE_DEPTH 128
 void _SigHandler(int signum, siginfo_t *info, void* void_context)
 {
-	bool file;
+	bool file{false};
 	ucontext_t context=*(ucontext_t*)void_context;
-	rusage resources;
-	tm *ts;
-	char date_buff[80];
 
-	std::ostream *outdriver;
+	std::ostream* outdriver;
 	std::cout << "Error: generating report file..." << std::endl;
 	std::ofstream output("report.txt", std::ios_base::app);
 	if (output.fail()) {
@@ -505,7 +500,7 @@ void _SigHandler(int signum, siginfo_t *info, void* void_context)
 	*outdriver << "Compiler info - " << COMPILER_STRING << std::endl;
 	*outdriver << "Compilation Date - " << COMPILATION_DATE << std::endl << std::endl;
 
-	if (getrusage(RUSAGE_SELF, &resources)!=-1) {
+	if (rusage resources; getrusage(RUSAGE_SELF, &resources)!=-1) {
 		//- global memory information
 		rlimit resourcelimit;
 #	ifndef OS_OPENBSD
@@ -523,8 +518,9 @@ void _SigHandler(int signum, siginfo_t *info, void* void_context)
 			}
 		//-process info
 		// creation time
-		time_t bootTime=lotospp::options.get<time_t>("runtime.bootTime");
-		ts=localtime(&bootTime);
+		time_t bootTime=LotosPP::options.get<time_t>("runtime.bootTime");
+		tm* ts=localtime(&bootTime);
+		char date_buff[80];
 		strftime(date_buff, 80, "%d-%m-%Y %H:%M:%S", ts);
 		// kernel time
 		*outdriver << "Kernel time: " << (resources.ru_stime.tv_sec/3600)
@@ -545,7 +541,7 @@ void _SigHandler(int signum, siginfo_t *info, void* void_context)
 	outdriver->flags(std::ios::hex | std::ios::showbase);
 	*outdriver << "Signal: " << strsignal(signum) << " (" << signum << ")"
 		// this is (void*), but using %p would print "(null)" even for ptrs which are not exactly 0, but, say, 0x123
-		<< " Address: " << lotospp::strings::StringPrintf("0x%lx", (long)info->si_addr)
+		<< " Address: " << LotosPP::Strings::StringPrintf("0x%lx", (long)info->si_addr)
 		<< std::endl;
 #	ifdef OS_LINUX
 	greg_t esp{0};
@@ -632,9 +628,8 @@ void _SigHandler(int signum, siginfo_t *info, void* void_context)
 	// stack backtrace
 	int addrs;
 	void* buffer[BACKTRACE_DEPTH];
-	char** symbols;
 	addrs=backtrace(buffer, BACKTRACE_DEPTH);
-	symbols=backtrace_symbols(buffer, addrs);
+	char** symbols=backtrace_symbols(buffer, addrs);
 	if (symbols!=NULL && addrs!=0) {
 		*outdriver << "---Stack Trace---" << std::endl;
 #		ifdef OS_LINUX
@@ -662,4 +657,4 @@ void ExceptionHandler::dumpStack()
 }
 #endif
 
-#endif // __EXCEPTION_TRACER__
+#endif

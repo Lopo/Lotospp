@@ -1,24 +1,21 @@
-#ifndef LOTOSPP_COMMAND_SAY_H
-#define	LOTOSPP_COMMAND_SAY_H
+#ifndef LOTOSPP_COMMANDS_SAY_H
+#define	LOTOSPP_COMMANDS_SAY_H
 
 
 #include "config.h"
-
 #include "Common/Command.h"
 
 
-namespace lotospp {
-	namespace command {
+namespace LotosPP::Commands {
 
 class Say
-	: public Command
+	: public LotosPP::Common::Command
 {
 public:
 	Say();
-	virtual void execute(lotospp::User* user);
+	virtual void execute(LotosPP::Common::User* user);
 };
 
-	} // namespace command
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_COMMAND_SAY_H
+#endif

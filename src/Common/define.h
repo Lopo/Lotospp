@@ -1,5 +1,5 @@
-#ifndef LOTOSPP_DEFINE_H
-#define LOTOSPP_DEFINE_H
+#ifndef LOTOSPP_COMMON_DEFINE_H
+#define LOTOSPP_COMMON_DEFINE_H
 
 
 #include "config.h"
@@ -11,4 +11,4 @@
 
 #define MAX_LOGIN_ATTEMPTS 3
 
-#endif // LOTOSPP_DEFINE_H
+#endif

@@ -1,25 +1,26 @@
-#ifndef LOTOSPP_COMMAND_H
-#define	LOTOSPP_COMMAND_H
+#ifndef LOTOSPP_COMMON_COMMAND_H
+#define	LOTOSPP_COMMON_COMMAND_H
 
 
 #include "config.h"
-
-#include <string>
-
 #include "AutoID.h"
 #include "Common/Enums/UserLevel.h"
 #include "User.h"
+#include <string>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 class Command
 	: boost::noncopyable,
 		public AutoID
 {
 public:
-	Command(const std::string n="", const enums::UserLevel l=enums::UserLevel_NOVICE) : name(n), level(l) {};
-	virtual ~Command() {};
+	Command(const std::string n="", const enums::UserLevel l=enums::UserLevel_NOVICE)
+		: name(n), level(l)
+	{};
+	virtual ~Command()
+	{};
 
 	virtual void execute(User* user)=0;
 	std::string getName();
@@ -29,6 +30,6 @@ private:
 	enums::UserLevel level{enums::UserLevel_NOVICE};
 };
 
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_COMMAND_H
+#endif

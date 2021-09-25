@@ -1,16 +1,13 @@
-#ifndef LOTOSPP_AUTOID_H
-#define LOTOSPP_AUTOID_H
-
+#ifndef LOTOSPP_COMMON_AUTOID_H
+#define LOTOSPP_COMMON_AUTOID_H
 
 #include "config.h"
-
-#include <cstdint>
-#include <set>
-
 #include <boost/thread/recursive_mutex.hpp>
+#include <set>
+#include <cstdint>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 class AutoID
 {
@@ -53,6 +50,6 @@ protected:
 	static inline list_type list{};
 };
 
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_AUTOID_H
+#endif

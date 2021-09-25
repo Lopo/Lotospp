@@ -1,32 +1,29 @@
 #include "Talker.h"
-
-#include <iostream>
-
 #include "globals.h"
 #include "User.h"
-#include "network/ServiceManager.h"
+#include "Network/ServiceManager.h"
 #ifdef __EXCEPTION_TRACER__
 #	include <boost/thread/recursive_mutex.hpp>
 	extern boost::recursive_mutex maploadlock;
 #endif
+#include <iostream>
 
 
-using namespace lotospp;
+using namespace LotosPP::Common;
 
 
-void Talker::start(network::ServiceManager* servicer)
+void Talker::start(Network::ServiceManager* servicer)
 {
 	service_manager=servicer;
 }
 
 Creature* Talker::getCreatureByID(uint32_t id)
 {
-	if (id==0) {
+	if (!id) {
 		return nullptr;
 		}
 
-	AutoList<Creature>::listiterator it=listCreature.list.find(id);
-	if (it!=listCreature.list.end()) {
+	if (AutoList<Creature>::listiterator it=listCreature.list.find(id); it!=listCreature.list.end()) {
 //		if (!it->second->isRemoved()) {
 //			return it->second;
 //			}
@@ -37,12 +34,11 @@ Creature* Talker::getCreatureByID(uint32_t id)
 
 User* Talker::getUserByID(uint32_t id)
 {
-	if (id==0) {
+	if (!id) {
 		return nullptr;
 		}
 
-	AutoList<User>::listiterator it=User::listUser.list.find(id);
-	if (it!=User::listUser.list.end()) {
+	if (AutoList<User>::listiterator it=User::listUser.list.find(id); it!=User::listUser.list.end()) {
 //		if (!it->second->isRemoved()) {
 //			return it->second;
 //			}
@@ -53,7 +49,7 @@ User* Talker::getUserByID(uint32_t id)
 
 UserVector Talker::getUsersByIP(uint32_t ipadress, uint32_t mask)
 {
-	UserVector users;
+	UserVector users{};
 	for (auto& it : User::listUser.list) {
 		}
 
@@ -76,8 +72,8 @@ void Talker::shutdown()
 {
 	std::cout << "Shutting down server...";
 
-	g_scheduler.shutdown();
-	g_dispatcher.shutdown();
+	LotosPP::g_scheduler.shutdown();
+	LotosPP::g_dispatcher.shutdown();
 
 	cleanup();
 

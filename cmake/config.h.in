@@ -19,6 +19,6 @@
 #	define __EXCEPTION_TRACER__ 1
 #endif
 
-#include "system/build_config.h"
+#include "System/build_config.h"
 
-#endif // LOTOSPP_CONFIG_H
+#endif

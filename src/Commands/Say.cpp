@@ -1,22 +1,22 @@
-#include "Commands/Say.h"
+#include "Say.h"
 
 
-using namespace lotospp::command;
+using namespace LotosPP::Commands;
 
 
 Say::Say()
-	: Command("say", enums::UserLevel_NOVICE)
+	: Command("say", LotosPP::Common::enums::UserLevel_NOVICE)
 {
 }
 
-void Say::execute(lotospp::User* user)
+void Say::execute(LotosPP::Common::User* user)
 {
 	if (user->com.word.size()<2) {
 		user->uPrintf("Usage: .say <text>\n");
 		return;
 		}
 	user->uPrintf("You say: %s\n", user->com.wordptr(1).c_str());
-	User* u=nullptr;
+	LotosPP::Common::User* u=nullptr;
 	for (auto&& [f, second] : user->listUser.list) {
 		u=second;
 		if (u!=user) {

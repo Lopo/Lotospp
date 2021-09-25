@@ -1,23 +1,21 @@
-#ifndef LOTOSPP_TALKER_H
-#define	LOTOSPP_TALKER_H
-
+#ifndef LOTOSPP_COMMON_TALKER_H
+#define	LOTOSPP_COMMON_TALKER_H
 
 #include "config.h"
-
-#include <cstdint>
-#include <vector>
-
 #include "AutoList.h"
+#include <vector>
+#include <cstdint>
 
 
-namespace lotospp {
-	class Creature;
-	class User;
-	typedef std::vector<User*> UserVector;
-	class Thing;
-	namespace network {
+namespace LotosPP {
+	namespace Network {
 		class ServiceManager;
 		}
+	namespace Common {
+		class Creature;
+		class User;
+		typedef std::vector<User*> UserVector;
+		class Thing;
 
 /**
  * Main Talker class
@@ -26,7 +24,7 @@ namespace lotospp {
 class Talker
 {
 public:
-	void start(network::ServiceManager* servicer);
+	void start(LotosPP::Network::ServiceManager* servicer);
 
 	/**
 	 * Returns a creature based on the unique creature identifier
@@ -71,9 +69,10 @@ protected:
 
 	uint32_t maxUsers;
 
-	network::ServiceManager* service_manager;
+	LotosPP::Network::ServiceManager* service_manager{nullptr};
 };
 
-} // namespace lotospp
+		}
+	}
 
-#endif // LOTOSPP_TALKER_H
+#endif

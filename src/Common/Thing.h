@@ -1,13 +1,11 @@
-#ifndef LOTOSPP_THING_H
-#define LOTOSPP_THING_H
-
+#ifndef LOTOSPP_COMMON_THING_H
+#define LOTOSPP_COMMON_THING_H
 
 #include "config.h"
-
 #include <cstdint>
 
 
-namespace lotospp {
+namespace LotosPP::Common {
 
 class Thing
 {
@@ -24,6 +22,6 @@ private:
 	int32_t m_refCount{0};
 };
 
-} // namespace lotospp
+	}
 
-#endif // LOTOSPP_THING_H
+#endif
