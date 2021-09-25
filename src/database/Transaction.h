@@ -13,9 +13,8 @@ class Transaction
 {
 public:
 	Transaction(Driver* database)
-	{
-		m_database=database;
-	};
+		: m_database{database}
+	{};
 
 	~Transaction()
 	{
@@ -46,7 +45,7 @@ private:
 		STEATE_COMMIT
 		};
 	TransactionStates_t m_state=STATE_NO_START;
-	Driver* m_database;
+	Driver* m_database{nullptr};
 };
 
 	} // namespace database

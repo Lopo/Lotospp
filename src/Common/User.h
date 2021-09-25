@@ -31,7 +31,7 @@ class User
 {
 public:
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
-	static uint32_t userCount;
+	static inline uint32_t userCount{0};
 #endif
 	User(const std::string& n="", network::Protocol* p=nullptr);
 	virtual ~User();
@@ -45,7 +45,7 @@ public:
 	uint32_t getGUID() const { return guid;}
 
 	virtual uint32_t idRange() { return 0x10000000;};
-	static AutoList<User> listUser;
+	static inline AutoList<User> listUser{};
 	void addList();
 	void removeList();
 
@@ -60,7 +60,7 @@ public:
 
 	strings::Splitline com;
 	network::Protocol* client=nullptr;
-	UserStage stage=enums::UserStage_NEW;
+	UserStage stage{enums::UserStage_NEW};
 
 protected:
 	std::string name;
@@ -76,21 +76,21 @@ protected:
 	int getTermtype();
 	TelnetFlag flagsTelnet;
 
-	UserLevel level=enums::UserLevel_LOGIN;
+	UserLevel level{enums::UserLevel_LOGIN};
 
-	uint8_t attempts=0;
-	uint32_t bpos=0;
-	uint8_t buffnum=0;
+	uint8_t attempts{0};
+	uint32_t bpos{0};
+	uint8_t buffnum{0};
 	std::string buff;
 	std::string textBuffer[2];
-	int tbpos=0;
+	int tbpos{0};
 	std::string inlinePrompt;
-	size_t buffpos=0;
-	bool checho=false;
-	uint16_t termCols=80, termRows=25;
+	size_t buffpos{0};
+	bool checho{false};
+	uint16_t termCols{80}, termRows{25};
 	std::string termType;
 
-	uint32_t guid;
+	uint32_t guid{0};
 
 	friend class Talker;
 	friend class network::Protocol;

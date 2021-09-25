@@ -16,8 +16,6 @@
 using namespace lotospp::database;
 
 
-Driver* Driver::_instance=nullptr;
-
 Driver* Driver::instance()
 {
 	if (!_instance) {

@@ -10,7 +10,7 @@
 
 namespace lotospp {
 
-template<class T>
+template<typename T>
 class AutoList
 {
 public:

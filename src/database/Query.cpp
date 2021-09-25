@@ -2,7 +2,6 @@
 
 using namespace lotospp::database;
 
-boost::recursive_mutex Query::database_lock;
 
 Query::Query()
 {

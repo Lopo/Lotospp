@@ -34,9 +34,15 @@ namespace lotospp {
 			(LFATAL, "FATAL");
 
 struct severity_t {
-	severity_t() : level(LINFO) {};
-	severity_t(const std::string& s) : level(to_severity(s)) {};
-	severity_t(const severity_t& sev) : level(sev.level) {};
+	severity_t()
+		: level{LINFO}
+		{};
+	severity_t(const std::string& s)
+		: level{to_severity(s)}
+		{};
+	severity_t(const severity_t& sev)
+		: level{sev.level}
+		{};
 	severity_t& operator=(const severity_t& sev)
 	{
 		level=sev.level;

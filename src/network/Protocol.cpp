@@ -123,11 +123,11 @@ void Protocol::write(const std::string& str)
 
 void Protocol::parseDebug(NetworkMessage& msg)
 {
-	int32_t pos=msg.getReadPos(),
-		dataLength=msg.getMessageLength();
+	size_t pos{msg.getReadPos()},
+		dataLength{msg.getMessageLength()};
 	if (dataLength!=0) {
 		printf("data: ");
-		int data=msg.GetByte();
+		int data{msg.GetByte()};
 		while (dataLength>0) {
 			printf("%d ", data);
 			if (--dataLength>0) {

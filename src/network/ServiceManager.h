@@ -46,11 +46,11 @@ public:
 protected:
 	void die();
 
-	std::map<uint16_t, ServicePort_ptr> m_acceptors;
+	std::map<uint16_t, ServicePort_ptr> m_acceptors{};
 
 	boost::asio::io_service m_io_service;
 	boost::asio::deadline_timer death_timer;
-	bool running;
+	bool running{false};
 };
 
 template <typename ProtocolType>
@@ -60,7 +60,7 @@ bool ServiceManager::add(uint16_t port)
 		std::cout << "NOTICE: No port provided for service " << ProtocolType::protocolName() << ". Service disabled." << std::endl;
 		return false;
 		}
-	ServicePort_ptr service_port;
+	ServicePort_ptr service_port{nullptr};
 
 	std::map<uint16_t, ServicePort_ptr>::iterator finder=m_acceptors.find(port);
 

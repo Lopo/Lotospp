@@ -71,7 +71,7 @@ protected:
 	typedef std::map<const std::string, uint32_t> listNames_t;
 	listNames_t m_listNames;
 
-	MYSQL_RES* m_handle;
+	MYSQL_RES* m_handle{nullptr};
 	MYSQL_ROW m_row;
 };
 

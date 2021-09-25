@@ -17,8 +17,8 @@ void Say::execute(lotospp::User* user)
 		}
 	user->uPrintf("You say: %s\n", user->com.wordptr(1).c_str());
 	User* u=nullptr;
-	for (auto it=user->listUser.list.begin(); it!=user->listUser.list.end(); it++) {
-		u=(*it).second;
+	for (auto&& [f, second] : user->listUser.list) {
+		u=second;
 		if (u!=user) {
 			u->uPrintf("%s say: %s\n", user->getName().c_str(), user->com.wordptr(1).c_str());
 			}

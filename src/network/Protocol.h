@@ -29,7 +29,9 @@ class Protocol
 	: boost::noncopyable
 {
 public:
-	Protocol(Connection_ptr connection) :m_connection(connection) {};
+	Protocol(Connection_ptr connection)
+		: m_connection{connection}
+		{};
 	virtual ~Protocol() {};
 
 	virtual void parsePacket(NetworkMessage& msg)=0;
@@ -71,15 +73,15 @@ protected:
 	virtual void deleteProtocolTask();
 	virtual void disconnect();
 
-	lotospp::User* user=nullptr;
+	lotospp::User* user{nullptr};
 
 	friend class Connection;
 	friend class lotospp::User;
 
 private:
-	OutputMessage_ptr m_outputBuffer={};
-	Connection_ptr m_connection={};
-	uint32_t m_refCount=0;
+	OutputMessage_ptr m_outputBuffer{nullptr};
+	Connection_ptr m_connection{nullptr};
+	uint32_t m_refCount{0};
 };
 
 	} // namespace network

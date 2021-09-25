@@ -33,7 +33,7 @@ include(CableBuildType)
 include(CableToolchains)
 include(HunterGate)
 
-cable_configure_toolchain(DEFAULT cxx11)
+cable_configure_toolchain(DEFAULT cxx17)
 
 set(HUNTER_CONFIGURATION_TYPES Release CACHE STRING "Build type of Hunter packages")
 include(ProcessorCount)

@@ -24,16 +24,11 @@
 using namespace lotospp::network;
 
 
-bool ServicePort::m_logError=true;
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // ServicePort
 
 ServicePort::ServicePort(boost::asio::io_service& io_service)
-	: m_io_service(io_service),
-	m_serverPort(0),
-	m_pendingStart(false)
+	: m_io_service{io_service}, m_serverPort{0}, m_pendingStart{false}
 {
 }
 
@@ -153,8 +148,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 
 Protocol* ServicePort::makeProtocol(NetworkMessage& msg) const
 {
-	for (std::vector<Service_ptr>::const_iterator it=m_services.begin(); it!=m_services.end(); ++it) {
-		Service_ptr service=*it;
+	for (auto service : m_services) {
 		return service->makeProtocol(Connection_ptr());
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
 		}
@@ -228,10 +222,10 @@ void ServicePort::open(uint16_t port)
 
 void ServicePort::close()
 {
-	for (std::vector<Acceptor_ptr>::iterator aptr=m_tcp_acceptors.begin(); aptr!=m_tcp_acceptors.end(); ++aptr) {
-		if ((*aptr)->is_open()) {
+	for (auto aptr : m_tcp_acceptors) {
+		if (aptr->is_open()) {
 			boost::system::error_code error;
-			(*aptr)->close(error);
+			aptr->close(error);
 			if (error) {
 				PRINT_ASIO_ERROR("Closing listen socket");
 				}
@@ -242,8 +236,7 @@ void ServicePort::close()
 
 bool ServicePort::addService(Service_ptr new_svc)
 {
-	for (std::vector<Service_ptr>::const_iterator svc_iter=m_services.begin(); svc_iter!=m_services.end(); ++svc_iter) {
-		Service_ptr svc=*svc_iter;
+	for (auto svc : m_services) {
 		if (svc->isSingleSocket()) {
 			return false;
 			}

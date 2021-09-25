@@ -4,11 +4,6 @@
 using namespace lotospp;
 
 
-boost::recursive_mutex AutoID::autoIDLock;
-uint32_t AutoID::count=1000;
-AutoID::list_type AutoID::list;
-
-
 Creature::Creature()
 {
 }

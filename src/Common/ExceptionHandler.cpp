@@ -26,7 +26,7 @@ using lotospp::ExceptionHandler;
 			CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
 			CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam);
 
-		int ExceptionHandler::refCounter=0;
+		int ExceptionHandler::refCounter{0};
 #	elif __GNUC__
 #		include <excpt.h>
 #		include <tlhelp32.h>
@@ -203,8 +203,7 @@ LONG WINAPI ExceptionHandler::MiniDumpExceptionHandler(struct _EXCEPTION_POINTER
 
 	std::cout << "Generating minidump file... " << dumpfile << std::endl;
 
-	BOOL bOK=pDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL);
-	if (!bOK) {
+	if (BOOL bOK=pDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL); !bOK) {
 		std::cout << "Could not dump memory to file." << std::endl;
 		::CloseHandle(hFile);
 		return EXCEPTION_CONTINUE_SEARCH;
@@ -333,8 +332,7 @@ __cdecl _SEHHandler(
 		<< " at eip = " << (unsigned long)ExceptionRecord->ExceptionAddress;
 	FunctionMap::iterator functions;
 	unsigned long functionAddr;
-	char* functionName=getFunctionName((unsigned long)ExceptionRecord->ExceptionAddress, functionAddr);
-	if (functionName) {
+	if (char* functionName=getFunctionName((unsigned long)ExceptionRecord->ExceptionAddress, functionAddr); functionName) {
 		*outdriver << "(" << functionName << " - " << functionAddr <<")";
 		}
 	*outdriver << std::endl ;
@@ -443,8 +441,7 @@ void ExceptionHandler::dumpStack()
 	stackstart=esp;
 	__asm__ ("movl %%ebp, %0;":"=r"(next_ret)::);
 
-	unsigned long frame_param_counter;
-	frame_param_counter=0;
+	unsigned long frame_param_counter{0};
 	while (esp<stacklimit) {
 		stack_val=*esp;
 		if (foundRetAddress) {
@@ -551,7 +548,7 @@ void _SigHandler(int signum, siginfo_t *info, void* void_context)
 		<< " Address: " << lotospp::strings::StringPrintf("0x%lx", (long)info->si_addr)
 		<< std::endl;
 #	ifdef OS_LINUX
-	greg_t esp=0;
+	greg_t esp{0};
 	{
 #		if __WORDSIZE == 32
 		*outdriver << " at eip = " << context.uc_mcontext.gregs[REG_EIP] << std::endl;

@@ -6,9 +6,8 @@ using namespace lotospp::database;
 
 
 Insert::Insert(Driver* db)
+	: m_db{db}
 {
-	m_db=db;
-
 	// checks if current database engine supports multi line INSERTs
 	m_multiLine=m_db->getParam(DBPARAM_MULTIINSERT)!=0;
 }

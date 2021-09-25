@@ -21,7 +21,7 @@ public:
 	void unRef();
 
 private:
-	int32_t m_refCount;
+	int32_t m_refCount{0};
 };
 
 } // namespace lotospp

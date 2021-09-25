@@ -27,5 +27,6 @@ target_link_libraries(Network
 	PRIVATE
 		Lotospp-buildinfo
 		CommonEnums
+		Common
 		Boost::thread
 	)

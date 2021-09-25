@@ -56,12 +56,12 @@ protected:
 	void accept(Acceptor_ptr acceptor);
 
 	boost::asio::io_service& m_io_service;
-	std::vector<Acceptor_ptr> m_tcp_acceptors;
-	std::vector<Service_ptr> m_services;
+	std::vector<Acceptor_ptr> m_tcp_acceptors{};
+	std::vector<Service_ptr> m_services{};
 
-	uint16_t m_serverPort;
-	bool m_pendingStart;
-	static bool m_logError;
+	uint16_t m_serverPort{0};
+	bool m_pendingStart{false};
+	static inline bool m_logError{true};
 };
 
 typedef boost::shared_ptr<ServicePort> ServicePort_ptr;

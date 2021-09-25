@@ -19,14 +19,6 @@
 using namespace lotospp::network;
 
 
-bool Connection::m_logError=true;
-const int64_t Connection::write_timeout=30;
-const int64_t Connection::read_timeout=30;
-
-#ifdef __ENABLE_SERVER_DIAGNOSTIC__
-uint32_t Connection::connectionCount=0;
-#endif
-
 Connection::Connection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr service_port)
 	: m_socket(socket),
 		m_writeTimer(io_service),

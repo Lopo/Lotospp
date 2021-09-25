@@ -35,9 +35,7 @@ void ConnectionManager::releaseConnection(Connection_ptr connection)
 #endif
 
 	boost::recursive_mutex::scoped_lock lockClass(m_connectionManagerLock);
-	std::list<Connection_ptr>::iterator it=std::find(m_connections.begin(), m_connections.end(), connection);
-
-	if (it!=m_connections.end()) {
+	if (std::list<Connection_ptr>::iterator it=std::find(m_connections.begin(), m_connections.end(), connection); it!=m_connections.end()) {
 		m_connections.erase(it);
 		}
 	else {
@@ -51,8 +49,7 @@ void ConnectionManager::closeAll()
 	std::cout << "Closing all connections" << std::endl;
 #endif
 	boost::recursive_mutex::scoped_lock lockClass(m_connectionManagerLock);
-	std::list<Connection_ptr>::iterator it;
-	for (it=m_connections.begin(); it!=m_connections.end(); ) {
+	for (std::list<Connection_ptr>::iterator it=m_connections.begin(); it!=m_connections.end(); ) {
 		try {
 			boost::system::error_code error;
 			(*it)->m_socket->shutdown(boost::asio::ip::tcp::socket::shutdown_both, error);

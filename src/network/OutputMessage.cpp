@@ -12,10 +12,6 @@
 using namespace lotospp::network;
 
 
-#ifdef __ENABLE_SERVER_DIAGNOSTIC__
-uint32_t OutputMessagePool::OutputMessagePoolCount=OUTPUT_POOL_SIZE;
-#endif
-
 OutputMessage::OutputMessage()
 {
 	freeMessage();
@@ -97,8 +93,7 @@ OutputMessagePool::OutputMessagePool()
 
 OutputMessagePool::~OutputMessagePool()
 {
-	InternalOutputMessageList::iterator it;
-	for (it=m_outputMessages.begin(); it!=m_outputMessages.end(); ++it) {
+	for (InternalOutputMessageList::iterator it=m_outputMessages.begin(); it!=m_outputMessages.end(); ++it) {
 		delete *it;
 		}
 	m_outputMessages.clear();

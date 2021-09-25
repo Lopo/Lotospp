@@ -20,15 +20,15 @@ public:
 	~Splitline();
 
 	void reset();
-	int parse(const std::string inLine);
+	int parse(const std::string& inLine);
 	/// Shift all words up by one. This is equivalent to the unix shell shift command
 	void shift();
 
 	std::string wordptr(const size_t pos) const;
 
-	bool startQuote=false;
-	bool endQuote=false;
-	std::deque<std::string> word;
+	bool startQuote{false};
+	bool endQuote{false};
+	std::deque<std::string> word{};
 
 private:
 	/// Get an individual word either in or not in quotes
@@ -37,7 +37,7 @@ private:
 	void addWord(const size_t o1, const size_t o2);
 
 	std::string line;
-	std::deque<size_t> wordPtr;
+	std::deque<size_t> wordPtr{};
 };
 	
 	} // namespace strings

@@ -50,11 +50,11 @@ public:
 	~Connection();
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
-	static uint32_t connectionCount;
+	static inline uint32_t connectionCount{0};
 #endif
 
-	static const int64_t write_timeout;
-	static const int64_t read_timeout;
+	static const inline int64_t write_timeout{30};
+	static const inline int64_t read_timeout{30};
 
 	enum ConnectionState_t {
 		CONNECTION_STATE_OPEN=0,
@@ -106,22 +106,22 @@ private:
 	void internalSend(OutputMessage_ptr msg);
 
 	NetworkMessage m_msg;
-	boost::asio::ip::tcp::socket* m_socket;
+	boost::asio::ip::tcp::socket* m_socket{nullptr};
 	boost::asio::deadline_timer m_writeTimer;
 	boost::asio::io_service& m_io_service;
-	ServicePort_ptr m_service_port;
-	bool m_receivedFirst=false;
-	bool m_writeError=false;
-	bool m_readError=false;
+	ServicePort_ptr m_service_port{nullptr};
+	bool m_receivedFirst{false};
+	bool m_writeError{false};
+	bool m_readError{false};
 
-	int32_t m_pendingWrite=0;
-	int32_t m_pendingRead=0;
-	ConnectionState_t m_connectionState=CONNECTION_STATE_OPEN;
-	uint32_t m_refCount=0;
-	static bool m_logError;
+	int32_t m_pendingWrite{0};
+	int32_t m_pendingRead{0};
+	ConnectionState_t m_connectionState{CONNECTION_STATE_OPEN};
+	uint32_t m_refCount{0};
+	static inline bool m_logError{true};
 	boost::recursive_mutex m_connectionLock;
 
-	Protocol* m_protocol=nullptr;
+	Protocol* m_protocol{nullptr};
 
 	std::string hostName;
 

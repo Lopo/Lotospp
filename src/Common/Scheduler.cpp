@@ -46,8 +46,8 @@ void Scheduler::schedulerThread(void* p)
 
 	while (scheduler->m_threadState!=STATE_TERMINATED) {
 		SchedulerTask* task=nullptr;
-		bool runTask=false;
-		bool ret=true;
+		bool runTask{false};
+		bool ret{true};
 
 		// check if there are events waiting...
 		eventLockUnique.lock();
@@ -110,7 +110,7 @@ void Scheduler::schedulerThread(void* p)
 
 uint32_t Scheduler::addEvent(SchedulerTask* task)
 {
-	bool do_signal=false;
+	bool do_signal{false};
 	m_eventLock.lock();
 	if (Scheduler::m_threadState==Scheduler::STATE_RUNNING) {
 

@@ -37,7 +37,7 @@ using namespace lotospp;
 
 bool configure(int ac, char **av)
 {
-	std::string cf="etc/config.ini",
+	std::string cf{"etc/config.ini"},
 		pidFile,
 		logDir;
 	lotospp::log::severity_t logLevelC,
@@ -148,8 +148,7 @@ void parseConfig(void)
 		std::cerr << "ERROR: Log dir '" << logDir << "' don't exist or isn't dir" << std::endl;
 		exit(1);
 		}
-	int userPort=options.get<uint16_t>("global.userPort", 0);
-	if (userPort<=1024 || userPort>65535) {
+	if (int userPort=options.get<uint16_t>("global.userPort", 0); userPort<=1024 || userPort>65535) {
 		std::cerr << "ERROR: Invalid user port number " << userPort << ". Range is 1025 - 65535." << std::endl;
 		exit(1);
 		}
@@ -157,8 +156,7 @@ void parseConfig(void)
 
 void closePidFile(void)
 {
-	std::string pidFile=options.get("global.pidFile", "");
-	if (pidFile!="") {
+	if (std::string pidFile=options.get("global.pidFile", ""); pidFile!="") {
 		remove(pidFile.c_str());
 		}
 }
@@ -192,8 +190,7 @@ void init(void)
 
 	LOG(LINFO) << "Number of found CPUs: " << boost::thread::hardware_concurrency();
 
-	std::string pidFile(options.get("global.pidFile", ""));
-	if (pidFile!="") {
+	if (std::string pidFile(options.get("global.pidFile", "")); pidFile!="") {
 		std::ofstream f(pidFile, std::ios::trunc|std::ios::out);
 		f << getpid();
 		f.close();

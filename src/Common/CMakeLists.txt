@@ -14,7 +14,14 @@ source_group(Common FILES ${SOURCES})
 
 add_library(Common ${SOURCES})
 add_dependencies(Common CommonEnums)
-target_link_libraries(Common Lotospp-buildinfo)
+target_link_libraries(Common
+	PRIVATE
+		Lotospp-buildinfo
+		Commands
+		Database
+		Strings
+		Security
+		)
 set_target_properties(Common PROPERTIES
 	POSITION_INDEPENDENT_CODE ON
 	)

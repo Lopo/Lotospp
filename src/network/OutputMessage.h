@@ -77,7 +77,7 @@ public:
 
 protected:
 #ifdef __TRACK_NETWORK__
-	std::list<std::string> last_uses;
+	std::list<std::string> last_uses{};
 #endif
 	void freeMessage();
 
@@ -89,11 +89,11 @@ protected:
 
 	void setFrame(uint64_t frame);
 
-	Protocol* m_protocol;
-	Connection_ptr m_connection;
+	Protocol* m_protocol{nullptr};
+	Connection_ptr m_connection{nullptr};
 
-	uint32_t m_outputBufferStart;
-	uint64_t m_frame;
+	uint32_t m_outputBufferStart{0};
+	uint64_t m_frame{0};
 
 	OutputMessageState m_state;
 };
@@ -109,7 +109,7 @@ public:
 	static OutputMessagePool* getInstance();
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
-	static uint32_t OutputMessagePoolCount;
+	static inline uint32_t OutputMessagePoolCount{OUTPUT_POOL_SIZE};
 #endif
 
 	void send(OutputMessage_ptr msg);
@@ -131,13 +131,13 @@ protected:
 	typedef std::list<OutputMessage*> InternalOutputMessageList;
 	typedef std::list<OutputMessage_ptr> OutputMessageMessageList;
 
-	InternalOutputMessageList m_outputMessages;
-	InternalOutputMessageList m_allOutputMessages;
-	OutputMessageMessageList m_autoSendOutputMessages;
-	OutputMessageMessageList m_toAddQueue;
+	InternalOutputMessageList m_outputMessages{};
+	InternalOutputMessageList m_allOutputMessages{};
+	OutputMessageMessageList m_autoSendOutputMessages{};
+	OutputMessageMessageList m_toAddQueue{};
 	boost::recursive_mutex m_outputPoolLock;
-	uint64_t m_frameTime;
-	bool m_isOpen;
+	uint64_t m_frameTime{0};
+	bool m_isOpen{false};
 };
 
 #ifdef __TRACK_NETWORK__

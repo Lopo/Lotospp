@@ -65,9 +65,9 @@ public:
 	void FreeThing(Thing* thing);
 
 protected:
-	std::vector<Thing*> toReleaseThings;
+	std::vector<Thing*> toReleaseThings{};
 
-	AutoList<Creature> listCreature;
+	AutoList<Creature> listCreature{};
 
 	uint32_t maxUsers;
 

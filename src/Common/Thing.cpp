@@ -5,7 +5,6 @@ using namespace lotospp;
 
 
 Thing::Thing()
-	: m_refCount(0)
 {
 	//
 }

@@ -15,9 +15,9 @@ using namespace lotospp;
 
 
 Dispatcher::Dispatcher()
+	: m_threadState{STATE_TERMINATED}
 {
 	m_taskList.clear();
-	m_threadState=STATE_TERMINATED;
 }
 
 void Dispatcher::shutdownAndWait()
@@ -99,9 +99,9 @@ void Dispatcher::dispatcherThread(void* p)
 #endif
 }
 
-void Dispatcher::addTask(Task* task, bool push_front /*= false*/)
+void Dispatcher::addTask(Task* task, bool push_front/*=false*/)
 {
-	bool do_signal=false;
+	bool do_signal{false};
 	m_taskLock.lock();
 	if (m_threadState==STATE_RUNNING) {
 		do_signal=m_taskList.empty();
@@ -138,8 +138,7 @@ void Dispatcher::flush()
 		m_taskList.pop_front();
 		(*task)();
 		delete task;
-		network::OutputMessagePool* outputPool=network::OutputMessagePool::getInstance();
-		if (outputPool) {
+		if (network::OutputMessagePool* outputPool=network::OutputMessagePool::getInstance(); outputPool) {
 			outputPool->sendAll();
 			}
 		}

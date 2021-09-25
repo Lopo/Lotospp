@@ -164,7 +164,7 @@ std::size_t NetworkMessage::getReadPos() const
 	return m_ReadPos;
 }
 
-void NetworkMessage::setReadPos(int32_t pos)
+void NetworkMessage::setReadPos(size_t pos)
 {
 	m_ReadPos=pos;
 }

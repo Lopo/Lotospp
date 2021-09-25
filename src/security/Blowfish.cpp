@@ -141,7 +141,7 @@ void Blowfish::BF_encode(char *dst, const BF_LONG *src, int size)
 
 void Blowfish::BF_swap(BF_LONG *x, int count)
 {
-	static int endianness_check=1;
+	static int endianness_check{1};
 	char *is_little_endian=(char *)&endianness_check;
 	BF_LONG tmp;
 

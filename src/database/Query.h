@@ -29,7 +29,7 @@ public:
 	void reset() {};
 
 protected:
-	static boost::recursive_mutex database_lock;
+	static inline boost::recursive_mutex database_lock;
 };
 
 	} // namespace database

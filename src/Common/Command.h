@@ -26,7 +26,7 @@ public:
 
 private:
 	std::string name;
-	enums::UserLevel level=enums::UserLevel_NOVICE;
+	enums::UserLevel level{enums::UserLevel_NOVICE};
 };
 
 } // namespace lotospp

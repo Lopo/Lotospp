@@ -28,7 +28,7 @@ public:
 	void closeAll();
 
 protected:
-	std::list<Connection_ptr> m_connections;
+	std::list<Connection_ptr> m_connections{};
 	boost::recursive_mutex m_connectionManagerLock;
 };
 

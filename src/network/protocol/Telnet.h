@@ -32,7 +32,7 @@ public:
 	enum { server_sends_first=true};
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
-	static uint32_t protocolTelnetCount;
+	static inline uint32_t protocolTelnetCount{0};
 #endif
 
 	Telnet(Connection_ptr connection);
@@ -68,12 +68,12 @@ private:
 #define addTalkerTask(f, ...) addTalkerTaskInternal(false, 0, boost::bind(f, &g_talker, __VA_ARGS__))
 #define addTalkerTaskTimed(delay, f, ...) addTalkerTaskInternal(true, delay, boost::bind(f, &g_talker, __VA_ARGS__))
 
-	template<class FunctionType>
+	template<typename FunctionType>
 	void addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType&);
 
-	uint32_t eventConnect=0;
-	bool m_debugAssertSent=false;
-	bool m_acceptPackets=false;
+	uint32_t eventConnect{0};
+	bool m_debugAssertSent{false};
+	bool m_acceptPackets{false};
 };
 
 		} // namespace protocol

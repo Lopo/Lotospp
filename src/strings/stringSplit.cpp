@@ -22,9 +22,9 @@ std::vector<std::string> StringSplit(const std::string &s, const std::string& de
 
 std::vector<std::string> wordFind(const std::string& inpstr)
 {
-	std::vector<std::string> ret;
+	std::vector<std::string> ret{};
 	std::string word;
-	size_t rmax=ret.max_size(), wmax=word.max_size();
+	size_t rmax{ret.max_size()}, wmax{word.max_size()};
 
 	std::string::const_iterator it=inpstr.cbegin();
 	do {

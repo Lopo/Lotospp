@@ -26,7 +26,7 @@ public:
 
 // Iteration
 
-template <class ET>
+template <typename ET>
 class enum_iterator
 {
 	typedef typename ET::EnumToString::iterator _internal;
@@ -37,8 +37,7 @@ public:
 	enum_iterator(const ET& e)
 	{
 		e.init();
-		i=e.enum_to_string.find(e);
-		if (i==e.enum_to_string.end()) {
+		if (e.enum_to_string.find(e)==e.enum_to_string.end()) {
 			std::ostringstream os;
 			os << "Enum " << e.name() << " value out of range (" << (int)e.e << ")";
 			throw enum_conversion_error(os.str());
@@ -80,11 +79,11 @@ public:
 };
 
 
-template <class E, int size_>
+template <typename E, int size_>
 class BitEnum;
 
 
-template <class E, int size_>
+template <typename E, int size_>
 class Enum
 {
 protected:
@@ -92,8 +91,8 @@ protected:
 
 public:
 	// Some useful types
-	typedef std::map<Enum<E, size_>, std::vector<std::string> > EnumToString;
-	typedef std::map<std::string, Enum<E, size_> > StringToEnum;
+	typedef std::map<Enum<E, size_>, std::vector<std::string>> EnumToString;
+	typedef std::map<std::string, Enum<E, size_>> StringToEnum;
 	typedef std::map<Enum<E, size_>, std::string> EnumToValue;
 	// Required for some name-resolving of BitEnums
 	typedef Enum<E, size_> base_class;
@@ -103,11 +102,11 @@ public:
 	Enum() : e(E(0)) {};
 	Enum(E e) : e(e) {};
 	Enum(const Enum<E, size_>& o) : e(o.e) {};
-	explicit Enum(enum_iterator<Enum<E, size_> >& o) : e(E(o->value())) {};
+	explicit Enum(enum_iterator<Enum<E, size_>>& o) : e(E(o->value())) {};
 	explicit Enum(int e) : e(E(e)) {};
 
 	// Classes
-	typedef enum_iterator< Enum<E, size_> > iterator;
+	typedef enum_iterator<Enum<E, size_>> iterator;
 	typedef iterator const_iterator; // const_iterator is the same
 
 	/**
@@ -355,12 +354,12 @@ protected: // Private stuff
 		lstring_to_enum[str]=_e;
 	};
 
-	static bool initialized;
+	static inline bool initialized{false};
 	static std::string enum_name;
-	static EnumToString enum_to_string;
-	static EnumToValue enum_to_value;
-	static StringToEnum string_to_enum;
-	static StringToEnum lstring_to_enum;
+	static inline EnumToString enum_to_string{};
+	static inline EnumToValue enum_to_value{};
+	static inline StringToEnum string_to_enum{};
+	static inline StringToEnum lstring_to_enum{};
 
 public: // Operators
 	// Comparison
@@ -373,8 +372,8 @@ public: // Operators
 
 	Enum<E, size_> operator[](int id) const { return fromInteger(id);};
 
-	friend class enum_iterator< Enum<E, size_> >;
-	friend class enum_iterator< BitEnum<E, size_> >;
+	friend class enum_iterator<Enum<E, size_>>;
+	friend class enum_iterator<BitEnum<E, size_>>;
 };
 
 
@@ -382,7 +381,7 @@ public: // Operators
  * BitEnum, an enum that can be ORed
  * Note that the classes are NOT polymorphic, so never pass this as an Enum&
  */
-template <class E, int size_=-1 /* Will always cause error when trying to use */>
+template <typename E, int size_=-1 /* Will always cause error when trying to use */>
 class BitEnum
 	: public Enum<E, size_>
 {
@@ -420,7 +419,7 @@ public:
 	};
 
 	// Classes
-	typedef enum_iterator< BitEnum<E, size_> > iterator;
+	typedef enum_iterator<BitEnum<E, size_>> iterator;
 	typedef iterator const_iterator; // const_iterator is the same
 
 	/**
@@ -437,7 +436,7 @@ public:
 			}
 
 		std::ostringstream os;
-		bool first=true;
+		bool first{true};
 		for (int i=1; ; i<<=1) {
 			if ((_e.value() & i)==i) {
 				if (!first) {
@@ -499,19 +498,19 @@ public:
 	};
 };
 
-template <class E, int size_>
+template <typename E, int size_>
 std::ostream& operator<<(std::ostream& os, const BitEnum<E, size_>& e)
 {
 	return os << BitEnum<E, size_>::toString(e);
 }
 
-template <class E, int size_>
+template <typename E, int size_>
 std::ostream& operator<<(std::ostream& os, const Enum<E, size_>& e)
 {
 	return os << Enum<E, size_>::toString(e);
 }
 
-template <class E, int size_>
+template <typename E, int size_>
 int operator<<(int i, const Enum<E, size_>& e)
 {
 	return 1 << e.value();

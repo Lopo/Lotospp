@@ -46,11 +46,11 @@ public:
 	typedef std::set<uint32_t> list_type;
 
 	uint32_t auto_id;
-	static boost::recursive_mutex autoIDLock;
+	static inline boost::recursive_mutex autoIDLock;
 
 protected:
-	static uint32_t count;
-	static list_type list;
+	static inline uint32_t count{1000};
+	static inline list_type list{};
 };
 
 } // namespace lotospp

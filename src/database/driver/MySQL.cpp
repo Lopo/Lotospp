@@ -27,7 +27,7 @@ MySQL::MySQL()
 		}
 
 	// automatic reconnect
-	my_bool reconnect=true;
+	my_bool reconnect{true};
 	mysql_options(&m_handle, MYSQL_OPT_RECONNECT, &reconnect);
 
 	// connects to database
@@ -130,14 +130,12 @@ bool MySQL::internalQuery(const std::string &query)
 	std::cout << "MYSQL QUERY: " << query << std::endl;
 #endif
 
-	bool state=true;
+	bool state{true};
 
 	// executes the query
 	if (mysql_real_query(&m_handle, query.c_str(), query.length())) {
 		std::cout << "mysql_real_query(): " << query.substr(0, 256) << ": MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
-		int error=mysql_errno(&m_handle);
-
-		if (error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
+		if (int error=mysql_errno(&m_handle); error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
 			m_connected=false;
 			}
 
@@ -168,9 +166,7 @@ lotospp::database::Result_ptr MySQL::internalSelectQuery(const std::string &quer
 	// executes the query
 	if (mysql_real_query(&m_handle, query.c_str(), query.length())) {
 		std::cout << "mysql_real_query(): " << query << ": MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
-		int error=mysql_errno(&m_handle);
-
-		if (error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
+		if (int error=mysql_errno(&m_handle); error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
 			m_connected=false;
 			}
 		}
@@ -182,9 +178,7 @@ lotospp::database::Result_ptr MySQL::internalSelectQuery(const std::string &quer
 	// error occured
 	if (!m_res) {
 		std::cout << "mysql_store_result(): " << query.substr(0, 256) << ": MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
-		int error=mysql_errno(&m_handle);
-
-		if (error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
+		if (int error=mysql_errno(&m_handle); error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
 			m_connected=false;
 			}
 
@@ -218,9 +212,8 @@ std::string MySQL::escapeBlob(const char* s, uint32_t length)
 
 	// quotes escaped string and frees temporary buffer
 	mysql_real_escape_string(&m_handle, output, s, length);
-	std::string r="'";
-	r+=output;
-	r+="'";
+	using namespace std::string_literals;
+	std::string r{"'"s+output+"'"};
 	delete[] output;
 	return r;
 }
@@ -238,7 +231,7 @@ MySQLResult::MySQLResult(MYSQL_RES* res)
 	m_listNames.clear();
 
 	MYSQL_FIELD* field;
-	int32_t i=0;
+	int32_t i{0};
 	while ((field=mysql_fetch_field(m_handle))) {
 		m_listNames[field->name]=i;
 		i++;
@@ -252,8 +245,7 @@ MySQLResult::~MySQLResult()
 
 int32_t MySQLResult::getDataInt(const std::string &s)
 {
-	listNames_t::iterator it=m_listNames.find(s);
-	if (it!=m_listNames.end()) {
+	if (listNames_t::iterator it=m_listNames.find(s); it!=m_listNames.end()) {
 		if (m_row[it->second]==NULL) {
 			return 0;
 			}
@@ -266,8 +258,7 @@ int32_t MySQLResult::getDataInt(const std::string &s)
 
 uint32_t MySQLResult::getDataUInt(const std::string &s)
 {
-	listNames_t::iterator it=m_listNames.find(s);
-	if (it!=m_listNames.end()) {
+	if (listNames_t::iterator it=m_listNames.find(s); it!=m_listNames.end()) {
 		if (m_row[it->second]==NULL) {
 			return 0;
 			}
@@ -283,8 +274,7 @@ uint32_t MySQLResult::getDataUInt(const std::string &s)
 
 int64_t MySQLResult::getDataLong(const std::string &s)
 {
-	listNames_t::iterator it=m_listNames.find(s);
-	if (it!=m_listNames.end()) {
+	if (listNames_t::iterator it=m_listNames.find(s); it!=m_listNames.end()) {
 		if (m_row[it->second]==NULL) {
 			return 0;
 			}
@@ -297,11 +287,10 @@ int64_t MySQLResult::getDataLong(const std::string &s)
 
 std::string MySQLResult::getDataString(const std::string &s)
 {
-	listNames_t::iterator it=m_listNames.find(s);
-	if (it!=m_listNames.end()) {
+	if (listNames_t::iterator it=m_listNames.find(s); it!=m_listNames.end()) {
 		return m_row[it->second]==NULL
-			? std::string("")
-			: std::string(m_row[it->second]);
+			? ""
+			: m_row[it->second];
 		}
 
 	std::cout << "Error during getDataString(" << s << ")." << std::endl;
@@ -310,8 +299,7 @@ std::string MySQLResult::getDataString(const std::string &s)
 
 const char* MySQLResult::getDataStream(const std::string &s, unsigned long &size)
 {
-	listNames_t::iterator it=m_listNames.find(s);
-	if (it!=m_listNames.end()) {
+	if (listNames_t::iterator it=m_listNames.find(s); it!=m_listNames.end()) {
 		if (m_row[it->second]==NULL) {
 			size=0;
 			return NULL;

@@ -30,16 +30,9 @@
 using namespace lotospp;
 
 
-AutoList<User> User::listUser;
-
-#ifdef __ENABLE_SERVER_DIAGNOSTIC__
-uint32_t User::userCount=0;
-#endif
-
-
 User::User(const std::string& n /*=""*/, network::Protocol* p/*=nullptr*/)
 	: Creature(),
-		client(p), name(n)
+		client{p}, name{n}
 {
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	userCount++;
@@ -85,7 +78,7 @@ void User::parseLine()
 	strings::cleanString(textBuffer[buffnum]);
 	com.parse(textBuffer[buffnum]);
 
-	bool skipPrompt=false;
+	bool skipPrompt{false};
 	switch (stage.value()) {
 		case enums::UserStage_CMD_LINE:
 			runCmdLine();
@@ -225,7 +218,7 @@ void User::uPrintf(const char* fmtstr, ...)
 {
 	std::string str, str2;
 	size_t i, str2max=str2.max_size();
-	bool pcesc=false;
+	bool pcesc{false};
 	va_list args;
 
 	va_start(args, fmtstr);
@@ -324,9 +317,9 @@ void User::login(std::string inpstr)
 			name.assign(inpstr);
 			name[0]=::toupper(name[0]);
 			// If user has hung on another login clear that session
-			for (auto u=listUser.list.begin(); u!=listUser.list.end(); ++u) {
-				if (u->second->level==enums::UserLevel_LOGIN && u->second!=this && boost::iequals(u->second->name, name)) {
-					u->second->kick();
+			for (auto&& [f, u] : listUser.list) {
+				if (u->level==enums::UserLevel_LOGIN && u!=this && boost::iequals(u->name, name)) {
+					u->kick();
 					}
 				}
 			if (!IOUser::instance()->load(this, inpstr, true)) {
@@ -382,8 +375,7 @@ void User::login(std::string inpstr)
 
 void User::uConnect()
 {
-	for (auto it=listUser.list.begin(); it!=listUser.list.end(); it++) {
-		User* u=it->second;
+	for (auto&& [f, u] : listUser.list) {
 		if (this!=u && !name.compare(u->name)) {
 			uPrintf("\n\nalready logged in - switching to old session ...\n");
 			uPrintf("old addr: %s", u->getAddress().to_string().c_str());
@@ -564,13 +556,12 @@ bool User::parseTelopt()
  */
 int User::getTermsize()
 {
-	unsigned int pos1, pos2, def;
-
 	if (bpos<9) {
 		return 0;
 		}
 
-	uint16_t dCols=termCols, dRows=termRows;
+	unsigned int pos1, pos2, def;
+	uint16_t dCols{termCols}, dRows{termRows};
 	termCols= termRows= 0;
 
 	// If one of the sizes involves 255 (TELNET_IAC) then 255 gets sent twice as per telnet spec.
@@ -665,9 +656,8 @@ int User::getTermtype()
 	flagsTelnet.unset(enums::TelnetFlag_ANSI_TERM);
 
 	// Set colour flag if user has compatable terminal. 
-	std::string ansiTerms=options.get("global.ansiTerms", "");
-	if (ansiTerms!="") {
-		for (std::string term: strings::StringSplit(ansiTerms, ",")) {
+	if (std::string ansiTerms=options.get("global.ansiTerms", ""); ansiTerms!="") {
+		for (std::string term : strings::StringSplit(ansiTerms, ",")) {
 			if (boost::iequals(termType, term)) {
 				flagsTelnet.set(enums::TelnetFlag_ANSI_TERM);
 				break;
@@ -685,7 +675,7 @@ int User::getTermtype()
 
 void User::runCmdLine()
 {
-	bool dot=false;
+	bool dot{false};
 
 	// If nothing entered just return. Word[0] could be zero length if user entered "" on the command line
 	if (com.word.empty() || !com.word[0].length()) {

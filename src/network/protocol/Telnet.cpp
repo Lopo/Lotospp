@@ -16,13 +16,9 @@
 using namespace lotospp::network::protocol;
 
 
-#ifdef __ENABLE_SERVER_DIAGNOSTIC__
-uint32_t Telnet::protocolTelnetCount=0;
-#endif
-
 // Helping templates to add dispatcher tasks
 
-template<class FunctionType>
+template<typename FunctionType>
 void Telnet::addTalkerTaskInternal(bool droppable, uint32_t delay, const FunctionType& func)
 {
 	if (droppable) {
@@ -117,8 +113,7 @@ bool Telnet::connect(uint32_t userId)
 
 void Telnet::disconnectClient(const char* message)
 {
-	OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false);
-	if (output) {
+	if (OutputMessage_ptr output=OutputMessagePool::getInstance()->getOutputMessage(this, false); output) {
 		TRACK_MESSAGE(output);
 		output->AddString(message);
 		OutputMessagePool::getInstance()->send(output);

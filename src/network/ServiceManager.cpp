@@ -17,7 +17,7 @@ using namespace lotospp::network;
 
 
 ServiceManager::ServiceManager()
-	: m_io_service(), death_timer(m_io_service), running(false)
+	: m_io_service(), death_timer{m_io_service}, running{false}
 {
 }
 
@@ -28,9 +28,9 @@ ServiceManager::~ServiceManager()
 
 std::list<uint16_t> ServiceManager::getPorts() const
 {
-	std::list<uint16_t> ports;
-	for (std::map<uint16_t, ServicePort_ptr>::const_iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it) {
-		ports.push_back(it->first);
+	std::list<uint16_t> ports{};
+	for (auto&& [f, s] : m_acceptors) {
+		ports.push_back(f);
 		}
 	// Maps are ordered, so the elements are in order
 	//ports.sort();
@@ -63,9 +63,9 @@ void ServiceManager::stop()
 
 	running=false;
 
-	for (std::map<uint16_t, ServicePort_ptr>::iterator it=m_acceptors.begin(); it!=m_acceptors.end(); ++it) {
+	for (auto&& [f, s] : m_acceptors) {
 		try {
-			m_io_service.post(boost::bind(&ServicePort::onStopServer, it->second));
+			m_io_service.post(boost::bind(&ServicePort::onStopServer, s));
 			}
 		catch (boost::system::system_error& e) {
 			LOG(LERROR) << e.what();

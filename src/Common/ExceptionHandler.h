@@ -32,7 +32,7 @@ private:
 #	endif
 #endif
 
-	bool isInstalled=false;
+	bool isInstalled{false};
 };
 
 } // namespace lotospp

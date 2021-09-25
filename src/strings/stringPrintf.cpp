@@ -23,7 +23,7 @@ inline int vsnprintfT(char* buffer, size_t buf_size, const char* format, va_list
 
 // Templatized backend for StringPrintF/StringAppendF. This does not finalize
 // the va_list, the caller is expected to do that.
-template <class StringType>
+template <typename StringType>
 static void StringAppendVT(StringType* dst, const typename StringType::value_type* format, va_list ap)
 {
 	// First try with a small fixed size buffer.

@@ -135,10 +135,10 @@ protected:
 
 	Result_ptr verifyResult(Result_ptr result);
 
-	bool m_connected=false;
+	bool m_connected{false};
 
 private:
-	static Driver* _instance;
+	static inline Driver* _instance{nullptr};
 };
 
 	} // namespace database

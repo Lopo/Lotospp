@@ -54,7 +54,7 @@ User* Talker::getUserByID(uint32_t id)
 UserVector Talker::getUsersByIP(uint32_t ipadress, uint32_t mask)
 {
 	UserVector users;
-	for (AutoList<User>::listiterator it=User::listUser.list.begin(); it!=User::listUser.list.end(); ++it) {
+	for (auto& it : User::listUser.list) {
 		}
 
 	return users;
@@ -91,8 +91,8 @@ void Talker::shutdown()
 void Talker::cleanup()
 {
 	//free memory
-	for (std::vector<Thing*>::iterator it=toReleaseThings.begin(); it!=toReleaseThings.end(); ++it) {
-		(*it)->unRef();
+	for (auto& it : toReleaseThings) {
+		it->unRef();
 		}
 
 	toReleaseThings.clear();
