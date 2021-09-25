@@ -1,12 +1,3 @@
-# Make sure the compiler can compile C++11 code
-if (MSVC)
-	if ("${MSVC_VERSION}" LESS 1800)
-		message(FATAL_ERROR "Requires Visual Studio 12 2013 or newer")
-	endif ()
-else (MSVC)
-	find_package(CXX11 REQUIRED)
-endif ()
-
 if (WIN32)
 	get_WIN32_WINNT(ver)
 	add_definitions(-D_WIN32_WINNT=${ver})
