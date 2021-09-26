@@ -16,7 +16,7 @@ class Task
 public:
 	// DO NOT allocate this class on the stack
 	Task(uint32_t ms, const boost::function<void (void)>& f)
-		: m_f(f), m_expiration{boost::get_system_time()+boost::posix_time::milliseconds(ms)}
+		: m_expiration{boost::get_system_time()+boost::posix_time::milliseconds(ms)}, m_f{f}
 	{};
 	Task(const boost::function<void (void)>& f)
 		: m_expiration{boost::date_time::not_a_date_time}, m_f{f}

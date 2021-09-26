@@ -143,6 +143,7 @@ void Telnet::parsePacket(LotosPP::Network::NetworkMessage& msg)
 		switch (stg) {
 			case enums::UserStage_DISCONNECT:
 				user->disconnect();
+				[[fallthrough]];
 			case enums::UserStage_SWAPPED:
 				delete user;
 				user=nullptr;

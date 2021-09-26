@@ -224,7 +224,7 @@ MySQLResult::MySQLResult(MYSQL_RES* res)
 
 	MYSQL_FIELD* field;
 	int32_t i{0};
-	while (field=mysql_fetch_field(m_handle)) {
+	while ((field=mysql_fetch_field(m_handle))!=nullptr) {
 		m_listNames[field->name]=i;
 		i++;
 		}

@@ -131,7 +131,7 @@ void User::prompt()
 void User::uRead(Network::NetworkMessage msg)
 {
 	size_t remain;
-	uint32_t i, len{msg.getMessageLength()};
+	size_t i, len{msg.getMessageLength()};
 	std::string input=msg.GetRaw();
 
 	for (i=0; i<len; ++i) { // Loop through input
