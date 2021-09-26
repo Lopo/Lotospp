@@ -98,7 +98,7 @@ void Telnet::deleteProtocolTask()
 	Protocol::deleteProtocolTask();
 }
 
-bool Telnet::connect(uint32_t userId)
+bool Telnet::connect([[maybe_unused]]uint32_t userId)
 {
 	unRef();
 	eventConnect=0;
@@ -121,7 +121,7 @@ void Telnet::disconnectClient(const char* message)
 
 //********************** Parse methods *******************************
 
-bool Telnet::parseFirstPacket(LotosPP::Network::NetworkMessage& msg)
+bool Telnet::parseFirstPacket([[maybe_unused]]LotosPP::Network::NetworkMessage& msg)
 {
     LotosPP::Common::User* _user=new LotosPP::Common::User("", this);
 	_user->setID();

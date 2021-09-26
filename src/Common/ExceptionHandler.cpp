@@ -20,10 +20,7 @@ using LotosPP::Common::ExceptionHandler;
 #		pragma comment(lib, "DbgHelp")
 
 		// based on dbghelp.h
-		typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
-			CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam,
-			CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
-			CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam);
+		typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType, CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam, CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam, CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam);
 
 		int ExceptionHandler::refCounter{0};
 #	elif __GNUC__
@@ -38,9 +35,9 @@ using LotosPP::Common::ExceptionHandler;
 		EXCEPTION_DISPOSITION
 		__cdecl _SEHHandler(
 			struct _EXCEPTION_RECORD *ExceptionRecord,
-			void * EstablisherFrame,
+			void* EstablisherFrame,
 			struct _CONTEXT *ContextRecord,
-			void * DispatcherContext
+			void* DispatcherContext
 			);
 		void printPointer(std::ostream* output,unsigned long p);
 #	endif
@@ -92,7 +89,7 @@ bool ExceptionHandler::InstallHandler()
 		return false;
 		}
 
-	SEHChain *prevSEH;
+	SEHChain* prevSEH;
 	__asm__("movl %%fs:0,%%eax;movl %%eax,%0;":"=r"(prevSEH)::"%eax");
 	chain.prev=prevSEH;
 	chain.SEHfunction=(void*)&_SEHHandler;
@@ -186,8 +183,7 @@ LONG WINAPI ExceptionHandler::MiniDumpExceptionHandler(struct _EXCEPTION_POINTER
 
 	std::string strFileNameDump=strAppDirectory+dumpfile;
 
-	HANDLE hFile=::CreateFile(strFileNameDump.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
-								FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile=::CreateFile(strFileNameDump.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hFile==INVALID_HANDLE_VALUE) {
 		std::cout << "Could not create memory dump file." << std::endl;
@@ -217,8 +213,7 @@ LONG WINAPI ExceptionHandler::MiniDumpExceptionHandler(struct _EXCEPTION_POINTER
 char* getFunctionName(unsigned long addr, unsigned long& start)
 {
 	if (addr>=min_off && addr<=max_off) {
-		FunctionMap::iterator functions;
-		for (FunctionMap::iterator functions : functionMap) {
+		for (FunctionMap::iterator functions=functionMap.begin(); functions!=functionMap.end(); ++functions) {
 			if (functions->first>addr && functions!=functionMap.begin()) {
 				functions--;
 				start=functions->first;
@@ -348,7 +343,7 @@ __cdecl _SEHHandler(
 	*outdriver << std::endl;
 
 	//stack dump
-	esp=(unsigned long *)(ContextRecord->Esp);
+	esp=(unsigned long*)(ContextRecord->Esp);
 	VirtualQuery(esp, &mbi, sizeof(mbi));
 	stacklimit=(unsigned long*)((unsigned long)(mbi.BaseAddress)+mbi.RegionSize);
 
@@ -409,11 +404,11 @@ void printPointer(std::ostream* output,unsigned long p)
 
 void ExceptionHandler::dumpStack()
 {
-	unsigned long *esp;
-	unsigned long *next_ret;
+	unsigned long* esp;
+	unsigned long* next_ret;
 	unsigned long stack_val;
-	unsigned long *stacklimit;
-	unsigned long *stackstart;
+	unsigned long* stacklimit;
+	unsigned long* stackstart;
 	unsigned long nparameters=0;
 	unsigned long foundRetAddress=0;
 	_MEMORY_BASIC_INFORMATION mbi;

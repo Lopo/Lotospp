@@ -45,7 +45,7 @@ Result_ptr Driver::storeQuery(Query& query)
 	return storeQuery(query.str());
 }
 
-void Driver::freeResult(Result* res)
+void Driver::freeResult([[maybe_unused]]Result* res)
 {
 	throw std::runtime_error("No database driver loaded, yet a Result was freed.");
 }

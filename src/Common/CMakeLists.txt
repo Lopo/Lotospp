@@ -18,10 +18,15 @@ target_link_libraries(Common
 	PRIVATE
 		Lotospp-buildinfo
 		Commands
-		Database
 		Strings
 		Security
 		)
+if (WITH_DATABASE)
+	target_link_libraries(Common
+		PRIVATE
+			Database
+		)
+endif()
 set_target_properties(Common PROPERTIES
 	POSITION_INDEPENDENT_CODE ON
 	)

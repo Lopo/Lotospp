@@ -135,7 +135,7 @@ void Protocol::parseDebug(NetworkMessage& msg)
 	msg.setReadPos(pos);
 }
 
-bool Protocol::logout(bool forced)
+bool Protocol::logout([[maybe_unused]]bool forced)
 {
 	if (!user) {
 		return false;

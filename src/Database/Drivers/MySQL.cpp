@@ -1,7 +1,5 @@
 #include "MySQL.h"
 
-#ifdef WITH_MYSQL
-
 #include "../Query.h"
 #include "globals.h"
 #include <boost/bind.hpp>
@@ -65,7 +63,7 @@ MySQL::~MySQL()
 	mysql_close(&m_handle);
 }
 
-bool MySQL::getParam(const LotosPP::Database::DBParam_t& param)
+bool MySQL::getParam(const LotosPP::Database::DBParam_t& param) const
 {
 	switch (param) {
 		case DBPARAM_MULTIINSERT:
@@ -317,5 +315,3 @@ bool MySQLResult::empty()
 {
 	return m_row==NULL;
 }
-
-#endif // WITH_MYSQL

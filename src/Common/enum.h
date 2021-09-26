@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_ENUM_H
 #define LOTOSPP_COMMON_ENUM_H
 
-
 #include "config.h"
 #include <string>
 #include <vector>
@@ -31,8 +30,12 @@ class enum_iterator
 	typedef typename ET::EnumToString::iterator _internal;
 	_internal i;
 public:
-	enum_iterator(const enum_iterator<ET>& o) : i(o.i) {};
-	enum_iterator(const _internal& i) : i(i) {};
+	enum_iterator(const enum_iterator<ET>& o)
+		: i(o.i)
+	{};
+	enum_iterator(const _internal& i)
+		: i(i)
+	{};
 	enum_iterator(const ET& e)
 	{
 		e.init();
@@ -44,9 +47,15 @@ public:
 	};
 
 	// Get the value of the iterator
-	ET operator* () { return ET(typename ET::enum_type(i->first.value()));};
+	ET operator* ()
+	{
+		return ET(typename ET::enum_type(i->first.value()));
+	};
 	// Evil reinterpret cast, /should/ never break
-	const ET* operator->() const { return reinterpret_cast<const ET*>(&(i->first));};
+	const ET* operator->() const
+	{
+		return reinterpret_cast<const ET*>(&(i->first));
+	};
 
 	// Move the iterator
 	const enum_iterator<ET>& operator++()
@@ -98,11 +107,21 @@ public:
 	typedef E enum_type;
 
 public:
-	Enum() : e(E(0)) {};
-	Enum(E e) : e(e) {};
-	Enum(const Enum<E, size_>& o) : e(o.e) {};
-	explicit Enum(enum_iterator<Enum<E, size_>>& o) : e(E(o->value())) {};
-	explicit Enum(int e) : e(E(e)) {};
+	Enum()
+		: e(E(0))
+	{};
+	Enum(E e)
+		: e(e)
+	{};
+	Enum(const Enum<E, size_>& o)
+		: e(o.e)
+	{};
+	explicit Enum(enum_iterator<Enum<E, size_>>& o)
+		: e(E(o->value()))
+	{};
+	explicit Enum(int e)
+		: e(E(e))
+	{};
 
 	// Classes
 	typedef enum_iterator<Enum<E, size_>> iterator;
@@ -111,16 +130,25 @@ public:
 	/**
 	 * The size required by an array to use this enum as a key
 	 */
-	enum { size=size_};
+	enum {
+		size=size_
+		};
 
 	// Static utility functions
 
 	// Conversion to some types..
-	E evalue() const { return e;};
-	int value() const { return int(e);};
+	E evalue() const
+	{
+		return e;
+	};
+	int value() const
+	{
+		return int(e);
+	};
 
 private:
-	void _boolean_true() const {};
+	void _boolean_true() const
+	{};
 	typedef void (Enum<E, size_>::*_boolean_type)() const;
 public:
 	operator _boolean_type() const

@@ -2,6 +2,7 @@
 #define	LOTOSPP_STRINGS_SPLITLINE_H
 
 #include "config.h"
+#include "Common/Enums/ReturnValue.h"
 #include <string>
 #include <deque>
 
@@ -17,7 +18,7 @@ public:
 	~Splitline();
 
 	void reset();
-	int parse(const std::string& inLine);
+	LotosPP::Common::ReturnValue parse(const std::string& inLine);
 	/// Shift all words up by one. This is equivalent to the unix shell shift command
 	void shift();
 

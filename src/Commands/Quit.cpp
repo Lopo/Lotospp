@@ -1,4 +1,4 @@
-#include "Commands/Quit.h"
+#include "Quit.h"
 
 
 using namespace LotosPP::Commands;

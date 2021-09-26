@@ -17,7 +17,7 @@ void Splitline::reset()
 	word.clear();
 }
 
-int Splitline::parse(const std::string& inLine)
+LotosPP::Common::ReturnValue Splitline::parse(const std::string& inLine)
 {
 	size_t o1=0, o2=0;
 

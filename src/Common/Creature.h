@@ -1,5 +1,5 @@
-#ifndef LOTOSPP_CREATURE_H
-#define	LOTOSPP_CREATURE_H
+#ifndef LOTOSPP_COMMON_CREATURE_H
+#define LOTOSPP_COMMON_CREATURE_H
 
 #include "config.h"
 #include "AutoID.h"

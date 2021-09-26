@@ -4,7 +4,7 @@
 
 namespace LotosPP::Strings {
 
-std::vector<std::string> &StringSplit(const std::string &s, const std::string& delim, std::vector<std::string>& elems)
+std::vector<std::string>& StringSplit(const std::string &s, const std::string& delim, std::vector<std::string>& elems)
 {
 	boost::split(elems, s, boost::is_any_of(delim));
 	return elems;

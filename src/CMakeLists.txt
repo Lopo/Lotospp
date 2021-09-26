@@ -34,11 +34,11 @@ set(EXECUTABLE ${PROJECT_NAME})
 add_executable(${EXECUTABLE} main.cpp)
 make_small_executable(${EXECUTABLE})
 
-if (WITH_MYSQL)
-	include_directories(${MYSQL_INCLUDE_DIR})
-	link_directories(${MYSQL_LIB_DIR})
-	target_link_libraries(${EXECUTABLE} ${MYSQL_LIB} ${MYSQL_LIBRARIES})
-endif ()
+#if (WITH_MYSQL)
+#	include_directories(${MYSQL_INCLUDE_DIR})
+#	link_directories(${MYSQL_LIB_DIR})
+#	target_link_libraries(${EXECUTABLE} ${MYSQL_LIB} ${MYSQL_LIBRARIES})
+#endif ()
 if (UNIX)
 	find_package(Threads)
 	target_link_libraries(${EXECUTABLE} ${CMAKE_THREAD_LIBS_INIT})
@@ -50,7 +50,6 @@ target_link_libraries(${EXECUTABLE}
 	CommonEnums
 	Log
 	Commands
-	Database
 	Network
 	Security
 	Strings
@@ -62,3 +61,6 @@ target_link_libraries(${EXECUTABLE}
 	${CRYPTO_LIBRARIES}
 	${MISC_LIBRARIES}
 	)
+if (WITH_DATABASE)
+	target_link_libraries(${EXECUTABLE} Database)
+endif()

@@ -60,7 +60,8 @@ inline SchedulerTask* createSchedulerTask(uint32_t delay, const boost::function<
 		delay=SCHEDULER_MINTICKS;
 		}
 	return new SchedulerTask(delay, f);
-};
+}
+
 
 class lessSchedTask
 	: public std::binary_function<SchedulerTask*&, SchedulerTask*&, bool>

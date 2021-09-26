@@ -1,5 +1,5 @@
-#ifndef LOTOSPP_IOUSER_H
-#define LOTOSPP_IOUSER_H
+#ifndef LOTOSPP_COMMON_IOUSER_H
+#define LOTOSPP_COMMON_IOUSER_H
 
 #include "config.h"
 #include <string>

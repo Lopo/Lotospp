@@ -79,7 +79,7 @@ bool ServiceManager::add(uint16_t port)
 		}
 
 	return service_port->addService(Service_ptr(new Service<ProtocolType>()));
-};
+}
 
 	}
 

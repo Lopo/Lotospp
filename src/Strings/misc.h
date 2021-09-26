@@ -1,12 +1,10 @@
 #ifndef LOTOSPP_STRINGS_MISC_H
 #define LOTOSPP_STRINGS_MISC_H
 
-
 #include "config.h"
-
-#include <ctime>
 #include <string>
 #include <algorithm>
+#include <ctime>
 
 
 namespace LotosPP::Strings {
@@ -14,7 +12,7 @@ namespace LotosPP::Strings {
 inline void toLowerCaseString(std::string& source)
 {
 	std::transform(source.begin(), source.end(), source.begin(), tolower);
-};
+}
 
 bool hasWhitespace(const std::string& str);
 void formatTime(time_t time, char* buffer);

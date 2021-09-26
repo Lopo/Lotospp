@@ -98,8 +98,8 @@ bool configure(int ac, char **av)
 	options.put("global.log.console.level", logLevelC.to_string());
 	options.put("global.log.file.level", logLevelF.to_string());
 	options.put("global.log.dir", logDir);
-	if (int userPort=options.get<uint16_t>("global.userPort", 0); userPort<=1024) {
-		std::cout << "Main port must be higher then 1024, actual: " << userPort << std::endl;
+	if (int64_t userPort=options.get<int64_t>("global.userPort", 0); userPort<=1024 || userPort>65535) {
+		std::cout << "Main port must be between 1024 and 65535, actual: " << userPort << std::endl;
 		return false;
 		}
 	if (pidFile!="") {
@@ -143,7 +143,7 @@ void parseConfig(void)
 		std::cerr << "ERROR: Log dir '" << logDir << "' don't exist or isn't dir" << std::endl;
 		exit(1);
 		}
-	if (int userPort=options.get<uint16_t>("global.userPort", 0); userPort<=1024 || userPort>65535) {
+	if (int64_t userPort=options.get<int64_t>("global.userPort", 0); userPort<=1024 || userPort>65535) {
 		std::cerr << "ERROR: Invalid user port number " << userPort << ". Range is 1025 - 65535." << std::endl;
 		exit(1);
 		}
@@ -185,7 +185,7 @@ void init(void)
 
 	LOG(LINFO) << "Number of found CPUs: " << boost::thread::hardware_concurrency();
 
-	if (std::string pidFile(options.get("global.pidFile", "")); pidFile!="") {
+	if (std::string pidFile{options.get("global.pidFile", "")}; pidFile!="") {
 		std::ofstream f(pidFile, std::ios::trunc|std::ios::out);
 		f << getpid();
 		f.close();

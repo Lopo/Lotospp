@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_DATABASE_DRIVERS_MYSQL_H
 #define LOTOSPP_DATABASE_DRIVERS_MYSQL_H
 
-
 #include "config.h"
 
 #ifdef WITH_MYSQL
@@ -26,7 +25,7 @@ public:
 	MySQL();
 	virtual ~MySQL();
 
-	virtual bool getParam(const LotosPP::Database::DBParam_t& param);
+	virtual bool getParam(const LotosPP::Database::DBParam_t& param) const;
 
 	virtual bool beginTransaction();
 	virtual bool rollback();

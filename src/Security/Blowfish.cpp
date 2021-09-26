@@ -3,11 +3,11 @@
 #include <boost/random/random_device.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <cstdint>
-#include <string.h>
-#include <errno.h>
+#include <cstring>
+#include <cerrno>
 
 
-namespace LotosPP::Security {
+using namespace LotosPP::Security;
 
 typedef signed int BF_word_signed;
 
@@ -16,7 +16,7 @@ std::string Blowfish::crypt(const std::string& password, const std::string& algo
 	std::string setting;
 	if (algo=="") {
 		setting="$2y$10$";
-		std::string chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./");
+		const std::string chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./");
 		boost::random::random_device rng;
 		boost::random::uniform_int_distribution<> index_dist(0, chars.size()-1);
 		for (uint8_t i=0; i<22; ++i) {
@@ -28,7 +28,7 @@ std::string Blowfish::crypt(const std::string& password, const std::string& algo
 		}
 	char out[61];
 	crypt_blowfish_rn(password.c_str(), setting.c_str(), out, 61);
-	return std::string(out);
+	return out;
 }
 
 #ifndef __set_errno
@@ -106,9 +106,9 @@ int Blowfish::BF_decode(BF_LONG* dst, const char* src, int size)
 
 void Blowfish::BF_encode(char* dst, const BF_LONG* src, int size)
 {
-	const unsigned char* sptr=(const unsigned char *)src;
+	const unsigned char* sptr=(const unsigned char*)src;
 	const unsigned char* end=sptr+size;
-	unsigned char* dptr=(unsigned char *)dst;
+	unsigned char* dptr=(unsigned char*)dst;
 	unsigned int c1, c2;
 
 	do {
@@ -553,5 +553,3 @@ char* Blowfish::crypt_blowfish_rn(const char* key, const char* setting, char* ou
 	__set_errno(EINVAL); // pretend we don't support this hash type
 	return NULL;
 }
-
-	}

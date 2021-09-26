@@ -25,8 +25,7 @@ public:
 	uint8_t GetByte();
 	uint16_t GetU16();
 	uint32_t GetU32();
-	uint32_t PeekU32() const;
-	uint64_t GetU64() const;
+	uint64_t GetU64();
 	std::string GetString();
 	std::string GetRaw();
 	uint8_t GetAt(uint32_t pos);

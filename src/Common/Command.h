@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_COMMAND_H
 #define	LOTOSPP_COMMON_COMMAND_H
 
-
 #include "config.h"
 #include "AutoID.h"
 #include "Common/Enums/UserLevel.h"

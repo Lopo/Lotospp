@@ -125,16 +125,18 @@ void User::prompt()
 		case enums::UserStage_SUICIDE:
 			uPrintf("Enter password: ");
 			return;
-	}
+		default:
+			return;
+		}
 }
 
 void User::uRead(Network::NetworkMessage msg)
 {
-	size_t remain;
-	size_t i, len{msg.getMessageLength()};
-	std::string input=msg.GetRaw();
+	size_t remain,
+		len{msg.getMessageLength()};
+	std::string input{msg.GetRaw()};
 
-	for (i=0; i<len; ++i) { // Loop through input
+	for (size_t i=0; i<len; ++i) { // Loop through input
 		if (((unsigned char)input[i])==enums::TELCMD_IAC || bpos) {
 			// Deal with telnet commands. If a command was incomplete it will have been stored in the buffer
 			remain=len-i;
@@ -215,14 +217,14 @@ void User::uWrite(const std::string& message)
 void User::uPrintf(const char* fmtstr, ...)
 {
 	std::string str, str2;
-	size_t i, str2max=str2.max_size();
+	size_t str2max{str2.max_size()};
 	bool pcesc{false};
 	va_list args;
 
 	va_start(args, fmtstr);
 	str=Strings::StringPrintV(fmtstr, args);
 
-	for (i=0; str2.length()<str2max && str[i]; ++i) {
+	for (size_t i=0; str2.length()<str2max && str[i]; ++i) {
 		switch (str[i]) {
 			case '\n':
 				if (pcesc) {

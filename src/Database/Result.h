@@ -22,7 +22,7 @@ public:
 	 * @param s The name of the field
 	 * @return The Integer value of the selected field and row
 	 */
-	virtual int32_t getDataInt(const std::string& s)
+	virtual int32_t getDataInt([[maybe_unused]]const std::string& s)
 	{
 		return 0;
 	};
@@ -32,7 +32,7 @@ public:
 	 * @param s The name of the field
 	 * @return The Integer value of the selected field and row
 	 */
-	virtual uint32_t getDataUInt(const std::string& s)
+	virtual uint32_t getDataUInt([[maybe_unused]]const std::string& s)
 	{
 		return 0;
 	};
@@ -42,7 +42,7 @@ public:
 	 * @param s The name of the field
 	 * @return The Long value of the selected field and row
 	 */
-	virtual int64_t getDataLong(const std::string& s)
+	virtual int64_t getDataLong([[maybe_unused]]const std::string& s)
 	{
 		return 0;
 	};
@@ -52,7 +52,7 @@ public:
 	 * @param s The name of the field
 	 * @return The String of the selected field and row
 	 */
-	virtual std::string getDataString(const std::string& s)
+	virtual std::string getDataString([[maybe_unused]]const std::string& s)
 	{
 		return "''";
 	};
@@ -63,7 +63,7 @@ public:
 	 * @param size
 	 * @return a PropStream that is initiated with the blob data field, if not exist it returns NULL
 	 */
-	virtual const char* getDataStream(const std::string& s, unsigned long& size)
+	virtual const char* getDataStream([[maybe_unused]]const std::string& s, [[maybe_unused]]unsigned long& size)
 	{
 		return 0;
 	};

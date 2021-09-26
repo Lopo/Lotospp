@@ -47,15 +47,13 @@ void ConnectionManager::closeAll()
 	std::cout << "Closing all connections" << std::endl;
 #endif
 	boost::recursive_mutex::scoped_lock lockClass(m_connectionManagerLock);
-	for (std::list<Connection_ptr>::iterator it=m_connections.begin(); it!=m_connections.end(); ) {
+	for (Connection_ptr con : m_connections) {
 		try {
 			boost::system::error_code error;
-			(*it)->m_socket->shutdown(boost::asio::ip::tcp::socket::shutdown_both, error);
-			(*it)->m_socket->close(error);
+			con->m_socket->shutdown(boost::asio::ip::tcp::socket::shutdown_both, error);
+			con->m_socket->close(error);
 			}
-		catch (boost::system::system_error&) {
-			}
-		++it;
+		catch (boost::system::system_error&) {}
 		}
 	m_connections.clear();
 }

@@ -33,21 +33,16 @@ uint32_t NetworkMessage::GetU32()
 	return v;
 }
 
-uint32_t NetworkMessage::PeekU32() const
-{
-	uint32_t v=*(uint32_t*)(m_MsgBuf+m_ReadPos);
-	return v;
-}
-
-uint64_t NetworkMessage::GetU64() const
+uint64_t NetworkMessage::GetU64()
 {
 	uint64_t v=*(uint64_t*)(m_MsgBuf+m_ReadPos);
+	m_ReadPos+=8;
 	return v;
 }
 
 std::string NetworkMessage::GetString()
 {
-	std::string raw=GetRaw();
+	std::string raw{GetRaw()};
 	std::string::size_type p;
 	if ((p=raw.find('\0'))==raw.npos) {
 		return raw;

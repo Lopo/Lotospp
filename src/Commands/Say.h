@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMANDS_SAY_H
 #define	LOTOSPP_COMMANDS_SAY_H
 
-
 #include "config.h"
 #include "Common/Command.h"
 

@@ -48,7 +48,7 @@ bool IOUser::load(User* user, const std::string& userName, bool preload/*=false*
 	return true;
 }
 
-bool IOUser::save(const User* user, bool shallow/*=false*/)
+bool IOUser::save(const User* user, [[maybe_unused]]bool shallow/*=false*/)
 {
 	Database::Driver* db=Database::Driver::instance();
 	Database::Query query;
@@ -76,13 +76,10 @@ uint64_t IOUser::create(const User* user)
 	transaction.begin();
 	Database::Insert insert(db);
 
-	insert.setQuery("INSERT INTO users (login, password, level) VALUES");
+	insert.setQuery("INSERT INTO users (login, password, level) VALUES ");
 	query.reset();
 	query << db->escapeString(user->name) << "," << db->escapeString(*user->password) << "," << user->level.value();
-	if (!insert.addRow(query.str())) {
-		return false;
-		}
-	if (!insert.execute()) {
+	if (!insert.addRow(query.str()) || !insert.execute()) {
 		return false;
 		}
 	uint64_t id=db->getLastInsertedRowID();

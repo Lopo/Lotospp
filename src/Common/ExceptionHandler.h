@@ -2,11 +2,11 @@
 #define	LOTOSPP_COMMON_EXCEPTIONHANDLER_H
 
 #include "config.h"
-
 #ifdef __EXCEPTION_TRACER__
 #	ifdef OS_WIN
 #		include <Windows.h>
 #	endif
+
 
 namespace LotosPP::Common {
 
@@ -21,7 +21,7 @@ public:
 private:
 #ifdef OS_WIN
 #	if defined(_MSC_VER) || defined(__USE_MINIDUMP__)
-	static LONG WINAPI MiniDumpExceptionHandler(struct _EXCEPTION_POINTERS *pExceptionInfo);
+	static LONG WINAPI MiniDumpExceptionHandler(struct _EXCEPTION_POINTERS* pExceptionInfo);
 	static int refCounter;
 #	elif __GNUC__
 	struct SEHChain {

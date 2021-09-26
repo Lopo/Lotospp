@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_DATABASE_DRIVER_H
 #define	LOTOSPP_DATABASE_DRIVER_H
 
-
 #include "config.h"
 #include <boost/shared_ptr.hpp>
 #include <string>
@@ -37,7 +36,7 @@ public:
 	 * @param param parameter to get
 	 * @return suitable for given parameter
 	 */
-	virtual bool getParam(const DBParam_t& param)
+	virtual bool getParam([[maybe_unused]]const DBParam_t& param) const
 	{
 		return false;
 	};

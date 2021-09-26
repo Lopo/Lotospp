@@ -14,7 +14,7 @@ using namespace LotosPP::Network;
 
 
 ServiceManager::ServiceManager()
-	: m_io_service(), death_timer{m_io_service}, running{false}
+	: m_io_service(), death_timer{m_io_service}
 {
 }
 

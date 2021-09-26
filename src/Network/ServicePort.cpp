@@ -144,7 +144,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 
 Protocol* ServicePort::makeProtocol(NetworkMessage& msg) const
 {
-	for (boost::shared_ptr<ServiceBase> service : m_services) {
+	for (Service_ptr service : m_services) {
 		return service->makeProtocol(Connection_ptr());
 		// We can ignore the other cases, they will most likely end up in return NULL anyways.
 		}

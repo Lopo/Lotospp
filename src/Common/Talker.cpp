@@ -47,7 +47,7 @@ User* Talker::getUserByID(uint32_t id)
 	return nullptr; //just in case the user doesnt exist
 }
 
-UserVector Talker::getUsersByIP(uint32_t ipadress, uint32_t mask)
+UserVector Talker::getUsersByIP([[maybe_unused]]uint32_t ipadress, [[maybe_unused]]uint32_t mask)
 {
 	UserVector users{};
 	for (auto& it : User::listUser.list) {
