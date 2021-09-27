@@ -179,7 +179,6 @@ endif ()
 #set(Boost_DEBUG ON)
 hunter_add_package(Boost COMPONENTS ${BoostMods})
 find_package(Boost CONFIG REQUIRED COMPONENTS ${BoostMods})
-add_compile_definitions(BOOST_BIND_GLOBAL_PLACEHOLDERS)
 
 # DB
 set(WITH_DATABASE OFF)

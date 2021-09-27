@@ -2,7 +2,7 @@
 #include "OutputMessage.h"
 #include "Log/Logger.h"
 #include "globals.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/date_time.hpp>
 #include <boost/system/system_error.hpp>
 #ifdef OS_WIN

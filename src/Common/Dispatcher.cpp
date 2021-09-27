@@ -2,7 +2,7 @@
 #include "Network/OutputMessage.h"
 #include "Task.h"
 #include "ExceptionHandler.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #ifdef __DEBUG_SCHEDULER__
 #	include <iostream>
 #endif

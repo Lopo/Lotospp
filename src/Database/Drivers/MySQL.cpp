@@ -2,7 +2,7 @@
 
 #include "../Query.h"
 #include "globals.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <iostream>
 #include <errmsg.h>
 
@@ -176,7 +176,7 @@ LotosPP::Database::Result_ptr MySQL::internalSelectQuery(const std::string &quer
 		}
 
 	// retriving results of query
-	LotosPP::Database::Result_ptr res(new MySQLResult(m_res), boost::bind(&LotosPP::Database::Driver::freeResult, this, _1));
+	LotosPP::Database::Result_ptr res(new MySQLResult(m_res), boost::bind(&LotosPP::Database::Driver::freeResult, this, boost::placeholders::_1));
 	return verifyResult(res);
 }
 

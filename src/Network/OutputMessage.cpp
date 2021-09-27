@@ -4,7 +4,7 @@
 #include "Protocol.h"
 #include "Common/Singleton.h"
 #include "System/system.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 
 using namespace LotosPP::Network;
@@ -273,7 +273,7 @@ OutputMessage_ptr OutputMessagePool::getOutputMessage(Protocol* protocol, bool a
 		}
 
 	OutputMessage_ptr outputmessage;
-	outputmessage.reset(m_outputMessages.back(), boost::bind(&OutputMessagePool::releaseMessage, this, _1));
+	outputmessage.reset(m_outputMessages.back(), boost::bind(&OutputMessagePool::releaseMessage, this, boost::placeholders::_1));
 
 	m_outputMessages.pop_back();
 

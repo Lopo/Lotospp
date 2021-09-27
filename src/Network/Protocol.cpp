@@ -3,7 +3,7 @@
 #include "OutputMessage.h"
 #include "Connection.h"
 #include "Common/User.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/asio/connect.hpp>
 #include <cassert>
 #ifdef __DEBUG_NET_DETAIL__
