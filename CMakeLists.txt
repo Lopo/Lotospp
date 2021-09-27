@@ -84,9 +84,25 @@ option(ENABLE_STRIP "Strip all symbols from executables" ON)
 option(ENABLE_MULTIBUILD "Compile on all CPU cores simltaneously in MSVC" ON)
 option(FORCE32 "Force 32-bit build. It will add `-m32` to compiler flags" OFF)
 
+set(MIN_USERNAME_LEN 3)
+set(MAX_USERNAME_LEN 12)
+set(MIN_PASSWORD_LEN 6)
+set(MAX_LOGIN_ATTEMPTS 3)
+
 if (DEFINED CMAKE_BUILD_TYPE AND NOT ${CMAKE_BUILD_TYPE} EQUAL "")
 	set(HAVE_CMAKE_BUILD_TYPE TRUE)
 endif ()
+
+# propagates CMake configuration options to the compiler
+function(configureProject)
+	add_compile_definitions($<$<BOOL:${WITH_DATABASE}>:WITH_DATABASE>)
+	add_compile_definitions($<$<BOOL:${WITH_MYSQL}>:WITH_MYSQL>)
+
+	add_compile_definitions($<$<BOOL:${ENABLE_IPV6}>:ENABLE_IPV6>)
+
+	add_compile_definitions($<$<BOOL:${WITH_DEBUG}>:WITH_DEBUG>)
+endfunction()
+
 set(CUSTOM_C_FLAGS $ENV{CFLAGS})
 set(CUSTOM_CXX_FLAGS $ENV{CXXFLAGS})
 
@@ -190,8 +206,6 @@ if (ENABLE_MYSQL)
 	endif ()
 endif ()
 
-check_function_exists(fork HAVE_FORK)
-
 
 # Doxygen is option
 set(WITH_DOXYGEN FALSE)
@@ -254,13 +268,13 @@ if (ENABLE_MULTIBUILD)
 	endif ()
 endif ()
 
-set(GENERATED_INCLUDES)
-set(GENERATED_SOURCES)
+configureProject()
 
 include_regular_expression("^.*\\.h$")
 
 include_directories(include)
 add_subdirectory(src)
+cable_add_buildinfo_library(PROJECT_NAME Lotospp)
 
 message("${PROJECT_NAME} ${PROJECT_VERSION}\n")
 if (WIN32 AND MSVC)
@@ -284,8 +298,9 @@ message("	compiler | ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
 	builddir | ${CMAKE_BINARY_DIR}
 	buildtype| ${CMAKE_BUILD_TYPE}
 Building with support for:")
-show_end_message_yesno("MySQL" WITH_MYSQL)
+show_end_message_yesno("Database" WITH_DATABASE)
+if (WITH_DATABASE)
+	show_end_message_yesno(" - MySQL" WITH_MYSQL)
+endif()
 show_end_message_yesno("Doxygen" WITH_DOXYGEN)
 show_end_message_yesno("Debug" WITH_DEBUG)
-
-cable_add_buildinfo_library(PROJECT_NAME Lotospp)

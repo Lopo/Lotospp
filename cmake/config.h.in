@@ -3,13 +3,8 @@
 #ifndef LOTOSPP_CONFIG_H
 #define LOTOSPP_CONFIG_H 1
 
-#cmakedefine HAVE_FORK 1
-
-#cmakedefine WITH_MYSQL 1
-#cmakedefine WITH_DEBUG 1
 #cmakedefine USE_MSTHREADS 1
 #cmakedefine USE_PTHREADS 1
-#cmakedefine ENABLE_IPV6 1
 
 #ifdef WITH_DEBUG
 #	define __DEBUG_NET__ 1

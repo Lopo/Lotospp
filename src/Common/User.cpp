@@ -1,5 +1,4 @@
 #include "User.h"
-#include "define.h"
 #include "Network/Protocols/Telnet.h"
 #include "Network/OutputMessage.h"
 #include "Common/Enums/TelnetCmd.h"

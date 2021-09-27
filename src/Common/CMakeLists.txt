@@ -1,5 +1,10 @@
 add_subdirectory(Enums)
 
+add_compile_definitions(MIN_USERNAME_LEN=${MIN_USERNAME_LEN})
+add_compile_definitions(MAX_USERNAME_LEN=${MAX_USERNAME_LEN})
+add_compile_definitions(MIN_PASSWORD_LEN=${MIN_PASSWORD_LEN})
+add_compile_definitions(MAX_LOGIN_ATTEMPTS=${MAX_LOGIN_ATTEMPTS})
+
 set(SOURCES
 	Creature.cpp
 	Dispatcher.cpp

@@ -30,6 +30,9 @@ include_directories(
 #	${OPENSSL_INCLUDE_DIR}
 	)
 
+check_function_exists(fork HAVE_FORK)
+add_compile_definitions($<$<BOOL:${HAVE_FORK}>:HAVE_FORK>)
+
 set(EXECUTABLE ${PROJECT_NAME})
 add_executable(${EXECUTABLE} main.cpp)
 make_small_executable(${EXECUTABLE})
