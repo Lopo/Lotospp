@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_CONNECTIONMANAGER_H
 #define LOTOSPP_NETWORK_CONNECTIONMANAGER_H
 
-#include "config.h"
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/thread/recursive_mutex.hpp>

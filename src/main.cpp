@@ -1,7 +1,6 @@
 /* vi: set ts=4 sw=4 ai: */
 #define MAINFILE
 
-#include "config.h"
 #include "Lotospp/buildinfo.h"
 #include "Strings/misc.h"
 #include "Network/ServiceManager.h"
@@ -11,6 +10,7 @@
 #	include "Common/ExceptionHandler.h"
 #endif
 #include "globals.h"
+#include "System/build_config.h"
 #include <boost/program_options.hpp>
 #include <boost/program_options/detail/utf8_codecvt_facet.hpp>
 #include <boost/filesystem.hpp>

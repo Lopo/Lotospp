@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_NETWORKMESSAGE_H
 #define LOTOSPP_NETWORK_NETWORKMESSAGE_H
 
-#include "config.h"
 #include "ProtocolConst.h"
 #include <boost/shared_ptr.hpp>
 #include <string>

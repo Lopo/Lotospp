@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_ENUM_H
 #define LOTOSPP_COMMON_ENUM_H
 
-#include "config.h"
 #include <string>
 #include <vector>
 #include <map>

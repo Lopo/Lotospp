@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_AUTOID_H
 #define LOTOSPP_COMMON_AUTOID_H
 
-#include "config.h"
 #include <boost/thread/recursive_mutex.hpp>
 #include <set>
 #include <cstdint>

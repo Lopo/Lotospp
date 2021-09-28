@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_IOUSER_H
 #define LOTOSPP_COMMON_IOUSER_H
 
-#include "config.h"
 #include <string>
 #include <cstdint>
 

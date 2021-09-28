@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_LOG_SEVERITY_T_H
 #define LOTOSPP_LOG_SEVERITY_T_H
 
-#include "config.h"
 #include <boost/bimap.hpp>
 #include <boost/assign/list_of.hpp>
 #include <iostream>

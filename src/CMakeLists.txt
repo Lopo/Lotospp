@@ -1,11 +1,3 @@
-# Generate config.h
-configure_file(
-	${ROOT_DIR}/cmake/config.h.in
-	${CMAKE_CURRENT_BINARY_DIR}/config.h
-	)
-set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/config.h PROPERTIES GENERATED 1)
-list(APPEND ADDITIONAL_MAKE_CLEAN_FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h)
-
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}) # enum.h
 
 set(SUBDIRS

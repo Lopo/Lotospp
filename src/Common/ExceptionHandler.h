@@ -1,7 +1,7 @@
 #ifndef LOTOSPP_COMMON_EXCEPTIONHANDLER_H
 #define	LOTOSPP_COMMON_EXCEPTIONHANDLER_H
 
-#include "config.h"
+#include "System/build_config.h"
 #ifdef __EXCEPTION_TRACER__
 #	ifdef OS_WIN
 #		include <Windows.h>

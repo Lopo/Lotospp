@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_SECURITY_CRYPT_BLOWFISH_H
 #define LOTOSPP_SECURITY_CRYPT_BLOWFISH_H
 
-#include "config.h"
 #include <string>
 #include <openssl/blowfish.h>
 #include <sys/types.h>

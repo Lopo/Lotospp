@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_SERVICEMANAGER_H
 #define LOTOSPP_NETWORK_SERVICEMANAGER_H
 
-#include "config.h"
 #include "ServicePort.h"
 #include "Service.h"
 #include <boost/noncopyable.hpp>

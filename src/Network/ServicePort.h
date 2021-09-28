@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_SERVICEPORT_H
 #define LOTOSPP_NETWORK_SERVICEPORT_H
 
-#include "config.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/noncopyable.hpp>

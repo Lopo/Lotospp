@@ -204,7 +204,6 @@ function BeginEnumFile(filename)
 	header:write("#define LOTOSPP_LUAGENERATED_" .. filename:upper() .. "_H\n\n\n")
 
 	-- Includes
-	header:write("#include \"config.h\"\n")
 	header:write("#include \"Common/enum.h\"\n\n\n")
 	--header:write("using LotosPP::Common::Enum;\n\n")
 	header:write("namespace LotosPP::Common {\n")

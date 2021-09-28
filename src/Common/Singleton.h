@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_SINGLETON_H
 #define	LOTOSPP_COMMON_SINGLETON_H
 
-#include "config.h"
 #include <boost/noncopyable.hpp>
 #include <boost/thread/once.hpp>
 #include <boost/scoped_ptr.hpp>

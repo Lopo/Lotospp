@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_STRINGS_MISC_H
 #define LOTOSPP_STRINGS_MISC_H
 
-#include "config.h"
 #include <string>
 #include <algorithm>
 #include <ctime>

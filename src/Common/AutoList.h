@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_AUTOLIST_H
 #define LOTOSPP_COMMON_AUTOLIST_H
 
-#include "config.h"
 #include <map>
 #include <cstdint>
 

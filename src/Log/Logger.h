@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_LOG_LOGGER_H
 #define LOTOSPP_LOG_LOGGER_H
 
-#include "config.h"
 #include "severity_t.h"
 #include <boost/log/keywords/severity.hpp>
 #include <boost/log/sources/severity_logger.hpp>

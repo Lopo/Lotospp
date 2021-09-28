@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_THING_H
 #define LOTOSPP_COMMON_THING_H
 
-#include "config.h"
 #include <cstdint>
 
 

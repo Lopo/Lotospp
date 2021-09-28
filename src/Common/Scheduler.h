@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_SCHEDULER_H
 #define LOTOSPP_COMMON_SCHEDULER_H
 
-#include "config.h"
 #include "Task.h"
 #include <boost/date_time.hpp>
 #include <boost/function.hpp>

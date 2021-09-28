@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_USER_H
 #define	LOTOSPP_COMMON_USER_H
 
-#include "config.h"
 #include "Creature.h"
 #include "AutoList.h"
 #include "Network/Protocol.h"

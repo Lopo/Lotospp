@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_DATABASE_QUERY_H
 #define	LOTOSPP_DATABASE_QUERY_H
 
-#include "config.h"
 #include <boost/thread/recursive_mutex.hpp>
 #include <sstream>
 

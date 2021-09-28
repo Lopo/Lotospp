@@ -1,7 +1,7 @@
 #ifndef LOTOSPP_NETWORK_PROTOCOL_H
 #define	LOTOSPP_NETWORK_PROTOCOL_H
 
-#include "config.h"
+#include "System/build_config.h"
 #include "Connection.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>

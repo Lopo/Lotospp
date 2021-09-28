@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_SERVICEBASE_H
 #define LOTOSPP_NETWORK_SERVICEBASE_H
 
-#include "config.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 #include <cstdint>

@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_CONNECTION_H
 #define LOTOSPP_NETWORK_CONNECTION_H
 
-#include "config.h"
 #include "NetworkMessage.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>

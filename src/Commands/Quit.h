@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMANDS_QUIT_H
 #define	LOTOSPP_COMMANDS_QUIT_H
 
-#include "config.h"
 #include "Common/Command.h"
 
 

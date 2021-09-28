@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_STRINGS_STRINGSPLIT_H
 #define	LOTOSPP_STRINGS_STRINGSPLIT_H
 
-#include "config.h"
 #include <string>
 #include <vector>
 

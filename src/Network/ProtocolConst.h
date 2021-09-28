@@ -1,8 +1,6 @@
 #ifndef LOTOSPP_NETWORK_PROTOCOLCONST_H
 #define LOTOSPP_NETWORK_PROTOCOLCONST_H
 
-#include "config.h"
-
 
 namespace LotosPP::Network {
 

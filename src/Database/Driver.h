@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_DATABASE_DRIVER_H
 #define	LOTOSPP_DATABASE_DRIVER_H
 
-#include "config.h"
 #include <boost/shared_ptr.hpp>
 #include <string>
 #include <cstdint>

@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_PROTOCOLS_TELNET_H
 #define LOTOSPP_NETWORK_PROTOCOLS_TELNET_H
 
-#include "config.h"
 #include "../Protocol.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/bind/bind.hpp>

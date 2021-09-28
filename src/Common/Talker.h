@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_TALKER_H
 #define	LOTOSPP_COMMON_TALKER_H
 
-#include "config.h"
 #include "AutoList.h"
 #include <vector>
 #include <cstdint>

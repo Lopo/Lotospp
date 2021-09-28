@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_DATABASE_INSERT_H
 #define	LOTOSPP_DATABASE_INSERT_H
 
-#include "config.h"
 #include <string>
 #include <sstream>
 #include <cstdint>

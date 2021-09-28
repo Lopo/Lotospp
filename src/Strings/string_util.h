@@ -3,6 +3,7 @@
 
 #include "Common/macros.h"
 #include "System/compiler_specific.h"
+#include "System/build_config.h"
 #include <vector>
 #include <cctype>
 #include <cstdarg> // va_list

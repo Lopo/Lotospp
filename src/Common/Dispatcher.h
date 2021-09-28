@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_COMMON_DISPATCHER_H
 #define LOTOSPP_COMMON_DISPATCHER_H
 
-#include "config.h"
 #include <boost/thread.hpp>
 #include <list>
 

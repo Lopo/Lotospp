@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_SYSTEM_SYSTEM_H
 #define LOTOSPP_SYSTEM_SYSTEM_H
 
-#include "config.h"
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 

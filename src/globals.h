@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_GLOBALS_H
 #define LOTOSPP_GLOBALS_H
 
-#include "config.h"
 #include "Common/Scheduler.h"
 #include "Common/Dispatcher.h"
 #include "Common/Talker.h"

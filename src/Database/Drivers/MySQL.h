@@ -1,7 +1,7 @@
 #ifndef LOTOSPP_DATABASE_DRIVERS_MYSQL_H
 #define LOTOSPP_DATABASE_DRIVERS_MYSQL_H
 
-#include "config.h"
+#include "System/build_config.h"
 
 #ifdef WITH_MYSQL
 

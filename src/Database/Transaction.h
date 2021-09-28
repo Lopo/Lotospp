@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_DATABASE_TRANSACTION_H
 #define	LOTOSPP_DATABASE_TRANSACTION_H
 
-#include "config.h"
 #include "Driver.h"
 
 

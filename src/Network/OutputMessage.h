@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_OUTPUTMESSAGE_H
 #define LOTOSPP_NETWORK_OUTPUTMESSAGE_H
 
-#include "config.h"
 #include "NetworkMessage.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>

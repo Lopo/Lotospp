@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_SERVICE_H
 #define LOTOSPP_NETWORK_SERVICE_H
 
-#include "config.h"
 #include "ServiceBase.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/asio/ip/tcp.hpp>

@@ -1,7 +1,7 @@
 #ifndef LOTOSPP_SYSTEM_COMPILER_SPECIFIC_H
 #define LOTOSPP_SYSTEM_COMPILER_SPECIFIC_H
 
-#include "config.h"
+#include "build_config.h"
 
 // Annotate a function indicating the caller must examine the return value.
 // Use like:
