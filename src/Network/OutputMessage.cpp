@@ -1,10 +1,10 @@
 #include "OutputMessage.h"
-#include "globals.h"
-#include "Connection.h"
 #include "Protocol.h"
+#include "Connection.h"
+#include "globals.h"
 #include "Common/Singleton.h"
 #include "System/system.h"
-#include <boost/bind/bind.hpp>
+#include <iostream>
 
 
 using namespace LotosPP::Network;

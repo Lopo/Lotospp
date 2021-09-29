@@ -4,6 +4,7 @@
 #include "AutoID.h"
 #include "Common/Enums/UserLevel.h"
 #include "User.h"
+#include <boost/core/noncopyable.hpp>
 #include <string>
 
 

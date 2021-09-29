@@ -3,7 +3,6 @@
 #ifdef WITH_MYSQL
 #	include "Drivers/MySQL.h"
 #endif
-#include "Strings/misc.h"
 #include "globals.h"
 #include <boost/algorithm/string/predicate.hpp>
 #include <stdexcept>

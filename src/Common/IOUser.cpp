@@ -1,11 +1,10 @@
 #include "IOUser.h"
 #include "Singleton.h"
-#include "Database/Driver.h"
+#include "User.h"
 #include "Database/Query.h"
 #include "Database/Transaction.h"
 #include "Database/Insert.h"
 #include "Database/Result.h"
-#include "User.h"
 
 
 using namespace LotosPP::Common;

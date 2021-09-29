@@ -1,16 +1,10 @@
 #ifndef LOTOSPP_NETWORK_SERVICEPORT_H
 #define LOTOSPP_NETWORK_SERVICEPORT_H
 
-#include <boost/shared_ptr.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/noncopyable.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/core/noncopyable.hpp>
+#include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/io_service.hpp>
-#include <boost/weak_ptr.hpp>
-#include <boost/system/error_code.hpp>
-#include <string>
-#include <vector>
-#include <cstdint>
 
 
 namespace LotosPP::Network {

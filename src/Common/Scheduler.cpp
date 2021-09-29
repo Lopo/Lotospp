@@ -1,5 +1,7 @@
 #include "Scheduler.h"
-#include "ExceptionHandler.h"
+#ifdef __EXCEPTION_TRACER__
+#	include "ExceptionHandler.h"
+#endif
 #include "globals.h"
 #include <boost/bind/bind.hpp>
 #ifdef __DEBUG_SCHEDULER__

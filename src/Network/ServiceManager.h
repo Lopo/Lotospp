@@ -3,13 +3,9 @@
 
 #include "ServicePort.h"
 #include "Service.h"
-#include <boost/noncopyable.hpp>
-#include <boost/asio/io_service.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include <list>
-#include <map>
 #include <iostream>
-#include <cstdint>
 
 
 namespace LotosPP::Network {

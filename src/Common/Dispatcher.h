@@ -10,17 +10,12 @@ namespace LotosPP::Common {
 
 const int DISPATCHER_TASK_EXPIRATION=2000;
 
-enum DispatcherState {
-	STATE_RUNNING,
-	STATE_CLOSING,
-	STATE_TERMINATED
-	};
-
 class Dispatcher
 {
 public:
 	Dispatcher();
-	~Dispatcher() {};
+	~Dispatcher()
+	{};
 
 	void addTask(Task* task, bool push_front=false);
 

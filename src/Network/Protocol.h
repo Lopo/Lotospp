@@ -3,10 +3,6 @@
 
 #include "System/build_config.h"
 #include "Connection.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/noncopyable.hpp>
-//#include <boost/asio/ip/address.hpp>
-#include <cstdint>
 #ifdef OS_OPENBSD
 #	include <unistd.h> // OpenBSD5.9+boost1.58
 #endif

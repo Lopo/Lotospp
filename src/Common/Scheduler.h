@@ -2,15 +2,8 @@
 #define LOTOSPP_COMMON_SCHEDULER_H
 
 #include "Task.h"
-#include <boost/date_time.hpp>
-#include <boost/function.hpp>
 #include <boost/thread.hpp>
-#include <functional>
 #include <queue>
-#include <vector>
-#include <set>
-#include <cstdint>
-#include <cassert>
 
 
 namespace LotosPP::Common {

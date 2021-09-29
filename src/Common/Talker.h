@@ -3,7 +3,6 @@
 
 #include "AutoList.h"
 #include <vector>
-#include <cstdint>
 
 
 namespace LotosPP {
@@ -63,11 +62,8 @@ public:
 
 protected:
 	std::vector<Thing*> toReleaseThings{};
-
 	AutoList<Creature> listCreature{};
-
 	uint32_t maxUsers;
-
 	LotosPP::Network::ServiceManager* service_manager{nullptr};
 };
 

@@ -7,9 +7,7 @@
 
 #include "../Driver.h"
 #include "../Result.h"
-#include <string>
 #include <map>
-#include <cstdint>
 #ifdef OS_WIN
 #	include <winsock.h>
 #endif

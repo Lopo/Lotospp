@@ -2,10 +2,10 @@
 #define MAINFILE
 
 #include "Lotospp/buildinfo.h"
+#include "Log/Logger.h"
 #include "Strings/misc.h"
 #include "Network/ServiceManager.h"
 #include "Network/Protocols/Telnet.h"
-#include "Log/Logger.h"
 #ifdef __EXCEPTION_TRACER__
 #	include "Common/ExceptionHandler.h"
 #endif
@@ -15,17 +15,8 @@
 #include <boost/program_options/detail/utf8_codecvt_facet.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/property_tree/ini_parser.hpp>
-#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/erase.hpp>
-#include <boost/thread.hpp>
-#include <boost/asio.hpp>
-#include <boost/date_time/c_time.hpp>
-#include <string>
-#include <iostream>
-#include <ios>
-#include <fstream>
-#include <cstdint>
-#include <ctime>
 
 
 using namespace LotosPP;
@@ -229,7 +220,7 @@ int main(int argc, char **argv)
 	extern char *malloc_options;
 	malloc_options=(char*)"S";
 #endif
-#if !defined(WIN32) && !defined(__WINDOWS__)
+#ifndef OS_WIN
 	if (!getuid() || !geteuid()) {
 		std::cout << "executed as root - login as normal user" << std::endl;
 		return 1;

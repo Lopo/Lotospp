@@ -1,8 +1,7 @@
 #include "ConnectionManager.h"
 #include "Connection.h"
 #include "Common/Singleton.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/system/system_error.hpp>
+#include <iostream>
 
 
 using namespace LotosPP::Network;

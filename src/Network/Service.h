@@ -2,9 +2,7 @@
 #define LOTOSPP_NETWORK_SERVICE_H
 
 #include "ServiceBase.h"
-#include <boost/shared_ptr.hpp>
 #include <boost/asio/ip/tcp.hpp>
-#include <cstdint>
 
 
 namespace LotosPP::Network {

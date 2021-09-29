@@ -1,14 +1,11 @@
 #include "Protocol.h"
 #include "globals.h"
 #include "OutputMessage.h"
-#include "Connection.h"
 #include "Common/User.h"
-#include <boost/bind/bind.hpp>
-#include <boost/asio/connect.hpp>
-#include <cassert>
 #ifdef __DEBUG_NET_DETAIL__
 #	include <iostream>
 #endif
+#include <cassert>
 #ifdef OS_WIN
 #	include <winerror.h>
 #endif

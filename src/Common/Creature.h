@@ -4,7 +4,6 @@
 #include "AutoID.h"
 #include "Thing.h"
 #include <string>
-#include <cstdint>
 
 
 namespace LotosPP::Common {

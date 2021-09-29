@@ -2,8 +2,7 @@
 #define LOTOSPP_NETWORK_SERVICEBASE_H
 
 #include <boost/shared_ptr.hpp>
-#include <boost/noncopyable.hpp>
-#include <cstdint>
+#include <boost/core/noncopyable.hpp>
 
 
 namespace LotosPP::Network {

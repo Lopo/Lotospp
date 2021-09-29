@@ -6,13 +6,11 @@
 #include "globals.h"
 #include "System/build_config.h"
 #include <boost/bind/bind.hpp>
-#include <boost/system/system_error.hpp>
-#include <boost/asio.hpp>
-#include <boost/asio/ip/address.hpp>
+#include <boost/asio/placeholders.hpp>
 #include <boost/asio/ip/v6_only.hpp>
-#include <list>
-#include <map>
-#include <iostream>
+#if defined(__DEBUG_NET__) || defined(__DEBUG_NET_DETAIL__)
+#	include <iostream>
+#endif
 #ifdef OS_WIN
 #	include <winerror.h>
 #endif

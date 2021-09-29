@@ -1,26 +1,19 @@
 #include "User.h"
-#include "Network/Protocols/Telnet.h"
-#include "Network/OutputMessage.h"
+#include "Lotospp/buildinfo.h"
+#include "IOUser.h"
 #include "Common/Enums/TelnetCmd.h"
 #include "Common/Enums/AsciiChar.h"
 #include "Common/Enums/LoginCom.h"
 #include "Common/Enums/TelnetOpt.h"
 #include "Common/Enums/TelnetSub.h"
-#include "Lotospp/buildinfo.h"
 #include "Strings/stringPrintf.h"
 #include "Strings/stringSplit.h"
 #include "Strings/misc.h"
-#include "Network/Connection.h"
 #include "globals.h"
 #include "Commands/Say.h"
 #include "Commands/Quit.h"
-#include "IOUser.h"
 #include "Security/Blowfish.h"
-#include "Strings/Splitline.h"
-#include "Command.h"
-#include <boost/thread/recursive_mutex.hpp>
-#include <boost/algorithm/string.hpp>
-#include <cstdarg>
+#include <boost/algorithm/string/predicate.hpp>
 
 
 using LotosPP::Common::User;

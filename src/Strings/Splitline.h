@@ -2,7 +2,6 @@
 #define	LOTOSPP_STRINGS_SPLITLINE_H
 
 #include "Common/Enums/ReturnValue.h"
-#include <string>
 #include <deque>
 
 

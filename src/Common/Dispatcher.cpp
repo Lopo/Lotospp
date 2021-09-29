@@ -1,7 +1,9 @@
 #include "Dispatcher.h"
 #include "Network/OutputMessage.h"
 #include "Task.h"
-#include "ExceptionHandler.h"
+#ifdef __EXCEPTION_TRACER__
+#	include "ExceptionHandler.h"
+#endif
 #include <boost/bind/bind.hpp>
 #ifdef __DEBUG_SCHEDULER__
 #	include <iostream>

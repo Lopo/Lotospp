@@ -2,9 +2,9 @@
 
 #include "../Query.h"
 #include "globals.h"
-#include <boost/bind/bind.hpp>
+//#include <boost/bind/bind.hpp>
 #include <iostream>
-#include <errmsg.h>
+#include <errmsg.h> // mysql
 
 
 using namespace LotosPP::Database::Drivers;

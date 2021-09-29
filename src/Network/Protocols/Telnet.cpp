@@ -1,14 +1,11 @@
 #include "Telnet.h"
 #include "Lotospp/buildinfo.h"
-#include "Common/Task.h"
 #include "Common/User.h"
 #include "../OutputMessage.h"
-#include "../Connection.h"
 #include "Common/Enums/TelnetCmd.h"
 #include "Common/Enums/TelnetOpt.h"
 #include "globals.h"
 #include "Log/Logger.h"
-#include <iostream>
 
 
 using namespace LotosPP::Network::Protocols;

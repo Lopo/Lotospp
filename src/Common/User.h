@@ -4,20 +4,18 @@
 #include "Creature.h"
 #include "AutoList.h"
 #include "Network/Protocol.h"
-#include "Network/NetworkMessage.h"
 #include "Common/Enums/UserStage.h"
 #include "Common/Enums/TelnetFlag.h"
 #include "Common/Enums/UserLevel.h"
 #include "Strings/Splitline.h"
-#include <ostream>
-#include <string>
-#include <vector>
-#include <cstdint>
 
 
 namespace LotosPP {
-	namespace Network::Protocols {
-		class Telnet;
+	namespace Network {
+		class NetworkMessage;
+		namespace Protocols {
+			class Telnet;
+			}
 		}
 	namespace Common {
 

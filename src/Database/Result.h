@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_DATABASE_RESULT_H
 #define	LOTOSPP_DATABASE_RESULT_H
 
-#include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <cstdint>

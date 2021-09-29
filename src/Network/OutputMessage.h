@@ -2,15 +2,12 @@
 #define LOTOSPP_NETWORK_OUTPUTMESSAGE_H
 
 #include "NetworkMessage.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/noncopyable.hpp>
+#include <boost/core/noncopyable.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include <list>
 #ifdef __TRACK_NETWORK__
-#	include <string>
 #	include <iostream>
 #endif
-#include <cstdint>
 
 
 namespace LotosPP::Network {

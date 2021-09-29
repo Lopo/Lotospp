@@ -2,10 +2,7 @@
 #define LOTOSPP_NETWORK_PROTOCOLS_TELNET_H
 
 #include "../Protocol.h"
-#include <boost/shared_ptr.hpp>
 #include <boost/bind/bind.hpp>
-#include <string>
-#include <cstdint>
 
 
 namespace LotosPP {
@@ -14,7 +11,6 @@ namespace LotosPP {
 		}
 	namespace Network {
 		class NetworkMessage;
-		typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;
 		class Connection;
 		typedef boost::shared_ptr<Connection> Connection_ptr;
 

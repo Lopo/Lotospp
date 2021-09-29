@@ -2,9 +2,7 @@
 #define LOTOSPP_COMMON_TASK_H
 
 #include <boost/function.hpp>
-#include <boost/date_time.hpp>
 #include <boost/thread/thread_time.hpp>
-#include <cstdint>
 
 
 namespace LotosPP::Common {

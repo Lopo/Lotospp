@@ -5,12 +5,9 @@
 #include "OutputMessage.h"
 #include "ServicePort.h"
 #include "Log/Logger.h"
-#include <boost/bind/bind.hpp>
-#include <boost/system/system_error.hpp>
-#include <boost/asio.hpp>
-#include <iostream>
-#include <list>
-#include <cstdint>
+#include <boost/asio/placeholders.hpp>
+#include <boost/asio/write.hpp>
+#include <cassert>
 
 
 using namespace LotosPP::Network;

@@ -2,25 +2,22 @@
 #define LOTOSPP_NETWORK_CONNECTION_H
 
 #include "NetworkMessage.h"
-#include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <boost/noncopyable.hpp>
+#include <boost/core/noncopyable.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/thread/recursive_mutex.hpp>
-#include <boost/system/error_code.hpp>
-#include <boost/weak_ptr.hpp>
-#ifdef __DEBUG_NET__
+#if defined(__DEBUG_NET__) || defined(__DEBUG_NET_DETAIL__)
 #	include <iostream>
 #endif
 
 
 namespace LotosPP::Network {
 	class Connection;
+	class Protocol;
 	class ServicePort;
 	typedef boost::shared_ptr<ServicePort> ServicePort_ptr;
-	class Protocol;
 	class OutputMessage;
 	typedef boost::shared_ptr<OutputMessage> OutputMessage_ptr;
 
