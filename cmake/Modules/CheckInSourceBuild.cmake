@@ -1,4 +1,7 @@
-if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+get_filename_component(srcdir "${CMAKE_SOURCE_DIR}" REALPATH)
+get_filename_component(bindir "${CMAKE_BINARY_DIR}" REALPATH)
+
+if (${srcdir} STREQUAL ${bindir})
 	if (ALLOW_IN_SOURCE_BUILD)
 		message("in-source build")
 	else ()

@@ -16,14 +16,14 @@ $(BUILDDIR):
 build: $(BUILDDIR)
 	@$(MAKE) $(MAKEARGS) -C $(BUILDDIR)
 
-.PHONY: docs
-docs: $(BUILDDIR)
-	@$(MAKE) $(MAKEARGS) -C $(BUILDDIR) docs
+.PHONY: dox
+dox: $(BUILDDIR)
+	@$(MAKE) $(MAKEARGS) -C $(BUILDDIR) dox
 
-.PHONY: cleandocs
-cleandocs: $(BUILDDIR)
+.PHONY: cleandox
+cleandox: $(BUILDDIR)
 	@# removes generated documentation
-	rm -rf doc
+	rm -rf dox
 
 .PHONY: clean
 clean: $(BUILDDIR)
@@ -41,7 +41,7 @@ cleaninsourcebuild:
 	@find . ! -path "./$(BUILDDIR)/*" -type d -name CMakeFiles -print -exec rm -r {} +
 
 .PHONY: cleanbuilddirs
-cleanbuilddirs: cleaninsourcebuild cleandocs
+cleanbuilddirs: cleaninsourcebuild cleandox
 	@if test -d $(BUILDDIR); then $(MAKE) $(MAKEARGS) -C $(BUILDDIR) clean || true; fi
 	@echo cleaning build directories
 	rm -rf $(BUILDDIR)
@@ -58,14 +58,14 @@ mrproperer:
 help: $(BUILDDIR)/Makefile
 	@echo "Lotos++ Makefile"
 	@echo ""
-	@echo "wrapper that mostly forwards recipes to the cmake-generated Makefile in build/"
+	@echo "wrapper that mostly forwards recipes to the cmake-generated Makefile in build dir"
 	@echo ""
 	@echo "targets:"
 	@echo ""
 	@echo "build              -> build entire project"
-	@echo "docs               -> create documentation files"
+	@echo "dox                -> create documentation files"
 	@echo ""
-	@echo "cleandocs          -> undo 'make docs'"
+	@echo "cleandox           -> undo 'make dox'"
 	@echo "clean              -> remove C++ ELF files"
 	@echo "cleanbuilddirs     -> undo 'make'"
 	@echo "cleaninsourcebuild -> undo in-source build accidents"

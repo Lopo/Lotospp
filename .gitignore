@@ -4,6 +4,7 @@
 #CLion
 /.idea
 /cmake-build-*
+/clion-*
 
 #Code::Blocks
 *.cbp
@@ -19,7 +20,6 @@ cmake/Hunter/disabled-mode
 
 #generated
 /include/config.h
-/docs-generated
 
 #C++
 *.o

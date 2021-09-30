@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
-#test art: figlet -f ogre Lotos++ #| sed -e 's/\\/\\\\/g'
+#text art: figlet -f ogre Lotos++ | sed -e 's/\\/\\\\/g'
 message("
    __       _
   / /  ___ | |_ ___  ___   _     _
@@ -7,6 +7,10 @@ message("
 / /__| (_) | || (_) \\__ \\_   _|_   _|
 \\____/\\___/ \\__\\___/|___/ |_|   |_|
 ")
+
+# Look for our custom modules in cmake/Modules:
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+include(CheckInSourceBuild)
 
 find_package(Git QUIET)
 if (GIT_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
@@ -59,7 +63,11 @@ endif ()
 #set(CMAKE_VERBOSE_MAKEFILE ${IsDeb})
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE INTERNAL "")
 
-project(Lotos++ VERSION 0.2.3)
+project(Lotos++
+	VERSION 0.2.3
+	DESCRIPTION "talker server, written in C++"
+	HOMEPAGE_URL https://github.com/Lopo/Lotospp
+	)
 
 get_filename_component(ROOT_DIR ${CMAKE_SOURCE_DIR} REALPATH CACHE)
 
@@ -119,7 +127,6 @@ endfunction()
 set(CUSTOM_C_FLAGS $ENV{CFLAGS})
 set(CUSTOM_CXX_FLAGS $ENV{CXXFLAGS})
 
-set(SOURCE_DIR ${ROOT_DIR}/src)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ROOT_DIR}/bin)
 
 if (UNIX AND CMAKE_SYSTEM_NAME MATCHES BSD)
@@ -133,12 +140,8 @@ endif ()
 # Find packages and other useful checks
 #-----------------------------------------------------------------------
 
-# Look for our custom modules in cmake/Modules:
-list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
-
 # includes
 include(cmake/Macros.cmake)
-include(CheckInSourceBuild)
 include(CheckFunctionExists)
 include(CheckIncludeFile)
 include(CheckLibraryExists)
@@ -226,41 +229,26 @@ if (ENABLE_DOXYGEN)
 	find_package(Doxygen)
 	if (DOXYGEN_DOT_FOUND)
 		set(WITH_DOXYGEN TRUE)
-		execute_process(COMMAND
-			${DOXYGEN_DOT_EXECUTABLE} -V
-#			OUTPUT_VARIABLE _DOTEXEC_VER
-			ERROR_VARIABLE _DOTEXEC_VER
-#			ERROR_QUIET
-			OUTPUT_STRIP_TRAILING_WHITESPACE
-			)
-		if (_DOTEXEC_VER)
-			set (DOTEXEC_VERSION_FULL "${_DOTEXEC_VER}")
-			string(REGEX
-				MATCH " ([0-9]+[.0-9]+)[ \\t]"
-				tmp
-				"${_DOTEXEC_VER}"
-				)
-			set(DOTEXEC_VERSION "${CMAKE_MATCH_1}")
-		endif ()
-		message("Found dot program: ${DOXYGEN_DOT_EXECUTABLE} ver ${DOTEXEC_VERSION}")
-		set(DOT1810PLUS "NO")
-		if (${DOTEXEC_VERSION} VERSION_GREATER "1.8.10")
-			set(DOT1810PLUS "YES")
-		endif ()
-		get_filename_component(DOXYGEN_DOT_EXE "${DOXYGEN_DOT_EXECUTABLE}" DIRECTORY)
-		file(TO_NATIVE_PATH "${DOXYGEN_DOT_EXE}" DOXYGEN_DOT_PATH)
-		set (DOXY_CONFIG ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-		message(STATUS "Generating ${DOXY_CONFIG}")
-		configure_file(
-			"${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in"
-			${DOXY_CONFIG} @ONLY
-			)
-		add_custom_target(docs
-			${DOXYGEN_EXECUTABLE} ${DOXY_CONFIG}
-			DEPENDS ${DOXY_CONFIG}
-			WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+
+		set(DOXYGEN_OUTPUT_DIRECTORY dox)
+		set(DOXYGEN_CREATE_SUBDIRS YES)
+		set(DOXYGEN_EXTRACT_ALL YES)
+		set(DOXYGEN_EXTRACT_STATIC YES)
+		set(DOXYGEN_SORT_MEMBERS_CTORS_1ST YES)
+		set(DOXYGEN_QUIET YES)
+		set(DOXYGEN_USE_MDFILE_AS_MAINPAGE README.md)
+		set(DOXYGEN_SOURCE_BROWSER YES)
+		set(DOXYGEN_STRIP_CODE_COMMENTS NO)
+		set(DOXYGEN_REFERENCED_BY_RELATION YES)
+		set(DOXYGEN_REFERENCES_RELATION YES)
+		set(DOXYGEN_EXT_LINKS_IN_WINDOW YES)
+		set(DOXYGEN_CALL_GRAPH YES)
+		set(DOXYGEN_CALLER_GRAPH YES)
+		set(DOXYGEN_DOT_GRAPH_MAX_NODES 100)
+		set(DOXYGEN_FILE_PATTERNS *.c *.cpp *.h *.inc *.md *.lua)
+		doxygen_add_docs(dox
+			README.md ${PROJECT_SOURCE_DIR}/src
 			COMMENT "Generating API documentation with Doxygen"
-			VERBATIM
 			)
 	endif ()
 endif ()
@@ -285,7 +273,6 @@ configureProject()
 
 include_regular_expression("^.*\\.h$")
 
-include_directories(include)
 add_subdirectory(src)
 cable_add_buildinfo_library(PROJECT_NAME Lotospp)
 
@@ -317,3 +304,10 @@ if (WITH_DATABASE)
 endif()
 show_end_message_yesno("Doxygen" WITH_DOXYGEN)
 show_end_message_yesno("Debug" WITH_DEBUG)
+if (WITH_DEBUG)
+	show_end_message_yesno(" - NET" DEBUG_NET)
+	show_end_message_yesno(" - NET DETAIL" DEBUG_NET_DETAIL)
+	show_end_message_yesno(" - TRACK NETWORK" DEBUG_TRACK_NETWORK)
+	show_end_message_yesno(" - SERVER DIAGNOSTICS" DEBUG_SERVER_DIAGNOSTICS)
+	show_end_message_yesno(" - EXCEPTION TRACER" DEBUG_EXCEPTION_TRACER)
+endif()
