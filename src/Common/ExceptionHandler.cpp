@@ -3,7 +3,6 @@
 #ifdef __EXCEPTION_TRACER__
 
 #include "globals.h"
-#include "Strings/stringPrintf.h"
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -20,7 +19,7 @@ using LotosPP::Common::ExceptionHandler;
 #		pragma comment(lib, "DbgHelp")
 
 		// based on dbghelp.h
-		typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType, CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam, CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam, CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam);
+		typedef BOOL (WINAPI* MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType, CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam, CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam, CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam);
 
 		int ExceptionHandler::refCounter{0};
 #	elif __GNUC__
@@ -536,7 +535,7 @@ void _SigHandler(int signum, siginfo_t *info, void* void_context)
 	outdriver->flags(std::ios::hex | std::ios::showbase);
 	*outdriver << "Signal: " << strsignal(signum) << " (" << signum << ")"
 		// this is (void*), but using %p would print "(null)" even for ptrs which are not exactly 0, but, say, 0x123
-		<< " Address: " << LotosPP::Strings::StringPrintf("0x%lx", (long)info->si_addr)
+		<< " Address: " << std::hex << std::showbase << (long)info->si_addr
 		<< std::endl;
 #	ifdef OS_LINUX
 	greg_t esp{0};

@@ -2,6 +2,7 @@
 #include "globals.h"
 #include "OutputMessage.h"
 #include "Common/User.h"
+#include "Common/Scheduler.h"
 #ifdef __DEBUG_NET_DETAIL__
 #	include <iostream>
 #endif
@@ -12,12 +13,13 @@
 
 
 using namespace LotosPP::Network;
+using namespace std;
 
 
 void Protocol::onSendMessage(OutputMessage_ptr msg)
 {
 #ifdef __DEBUG_NET_DETAIL__
-	std::cout << "Protocol::onSendMessage" << std::endl;
+	cout << "Protocol::onSendMessage" << endl;
 #endif
 	if (msg==m_outputBuffer) {
 		m_outputBuffer.reset();
@@ -27,14 +29,14 @@ void Protocol::onSendMessage(OutputMessage_ptr msg)
 void Protocol::onRecvMessage(NetworkMessage& msg)
 {
 #ifdef __DEBUG_NET_DETAIL__
-	std::cout << "Protocol::onRecvMessage" << std::endl;
+	cout << "Protocol::onRecvMessage" << endl;
 #endif
 	parsePacket(msg);
 }
 
 OutputMessage_ptr Protocol::getOutputBuffer()
 {
-	if (m_outputBuffer && m_outputBuffer->getMessageLength()<NETWORKMESSAGE_MAXSIZE-4096) {
+	if (m_outputBuffer && m_outputBuffer->getMessageLength()<NetworkMessage::MAXSIZE-4096) {
 		return m_outputBuffer;
 		}
 	if (m_connection) {
@@ -48,7 +50,7 @@ void Protocol::releaseProtocol()
 {
 	if (m_refCount>0) {
 		//Reschedule it and try again.
-		g_scheduler.addEvent(LotosPP::Common::createSchedulerTask(SCHEDULER_MINTICKS, boost::bind(&Protocol::releaseProtocol, this)));
+		g_scheduler.addEvent(LotosPP::Common::createSchedulerTask(LotosPP::Common::SchedulerTask::SCHEDULER_MINTICKS, boost::bind(&Protocol::releaseProtocol, this)));
 		}
 	else {
 		deleteProtocolTask();
@@ -95,7 +97,7 @@ std::string Protocol::getHostname() const
 		return getConnection()->getHostname();
 		}
 
-	return std::string();
+	return string();
 }
 
 void Protocol::setUser(LotosPP::Common::User* u)

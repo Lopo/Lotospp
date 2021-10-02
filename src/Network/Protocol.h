@@ -28,12 +28,13 @@ public:
 	virtual ~Protocol()
 	{};
 
-	virtual void parsePacket(NetworkMessage& msg)=0;
+	virtual void parsePacket(NetworkMessage& msg) =0;
 
 	void onSendMessage(OutputMessage_ptr msg);
 	void onRecvMessage(NetworkMessage& msg);
-	virtual void onRecvFirstMessage(NetworkMessage& msg)=0;
-	virtual void onConnect() {}; // Used to send first packet to client
+	virtual void onRecvFirstMessage(NetworkMessage& msg) =0;
+	virtual void onConnect() // Used to send first packet to client
+	{};
 
 	Connection_ptr getConnection()
 	{

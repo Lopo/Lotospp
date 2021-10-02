@@ -71,11 +71,12 @@ public:
 			}
 	};
 	boost::asio::ip::address getAddress() const;
-	void kick();
+	void kick() const;
 
 	virtual void uRead(LotosPP::Network::NetworkMessage msg);
-	virtual void uWrite(const std::string& message);
-	virtual void uPrintf(const char* fmtstr, ...);
+	virtual void uWrite(const std::string& message) const;
+	template<typename ... Args>
+	void uPrintf(const std::string& fmtstr, Args ... args) const;
 
 	LotosPP::Strings::Splitline com;
 	LotosPP::Network::Protocol* client{nullptr};
@@ -87,7 +88,7 @@ protected:
 
 	virtual void parseLine();
 	virtual void prompt();
-	void login(std::string inpstr);
+	void login(const std::string& inpstr);
 	void attempt();
 	void uConnect();
 	bool parseTelopt();
@@ -100,14 +101,14 @@ protected:
 	uint8_t attempts{0};
 	uint32_t bpos{0};
 	uint8_t buffnum{0};
-	std::string buff;
+	std::string buff{};
 	std::string textBuffer[2];
 	int tbpos{0};
-	std::string inlinePrompt;
-	size_t buffpos{0};
-	bool checho{false};
+	std::string inlinePrompt{};
+//	size_t buffpos{0};
+//	bool checho{false};
 	uint16_t termCols{80}, termRows{25};
-	std::string termType;
+	std::string termType{};
 
 	uint32_t guid{0};
 

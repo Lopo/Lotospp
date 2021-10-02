@@ -9,6 +9,7 @@
 
 
 using namespace LotosPP::Network;
+using namespace std;
 
 
 ServiceManager::ServiceManager()
@@ -23,8 +24,8 @@ ServiceManager::~ServiceManager()
 
 std::list<uint16_t> ServiceManager::getPorts() const
 {
-	std::list<uint16_t> ports{};
-	for (auto&& [f, s] : m_acceptors) {
+	list<uint16_t> ports{};
+	for (const auto& [f, s] : m_acceptors) {
 		ports.push_back(f);
 		}
 	// Maps are ordered, so the elements are in order
@@ -58,7 +59,7 @@ void ServiceManager::stop()
 
 	running=false;
 
-	for (auto&& [f, s] : m_acceptors) {
+	for (const auto& [f, s] : m_acceptors) {
 		try {
 			m_io_service.post(boost::bind(&ServicePort::onStopServer, s));
 			}
@@ -78,13 +79,13 @@ void ServiceManager::stop()
 bool ServiceManager::remove(uint16_t port)
 {
 	if (!port) {
-		std::cout << "NOTICE: No port provided for service remove. Service not removed." << std::endl;
+		cout << "NOTICE: No port provided for service remove. Service not removed." << endl;
 		return false;
 		}
 
-	std::map<uint16_t, ServicePort_ptr>::iterator finder=m_acceptors.find(port);
+	map<uint16_t, ServicePort_ptr>::iterator finder=m_acceptors.find(port);
 	if (finder==m_acceptors.end()) {
-		std::cout << "ERROR: " << "No service found for port " << port;
+		cout << "ERROR: " << "No service found for port " << port;
 		return false;
 		}
 	ServicePort_ptr service_port=finder->second;

@@ -4,7 +4,7 @@
 
 namespace LotosPP::Strings {
 
-std::vector<std::string>& StringSplit(const std::string &s, const std::string& delim, std::vector<std::string>& elems)
+std::vector<std::string>& StringSplit(const std::string& s, const std::string& delim, std::vector<std::string>& elems)
 {
 	boost::split(elems, s, boost::is_any_of(delim));
 	return elems;
@@ -16,7 +16,7 @@ std::vector<std::string> StringSplit(const std::string& s, const std::string& de
 	StringSplit(s, delim, elems);
 	return elems;
 }
-
+/*
 std::vector<std::string> wordFind(const std::string& inpstr)
 {
 	std::vector<std::string> ret{};
@@ -38,5 +38,5 @@ std::vector<std::string> wordFind(const std::string& inpstr)
 		} while (ret.size()<rmax);
 	return ret;
 }
-
+*/
 	}

@@ -62,9 +62,9 @@ protected:
 	 * @note If your database system doesn't support transactions you should return true - it's not feature test, code should work without transaction, just will lack integrity.
 	 */
 	friend class Transaction;
-	virtual bool beginTransaction()=0;
-	virtual bool rollback()=0;
-	virtual bool commit()=0;
+	virtual bool beginTransaction() =0;
+	virtual bool rollback() =0;
+	virtual bool commit() =0;
 
 public:
 	/**
@@ -83,7 +83,7 @@ public:
 	 *
 	 * @return id of last inserted row, 0 if last query did not result in any rows with auto_increment keys
 	 */
-	virtual uint64_t getLastInsertedRowID()=0;
+	virtual uint64_t getLastInsertedRowID() =0;
 
 	/**
 	 * Queries database
@@ -104,7 +104,7 @@ public:
 	 * @param s string to be escaped
 	 * @return quoted string
 	 */
-	virtual std::string escapeString(const std::string& s)=0;
+	virtual std::string escapeString(const std::string& s) =0;
 	/**
 	 * Escapes binary stream for query.
 	 *
@@ -114,7 +114,7 @@ public:
 	 * @param length stream length
 	 * @return quoted string
 	 */
-	virtual std::string escapeBlob(const char* s, uint32_t length)=0;
+	virtual std::string escapeBlob(const char* s, uint32_t length) =0;
 
 	/**
 	 * Resource freeing
@@ -133,8 +133,8 @@ protected:
 	/**
 	 * Executes a query directly
 	 */
-	virtual bool internalQuery(const std::string& query)=0;
-	virtual Result_ptr internalSelectQuery(const std::string& query)=0;
+	virtual bool internalQuery(const std::string& query) =0;
+	virtual Result_ptr internalSelectQuery(const std::string& query) =0;
 
 	Result_ptr verifyResult(Result_ptr result);
 

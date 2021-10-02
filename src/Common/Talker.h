@@ -39,19 +39,19 @@ public:
 	 */
 	User* getUserByID(uint32_t id);
 
-	/**
-	 * Returns all users with a certain IP address
-	 *
-	 * @param ip is the IP address of the clients, as an unsigned long
-	 * @param mask An IP mask, default 255.255.255.255
-	 * @return A vector of all users with the selected IP
-	 */
-	UserVector getUsersByIP(uint32_t ip, uint32_t mask=0xFFFFFFFF);
+//	/**
+//	 * Returns all users with a certain IP address
+//	 *
+//	 * @param ip is the IP address of the clients, as an unsigned long
+//	 * @param mask An IP mask, default 255.255.255.255
+//	 * @return A vector of all users with the selected IP
+//	 */
+//	UserVector getUsersByIP(uint32_t ip, uint32_t mask=0xFFFFFFFF);
 
 	/**
 	 * @param creature Creature to remove
 	 */
-	bool removeCreature(Creature* creature);
+	bool removeCreature(const Creature* creature);
 
 	uint32_t getUsersOnline();
 
@@ -63,7 +63,7 @@ public:
 protected:
 	std::vector<Thing*> toReleaseThings{};
 	AutoList<Creature> listCreature{};
-	uint32_t maxUsers;
+//	uint32_t maxUsers;
 	LotosPP::Network::ServiceManager* service_manager{nullptr};
 };
 

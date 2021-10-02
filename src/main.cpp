@@ -13,30 +13,31 @@
 #include "System/build_config.h"
 #include <boost/program_options.hpp>
 #include <boost/program_options/detail/utf8_codecvt_facet.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/erase.hpp>
+#include <filesystem>
 
 
 using namespace LotosPP;
+using namespace std;
 
 
 bool configure(int ac, char **av)
 {
-	std::string cf{"etc/config.ini"},
+	string cf{"etc/config.ini"},
 		pidFile,
 		logDir;
 	LotosPP::Log::severity_t logLevelC,
 		logLevelF;
 
 	namespace po=boost::program_options;
-	namespace fs=boost::filesystem;
+	namespace fs=std::filesystem;
 	namespace pt=boost::property_tree;
 
 	po::options_description generic("Allowed options");
 	generic.add_options()
-		("configFile,c", po::value<std::string>(&cf)->default_value("etc/config.ini"), "config file")
+		("configFile,c", po::value<string>(&cf)->default_value("etc/config.ini"), "config file")
 		("help,h", "this help")
 		("version,V", "")
 #ifdef HAVE_FORK
@@ -44,8 +45,8 @@ bool configure(int ac, char **av)
 #endif
 		("logLevelC", po::value<LotosPP::Log::severity_t>(&logLevelC)->default_value(LotosPP::Log::severity_t("warning")), "console log level (none, trace, debug, info, warning, error, fatal)")
 		("logLevelF", po::value<LotosPP::Log::severity_t>(&logLevelF)->default_value(LotosPP::Log::severity_t("info")), "file log level (trace, debug, info, warning, error, fatal)")
-		("logDir,L", po::value<std::string>(&logDir)->default_value("log"), "")
-		("pidFile,p", po::value<std::string>(&pidFile)->default_value(std::string(av[0])+".pid"), "")
+		("logDir,L", po::value<string>(&logDir)->default_value("log"), "")
+		("pidFile,p", po::value<string>(&pidFile)->default_value(string(av[0])+".pid"), "")
 		("suppress,s", "suppress config info")
 		;
 	po::positional_options_description p;
@@ -56,21 +57,21 @@ bool configure(int ac, char **av)
 	po::notify(vm);
 
 	if (vm.count("version")) {
-		std::cout << Lotospp_get_buildinfo()->project_version << std::endl;
+		cout << Lotospp_get_buildinfo()->project_version << endl;
 		return false;
 		}
 	if (vm.count("help")) {
-		std::cout << generic << std::endl;
+		cout << generic << endl;
 		return false;
 		}
 
 	if (cf!="") {
 		if (!fs::exists(cf)) {
-			std::cerr << "ERROR: The config file '" << cf << "' not found." << std::endl;
+			cerr << "ERROR: The config file '" << cf << "' not found." << endl;
 			exit(1);
 			}
 		if (!fs::is_regular_file(cf)) {
-			std::cerr << "ERROR: The config file '" << cf << "' isn't regular file." << std::endl;
+			cerr << "ERROR: The config file '" << cf << "' isn't regular file." << endl;
 			exit(1);
 			}
 		pt::ini_parser::read_ini(cf, options);
@@ -90,7 +91,7 @@ bool configure(int ac, char **av)
 	options.put("global.log.file.level", logLevelF.to_string());
 	options.put("global.log.dir", logDir);
 	if (int64_t userPort=options.get<int64_t>("global.userPort", 0); userPort<=1024 || userPort>65535) {
-		std::cout << "Main port must be between 1024 and 65535, actual: " << userPort << std::endl;
+		cout << "Main port must be between 1024 and 65535, actual: " << userPort << endl;
 		return false;
 		}
 	if (pidFile!="") {
@@ -101,61 +102,56 @@ bool configure(int ac, char **av)
 
 void parseConfig(void)
 {
-	namespace fs=boost::filesystem;
+	namespace fs=std::filesystem;
 
-	std::string serverName(options.get("global.serverName", ""));
+	string serverName(options.get("global.serverName", ""));
 	if (serverName=="") {
-		std::cerr << "ERROR: Server name not specified" << std::endl;
+		cerr << "ERROR: Server name not specified" << endl;
 		exit(1);
 		}
 	if (serverName.length()>10) {
-		std::cerr << "ERROR: Server name is too long" << std::endl;
+		cerr << "ERROR: Server name is too long" << endl;
 		exit(1);
 		}
 	if (Strings::hasWhitespace(serverName)) {
-		std::cerr << "ERROR: Server name can't contain whitespace" << std::endl;
+		cerr << "ERROR: Server name can't contain whitespace" << endl;
 		exit(1);
 		}
-	std::string workingDir(options.get("global.workingDir", ""));
+	string workingDir(options.get("global.workingDir", ""));
 	if (boost::ends_with(workingDir, "/")) {
 		boost::algorithm::erase_last(workingDir, "/");
 		options.put("global.workingDir", workingDir);
 		}
 	if (!fs::exists(workingDir) || !fs::is_directory(workingDir)) {
-		std::cerr << "ERROR: Working dir '" << workingDir << "' don't exist or isn't dir" << std::endl;
+		cerr << "ERROR: Working dir '" << workingDir << "' don't exist or isn't dir" << endl;
 		exit(1);
 		}
-	std::string logDir(options.get("global.log.dir", ""));
+	string logDir(options.get("global.log.dir", ""));
 	if (boost::ends_with(logDir, "/")) {
 		boost::algorithm::erase_last(logDir, "/");
 		options.put("global.log.dir", logDir);
 		}
 	if (!fs::exists(logDir) || !fs::is_directory(logDir)) {
-		std::cerr << "ERROR: Log dir '" << logDir << "' don't exist or isn't dir" << std::endl;
+		cerr << "ERROR: Log dir '" << logDir << "' don't exist or isn't dir" << endl;
 		exit(1);
 		}
 	if (int64_t userPort=options.get<int64_t>("global.userPort", 0); userPort<=1024 || userPort>65535) {
-		std::cerr << "ERROR: Invalid user port number " << userPort << ". Range is 1025 - 65535." << std::endl;
+		cerr << "ERROR: Invalid user port number " << userPort << ". Range is 1025 - 65535." << endl;
 		exit(1);
 		}
 }
 
 void closePidFile(void)
 {
-	if (std::string pidFile=options.get("global.pidFile", ""); pidFile!="") {
-		remove(pidFile.c_str());
+	if (string pidFile=options.get("global.pidFile", ""); pidFile!="" && filesystem::exists(pidFile)) {
+		filesystem::remove(pidFile);
 		}
 }
 
 void init(void)
 {
 	setlocale(LC_ALL, "C");
-	boost::system::error_code ec;
-	boost::filesystem::path original_dir(boost::filesystem::current_path(ec));
-	if (ec) {
-		std::cerr << "ERROR: current_path(): " << ec.message() << std::endl;
-		exit(1);
-		}
+	filesystem::path original_dir(filesystem::current_path());
 	options.put("runtime.originalDir", original_dir);
 	time_t t0=time(NULL);
 	options.put("runtime.bootTime", t0);
@@ -168,7 +164,7 @@ void init(void)
 	if (!options.get<bool>("global.suppress_config_info", false)) {
 		LOG(LINFO) << "Server name: " << options.get("global.serverName", "");
 		LOG(LINFO) << "Original dir: " << options.get("runtime.originalDir", "");
-		LOG(LINFO) << "Working dir: " << boost::filesystem::canonical(options.get("global.workingDir", ""));
+		LOG(LINFO) << "Working dir: " << filesystem::canonical(options.get("global.workingDir", ""));
 		LOG(LINFO) << "Log dir: " << options.get("global.log.dir", "");
 		LOG(LINFO) << "User port: " << options.get("global.userPort", 0);
 		LOG(LINFO) << "Done.";
@@ -176,8 +172,8 @@ void init(void)
 
 	LOG(LINFO) << "Number of found CPUs: " << boost::thread::hardware_concurrency();
 
-	if (std::string pidFile{options.get("global.pidFile", "")}; pidFile!="") {
-		std::ofstream f(pidFile, std::ios::trunc|std::ios::out);
+	if (string pidFile{options.get("global.pidFile", "")}; pidFile!="") {
+		ofstream f(pidFile, ios::trunc|ios::out);
 		f << getpid();
 		f.close();
 		atexit(closePidFile);
@@ -192,10 +188,10 @@ void init(void)
 
 void ErrorMessage(const std::string& message)
 {
-	std::cout << std::endl << std::endl << "Error: " << message << std::endl;
+	cout << endl << endl << "Error: " << message << endl;
 #ifdef OS_WIN
-	std::string s;
-	std::cin >> s;
+	string s;
+	cin >> s;
 #endif
 }
 
@@ -222,7 +218,7 @@ int main(int argc, char **argv)
 #endif
 #ifndef OS_WIN
 	if (!getuid() || !geteuid()) {
-		std::cout << "executed as root - login as normal user" << std::endl;
+		cout << "executed as root - login as normal user" << endl;
 		return 1;
 		}
 #endif
@@ -234,10 +230,10 @@ int main(int argc, char **argv)
 	if (false && options.get("global.daemon", false)) { // XXX
 		switch (fork()) {
 			case -1:
-				std::cerr << "ERROR: fork()" << std::endl;
+				cerr << "ERROR: fork()" << endl;
 				exit(1);
 			case 0:
-				std::cout << "forked to background, pid " << getpid() << std::endl;
+				cout << "forked to background, pid " << getpid() << endl;
 				options.put("runtime.main_pid", getpid());
 				break;
 			default:

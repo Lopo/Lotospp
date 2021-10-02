@@ -1,7 +1,6 @@
 set(SOURCES
 	misc.cpp
 	Splitline.cpp
-	stringPrintf.cpp
 	stringSplit.cpp
 	)
 source_group(Strings FILES ${SOURCES})

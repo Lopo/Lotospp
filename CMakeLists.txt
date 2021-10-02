@@ -204,7 +204,7 @@ endif ()
 hunter_add_package(OpenSSL)
 find_package(OpenSSL REQUIRED)
 
-set(BoostMods program_options system filesystem thread date_time random log)
+set(BoostMods program_options system thread date_time random log)
 if (WITH_TEST)
 	list(APPEND BoostMods unit_test_framework)
 endif ()

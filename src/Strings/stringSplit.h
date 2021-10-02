@@ -9,7 +9,7 @@ namespace LotosPP::Strings {
 
 std::vector<std::string>& StringSplit(const std::string& s, const std::string& delim, std::vector<std::string>& elems);
 std::vector<std::string> StringSplit(const std::string& s, const std::string& delim);
-std::vector<std::string> wordFind(const std::string& inpstr);
+//std::vector<std::string> wordFind(const std::string& inpstr);
 
 	}
 

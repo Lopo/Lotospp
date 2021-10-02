@@ -11,7 +11,8 @@ template<typename T>
 class AutoList
 {
 public:
-	AutoList() {};
+	AutoList()
+	{};
 
 	~AutoList()
 	{

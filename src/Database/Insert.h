@@ -61,7 +61,7 @@ protected:
 	Driver* m_db{nullptr};
 	bool m_multiLine{false};
 	uint32_t m_rows{0};
-	std::string m_query;
+	std::string m_query{};
 	std::ostringstream m_buf;
 };
 

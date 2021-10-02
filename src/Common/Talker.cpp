@@ -25,7 +25,7 @@ Creature* Talker::getCreatureByID(uint32_t id)
 
 	if (AutoList<Creature>::listiterator it=listCreature.list.find(id); it!=listCreature.list.end()) {
 //		if (!it->second->isRemoved()) {
-//			return it->second;
+			return it->second;
 //			}
 		}
 
@@ -40,23 +40,23 @@ User* Talker::getUserByID(uint32_t id)
 
 	if (AutoList<User>::listiterator it=User::listUser.list.find(id); it!=User::listUser.list.end()) {
 //		if (!it->second->isRemoved()) {
-//			return it->second;
+			return it->second;
 //			}
 		}
 
 	return nullptr; //just in case the user doesnt exist
 }
-
+/*
 UserVector Talker::getUsersByIP([[maybe_unused]]uint32_t ipadress, [[maybe_unused]]uint32_t mask)
 {
 	UserVector users{};
-	for (auto& it : User::listUser.list) {
+	for (const auto& [id, user] : User::listUser.list) {
 		}
 
 	return users;
 }
-
-bool Talker::removeCreature(Creature* creature)
+*/
+bool Talker::removeCreature(const Creature* creature)
 {
 	listCreature.removeList(creature->getID());
 
@@ -87,7 +87,7 @@ void Talker::shutdown()
 void Talker::cleanup()
 {
 	//free memory
-	for (auto& it : toReleaseThings) {
+	for (const auto& it : toReleaseThings) {
 		it->unRef();
 		}
 

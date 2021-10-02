@@ -8,6 +8,7 @@
 
 
 using namespace LotosPP::Database::Drivers;
+using namespace std;
 
 /** MySQL definitions */
 
@@ -15,7 +16,7 @@ MySQL::MySQL()
 {
 	// connection handle initialization
 	if (!mysql_init(&m_handle)) {
-		std::cout << std::endl << "Failed to initialize MySQL connection handle." << std::endl;
+		cout << endl << "Failed to initialize MySQL connection handle." << endl;
 		return;
 		}
 
@@ -31,9 +32,11 @@ MySQL::MySQL()
 			options.get("database.Pass", "").c_str(),
 			options.get("database.Db", "lotos").c_str(),
 			options.get<unsigned int>("database.Port", MYSQL_PORT),
-			NULL, 0)
+			NULL,
+			0
+			)
 		) {
-		std::cout << "Failed to connect to database. MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
+		cout << "Failed to connect to database. MYSQL ERROR: " << mysql_error(&m_handle) << endl;
 		return;
 		}
 
@@ -41,19 +44,19 @@ MySQL::MySQL()
 		//mySQL servers < 5.0.19 has a bug where MYSQL_OPT_RECONNECT is (incorrectly) reset by mysql_real_connect calls
 		//See http://dev.mysql.com/doc/refman/5.0/en/mysql-options.html for more information.
 		mysql_options(&m_handle, MYSQL_OPT_RECONNECT, &reconnect);
-		std::cout << std::endl << "[Warning] Outdated MySQL server detected (" << MYSQL_SERVER_VERSION << "). Consider upgrading to a newer version." << std::endl;
+		cout << endl << "[Warning] Outdated MySQL server detected (" << MYSQL_SERVER_VERSION << "). Consider upgrading to a newer version." << endl;
 		}
 
 	m_connected=true;
 
-	if (options.get<std::string>("global.mapStorageType", "")=="binary") {
+	if (options.get<string>("global.mapStorageType", "")=="binary") {
 		LotosPP::Database::Query query;
 		query << "SHOW variables LIKE 'max_allowed_packet';";
 
 		if (LotosPP::Database::Result_ptr result=storeQuery(query.str()); result && result->getDataInt("Value")<16777216) {
-			std::cout << std::endl << "[Warning] max_allowed_packet might be set too low for binary map storage." << std::endl;
-			std::cout << "Use the following query to raise max_allow_packet: " << std::endl;
-			std::cout << "\tSET GLOBAL max_allowed_packet = 16777216;" << std::endl;
+			cout << endl << "[Warning] max_allowed_packet might be set too low for binary map storage." << endl;
+			cout << "Use the following query to raise max_allow_packet: " << endl;
+			cout << "\tSET GLOBAL max_allowed_packet = 16777216;" << endl;
 			}
 		}
 }
@@ -85,11 +88,11 @@ bool MySQL::rollback()
 		}
 
 #ifdef __DEBUG_SQL__
-	std::cout << "ROLLBACK" << std::endl;
+	cout << "ROLLBACK" << endl;
 #endif
 
-	if (mysql_rollback(&m_handle)!=0) {
-		std::cout << "mysql_rollback(): MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
+	if (mysql_rollback(&m_handle)) {
+		cout << "mysql_rollback(): MYSQL ERROR: " << mysql_error(&m_handle) << endl;
 		return false;
 		}
 
@@ -103,31 +106,31 @@ bool MySQL::commit()
 		}
 
 #ifdef __DEBUG_SQL__
-	std::cout << "COMMIT" << std::endl;
+	cout << "COMMIT" << endl;
 #endif
 	if (mysql_commit(&m_handle)) {
-		std::cout << "mysql_commit(): MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
+		cout << "mysql_commit(): MYSQL ERROR: " << mysql_error(&m_handle) << endl;
 		return false;
 		}
 
 	return true;
 }
 
-bool MySQL::internalQuery(const std::string& query)
+bool MySQL::internalQuery(const string& query)
 {
 	if (!m_connected) {
 		return false;
 		}
 
 #ifdef __DEBUG_SQL__
-	std::cout << "MYSQL QUERY: " << query << std::endl;
+	cout << "MYSQL QUERY: " << query << endl;
 #endif
 
 	bool state{true};
 
 	// executes the query
 	if (mysql_real_query(&m_handle, query.c_str(), query.length())) {
-		std::cout << "mysql_real_query(): " << query.substr(0, 256) << ": MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
+		cout << "mysql_real_query(): " << query.substr(0, 256) << ": MYSQL ERROR: " << mysql_error(&m_handle) << endl;
 		if (int error=mysql_errno(&m_handle); error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
 			m_connected=false;
 			}
@@ -144,19 +147,19 @@ bool MySQL::internalQuery(const std::string& query)
 	return state;
 }
 
-LotosPP::Database::Result_ptr MySQL::internalSelectQuery(const std::string &query)
+LotosPP::Database::Result_ptr MySQL::internalSelectQuery(const std::string& query)
 {
 	if (!m_connected) {
 		return LotosPP::Database::Result_ptr();
 		}
 
 #ifdef __DEBUG_SQL__
-	std::cout << "MYSQL QUERY: " << query << std::endl;
+	cout << "MYSQL QUERY: " << query << endl;
 #endif
 
 	// executes the query
 	if (mysql_real_query(&m_handle, query.c_str(), query.length())) {
-		std::cout << "mysql_real_query(): " << query << ": MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
+		cout << "mysql_real_query(): " << query << ": MYSQL ERROR: " << mysql_error(&m_handle) << endl;
 		if (int error=mysql_errno(&m_handle); error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
 			m_connected=false;
 			}
@@ -167,7 +170,7 @@ LotosPP::Database::Result_ptr MySQL::internalSelectQuery(const std::string &quer
 	MYSQL_RES* m_res=mysql_store_result(&m_handle);
 	// error occured
 	if (!m_res) {
-		std::cout << "mysql_store_result(): " << query.substr(0, 256) << ": MYSQL ERROR: " << mysql_error(&m_handle) << std::endl;
+		cout << "mysql_store_result(): " << query.substr(0, 256) << ": MYSQL ERROR: " << mysql_error(&m_handle) << endl;
 		if (int error=mysql_errno(&m_handle); error==CR_SERVER_LOST || error==CR_SERVER_GONE_ERROR) {
 			m_connected=false;
 			}
@@ -202,8 +205,8 @@ std::string MySQL::escapeBlob(const char* s, uint32_t length)
 
 	// quotes escaped string and frees temporary buffer
 	mysql_real_escape_string(&m_handle, output, s, length);
-	using namespace std::string_literals;
-	std::string r{"'"s+output+"'"};
+	using namespace string_literals;
+	string r{"'"s+output+"'"};
 	delete[] output;
 	return r;
 }
@@ -242,7 +245,7 @@ int32_t MySQLResult::getDataInt(const std::string& s)
 		return atoi(m_row[it->second]);
 		}
 
-	std::cout << "Error during getDataInt(" << s << ")." << std::endl;
+	cout << "Error during getDataInt(" << s << ")." << endl;
 	return 0; // Failed
 }
 
@@ -252,13 +255,13 @@ uint32_t MySQLResult::getDataUInt(const std::string& s)
 		if (m_row[it->second]==NULL) {
 			return 0;
 			}
-		std::istringstream os(m_row[it->second]);
+		istringstream os(m_row[it->second]);
 		uint32_t res;
 		os >> res;
 		return res;
 		}
 
-	std::cout << "Error during getDataInt(" << s << ")." << std::endl;
+	cout << "Error during getDataInt(" << s << ")." << endl;
 	return 0; // Failed
 }
 
@@ -271,7 +274,7 @@ int64_t MySQLResult::getDataLong(const std::string& s)
 		return atoll(m_row[it->second]);
 		}
 
-	std::cout << "Error during getDataLong(" << s << ")." << std::endl;
+	cout << "Error during getDataLong(" << s << ")." << endl;
 	return 0; // Failed
 }
 
@@ -283,7 +286,7 @@ std::string MySQLResult::getDataString(const std::string& s)
 			: m_row[it->second];
 		}
 
-	std::cout << "Error during getDataString(" << s << ")." << std::endl;
+	cout << "Error during getDataString(" << s << ")." << endl;
 	return ""; // Failed
 }
 
@@ -298,7 +301,7 @@ const char* MySQLResult::getDataStream(const std::string& s, unsigned long& size
 		return m_row[it->second];
 		}
 
-	std::cout << "Error during getDataStream(" << s << ")." << std::endl;
+	cout << "Error during getDataStream(" << s << ")." << endl;
 	size=0;
 	return NULL;
 }

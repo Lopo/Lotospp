@@ -5,6 +5,7 @@
 
 
 using namespace LotosPP::Log;
+using namespace std;
 
 
 severity_level severity_t::to_severity(const std::string& name)
@@ -21,7 +22,7 @@ const std::string severity_t::to_string() const
 	if (severityBimap::left_const_iterator it=severityMap.left.find(level); it!=severityMap.left.end()) {
 		return it->second;
 		}
-	throw std::runtime_error("can't convert severity to string");
+	throw runtime_error("can't convert severity to string");
 }
 
 const std::string severity_t::to_string(const severity_level lvl)
@@ -29,7 +30,7 @@ const std::string severity_t::to_string(const severity_level lvl)
 	if (severityBimap::left_const_iterator it=severityMap.left.find(lvl); it!=severityMap.left.end()) {
 		return it->second;
 		}
-	throw std::runtime_error("can't convert severity lvl to string");
+	throw runtime_error("can't convert severity lvl to string");
 }
 
 std::ostream& LotosPP::Log::operator<<(std::ostream& os, const severity_t& sev)
@@ -40,7 +41,7 @@ std::ostream& LotosPP::Log::operator<<(std::ostream& os, const severity_t& sev)
 
 std::istream& LotosPP::Log::operator>>(std::istream& is, severity_t& sev)
 {
-	std::string name;
+	string name;
 	is >> name;
 	sev.level=severity_t::to_severity(name);
 	return is;
@@ -53,7 +54,7 @@ std::basic_ostream<CharT, TraitsT>& operator<<(std::basic_ostream<CharT, TraitsT
 	try {
 		strm << severity_t::to_string(lvl);
 		}
-	catch (std::runtime_error) {
+	catch (runtime_error) {
 		strm << static_cast<int>(lvl);
 		}
 	return strm;

@@ -1,6 +1,7 @@
 #ifndef LOTOSPP_COMMON_ENUM_H
 #define LOTOSPP_COMMON_ENUM_H
 
+#include <boost/algorithm/string/case_conv.hpp>
 #include <string>
 #include <vector>
 #include <map>
@@ -38,7 +39,7 @@ public:
 	enum_iterator(const ET& e)
 	{
 		e.init();
-		if (e.enum_to_string.find(e)==e.enum_to_string.end()) {
+		if (i=e.enum_to_string.find(e); i==e.enum_to_string.end()) {
 			std::ostringstream os;
 			os << "Enum " << e.name() << " value out of range (" << (int)e.e << ")";
 			throw enum_conversion_error(os.str());
@@ -173,13 +174,12 @@ public:
 	static std::string toString(const Enum<E, size_>& _e)
 	{
 		init();
-		typename EnumToString::const_iterator i=enum_to_string.find(_e);
-		if (i==enum_to_string.end()) {
-			std::ostringstream os;
-			os << "Enum " << enum_name << " value out of range (" << (int)_e.e << ")";
-			throw enum_conversion_error(os.str());
+		if (typename EnumToString::const_iterator i=enum_to_string.find(_e); i!=enum_to_string.end()) {
+			return i->second.front();
 			}
-		return i->second.front();
+		std::ostringstream os;
+		os << "Enum " << enum_name << " value out of range (" << (int)_e.e << ")";
+		throw enum_conversion_error(os.str());
 	};
 
 	/**
@@ -191,13 +191,12 @@ public:
 	static std::string toValue(const Enum<E, size_>& _e)
 	{
 		init();
-		typename EnumToValue::const_iterator i=enum_to_value.find(_e);
-		if (i==enum_to_value.end()) {
-			std::ostringstream os;
-			os << "Enum " << enum_name << " value out of range (" << (int)_e.e << ")";
-			throw enum_conversion_error(os.str());
+		if (typename EnumToValue::const_iterator i=enum_to_value.find(_e); i==enum_to_value.end()) {
+			return i->second;
 			}
-		return i->second;
+		std::ostringstream os;
+		os << "Enum " << enum_name << " value out of range (" << (int)_e.e << ")";
+		throw enum_conversion_error(os.str());
 	};
 
 	/**
@@ -209,11 +208,10 @@ public:
 	static std::vector<std::string> toStrings(const Enum<E, size_>& _e)
 	{
 		init();
-		typename EnumToString::const_iterator i=enum_to_string.find(_e);
-		if (i==enum_to_string.end()) {
-			return std::vector<std::string>();
+		if (typename EnumToString::const_iterator i=enum_to_string.find(_e); i==enum_to_string.end()) {
+			return i->second;
 			}
-		return i->second;
+		return {};
 	};
 
 	/**
@@ -225,13 +223,12 @@ public:
 	static Enum<E, size_> fromString(const std::string& str)
 	{
 		init();
-		typename StringToEnum::const_iterator i=string_to_enum.find(str);
-		if (i==string_to_enum.end()) {
-			std::ostringstream os;
-			os << "Enum " << enum_name << " value does not exist (" << str << ")";
-			throw enum_conversion_error(os.str());
+		if (typename StringToEnum::const_iterator i=string_to_enum.find(str); i==string_to_enum.end()) {
+			return i->second;
 			}
-		return i->second;
+		std::ostringstream os;
+		os << "Enum " << enum_name << " value does not exist (" << str << ")";
+		throw enum_conversion_error(os.str());
 	};
 
 	/**
@@ -243,13 +240,12 @@ public:
 	static Enum<E, size_> fromInteger(int id)
 	{
 		init();
-		typename EnumToString::const_iterator i=enum_to_string.find(Enum<E, size_>(id));
-		if (i==enum_to_string.end()) {
-			std::ostringstream os;
-			os << "Enum " << enum_name << " value is invalid (" << id << ")";
-			throw enum_conversion_error(os.str());
+		if (typename EnumToString::const_iterator i=enum_to_string.find(Enum<E, size_>(id)); i==enum_to_string.end()) {
+			return i->first;
 			}
-		return i->first;
+		std::ostringstream os;
+		os << "Enum " << enum_name << " value is invalid (" << id << ")";
+		throw enum_conversion_error(os.str());
 	};
 
 	/**
@@ -263,13 +259,12 @@ public:
 	static Enum<E, size_> fromStringI(const std::string& str)
 	{
 		init();
-		typename StringToEnum::const_iterator i=lstring_to_enum.find(str);
-		if (i==lstring_to_enum.end()) {
-			std::ostringstream os;
-			os << "Enum " << enum_name << " value out of range (" << str << ")";
-			throw enum_conversion_error(os.str());
+		if (typename StringToEnum::const_iterator i=lstring_to_enum.find(str); i==lstring_to_enum.end()) {
+			return i->second;
 			}
-		return i->second;
+		std::ostringstream os;
+		os << "Enum " << enum_name << " value out of range (" << str << ")";
+		throw enum_conversion_error(os.str());
 	};
 
 	/**
@@ -281,8 +276,7 @@ public:
 	static bool exists(int v)
 	{
 		init();
-		typename EnumToString::const_iterator i=enum_to_string.find(E(v));
-		return i!=enum_to_string.end();
+		return enum_to_string.find(E(v))!=enum_to_string.end();
 	};
 
 	/**
@@ -368,16 +362,15 @@ protected: // Private stuff
 		initialize();
 	};
 
-	static void initAddValue(E _e, std::string str, std::string value=NULL)
+	static void initAddValue(E _e, const std::string& str, std::string value=NULL)
 	{
 		enum_to_string[_e].push_back(str);
 		if (value.length()) {
 			enum_to_value.emplace(_e, value);
 			}
 
-		string_to_enum[str]=_e;
-		std::transform(str.begin(), str.end(), str.begin(), tolower);
-		lstring_to_enum[str]=_e;
+		string_to_enum.insert_or_assign(str, _e);
+		lstring_to_enum.insert_or_assign(boost::to_lower_copy(str), _e);
 	};
 
 	static inline bool initialized{false};
@@ -412,11 +405,20 @@ class BitEnum
 	: public Enum<E, size_>
 {
 public:
-	BitEnum() {};
-	BitEnum(E e) : Enum<E, size_>(e) {};
-	BitEnum(const Enum<E, size_>& e) : Enum<E, size_>(e) {};
-	BitEnum(const BitEnum<E, size_>& e) : Enum<E, size_>(e.e) {};
-	explicit BitEnum(int e) : Enum<E, size_>(e) {};
+	BitEnum()
+	{};
+	BitEnum(E e)
+		: Enum<E, size_>(e)
+	{};
+	BitEnum(const Enum<E, size_>& e)
+		: Enum<E, size_>(e)
+	{};
+	BitEnum(const BitEnum<E, size_>& e)
+		: Enum<E, size_>(e.e)
+	{};
+	explicit BitEnum(int e)
+		: Enum<E, size_>(e)
+	{};
 
 	BitEnum<E, size_> operator~() const { return E(~int(Enum<E, size_>::e));};
 	BitEnum<E, size_> operator|(const BitEnum<E, size_>& o) const { return E(int(Enum<E, size_>::e) | int(o.e));};

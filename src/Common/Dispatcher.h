@@ -8,7 +8,7 @@
 namespace LotosPP::Common {
 	class Task;
 
-const int DISPATCHER_TASK_EXPIRATION=2000;
+//const int DISPATCHER_TASK_EXPIRATION=2000;
 
 class Dispatcher
 {

@@ -64,7 +64,7 @@ public:
 	bool send(OutputMessage_ptr msg);
 
 	boost::asio::ip::address getAddress() const;
-	u_short getPort() const;
+	uint16_t getPort() const;
 	std::string getHostname();
 
 	int32_t addRef();
@@ -117,7 +117,7 @@ private:
 
 	Protocol* m_protocol{nullptr};
 
-	std::string hostName;
+	std::string hostName{};
 
 	friend class Protocol;
 };

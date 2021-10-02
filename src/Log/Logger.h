@@ -6,10 +6,6 @@
 #include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/sources/record_ostream.hpp>
 #include <string>
-#ifdef __MINGW32__
-#	define swprintf _snwprintf
-#	define vswprintf _vsnwprintf
-#endif
 
 
 namespace LotosPP::Log {

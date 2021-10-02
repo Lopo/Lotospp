@@ -15,8 +15,6 @@ namespace LotosPP::Network {
 	typedef boost::shared_ptr<Connection> Connection_ptr;
 	class Protocol;
 
-#define OUTPUT_POOL_SIZE 100
-
 class OutputMessage
 	: public NetworkMessage,
 		boost::noncopyable
@@ -100,6 +98,7 @@ public:
 
 	static OutputMessagePool* getInstance();
 
+	static const uint8_t OUTPUT_POOL_SIZE{100};
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
 	static inline uint32_t OutputMessagePoolCount{OUTPUT_POOL_SIZE};
 #endif

@@ -19,7 +19,7 @@ void Splitline::reset()
 
 LotosPP::Common::ReturnValue Splitline::parse(const std::string& inLine)
 {
-	size_t o1=0, o2=0;
+	size_t o1{0}, o2;
 
 	reset();
 
@@ -52,7 +52,7 @@ size_t Splitline::getWord(size_t& o1)
 	startQuote= line[o1]=='"';
 	endQuote=false;
 
-	for (o2= prev= o1+startQuote, o2=o1+startQuote; o2<end; ++o2) {
+	for (o2= prev= o1+startQuote; o2<end; ++o2) {
 		if (startQuote) {
 			if (line[o2]=='"' && line[prev]!='\\') {
 				++o2;

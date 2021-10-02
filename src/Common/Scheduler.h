@@ -8,13 +8,12 @@
 
 namespace LotosPP::Common {
 
-#define SCHEDULER_MINTICKS 20
-
 class SchedulerTask
 	: public Task
 {
 public:
-	~SchedulerTask() {};
+	~SchedulerTask()
+	{};
 
 	void setEventId(uint32_t eventid)
 	{
@@ -35,6 +34,8 @@ public:
 		return getCycle()>other.getCycle();
 	};
 
+	static const uint8_t SCHEDULER_MINTICKS{20};
+
 protected:
 	SchedulerTask(uint32_t delay, const boost::function<void (void)>& f)
 		: Task(delay, f)
@@ -48,8 +49,8 @@ protected:
 inline SchedulerTask* createSchedulerTask(uint32_t delay, const boost::function<void (void)>& f)
 {
 	assert(delay!=0);
-	if (delay<SCHEDULER_MINTICKS) {
-		delay=SCHEDULER_MINTICKS;
+	if (delay<SchedulerTask::SCHEDULER_MINTICKS) {
+		delay=SchedulerTask::SCHEDULER_MINTICKS;
 		}
 	return new SchedulerTask(delay, f);
 }

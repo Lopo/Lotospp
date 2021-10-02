@@ -9,14 +9,14 @@ namespace LotosPP::Strings {
  */
 bool hasWhitespace(const std::string& str)
 {
-	for (auto it=str.cbegin(); it!=str.cend(); ++it) {
-		if (*it<33) {
+	for (const auto& ch : str) {
+		if (ch<33) {
 			return true;
 			}
 		}
 	return false;
 }
-
+/*
 //buffer should have at least 16 bytes
 void formatTime(time_t time, char* buffer)
 {
@@ -28,7 +28,7 @@ void formatTime(time_t time, char* buffer)
 		sprintf(buffer, "UNIX Time : %d", (int)time);
 		}
 }
-
+*/
 /*** Put string terminate char. at first char < 32 ***/
 void terminate(std::string& str)
 {
@@ -39,7 +39,7 @@ void terminate(std::string& str)
 			}
 		}
 }
-
+/*
 void removeFirst(std::string& str)
 {
 	auto it=str.begin();
@@ -54,7 +54,7 @@ void removeFirst(std::string& str)
 		}
 	str.erase(str.begin(), it);
 }
-
+*/
 void cleanString(std::string& str)
 {
 	// Remove any printf() percent codes.

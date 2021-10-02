@@ -130,7 +130,7 @@ void Dispatcher::addTask(Task* task, bool push_front/*=false*/)
 
 void Dispatcher::flush()
 {
-	Task* task=nullptr;
+	Task* task;
 	while (!m_taskList.empty()) {
 		task=m_taskList.front();
 		m_taskList.pop_front();

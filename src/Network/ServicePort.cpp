@@ -17,6 +17,7 @@
 
 
 using namespace LotosPP::Network;
+using namespace std;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -42,7 +43,7 @@ std::string ServicePort::getProtocolNames() const
 	if (m_services.empty()) {
 		return "";
 		}
-	std::string str=m_services.front()->getProtocolName();
+	string str=m_services.front()->getProtocolName();
 	for (uint32_t i=1; i<m_services.size(); ++i) {
 		str+=", ";
 		str+=m_services[i]->getProtocolName();
@@ -79,7 +80,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 	if (!error) {
 		if (m_services.empty()) {
 #ifdef __DEBUG_NET__
-			std::cout << "Error: [ServerPort::accept] No services running!" << std::endl;
+			cout << "Error: [ServerPort::accept] No services running!" << endl;
 #endif
 			return;
 		}
@@ -113,7 +114,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 			}
 
 #ifdef __DEBUG_NET_DETAIL__
-		std::cout << "accept - OK" << std::endl;
+		cout << "accept - OK" << endl;
 #endif
 		accept(acceptor);
 		}
@@ -135,7 +136,7 @@ void ServicePort::onAccept(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* 
 			}
 		else {
 #ifdef __DEBUG_NET__
-			std::cout << "Error: [ServerPort::onAccept] Operation aborted." << std::endl;
+			cout << "Error: [ServerPort::onAccept] Operation aborted." << endl;
 #endif
 			}
 		}
@@ -164,7 +165,7 @@ void ServicePort::openAcceptor(boost::weak_ptr<ServicePort> weak_service, uint16
 
 	if (ServicePort_ptr service=weak_service.lock()) {
 #ifdef __DEBUG_NET_DETAIL__
-		std::cout << "ServicePort::openAcceptor" << std::endl;
+		cout << "ServicePort::openAcceptor" << endl;
 #endif
 		service->open(port);
 		}
@@ -217,7 +218,7 @@ void ServicePort::open(uint16_t port)
 
 void ServicePort::close()
 {
-	for (auto aptr : m_tcp_acceptors) {
+	for (Acceptor_ptr aptr : m_tcp_acceptors) {
 		if (aptr->is_open()) {
 			boost::system::error_code error;
 			aptr->close(error);
@@ -231,7 +232,7 @@ void ServicePort::close()
 
 bool ServicePort::addService(Service_ptr new_svc)
 {
-	for (auto svc : m_services) {
+	for (Service_ptr svc : m_services) {
 		if (svc->isSingleSocket()) {
 			return false;
 			}

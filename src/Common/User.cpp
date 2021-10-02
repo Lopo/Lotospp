@@ -6,7 +6,6 @@
 #include "Common/Enums/LoginCom.h"
 #include "Common/Enums/TelnetOpt.h"
 #include "Common/Enums/TelnetSub.h"
-#include "Strings/stringPrintf.h"
 #include "Strings/stringSplit.h"
 #include "Strings/misc.h"
 #include "globals.h"
@@ -14,10 +13,14 @@
 #include "Commands/Quit.h"
 #include "Security/Blowfish.h"
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
+#include <memory>
+#include <stdexcept>
 
 
 using LotosPP::Common::User;
 using namespace LotosPP;
+using namespace std;
 
 
 User::User(const std::string& n/*=""*/, Network::Protocol* p/*=nullptr*/)
@@ -126,7 +129,7 @@ void User::uRead(Network::NetworkMessage msg)
 {
 	size_t remain,
 		len{msg.getMessageLength()};
-	std::string input{msg.GetRaw()};
+	string input{msg.GetRaw()};
 
 	for (size_t i=0; i<len; ++i) { // Loop through input
 		if (((unsigned char)input[i])==enums::TELCMD_IAC || bpos) {
@@ -199,23 +202,49 @@ void User::uRead(Network::NetworkMessage msg)
 		}
 }
 
-void User::uWrite(const std::string& message)
+void User::uWrite(const std::string& message) const
 {
 	if (client && message.length()) {
 		client->write(message);
 		}
 }
 
-void User::uPrintf(const char* fmtstr, ...)
+/**
+ * Convert all std::strings to const char* using constexpr if (C++17)
+ */
+template<typename T>
+auto convert(T&& t)
 {
-	std::string str, str2;
+	if constexpr (is_same<remove_cv_t<remove_reference_t<T>>, string>::value) {
+		return forward<T>(t).c_str();
+		}
+	return forward<T>(t);
+}
+/**
+ * printf like formatting for C++ with std::string
+ * Original source: https://stackoverflow.com/a/26221725/11722
+ */
+template<typename ... Args>
+std::string stringFormat(const std::string& format, Args&& ... args)
+{
+	size_t size=snprintf(nullptr, 0, format.c_str(), forward<Args>(args) ...)+1;
+	if (size<=0) {
+		throw runtime_error("Error during formatting.");
+		}
+	unique_ptr<char[]> buf(new char[size]);
+	snprintf(buf.get(), size, format.c_str(), args ...);
+	return string(buf.get(), buf.get()+size-1);
+}
+
+// @note https://gist.github.com/Zitrax/a2e0040d301bf4b8ef8101c0b1e3f1d5
+template<typename ... Args>
+void User::uPrintf(const std::string& fmtstr, Args ... args) const
+{
+	string str=stringFormat(fmtstr, convert(std::forward<Args>(args))...);
+
+	string str2;
 	size_t str2max{str2.max_size()};
 	bool pcesc{false};
-	va_list args;
-
-	va_start(args, fmtstr);
-	str=Strings::StringPrintV(fmtstr, args);
-
 	for (size_t i=0; str2.length()<str2max && str[i]; ++i) {
 		switch (str[i]) {
 			case '\n':
@@ -241,14 +270,13 @@ void User::uPrintf(const char* fmtstr, ...)
 		pcesc=false;
 		}
 	uWrite(str2);
-	va_end(args);
 }
 
-void User::login(std::string inpstr)
+void User::login(const std::string& inpstr)
 {
 	LoginCom loginCom;
 	auto it=loginCom.begin();
-	size_t len=inpstr.length();
+	size_t len{inpstr.length()};
 
 	switch (stage.value()) {
 		case enums::UserStage_NEW:
@@ -266,9 +294,7 @@ void User::login(std::string inpstr)
 				case enums::LoginCom_WHO:
 					{
 					uint32_t i=0;
-					User* u=nullptr;
-					for (auto uit=User::listUser.list.begin(); uit!=User::listUser.list.end(); uit++) {
-						u=(*uit).second;
+					for (const auto& [id, u] : User::listUser.list) {
 						if (u==this || u->level==enums::UserLevel_LOGIN) {
 							continue;
 							}
@@ -299,17 +325,16 @@ void User::login(std::string inpstr)
 				attempt();
 				return;
 				}
-			for (unsigned i=0; i<len; ++i) {
+			for (size_t i=0; i<len; ++i) {
 				if (!::isalpha(inpstr[i])) {
 					uPrintf("\nletters only\n\n");
 					attempt();
 					}
 				}
-			Strings::toLowerCaseString(inpstr);
-			name.assign(inpstr);
+			name=boost::algorithm::to_lower_copy(inpstr);
 			name[0]=::toupper(name[0]);
 			// If user has hung on another login clear that session
-			for (auto&& [f, u] : listUser.list) {
+			for (const auto& [f, u] : listUser.list) {
 				if (u->level==enums::UserLevel_LOGIN && u!=this && boost::iequals(u->name, name)) {
 					u->kick();
 					}
@@ -328,7 +353,7 @@ void User::login(std::string inpstr)
 				return;
 				}
 			if (!password || !password->length()) { // new user
-				password=new std::string(Security::Blowfish::crypt(inpstr));
+				password=new string(Security::Blowfish::crypt(inpstr));
 				uPrintf("\n\nconfirm: ");
 				stage=enums::UserStage_LOGIN_REENTER_PWD;
 				}
@@ -367,7 +392,7 @@ void User::login(std::string inpstr)
 
 void User::uConnect()
 {
-	for (auto&& [f, u] : listUser.list) {
+	for (const auto& [f, u] : listUser.list) {
 		if (this!=u && !name.compare(u->name)) {
 			uPrintf("\n\nalready logged in - switching to old session ...\n");
 			uPrintf("old addr: %s", u->getAddress().to_string().c_str());
@@ -400,7 +425,7 @@ void User::attempt()
 		}
 }
 
-void User::kick()
+void User::kick() const
 {
 	if (client) {
 		client->logout(true);
@@ -414,7 +439,7 @@ void User::kick()
 bool User::parseTelopt()
 {
 	int shift/*, ret*/;
-//	std::string path;
+//	string path;
 
 	while (bpos && ((unsigned char)buff[0])==enums::TELCMD_IAC) {
 		if (bpos<2) {
@@ -516,7 +541,7 @@ bool User::parseTelopt()
 				break;
 			case enums::TELCMD_IAC:
 				uPrintf("%c", (char *)&buff[1]); // Write 255
-				// Fall through
+				[[fallthrough]];
 			default:
 				shift=2;
 			}
@@ -552,14 +577,13 @@ int User::getTermsize()
 		return 0;
 		}
 
-	unsigned int pos1, pos2, def;
 	uint16_t dCols{termCols}, dRows{termRows};
 	termCols= termRows= 0;
 
 	// If one of the sizes involves 255 (TELNET_IAC) then 255 gets sent twice as per telnet spec.
 	// Numeric order is high byte , low byte.
-	pos1=3+(((unsigned char)buff[3])==enums::TELCMD_IAC);
-	pos2=pos1+1+(((unsigned char)buff[pos1+1])==enums::TELCMD_IAC);
+	size_t pos1=3+(((unsigned char)buff[3])==enums::TELCMD_IAC);
+	size_t pos2=pos1+1+(((unsigned char)buff[pos1+1])==enums::TELCMD_IAC);
 	if (pos2>bpos) {
 		return 0;
 		}
@@ -579,7 +603,7 @@ int User::getTermsize()
 		}
 
 	// Will be zero if corrupt above or some dumb terminals will cause zeros
-	def=(!termCols || !termRows);
+	bool def=(!termCols || !termRows);
 	if (!termCols) {
 		termCols=dCols;
 		}
@@ -633,7 +657,7 @@ int User::getTermtype()
 			return 0;
 			}
 
-		// Term type could be null if user did 'export TERM=""' on command line.
+		// Term type could be null if user did 'export TERM=""' on command line
 		if (i==4) {
 			termType.assign("<unresolved>");
 			}
@@ -647,9 +671,9 @@ int User::getTermtype()
 	flagsTelnet.set(enums::TelnetFlag_TERMTYPE);
 	flagsTelnet.unset(enums::TelnetFlag_ANSI_TERM);
 
-	// Set colour flag if user has compatable terminal. 
-	if (std::string ansiTerms=options.get("global.ansiTerms", ""); ansiTerms!="") {
-		for (std::string term : Strings::StringSplit(ansiTerms, ",")) {
+	// Set colour flag if user has compatable terminal
+	if (string ansiTerms=options.get("global.ansiTerms", ""); ansiTerms!="") {
+		for (string term : Strings::StringSplit(ansiTerms, ",")) {
 			if (boost::iequals(termType, term)) {
 				flagsTelnet.set(enums::TelnetFlag_ANSI_TERM);
 				break;
@@ -659,7 +683,7 @@ int User::getTermtype()
 	uPrintf("Terminal type: %s\n", termType.c_str());
 
 	if (!flagsTelnet.isSet(enums::TelnetFlag_ANSI_TERM)) {
-		uPrintf("WARNING: Your terminal is not recognised as ANSI code compatable.\n");
+		uPrintf("WARNING: Your terminal is not recognised as ANSI code compatible.\n");
 		}
 
 	return sh;
@@ -682,7 +706,7 @@ void User::runCmdLine()
 		dot=true;
 		}
 
-	std::string w=com.word[0].substr(dot);
+	string w=com.word[0].substr(dot);
 	if (boost::iequals(w, "say")) {
 		Command* cmd=new Commands::Say;
 		cmd->execute(this);

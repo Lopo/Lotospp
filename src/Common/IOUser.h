@@ -30,7 +30,7 @@ public:
 	 */
 	bool save(const User* user, bool shallow=false);
 	uint64_t create(const User* user);
-	bool getPassword(const std::string& userName, std::string& password);
+//	bool getPassword(const std::string& userName, std::string& password);
 };
 
 	}

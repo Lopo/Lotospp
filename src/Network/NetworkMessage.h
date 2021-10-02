@@ -1,7 +1,6 @@
 #ifndef LOTOSPP_NETWORK_NETWORKMESSAGE_H
 #define LOTOSPP_NETWORK_NETWORKMESSAGE_H
 
-#include "ProtocolConst.h"
 #include <boost/shared_ptr.hpp>
 #include <string>
 #include <cstdint>
@@ -12,8 +11,11 @@ namespace LotosPP::Network {
 class NetworkMessage
 {
 public:
+	// The maximum size of a single packet sent over the network
+	// This also indirectly limits the size of writeables etc.
+	static const uint16_t MAXSIZE{15340};
 	enum {
-		max_body_length=NETWORKMESSAGE_MAXSIZE
+		max_body_length=MAXSIZE
 		};
 
 	// constructor/destructor
@@ -67,7 +69,7 @@ protected:
 	std::size_t m_MsgSize{0};
 	std::size_t m_ReadPos{0};
 
-	uint8_t m_MsgBuf[NETWORKMESSAGE_MAXSIZE];
+	uint8_t m_MsgBuf[MAXSIZE];
 };
 
 typedef boost::shared_ptr<NetworkMessage> NetworkMessage_ptr;

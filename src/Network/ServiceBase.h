@@ -17,10 +17,10 @@ public:
 	virtual ~ServiceBase()
 	{}; // Redundant, but stifles compiler warnings
 
-	virtual bool isSingleSocket() const=0;
-	virtual const char* getProtocolName() const=0;
+	virtual bool isSingleSocket() const =0;
+	virtual const char* getProtocolName() const =0;
 
-	virtual Protocol* makeProtocol(Connection_ptr c) const=0;
+	virtual Protocol* makeProtocol(Connection_ptr c) const =0;
 };
 
 typedef boost::shared_ptr<ServiceBase> Service_ptr;

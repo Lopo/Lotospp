@@ -3,6 +3,7 @@
 
 
 using namespace LotosPP::Network;
+using namespace std;
 
 
 NetworkMessage::NetworkMessage()
@@ -42,24 +43,24 @@ uint64_t NetworkMessage::GetU64()
 
 std::string NetworkMessage::GetString()
 {
-	std::string raw{GetRaw()};
-	std::string::size_type p;
+	string raw{GetRaw()};
+	string::size_type p;
 	if ((p=raw.find('\0'))==raw.npos) {
 		return raw;
 		}
-	return std::string(raw, p);
+	return string(raw, p);
 }
 
 std::string NetworkMessage::GetRaw()
 {
-	if (m_MsgSize>=NETWORKMESSAGE_MAXSIZE) {
-		return std::string();
+	if (m_MsgSize>=MAXSIZE) {
+		return string();
 		}
 
 	uint16_t stringlen=m_MsgSize-m_ReadPos;
 	char* v=(char*)(m_MsgBuf+m_ReadPos);
 	m_ReadPos+=stringlen;
-	return std::string(v, stringlen);
+	return string(v, stringlen);
 }
 
 NetworkMessage* NetworkMessage::SkipBytes(int count)

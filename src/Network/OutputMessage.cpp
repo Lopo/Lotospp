@@ -8,6 +8,7 @@
 
 
 using namespace LotosPP::Network;
+using namespace std;
 
 
 OutputMessage::OutputMessage()
@@ -91,8 +92,8 @@ OutputMessagePool::OutputMessagePool()
 
 OutputMessagePool::~OutputMessagePool()
 {
-	for (OutputMessage* it : m_outputMessages) {
-		delete it;
+	for (OutputMessage* msg : m_outputMessages) {
+		delete msg;
 		}
 	m_outputMessages.clear();
 }
@@ -136,7 +137,7 @@ void OutputMessagePool::send(OutputMessage_ptr msg)
 
 	if (state==OutputMessage::STATE_ALLOCATED_NO_AUTOSEND) {
 #ifdef __DEBUG_NET_DETAIL__
-		std::cout << "Sending message - SINGLE" << std::endl;
+		cout << "Sending message - SINGLE" << endl;
 #endif
 		if (msg->getConnection()) {
 			if (!msg->getConnection()->send(msg)) {
@@ -147,13 +148,13 @@ void OutputMessagePool::send(OutputMessage_ptr msg)
 			}
 		else {
 #ifdef __DEBUG_NET__
-			std::cout << "Error: [OutputMessagePool::send] NULL connection." << std::endl;
+			cout << "Error: [OutputMessagePool::send] NULL connection." << endl;
 #endif
 			}
 		}
 	else {
 #ifdef __DEBUG_NET__
-		std::cout << "Warning: [OutputMessagePool::send] State!=STATE_ALLOCATED_NO_AUTOSEND" << std::endl;
+		cout << "Warning: [OutputMessagePool::send] State!=STATE_ALLOCATED_NO_AUTOSEND" << endl;
 #endif
 		}
 }
@@ -181,7 +182,7 @@ void OutputMessagePool::sendAll()
 	for (it=m_autoSendOutputMessages.begin(); it!=m_autoSendOutputMessages.end(); ) {
 		OutputMessage_ptr omsg=*it;
 #ifdef __DEBUG_NET_DETAIL__
-		std::cout << "Sending message - ALL" << std::endl;
+		cout << "Sending message - ALL" << endl;
 #endif
 
 		if (omsg->getConnection()) {
@@ -193,7 +194,7 @@ void OutputMessagePool::sendAll()
 			}
 		else {
 #ifdef __DEBUG_NET__
-			std::cout << "Error: [OutputMessagePool::send] NULL connection." << std::endl;
+			cout << "Error: [OutputMessagePool::send] NULL connection." << endl;
 #endif
 			}
 
@@ -216,21 +217,21 @@ void OutputMessagePool::internalReleaseMessage(OutputMessage* msg)
 	if (msg->getProtocol()) {
 		msg->getProtocol()->unRef();
 #ifdef __DEBUG_NET_DETAIL__
-		std::cout << "Removing reference to protocol " << msg->getProtocol() << std::endl;
+		cout << "Removing reference to protocol " << msg->getProtocol() << endl;
 #endif
 		}
 	else {
-		std::cout << "No protocol found." << std::endl;
+		cout << "No protocol found." << endl;
 		}
 
 	if (msg->getConnection()) {
 		msg->getConnection()->unRef();
 #ifdef __DEBUG_NET_DETAIL__
-		std::cout << "Removing reference to connection " << msg->getConnection() << std::endl;
+		cout << "Removing reference to connection " << msg->getConnection() << endl;
 #endif
 		}
 	else {
-		std::cout << "No connection found." << std::endl;
+		cout << "No connection found." << endl;
 		}
 
 	msg->freeMessage();
@@ -247,7 +248,7 @@ void OutputMessagePool::internalReleaseMessage(OutputMessage* msg)
 OutputMessage_ptr OutputMessagePool::getOutputMessage(Protocol* protocol, bool autosend/*=true*/)
 {
 #ifdef __DEBUG_NET_DETAIL__
-	std::cout << "request output message - auto = " << autosend << std::endl;
+	cout << "request output message - auto = " << autosend << endl;
 #endif
 
 	if (!m_isOpen) {
@@ -299,12 +300,12 @@ void OutputMessagePool::configureOutputMessage(OutputMessage_ptr msg, Protocol* 
 	msg->setProtocol(protocol);
 	protocol->addRef();
 #ifdef __DEBUG_NET_DETAIL__
-	std::cout << "Adding reference to protocol - " << protocol << std::endl;
+	cout << "Adding reference to protocol - " << protocol << endl;
 #endif
 	msg->setConnection(connection);
 	connection->addRef();
 #ifdef __DEBUG_NET_DETAIL__
-	std::cout << "Adding reference to connection - " << connection << std::endl;
+	cout << "Adding reference to connection - " << connection << endl;
 #endif
 	msg->setFrame(m_frameTime);
 }

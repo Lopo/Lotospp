@@ -44,8 +44,6 @@ void Scheduler::schedulerThread(void* p)
 	boost::unique_lock<boost::mutex> eventLockUnique(scheduler->m_eventLock, boost::defer_lock);
 
 	while (scheduler->m_threadState!=STATE_TERMINATED) {
-		SchedulerTask* task{nullptr};
-		bool runTask{false};
 		bool ret{true};
 
 		// check if there are events waiting...
@@ -67,6 +65,8 @@ void Scheduler::schedulerThread(void* p)
 #ifdef __DEBUG_SCHEDULER__
 		std::cout << "Scheduler: Signaled" << std::endl;
 #endif
+		SchedulerTask* task{nullptr};
+		bool runTask{false};
 
 		// the mutex is locked again now...
 		if (!ret && (scheduler->m_threadState!=STATE_TERMINATED)) {

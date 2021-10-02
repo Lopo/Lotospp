@@ -54,10 +54,10 @@ bool ServiceManager::add(uint16_t port)
 		std::cout << "NOTICE: No port provided for service " << ProtocolType::protocolName() << ". Service disabled." << std::endl;
 		return false;
 		}
-	ServicePort_ptr service_port{nullptr};
 
 	std::map<uint16_t, ServicePort_ptr>::iterator finder=m_acceptors.find(port);
 
+	ServicePort_ptr service_port{nullptr};
 	if (finder==m_acceptors.end()) {
 		service_port.reset(new ServicePort(m_io_service));
 		service_port->open(port);

@@ -14,6 +14,7 @@
 
 
 using namespace LotosPP::Log;
+using namespace std;
 namespace logging=boost::log;
 
 
@@ -34,7 +35,6 @@ bool Logger::init()
 	namespace expr=boost::log::expressions;
 	namespace sinks=boost::log::sinks;
 	namespace kwd=boost::log::keywords;
-	using LotosPP::options;
 
 	boost::shared_ptr<logging::core> core=logging::core::get();
 	core->remove_all_sinks();
@@ -50,7 +50,7 @@ bool Logger::init()
 	boost::shared_ptr<textSink> cSink=boost::make_shared<textSink>();
 	cSink->set_formatter(fmt);
 	cSink->set_filter(severity>=LotosPP::Log::severity_t::to_severity(options.get("global.log.console.level", "")));
-	boost::shared_ptr<std::ostream> cStream(&std::clog, boost::null_deleter());
+	boost::shared_ptr<ostream> cStream(&clog, boost::null_deleter());
 	cSink->locked_backend()->add_stream(cStream);
 	core->add_sink(cSink);
 
@@ -58,7 +58,7 @@ bool Logger::init()
 		kwd::file_name=options.get("global.log.dir", "")+"/%Y-%m-%d.log",
 		kwd::time_based_rotation=sinks::file::rotation_at_time_point(0, 0, 0),
 		kwd::auto_flush=true,
-		kwd::open_mode=std::ios_base::app|std::ios_base::out|std::ios_base::ate // append, don't overwrite
+		kwd::open_mode=ios_base::app|ios_base::out|ios_base::ate // append, don't overwrite
 		);
 	boost::shared_ptr<fileSink> fSink{new fileSink(fBck)};
 	fSink->set_formatter(fmt);
